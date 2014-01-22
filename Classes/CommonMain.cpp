@@ -40,7 +40,7 @@ int CCommonMain::main(char** par, int parLength)
 	fprintf(stdout, "========================\nFenster:\n\tBreite: %i\n\tHoehe: %i\n========================\n", m_windowWidth, m_windowHeight);
 	
 	m_eglView.init("FlyingSquirrel", m_windowWidth, m_windowHeight);
-	//m_app.setDesiredFPS(dFPS);
+	m_app.setDesiredFPS(dFPS);
 	return Application::getInstance()->run();
 }
 
