@@ -55,11 +55,6 @@ void CLogfile::CreateLogfile(const char* filename, ERROR_LEVEL errorLevel)
 			Write("E_NONE");
 			break;
 	}
-//#ifdef _DEBUG
-		
-//#else
-		
-//#endif
 	fclose(m_Logfile);
 	m_Logfile = fopen(res, "a");
 }
@@ -86,6 +81,9 @@ void CLogfile::WriteHeading(const char* text, int size)
 	fflush(m_Logfile);
 }
 
+// Log (LogLevel, text)
+//
+// Schreibt einen Logeintrag
 void CLogfile::Log(LOG_LEVEL level, const char* text)
 {
 	switch (level)
@@ -205,6 +203,9 @@ void CLogfile::fWrite(FORECOLOR color, bool list, const char* text, ...)
 	Write(color, list, buff);
 }
 
+// flog(LogLevel, text, arguments)
+//
+// Schreibt einen formatierten Logeintrag
 void CLogfile::fLog(LOG_LEVEL level, const char* text, ...)
 {
 	char buff[MAX_BUFFER_SIZE];
