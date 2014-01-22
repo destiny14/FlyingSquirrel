@@ -11,7 +11,7 @@ int CCommonMain::main(char** par, int parLength)
 	m_windowHeight = pCommand->getParameterInt("-h", pCommand->getParameterInt("-height", 600));
 	int dFPS = pCommand->getParameterInt("-fps", 60);
 
-	char* tmp = pCommand->getParameterCharArr("-l", "w");
+	char* tmp = pCommand->getParameterCharArr("-l", "h");
 	
 	switch (tmp[0])
 	{
