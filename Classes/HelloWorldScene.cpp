@@ -42,6 +42,8 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+	// Logfile einrichten
 	g_pLogfile->WriteHeading("flying squirrel log", 1);
     g_pLogfile->fLog(L_DEBUG, "%s\n", "Debug Message");
     g_pLogfile->fLog(L_WARNING, "%s\n", "Warning");
@@ -50,10 +52,12 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
+	// Welt einrichten
 	b2Vec2 gravity;
 	gravity.Set(0.0f, -10.0f);
 	m_world = new b2World(gravity);
 
+	// Body & Fixture Definition Box
 	b2BodyDef def;
 	def.type = b2_dynamicBody;
 	def.position.Set(200 / PTM_RATIO, 200 / PTM_RATIO);
@@ -121,14 +125,6 @@ bool HelloWorld::init()
     // add the label as a child to this layer
     this->addChild(label, 1);
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    //this->addChild(sprite, 0);
 	this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
     return true;
@@ -136,11 +132,13 @@ bool HelloWorld::init()
 
 void HelloWorld::tick(float dt)
 {
+	// Physik simulieren
 	m_world->Step(dt, 8, 4);
 }
 
 void HelloWorld::draw()
 {
+	// Physik Debug-Daten zeichnen
 	m_world->DrawDebugData();
 }
 
