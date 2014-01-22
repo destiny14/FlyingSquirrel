@@ -3,6 +3,7 @@
 #include "CommonMain.h"
 #include "HelloWorldScene.h"
 #include "Logfile.h"
+#include "TestLayer.h"
 #include <iostream>
 
 USING_NS_CC;
@@ -16,8 +17,12 @@ Scene* HelloWorld::createScene()
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 
+	auto layer2 = TestLayer::create();
+
     // add layer as a child to scene
     scene->addChild(layer);
+
+	scene->addChild(layer2);
 
     // return the scene
     return scene;

@@ -141,7 +141,10 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\CommonMain.cpp" />
     <ClCompile Include="Classes\GLES-Render.cpp" />
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="Classes\Levelsystem\GroundBox.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Level.cpp" />
     <ClCompile Include="Classes\MainMenu.cpp" />
+    <ClCompile Include="Classes\TestLayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinStringHelp.cpp" />
   </ItemGroup>
@@ -152,9 +155,12 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\CommonMain.h" />
     <ClInclude Include="Classes\GLES-Render.h" />
     <ClInclude Include="Classes\HelloWorldScene.h" />
+    <ClInclude Include="Classes\Levelsystem\GroundBox.h" />
+    <ClInclude Include="Classes\Levelsystem\Level.h" />
     <ClInclude Include="Classes\Logfile.h" />
     <ClInclude Include="Classes\MainMenu.h" />
     <ClInclude Include="Classes\Singleton.h" />
+    <ClInclude Include="Classes\TestLayer.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="WinStringHelp.h" />
   </ItemGroup>
