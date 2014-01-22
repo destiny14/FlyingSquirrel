@@ -16,7 +16,7 @@ bool CCommandLineParameter::isParameterActive(const char* par)
 
 	for(int i = 0; i < m_len; i++)
 	{
-		if(strcmp(m_pars[i], par))
+		if(strcmp(m_pars[i], par) == 0)
 			return true;
 	}
 
