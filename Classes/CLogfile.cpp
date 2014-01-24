@@ -15,15 +15,15 @@ CLogfile::CLogfile()
 // schreibt eine abschlussmeldung ins logfile und schliesst es
 CLogfile::~CLogfile() 
 {
-	Write("<p>end of logfile</p></body></html>");
+	write("<p>end of logfile</p></body></html>");
 	fclose(m_Logfile);
 }
 
-// CreateLogfile (dateiname)
+// createLogfile (dateiname)
 //
 // erstellt ein neues Logfile und oeffnet es zum schreiben.
 // stelle sicher dass das verzeichnis LOG_LOCATION existiert und die CSS datei vorhanden ist
-void CLogfile::CreateLogfile(const char* filename, ERROR_LEVEL errorLevel)
+void CLogfile::createLogfile(const char* filename, ERROR_LEVEL errorLevel)
 {
 	m_errorLevel = errorLevel;
 	char* res = new char;
@@ -32,38 +32,38 @@ void CLogfile::CreateLogfile(const char* filename, ERROR_LEVEL errorLevel)
 	strcat(res, filename);
 	strcat(res, ".html");
 	m_Logfile = fopen(res, "w");
-	Write("<html><head><title>Logfile</title><link href='style.css' rel='stylesheet'></head><body>");
-	WriteHeading("Logfile", 24);
+	write("<html><head><title>Logfile</title><link href='style.css' rel='stylesheet'></head><body>");
+	writeHeading("Logfile", 24);
 	if (g_pCommonMain->getAppDebug())
-		Write("build: DEBUG<br />");
+		write("build: DEBUG<br />");
 	else
-		Write("build: RELEASE<br />");
+		write("build: RELEASE<br />");
 
-	Write("error level: ");
+	write("error level: ");
 	switch (m_errorLevel)
 	{
 		case E_ALL:
-			Write("E_ALL");
+			write("E_ALL");
 			break;
 		case E_WARNING:
-			Write("E_WARNING");
+			write("E_WARNING");
 			break;
 		case E_ERROR:
-			Write("E_ERROR");
+			write("E_ERROR");
 			break;
 		case E_NONE:
-			Write("E_NONE");
+			write("E_NONE");
 			break;
 	}
 	fclose(m_Logfile);
 	m_Logfile = fopen(res, "a");
 }
 
-// WriteHeading (text, groesse)
+// writeHeading (text, groesse)
 //
 // Schreibt eine Ueberschrift ins Logfile
 // size ist die Stufe der Ueberschrift (h1, 2 und 3)
-void CLogfile::WriteHeading(const char* text, int size)
+void CLogfile::writeHeading(const char* text, int size)
 {
 	char* headerTag = "h1";
 	switch (size)
@@ -84,7 +84,7 @@ void CLogfile::WriteHeading(const char* text, int size)
 // Log (LogLevel, text)
 //
 // Schreibt einen Logeintrag
-void CLogfile::Log(LOG_LEVEL level, const char* text)
+void CLogfile::log(LOG_LEVEL level, const char* text)
 {
 	switch (level)
 	{
@@ -103,59 +103,59 @@ void CLogfile::Log(LOG_LEVEL level, const char* text)
 	}
 }
 
-// Write (text)
+// write (text)
 //
 // schreibt einen text ins logfile und flusht es
-void CLogfile::Write(const char* text)
+void CLogfile::write(const char* text)
 {
 	fprintf(m_Logfile, text);
 	fflush(m_Logfile);
 }
 
-// Write (farbe, text)
+// write (farbe, text)
 //
 // schreibt einen farbigen text ins logfile
-void CLogfile::Write(FORECOLOR color, const char* text)
+void CLogfile::write(FORECOLOR color, const char* text)
 {
-	Write(color, false, text);
+	write(color, false, text);
 }
 
-// Write (farbe, liste, text)
+// write (farbe, liste, text)
 //
 // schreibt einen farbigen, ww. als listenelement formatierten text ins logfile
-void CLogfile::Write(FORECOLOR color, bool list, const char* text)
+void CLogfile::write(FORECOLOR color, bool list, const char* text)
 {
 	if (list)
-		Write("<li>");
+		write("<li>");
 
 	switch (color)
 	{
 	case BLACK:
-		Write("<span style='color: black;'>");
+		write("<span style='color: black;'>");
 		break;
 	case RED:
-		Write("<span style='color: red;'>");
+		write("<span style='color: red;'>");
 		break;
 	case BLUE:
-		Write("<span style='color: blue;'>");
+		write("<span style='color: blue;'>");
 		break;
 	case GREEN:
-		Write("<span style='color: green;'>");
+		write("<span style='color: green;'>");
 		break;
 	case PURPLE:
-		Write("<span style='color: purple;'>");
+		write("<span style='color: purple;'>");
 		break;
 	default:
 		break;
 	}
 
-	Write(text);
-	Write("</span>");
+	write(text);
+	write("</span>");
 
 	if (list)
-		Write("</li>");
+		write("</li>");
 	else
-		Write("<br />");
+		write("<br />");
 
 }
 // fWrite(text, params[])
@@ -170,7 +170,7 @@ void CLogfile::fWrite(const char* text, ...)
 	vsprintf(buff, text, argList);
 	va_end(argList);
 
-	Write(buff);
+	write(buff);
 }
 
 // fWrite(farbe, text, params[])
@@ -185,7 +185,7 @@ void CLogfile::fWrite(FORECOLOR color, const char* text, ...)
 	vsprintf(buff, text, argList);
 	va_end(argList);
 
-	Write(color, buff);
+	write(color, buff);
 }
 
 // fWrite(farbe, liste, text, params[])
@@ -200,7 +200,7 @@ void CLogfile::fWrite(FORECOLOR color, bool list, const char* text, ...)
 	vsprintf(buff, text, argList);
 	va_end(argList);
 
-	Write(color, list, buff);
+	write(color, list, buff);
 }
 
 // flog(LogLevel, text, arguments)
@@ -215,7 +215,7 @@ void CLogfile::fLog(LOG_LEVEL level, const char* text, ...)
 	vsprintf(buff, text, argList);
 	va_end(argList);
 
-	Log(level, buff);
+	log(level, buff);
 }
 
 // printFuncRes ( name, ergebnis )
@@ -225,18 +225,18 @@ void CLogfile::printFuncRes(const char* name, bool result)
 {
 	if (L_OK == result)
 	{
-		Write("<table width='100%%' cellSpacing='1' cellPadding='5'");
-		Write("border='0' bgcolor='#C0C0C0'><tr><td bgcolor='#FFFFFF' width='35%%'>");
+		write("<table width='100%%' cellSpacing='1' cellPadding='5'");
+		write("border='0' bgcolor='#C0C0C0'><tr><td bgcolor='#FFFFFF' width='35%%'>");
 		fWrite("%s</td>", name);
-		Write("<td bgcolor='#FFFFFF' width='30%%'><span style='color: green;'>OK</span></td>");
-		Write("<td bgcolor='#FFFFFF' width='35%%'>-/-</td></tr></table>");
+		write("<td bgcolor='#FFFFFF' width='30%%'><span style='color: green;'>OK</span></td>");
+		write("<td bgcolor='#FFFFFF' width='35%%'>-/-</td></tr></table>");
 	}
 	else
 	{
-		Write("<table width='100%%' cellSpacing='1' cellPadding='5'");
-		Write("border='0' bgcolor='#C0C0C0'><tr><td bgcolor='#FFFFFF' width='35%%'>");
+		write("<table width='100%%' cellSpacing='1' cellPadding='5'");
+		write("border='0' bgcolor='#C0C0C0'><tr><td bgcolor='#FFFFFF' width='35%%'>");
 		fWrite("%s</td>", name);
-		Write("<td bgcolor='#FFFFFF' width='30%%'><span style='color: red;'>FAIL</span></td>");
-		Write("<td bgcolor='#FFFFFF' width='35%%'>-/-</td></tr></table>");
+		write("<td bgcolor='#FFFFFF' width='30%%'><span style='color: red;'>FAIL</span></td>");
+		write("<td bgcolor='#FFFFFF' width='35%%'>-/-</td></tr></table>");
 	}
 }

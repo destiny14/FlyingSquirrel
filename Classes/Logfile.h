@@ -41,14 +41,14 @@ class CLogfile : public TSingleton<CLogfile>
 public:
 	CLogfile();
 	~CLogfile();
-	void CreateLogfile(const char* filename, ERROR_LEVEL errorLevel);
-	void WriteHeading(const char* text, int size);
+	void createLogfile(const char* filename, ERROR_LEVEL errorLevel);
+	void writeHeading(const char* text, int size);
 
-	void Log(LOG_LEVEL level, const char* text);
+	void log(LOG_LEVEL level, const char* text);
 
-	void Write(const char* text);
-	void Write(FORECOLOR color, const char* text);
-	void Write(FORECOLOR color, bool list, const char* text);
+	void write(const char* text);
+	void write(FORECOLOR color, const char* text);
+	void write(FORECOLOR color, bool list, const char* text);
 	void fWrite(const char* text, ...);
 	void fWrite(FORECOLOR color, const char* text, ...);
 	void fWrite(FORECOLOR color, bool list, const char* text, ...);

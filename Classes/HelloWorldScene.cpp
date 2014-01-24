@@ -49,7 +49,7 @@ bool HelloWorld::init()
     }
 
 	// Logfile einrichten
-	g_pLogfile->WriteHeading("flying squirrel log", 1);
+	g_pLogfile->writeHeading("flying squirrel log", 1);
     g_pLogfile->fLog(L_DEBUG, "%s\n", "Debug Message");
     g_pLogfile->fLog(L_WARNING, "%s\n", "Warning");
     g_pLogfile->fLog(L_ERROR, "%s\n", "Error Message!");

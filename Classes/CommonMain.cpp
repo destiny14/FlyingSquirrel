@@ -17,21 +17,21 @@ int CCommonMain::main(char** par, int parLength)
 	{
 		case 'e':
 			//log("Created LogFile %s\n", "e");
-			g_pLogfile->CreateLogfile("log", E_ERROR);
+			g_pLogfile->createLogfile("log", E_ERROR);
 			break;
 		case 'w':
 			//log("Created LogFile %s\n", "w");
-			g_pLogfile->CreateLogfile("log", E_WARNING);
+			g_pLogfile->createLogfile("log", E_WARNING);
 			break;
 		case 'n':
 			//log("Created LogFile %s\n", "n");
-			g_pLogfile->CreateLogfile("log", E_NONE);
+			g_pLogfile->createLogfile("log", E_NONE);
 			break;
 		case 'a':
 			//log("Created LogFile %s\n", "a");
 		default:
 			//log("Created LogFile %s\n", "d/a");
-			g_pLogfile->CreateLogfile("log", E_ALL);
+			g_pLogfile->createLogfile("log", E_ALL);
 			break;
 	}
 
