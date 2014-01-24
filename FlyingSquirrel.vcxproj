@@ -141,6 +141,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\CommonMain.cpp" />
     <ClCompile Include="Classes\GLES-Render.cpp" />
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="Classes\InputAction.cpp" />
+    <ClCompile Include="Classes\InputManager.cpp" />
     <ClCompile Include="Classes\Levelsystem\GroundBox.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
     <ClCompile Include="Classes\MainMenu.cpp" />
@@ -155,6 +157,9 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\CommonMain.h" />
     <ClInclude Include="Classes\GLES-Render.h" />
     <ClInclude Include="Classes\HelloWorldScene.h" />
+    <ClInclude Include="Classes\Input.h" />
+    <ClInclude Include="Classes\InputAction.h" />
+    <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\GroundBox.h" />
     <ClInclude Include="Classes\Levelsystem\Level.h" />
     <ClInclude Include="Classes\Logfile.h" />
