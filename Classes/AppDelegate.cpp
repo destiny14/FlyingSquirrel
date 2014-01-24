@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "MainMenu.h"
 
 USING_NS_CC;
@@ -33,7 +32,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	setDesiredFPS(-1);
 
     // create a scene. it's an autorelease object
-	auto scene = HelloWorld::createScene();
 	auto menu = CMainMenu::createMainMenuScene();
 
     // run

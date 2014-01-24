@@ -18,7 +18,7 @@ public:
 	CREATE_FUNC(CMainMenu);
 private:
 	InputManager* m_pInput;
-	InputAction* m_pLeer;
+	InputAction* m_pStartGame;
 };
 
 #endif

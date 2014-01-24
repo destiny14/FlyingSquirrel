@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "CommonMain.h"
 #include "Logfile.h"
+#include "HelloWorldScene.h"
 
 USING_NS_CC;
 
@@ -34,8 +35,10 @@ bool CMainMenu::init()
 	closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
-	auto startItem = MenuItemFont::create("Start", CC_CALLBACK_1(CMainMenu::startCallback, this));
-	startItem->setPosition(Point(origin.x - visibleSize.width * 0.5f - closeItem->getContentSize().width * 0.5f, origin.y));
+	auto startItem = MenuItemFont::create("Start (Leertaste)", CC_CALLBACK_1(CMainMenu::startCallback, this));
+	startItem->setPosition(Point(
+		origin.x + visibleSize.width * 0.5f - closeItem->getContentSize().width * 0.5f,
+		origin.y + visibleSize.height * 0.5f - closeItem->getContentSize().height * 0.5f));
 
 	auto menu = Menu::create(closeItem, startItem, NULL);
     menu->setPosition(Point::ZERO);
@@ -48,7 +51,7 @@ bool CMainMenu::init()
 							origin.y + visibleSize.height - labelVer->getContentSize().height));
 	this->addChild(labelVer, 1);
 
-	m_pLeer = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Leertaste");
+	m_pStartGame = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Spiel Starten");
 
 	this->schedule(schedule_selector(CMainMenu::update));
 
@@ -58,15 +61,14 @@ bool CMainMenu::init()
 void CMainMenu::update(float _dt)
 {
 	m_pInput->update();
-	if (m_pLeer->wasPressed())
-		log("Leertaste wurde gedrueckt\n");
-	if (m_pLeer->wasReleased())
-		log("Leertaste war %i frames gedrueckt\n", m_pLeer->getConsecutivePresses());
+	
+	if (m_pStartGame->wasReleased())
+		startCallback(this);
 }
 
 void CMainMenu::startCallback(Object* sender)
 {
-
+	Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
 
 void CMainMenu::exitCallback(Object* sender)
