@@ -4,6 +4,9 @@
 InputAction::InputAction(char* _name)
 {
 	m_name = _name;
+	m_timesPressed = 0;
+	m_released = false;
+	m_pressed = false;
 }
 
 InputAction::~InputAction()

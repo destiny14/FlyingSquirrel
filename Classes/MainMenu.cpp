@@ -20,6 +20,8 @@ bool CMainMenu::init()
     {
         return false;
     }
+
+	m_pInput = new InputManager(this);
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
@@ -46,7 +48,20 @@ bool CMainMenu::init()
 							origin.y + visibleSize.height - labelVer->getContentSize().height));
 	this->addChild(labelVer, 1);
 
+	m_pLeer = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Leertaste");
+
+	this->schedule(schedule_selector(CMainMenu::update));
+
 	return true;
+}
+
+void CMainMenu::update(float _dt)
+{
+	m_pInput->update();
+	if (m_pLeer->wasPressed())
+		log("Leertaste wurde gedrueckt\n");
+	if (m_pLeer->wasReleased())
+		log("Leertaste war %i frames gedrueckt\n", m_pLeer->getConsecutivePresses());
 }
 
 void CMainMenu::startCallback(Object* sender)

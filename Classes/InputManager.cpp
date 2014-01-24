@@ -1,23 +1,40 @@
 #include "InputManager.h"
 
-InputManager::InputManager(Scene* _scene)
+InputManager::InputManager(Node* _pNode)
 {
+	m_pNode = _pNode;
+
 	m_keyPressed = new bool[(int) EventKeyboard::KeyCode::KEY_SEARCH];
+
 	m_keyL = EventListenerKeyboard::create();
+
 	m_keyL->onKeyPressed = CC_CALLBACK_2(InputManager::onKeyPressed, this);
 	m_keyL->onKeyReleased = CC_CALLBACK_2(InputManager::onKeyReleased, this);
-	_scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_keyL, _scene);
+	m_pNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_keyL, m_pNode);
 }
 
 InputManager::~InputManager()
 {
-	delete m_keyPressed;
-	delete m_keyL;
+	m_pNode->getEventDispatcher()->removeEventListener(m_keyL);
+	
 	while (!m_actions.empty())
 	{
 		InputAction* pAction = m_actions.front();
 		m_actions.remove(pAction);
 		delete pAction;
+	}
+
+	delete m_keyL;
+	delete m_keyPressed;
+	m_pNode = nullptr;
+}
+
+void InputManager::update()
+{
+	for each (InputAction* pAction in m_actions)
+	{
+		pAction->resetFrame();
+		pAction->check(this);
 	}
 }
 

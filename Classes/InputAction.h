@@ -21,7 +21,7 @@ public:
 	*/
 	bool isPressed() { return m_timesPressed > 0; }
 	/*
-	*	Gibt zurueck, wie oft die Taste gedrückt wurde hintereinander
+	*	Gibt zurueck, wie lange die Taste gedrückt wurde (in Frames)
 	*/
 	int getConsecutivePresses() { return m_timesPressed; }
 	/*
