@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot)external\Box2D;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;Classes;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Classes\Levelsystem\Objects;Classes\Levelsystem\Layers;Classes\Levelsystem;$(EngineRoot)external\Box2D;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;Classes;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -145,6 +145,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\InputManager.cpp" />
     <ClCompile Include="Classes\Levelsystem\GroundBox.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp" />
     <ClCompile Include="Classes\MainMenu.cpp" />
     <ClCompile Include="Classes\TestLayer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -161,7 +162,18 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\InputAction.h" />
     <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\GroundBox.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\FirstParallaxLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\HorizontParallaxLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\SecondParallaxLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\SkyLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\ThirdParallaxLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Level.h" />
+    <ClInclude Include="Classes\Levelsystem\LevelLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Objects\Texture.h" />
     <ClInclude Include="Classes\Logfile.h" />
     <ClInclude Include="Classes\MainMenu.h" />
     <ClInclude Include="Classes\Singleton.h" />
