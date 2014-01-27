@@ -4,7 +4,11 @@
 #define PTM_RATIO 32.0f
 
 #include "GLES-Render.h"
+#include "Ground.h"
+#include "Texture.h"
+#include <queue>
 #include "cocos2d.h"
+
 
 class HelloWorld : public cocos2d::Layer
 {

@@ -2,13 +2,16 @@
 #define __TEXTURE_H__
 
 #include "cocos2d.h"
+#include "Logfile.h"
+
+#define g_pLogfile CLogfile::Get ()
 
 USING_NS_CC;
 
 class Texture
 {
 public:
-	Texture(char*, Rect);
+	Texture(char*, float, float);
 	~Texture();
 
 	void setSprite(Sprite* sprite);

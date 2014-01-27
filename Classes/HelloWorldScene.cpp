@@ -4,9 +4,14 @@
 #include "HelloWorldScene.h"
 #include "Logfile.h"
 #include "TestLayer.h"
+#include "Ground.h"
+#include "Texture.h"
 #include <iostream>
+#include <queue>
 
 USING_NS_CC;
+
+using namespace std;
 
 Scene* HelloWorld::createScene()
 {
@@ -85,10 +90,10 @@ bool HelloWorld::init()
 	// Enable debugging flags.
 	uint32 flags = 0;
 	flags += b2Draw::e_shapeBit;
-	/*flags += b2Draw::e_jointBit;
+	flags += b2Draw::e_jointBit;
 	flags += b2Draw::e_aabbBit;
 	flags += b2Draw::e_pairBit;
-	flags += b2Draw::e_centerOfMassBit;*/
+	flags += b2Draw::e_centerOfMassBit;
 	m_debugDraw->SetFlags(flags);
 
     /////////////////////////////
@@ -109,7 +114,15 @@ bool HelloWorld::init()
     menu->setPosition(Point::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
+	// ground box creation
+	Texture* tex = new Texture("ground.png", visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	
+	auto groundObject = Ground(tex);
+	groundObject.init(m_world);
+
+	this->addChild(groundObject.getTexture()->getSprite(), 1);
+
+	/////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
