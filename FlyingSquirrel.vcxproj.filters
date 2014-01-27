@@ -62,6 +62,12 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\Ground.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

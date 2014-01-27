@@ -145,7 +145,9 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\InputManager.cpp" />
     <ClCompile Include="Classes\Levelsystem\GroundBox.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\Ground.h" />
     <ClCompile Include="Classes\MainMenu.cpp" />
     <ClCompile Include="Classes\TestLayer.cpp" />
     <ClCompile Include="main.cpp" />

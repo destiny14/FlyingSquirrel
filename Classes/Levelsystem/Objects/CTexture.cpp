@@ -25,7 +25,7 @@ Sprite* Texture::getSprite()
 
 Rect Texture::getBoundingBox()
 {
-	Rect t = Rect(m_sprite->getPositionX() - m_sprite->getContentSize().width * 0.5f,
+	auto t = Rect(m_sprite->getPositionX() - m_sprite->getContentSize().width * 0.5f,
 		          m_sprite->getPositionY() - m_sprite->getContentSize().height * 0.5f,
 		          m_sprite->getContentSize().width,
 		          m_sprite->getContentSize().height);
