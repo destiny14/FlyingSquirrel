@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdio>
 #include <iostream>
+#include <ctime>
 #include "CommonMain.h"
 #include "Logfile.h"
 
@@ -38,7 +39,12 @@ void CLogfile::createLogfile(const char* filename, ERROR_LEVEL errorLevel)
 		write("build: DEBUG<br />");
 	else
 		write("build: RELEASE<br />");
+	// current date/time based on current system
+	time_t now = time(0);
 
+	// convert now to string form
+	char* dt = ctime(&now);
+	fWrite("created: %s<br />", dt);
 	write("error level: ");
 	switch (m_errorLevel)
 	{
