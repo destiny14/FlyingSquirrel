@@ -13,6 +13,12 @@
     <Filter Include="Classes\Levelsystem">
       <UniqueIdentifier>{a144a653-4252-4cc3-98aa-f47437e560ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Levelsystem\Layers">
+      <UniqueIdentifier>{2bcfc6c7-7f40-4682-9e47-cbf61027dadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Levelsystem\Objects">
+      <UniqueIdentifier>{7427cf51-1941-47f8-a18f-043edb1ef3ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,14 +51,20 @@
     <ClCompile Include="Classes\Levelsystem\Level.cpp">
       <Filter>Classes\Levelsystem</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\GroundBox.cpp">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\TestLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\Ground.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -91,9 +103,6 @@
     <ClInclude Include="Classes\Levelsystem\Level.h">
       <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\GroundBox.h">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\TestLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -102,6 +111,36 @@
     <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
       <Filter>Classes\Levelsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\FirstParallaxLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\HorizontParallaxLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\SecondParallaxLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\SkyLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\ThirdParallaxLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Texture.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
