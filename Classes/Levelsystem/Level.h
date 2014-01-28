@@ -14,7 +14,6 @@ public:
 
 	bool AddGroundBox();
 private:
-
 };
 
 #endif
