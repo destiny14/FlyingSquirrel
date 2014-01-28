@@ -2,7 +2,7 @@
 #define __LEVEL_H__
 
 #include "cocos2d.h"
-#include <list>
+#include "LevelLayer.h"
 
 using namespace std;
 USING_NS_CC;
@@ -13,9 +13,13 @@ public:
 	Level();
 	~Level();
 
+	list<layer> GetLayers();
+
+
+
 	bool AddGroundBox();
 private:
-	list<GroundBox> m_groundBoxes;
+	LevelLayer[] m_layers;
 };
 
 #endif

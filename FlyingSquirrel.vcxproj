@@ -162,6 +162,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\GroundBox.h" />
     <ClInclude Include="Classes\Levelsystem\Level.h" />
+    <ClInclude Include="Classes\Levelsystem\LevelLayer.h" />
     <ClInclude Include="Classes\Logfile.h" />
     <ClInclude Include="Classes\MainMenu.h" />
     <ClInclude Include="Classes\Singleton.h" />

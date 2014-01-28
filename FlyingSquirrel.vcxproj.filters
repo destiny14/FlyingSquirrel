@@ -51,6 +51,8 @@
     <ClCompile Include="Classes\TestLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\InputAction.cpp" />
+    <ClCompile Include="Classes\InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -94,6 +96,12 @@
     </ClInclude>
     <ClInclude Include="Classes\TestLayer.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Input.h" />
+    <ClInclude Include="Classes\InputAction.h" />
+    <ClInclude Include="Classes\InputManager.h" />
+    <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
+      <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
