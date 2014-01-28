@@ -9,7 +9,6 @@ Scene* CMainMenu::createMainMenuScene()
 {
 	auto scene = Scene::create();
 	auto layer = CMainMenu::create();
-
 	scene->addChild(layer);
 
 	return scene;

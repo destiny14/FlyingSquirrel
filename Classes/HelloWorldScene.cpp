@@ -21,9 +21,7 @@ Scene* HelloWorld::createScene()
     
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
-
 	auto layer2 = TestLayer::create();
-
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -35,6 +33,7 @@ Scene* HelloWorld::createScene()
 
 HelloWorld::HelloWorld()
 {
+	
 	
 }
 
@@ -55,22 +54,21 @@ bool HelloWorld::init()
 
 	// Logfile einrichten
 	g_pLogfile->writeHeading("flying squirrel log", 1);
-    g_pLogfile->fLog(L_DEBUG, "%s\n", "Debug Message");
-    g_pLogfile->fLog(L_WARNING, "%s\n", "Warning");
-    g_pLogfile->fLog(L_ERROR, "%s\n", "Error Message!");
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
-	// Welt einrichten
+	// Welt einrichte
+	Scene* s = this->getScene();
+	
 	b2Vec2 gravity;
-	gravity.Set(0.0f, 0.0f);
+	gravity.Set(0.0f, -10.0f);
 	m_world = new b2World(gravity);
 
 	// Body & Fixture Definition Box
 	b2BodyDef def;
 	def.type = b2_dynamicBody;
-	def.position.Set(200 / PTM_RATIO, 200 / PTM_RATIO);
+	def.position.Set(200 / PTM_RATIO, 400 / PTM_RATIO);
 	m_box = m_world->CreateBody(&def);
 
 	b2PolygonShape boxShape;
@@ -96,6 +94,13 @@ bool HelloWorld::init()
 	flags += b2Draw::e_centerOfMassBit;
 	m_debugDraw->SetFlags(flags);
 
+	Texture* tex = new Texture("ground.png", visibleSize.width * 0.5f, 100);
+
+	auto groundObject = Ground(tex);
+	groundObject.init(m_world);
+
+	this->addChild(groundObject.getTexture()->getSprite(), 1);
+
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -115,12 +120,7 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
 
 	// ground box creation
-	Texture* tex = new Texture("ground.png", visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	
-	auto groundObject = Ground(tex);
-	groundObject.init(m_world);
-
-	this->addChild(groundObject.getTexture()->getSprite(), 1);
 
 	/////////////////////////////
     // 3. add your codes below...

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Input.h"
+#include "Box2D\Box2D.h"
 
 class CMainMenu : public cocos2d::Layer {
 

@@ -1,5 +1,7 @@
 #include "TestLayer.h"
 #include "cocos2d.h"
+#include "Texture.h"
+#include "Ground.h"
 
 USING_NS_CC;
 

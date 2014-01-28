@@ -2,6 +2,7 @@
 #define	__TESTLAYER_H__
 
 #include "cocos2d.h"
+#include "Box2D\Box2D.h"
 
 USING_NS_CC;
 

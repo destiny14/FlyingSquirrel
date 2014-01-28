@@ -2,6 +2,7 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
+#include "Box2D\Box2D.h"
 
 /**
 @brief    The cocos2d Application.
@@ -39,6 +40,7 @@ public:
     virtual void applicationWillEnterForeground();
 
 private:
+	b2World* m_world;
 	int m_desiredFPS;
 };
 
