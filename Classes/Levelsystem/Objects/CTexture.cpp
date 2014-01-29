@@ -3,13 +3,26 @@
 
 USING_NS_CC;
 
+Texture* Texture::create(char* filename)
+{
+	Texture* tex = new Texture();
+	Sprite* sprite = Sprite::create(filename);
+	if (sprite)
+	{
+		tex->setSprite(sprite);
+		tex->autorelease();
+		return tex;
+	}
+	CC_SAFE_DELETE(tex);
+	return nullptr;
+}
+
 // Texture (char*, float, float)
 //
 // erstellt eine neue textur aus einer bilddatei und einer position
-Texture::Texture(char* textureName, float xpos, float ypos)
+Texture::Texture()
 {
-	m_sprite = Sprite::create(textureName);
-	m_sprite->setPosition(xpos, ypos);
+
 }
 
 Texture::~Texture()
@@ -17,12 +30,33 @@ Texture::~Texture()
 
 }
 
+void Texture::setPosition(const Point& pos)
+{
+	Node::setPosition(pos);
+	m_sprite->setPosition(pos);
+}
+
+void Texture::setPosition(float x, float y)
+{
+	Node::setPosition(x, y);
+	m_sprite->setPosition(x, y);
+}
+
 // setSprite(Sprite*)
 //
 // setzt das sprite der textur
-void Texture::setSprite(Sprite* sprite)
+bool Texture::setSprite(Sprite* sprite)
 {
-	m_sprite = sprite;
+	if (sprite)
+	{
+		m_sprite = sprite;
+		return true;
+	}
+	else
+	{
+		m_sprite = nullptr;
+		return false;
+	}
 }
 
 // getSprite()
@@ -31,17 +65,4 @@ void Texture::setSprite(Sprite* sprite)
 Sprite* Texture::getSprite()
 {
 	return m_sprite;
-}
-
-// getBoundingBox()
-//
-// nicht sicher ob benoetigt, bb des sprites liefert shit
-Rect Texture::getBoundingBox()
-{
-	float x = m_sprite->getPositionX() - m_sprite->getContentSize().width * 0.5f;
-	float y = m_sprite->getPositionY() - m_sprite->getContentSize().height * 0.5f;
-	float width = m_sprite->getContentSize().width;
-	float height = m_sprite->getContentSize().height;
-	Rect t = Rect(x, y, height, width);
-	return t;
 }

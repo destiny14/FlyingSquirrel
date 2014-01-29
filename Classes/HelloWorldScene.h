@@ -1,9 +1,6 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
-#define PTM_RATIO 32.0f
-
-#include "GLES-Render.h"
 #include "Ground.h"
 #include "Texture.h"
 #include <queue>
@@ -32,9 +29,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
-	GLESDebugDraw* m_debugDraw;
-	b2World* m_world;
-	b2Body* m_box;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

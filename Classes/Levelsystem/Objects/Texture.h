@@ -8,18 +8,24 @@
 
 USING_NS_CC;
 
-class Texture
+class Texture : public Node
 {
 public:
-	Texture(char*, float, float);
+	static Texture* create(char* filename);
+
+	Texture();
 	~Texture();
 
-	void setSprite(Sprite* sprite);
-	Sprite* getSprite();
+	// use setPosition(float, float) instead, it's faster
+	void setPosition(const Point& pos);
 
-	Rect getBoundingBox();
+	void setPosition(float x, float y);
+
+	bool setSprite(Sprite* sprite);
+	Sprite* getSprite();
 private:
 	Sprite* m_sprite;
+
 };
 
 #endif // !__TEXTURE_H__

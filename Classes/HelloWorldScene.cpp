@@ -58,46 +58,10 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
-	// Welt einrichte
-	Scene* s = this->getScene();
-	
-	b2Vec2 gravity;
-	gravity.Set(0.0f, -10.0f);
-	m_world = new b2World(gravity);
-
-	// Body & Fixture Definition Box
-	b2BodyDef def;
-	def.type = b2_dynamicBody;
-	def.position.Set(200 / PTM_RATIO, 400 / PTM_RATIO);
-	m_box = m_world->CreateBody(&def);
-
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(25 / PTM_RATIO, 25 / PTM_RATIO);
-
-	b2FixtureDef fixDef;
-	fixDef.shape = &boxShape;
-	fixDef.density = 1.0f;
-	fixDef.friction = 0.0;
-	fixDef.restitution = 0.1f;
-	m_box->CreateFixture(&fixDef);
-
-	// Box2d Debugging.
-	m_debugDraw = new GLESDebugDraw(PTM_RATIO);
-	m_world->SetDebugDraw(m_debugDraw);
-
-	// Enable debugging flags.
-	uint32 flags = 0;
-	flags += b2Draw::e_shapeBit;
-	flags += b2Draw::e_jointBit;
-	flags += b2Draw::e_aabbBit;
-	flags += b2Draw::e_pairBit;
-	flags += b2Draw::e_centerOfMassBit;
-	m_debugDraw->SetFlags(flags);
-
-	Texture* tex = new Texture("ground.png", visibleSize.width * 0.5f, 100);
+	Texture* tex = Texture::create("ground.png");
+	tex->setPosition(visibleSize.width * 0.5f, 100);
 
 	auto groundObject = Ground(tex);
-	groundObject.init(m_world);
 
 	this->addChild(groundObject.getTexture()->getSprite(), 1);
 
@@ -118,6 +82,9 @@ bool HelloWorld::init()
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Point::ZERO);
     this->addChild(menu, 1);
+
+	/*auto sprite = Sprite::create("miep/*");
+	sprite->setPosition()*/
 
 	// ground box creation
 	
@@ -150,14 +117,12 @@ bool HelloWorld::init()
 
 void HelloWorld::tick(float dt)
 {
-	// Physik simulieren
-	m_world->Step(dt, 8, 4);
+
 }
 
 void HelloWorld::draw()
 {
-	// Physik Debug-Daten zeichnen
-	m_world->DrawDebugData();
+
 }
 
 void HelloWorld::menuCloseCallback(Object* pSender)
