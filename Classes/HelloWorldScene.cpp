@@ -58,13 +58,13 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
-	Texture* tex = Texture::create("ground.png");
-	tex->setPosition(visibleSize.width * 0.5f, 100);
+	/*auto tex = Texture::create("ground.png");
+	*/
 
-	auto groundObject = Ground(tex);
-
-	this->addChild(groundObject.getTexture()->getSprite(), 1);
-
+	m_ground = Ground::create("ground.png");
+	m_ground->setPosition(visibleSize.width * 0.5f, 100);
+	this->addChild(m_ground->getSprite(), 1);
+	m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -117,12 +117,14 @@ bool HelloWorld::init()
 
 void HelloWorld::tick(float dt)
 {
-
+	colrect = m_ground->getCollisionRectangle();
 }
 
 void HelloWorld::draw()
 {
 
+
+	DrawPrimitives::drawRect(Point(colrect.origin.x, colrect.origin.y), Point(colrect.origin.x + colrect.size.width, colrect.origin.y + colrect.size.height));
 }
 
 void HelloWorld::menuCloseCallback(Object* pSender)

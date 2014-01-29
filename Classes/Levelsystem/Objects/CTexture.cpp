@@ -10,10 +10,9 @@ Texture* Texture::create(char* filename)
 	if (sprite)
 	{
 		tex->setSprite(sprite);
-		tex->autorelease();
+		//tex->autorelease();
 		return tex;
 	}
-	CC_SAFE_DELETE(tex);
 	return nullptr;
 }
 

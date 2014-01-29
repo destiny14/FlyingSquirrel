@@ -5,17 +5,73 @@
 
 USING_NS_CC;
 
+Ground* Ground::create(char* filename)
+{
+	Ground* ground = new Ground();
+	Texture* tex = Texture::create(filename);
+	if (tex)
+	{
+		ground->setTexture(tex);
+		ground->setCollisionRectangle();
+		//ground->autorelease();
+		return ground;
+	}
+	return nullptr;
+}
+
 // Ground (Texture*)
 // 
 // erstellt eine neue Ground-Box mit der uebergebenen Textur
-Ground::Ground(Texture* texture)
+Ground::Ground()
 {
-	m_texture = texture;
+	
 }
 
 Ground::~Ground()
 {
 
+}
+
+void Ground::setCollisionRectangle()
+{
+	setCollisionRectangle(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
+}
+
+void Ground::setCollisionRectangle(float width, float height)
+{
+	Rect r = Rect(getSprite()->getBoundingBox().origin.x, getSprite()->getBoundingBox().origin.y, width, height);
+	g_pLogfile->writeHeading("created collision rectangle", 3);
+	g_pLogfile->fLog(L_DEBUG, "X: %f<br />Y: %f<br />width: %f<br />height: %f<br />", r.origin.x, r.origin.y, r.size.width, r.size.height);
+	m_collisionRectangle = r;
+}
+
+Rect Ground::getCollisionRectangle()
+{
+	float w = m_collisionRectangle.size.width;
+	float h = m_collisionRectangle.size.height;
+	//g_pLogfile->writeHeading("created collision rectangle", 3);
+	//g_pLogfile->fLog(L_DEBUG, "width: %f<br />height: %f<br />", w, h);
+	//g_pLogfile->writeHeading("sprite stats", 3);
+	//g_pLogfile->fLog(L_DEBUG, "X: %f<br />Y: %f<br />width: %f<br />height: %f<br />", getSprite()->getPositionX(), getSprite()->getPositionY(), getSprite()->getContentSize().width, getSprite()->getContentSize().height);
+	Rect tmp = Rect(0, 0, w, h);
+	return RectApplyAffineTransform(tmp, getNodeToParentAffineTransform());
+}
+
+void Ground::setPosition(const Point& pos)
+{
+	Node::setPosition(pos);
+	m_texture->setPosition(pos);
+}
+
+void Ground::setPosition(float x, float y)
+{
+	Node::setPosition(x, y);
+	m_texture->setPosition(x, y);
+}
+
+Sprite* Ground::getSprite()
+{
+	return m_texture->getSprite();
 }
 
 // setTexture (Texture*)

@@ -29,6 +29,8 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
+	Rect colrect;
+	Ground* m_ground;
 
 };
 
