@@ -1,6 +1,8 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
+#define RES_VERSION "1.0"
+
 #include "cocos2d.h"
 #include "Box2D\Box2D.h"
 

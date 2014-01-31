@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "MainMenu.h"
 #include "Box2D\Box2D.h"
+#include <fstream>
 
 USING_NS_CC;
 
@@ -34,6 +35,30 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
 	auto menu = CMainMenu::createMainMenuScene();
+
+	std::ifstream FileTest("version");
+	if (!FileTest)
+	{
+		log("!!! version file not found\n!!! please update your resources");
+		std::exit(0);
+	}
+
+	if (FileTest.is_open())
+	{
+		std::string str;
+		std::getline(FileTest, str);
+		char* v;
+		v = &str[0];
+		log("resource version: %s", static_cast<char*>(v));
+		if (strcmp(v, RES_VERSION) == 0)
+		{
+			log("your resources are up-to-date");
+		}
+	}
+	else
+	{
+		log("!!! could not open version file\n!!! consider updating your resources");
+	}
 
     // run
     director->runWithScene(menu);
