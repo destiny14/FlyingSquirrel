@@ -20,8 +20,6 @@ bool CMainMenu::init()
     {
         return false;
     }
-
-	m_pInput = new InputManager(this);
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
@@ -50,11 +48,21 @@ bool CMainMenu::init()
 							origin.y + visibleSize.height - labelVer->getContentSize().height));
 	this->addChild(labelVer, 1);
 
-	m_pStartGame = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Spiel Starten");
+	initInput();
 
 	this->schedule(schedule_selector(CMainMenu::update));
 
+	m_pUI = new UI(this, "addons/UI/testUI.lua");
+
 	return true;
+}
+
+void CMainMenu::initInput()
+{
+	m_pInput = new InputManager(this);
+	m_pStartGame = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Spiel Starten");
+	m_pToggleUI = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_T, "UI de-/aktivieren");
+	m_pReloadUI = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_R, "UI neuladen");
 }
 
 void CMainMenu::update(float _dt)
@@ -63,6 +71,17 @@ void CMainMenu::update(float _dt)
 	
 	if (m_pStartGame->wasReleased())
 		startCallback(this);
+
+	if (m_pToggleUI->wasReleased())
+		m_pUI->reloadUI();
+
+	if (m_pToggleUI->wasReleased())
+	{
+		if (m_pUI->isEnabled())
+			m_pUI->disableUI();
+		else
+			m_pUI->enableUI();
+	}
 }
 
 void CMainMenu::startCallback(Object* sender)
