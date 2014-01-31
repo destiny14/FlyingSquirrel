@@ -6,6 +6,8 @@
 #include "TestLayer.h"
 #include "Ground.h"
 #include "Texture.h"
+#include "Moveable.h"
+#include <list>
 #include <iostream>
 #include <queue>
 
@@ -60,11 +62,19 @@ bool HelloWorld::init()
 
 	/*auto tex = Texture::create("ground.png");
 	*/
-
+	LevelLayer* l = new LevelLayer();
+	
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	this->addChild(m_ground->getSprite(), 1);
-	m_ground->getSprite()->setVisible(false);
+	
+	list<Ground*> g = l->GetPhysicsObjects();
+	g.push_back(m_ground);
+	l->SetPhysicsObjects(g);
+	m_moveable = Moveable::create("CloseNormal.png", this);
+	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
+	this->addChild(m_moveable->getSprite(), 1);
+	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -117,14 +127,12 @@ bool HelloWorld::init()
 
 void HelloWorld::tick(float dt)
 {
-	colrect = m_ground->getCollisionRectangle();
+	m_moveable->update(dt);
 }
 
 void HelloWorld::draw()
 {
 
-
-	DrawPrimitives::drawRect(Point(colrect.origin.x, colrect.origin.y), Point(colrect.origin.x + colrect.size.width, colrect.origin.y + colrect.size.height));
 }
 
 void HelloWorld::menuCloseCallback(Object* pSender)

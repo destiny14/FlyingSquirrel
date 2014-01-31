@@ -27,10 +27,13 @@ public:
 	void setTexture(Texture* texture);
 	Texture* getTexture();
 
+	void setGround(bool);
+	bool getGround();
 
 private:
 	Texture* m_texture;
 	Rect m_collisionRectangle;
+	bool m_isGround;
 };
 
 #endif // !__GROUND_H__

@@ -3,11 +3,13 @@
 
 #include "Ground.h"
 #include "Texture.h"
+#include "Moveable.h"
 #include <queue>
 #include "cocos2d.h"
+#include "Levelsystem\LevelLayer.h"
 
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public LevelLayer
 {
 public:
 	HelloWorld();
@@ -29,7 +31,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
-	Rect colrect;
+	Moveable* m_moveable;
 	Ground* m_ground;
 
 };

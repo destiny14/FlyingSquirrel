@@ -13,7 +13,7 @@ Ground* Ground::create(char* filename)
 	{
 		ground->setTexture(tex);
 		ground->setCollisionRectangle();
-		//ground->autorelease();
+		ground->setGround(true);
 		return ground;
 	}
 	return nullptr;
@@ -49,12 +49,13 @@ Rect Ground::getCollisionRectangle()
 {
 	float w = m_collisionRectangle.size.width;
 	float h = m_collisionRectangle.size.height;
+	Rect bb = m_texture->getSprite()->getBoundingBox();
 	//g_pLogfile->writeHeading("created collision rectangle", 3);
 	//g_pLogfile->fLog(L_DEBUG, "width: %f<br />height: %f<br />", w, h);
 	//g_pLogfile->writeHeading("sprite stats", 3);
 	//g_pLogfile->fLog(L_DEBUG, "X: %f<br />Y: %f<br />width: %f<br />height: %f<br />", getSprite()->getPositionX(), getSprite()->getPositionY(), getSprite()->getContentSize().width, getSprite()->getContentSize().height);
-	Rect tmp = Rect(0, 0, w, h);
-	return RectApplyAffineTransform(tmp, getNodeToParentAffineTransform());
+	Rect tmp = Rect(bb.origin.x, bb.origin.y, w, h);
+	return tmp;
 }
 
 void Ground::setPosition(const Point& pos)
@@ -88,4 +89,14 @@ void Ground::setTexture(Texture* texture)
 Texture* Ground::getTexture()
 {
 	return m_texture;
+}
+
+void Ground::setGround(bool ground)
+{
+	m_isGround = true;
+}
+
+bool Ground::getGround()
+{
+	return m_isGround;
 }

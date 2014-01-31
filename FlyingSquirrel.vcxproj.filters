@@ -65,6 +65,9 @@
     <ClCompile Include="Classes\Levelsystem\Objects\Ground.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -140,6 +143,9 @@
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Texture.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
