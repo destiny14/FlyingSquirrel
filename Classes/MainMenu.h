@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Input.h"
-#include "Box2D\Box2D.h"
+#include "UI.h"
 
 class CMainMenu : public cocos2d::Layer {
 
@@ -18,8 +18,13 @@ public:
 
 	CREATE_FUNC(CMainMenu);
 private:
+	UI* m_pUI;
 	InputManager* m_pInput;
 	InputAction* m_pStartGame;
+	InputAction* m_pToggleUI;
+	InputAction* m_pReloadUI;
+
+	void initInput();
 };
 
 #endif
