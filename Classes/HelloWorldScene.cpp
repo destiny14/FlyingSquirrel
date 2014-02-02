@@ -68,10 +68,10 @@ bool HelloWorld::init()
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	this->addChild(m_ground->getSprite(), 1);
 	
-	list<Ground*> g = l->GetPhysicsObjects();
+	list<Ground*> g = l->getPhysicsObjects();
 	g.push_back(m_ground);
-	l->SetPhysicsObjects(g);
-	m_moveable = Moveable::create("CloseNormal.png", this);
+	l->setPhysicsObjects(g);
+	m_moveable = Moveable::create("CloseNormal.png", l);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 	// m_ground->getSprite()->setVisible(false);

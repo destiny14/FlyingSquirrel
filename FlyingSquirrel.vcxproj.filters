@@ -68,6 +68,10 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\UI.cpp" />
+    <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp">
+      <Filter>Classes\Levelsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -148,6 +152,7 @@
     <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

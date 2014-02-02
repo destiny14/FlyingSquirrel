@@ -76,7 +76,7 @@ void Moveable::update(float dt)
 
 void Moveable::CheckForCollisions()
 {
-	list<Ground*> physObj = m_parent->GetPhysicsObjects();
+	list<Ground*> physObj = m_parent->getPhysicsObjects();
 	for (Ground* g : physObj)
 	{
 		if (g->getGround() == true)

@@ -143,6 +143,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
+    <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp" />
