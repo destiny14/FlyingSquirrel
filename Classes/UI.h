@@ -1,41 +1,41 @@
 #ifndef __UI_H__
 #define __UI_H__
 
+#define UI_NONE 0
+#define UI_MAINMENU 1
+#define UI_INGAME 2
+
+#define ACTIVATEUI(A, B) UI::Get()->setUINode(A, B)
+#define DEACTIVATEUI UI::Get()->setUINode(nullptr)
+#define UPDATEUI UI::Get()->update()
+
+#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = (CMainMenu*)A; ACTIVATEUI(A, UI_MAINMENU); 
+
+#include "Singleton.h"
 #include "cocos2d.h"
+
+class CMainMenu;
 
 USING_NS_CC;
 
-class UIData
+class UI : public TSingleton<UI>
 {
 public:
-	UIData(char* _uiLocation);
-	~UIData(void);
-
-	std::string* uiLoc;
-	std::string* listLoc;
-	std::string* scriptLoc;
-
-	Node* pUINode;
-	ScriptEngineProtocol* pEngine;
-};
-
-class UI
-{
-public:
-	UI(Node* _pSrcNode, char* _uiLocation);
+	UI(void);
 	virtual ~UI(void);
 
-	void freeResources();
-	void reloadUI();
-	void enableUI();
-	void disableUI();
-	bool isEnabled() { return m_enabled; }
-private:
-	char* m_uiLoc;
-	Node* m_pNode;
-	bool m_enabled;
-	UIData* m_pData;
+	CMainMenu* pMainMenu;
 
-	void loadResources();
+	void setUINode(Node* _pNode, int _menu);
+	void update();
+private:
+	Node* m_pUINode;
+	Node* m_pCommon;
+	Node* m_pMenu;
+	Node* m_pIngame;
+
+	void createCommonUI();
+	void createMainMenuUI();
 };
-#endif __UI_H__
+
+#endif//__UI_H__

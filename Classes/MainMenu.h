@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "Input.h"
-#include "UI.h"
 
 class CMainMenu : public cocos2d::Layer {
 
@@ -14,11 +13,10 @@ public:
 	void startCallback(Object* sender);
 	void exitCallback(Object* sender);
 
-	void update(float _dt);
+	virtual void update(float _dt);
 
 	CREATE_FUNC(CMainMenu);
 private:
-	UI* m_pUI;
 	InputManager* m_pInput;
 	InputAction* m_pStartGame;
 	InputAction* m_pToggleUI;

@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "MainMenu.h"
-#include "Box2D\Box2D.h"
 #include <fstream>
 
 USING_NS_CC;

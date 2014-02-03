@@ -1,97 +1,94 @@
 #include "UI.h"
+#include "MainMenu.h"
+#include "CommonMain.h"
 
-UI::UI(Node* _pSrcNode, char* _uiLocation)
+UI::UI()
 {
-	m_pData = nullptr;
-	m_pNode = _pSrcNode;
-	m_enabled = false;
-	m_uiLoc = _uiLocation;
+	m_pUINode = Node::create();
+	m_pMenu = Node::create();
+	m_pIngame = Node::create();
+	m_pCommon = Node::create();
+
+	createCommonUI();
 }
 
 UI::~UI()
 {
-	freeResources();
+	setUINode(nullptr, 0);
+
+	m_pUINode->release();
+	m_pMenu->release();
+	m_pIngame->release();
 }
 
-void UI::freeResources()
+void UI::setUINode(Node* _pNode, int _menu)
 {
-	if (m_pData == nullptr) return;
+	m_pUINode->removeFromParent();
 
-	//Node aufraeumen
-	m_pData->pUINode->removeFromParentAndCleanup(true);
-	m_pData->pUINode->release();
-	m_pData->pUINode = nullptr;
+	if (_pNode == nullptr) return;
 
-	//Engine aufraeumen
-	//delete m_pEngine;
+	m_pUINode->removeAllChildren();
+	m_pUINode->addChild(m_pCommon);
 
-	delete m_pData;
-	m_pData = nullptr;
+	switch (_menu)
+	{
+		case UI_MAINMENU:
+			createMainMenuUI();
+			m_pUINode->addChild(m_pMenu);
+			break;
+
+		case UI_INGAME:
+			m_pUINode->addChild(m_pIngame);
+			break;
+
+		case UI_NONE:
+		default:
+			break;
+	}
+
+	_pNode->addChild(m_pUINode, 1);
 }
 
-void UI::loadResources()
+void UI::createCommonUI()
 {
-	if (m_pData != nullptr) return;
+	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_pData = new UIData(m_uiLoc);
-
-	//Node generieren
-	m_pData->pUINode = Node::create();
-	//Engine holen
-	m_pData->pEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-	//Script ausfuehren
-	m_pData->pEngine->executeScriptFile((const char*)(m_pData->scriptLoc));
-}
-
-void UI::reloadUI()
-{
-	disableUI();
-	freeResources();
-	enableUI();
-}
-
-void UI::enableUI()
-{
-	if (m_enabled) return;
-	if (m_pData == nullptr) loadResources();
+	char labelVerTxt[30];
+	sprintf(labelVerTxt, "%s%s", g_pCommonMain->getAppVersion(), g_pCommonMain->getAppDebug() ? " Dev_Version" : "");
 	
-	m_pNode->addChild(m_pData->pUINode);
-	m_enabled = true;
+	auto labelVer = LabelTTF::create(labelVerTxt, "Arial", 18);
+	labelVer->setPosition(Point(3.0f + labelVer->getContentSize().width * 0.5f,
+		visibleSize.height - labelVer->getContentSize().height * 0.5f));
+	m_pCommon->addChild(labelVer);
 }
 
-void UI::disableUI()
+void UI::createMainMenuUI()
 {
-	if (!m_enabled) return;
-	if (m_pData == nullptr) return;
+	m_pMenu->removeAllChildren();
 
-	m_pData->pUINode->removeFromParent();
-	m_enabled = false;
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(CMainMenu::exitCallback, pMainMenu));
+	closeItem->setPosition(Point(
+		visibleSize.width - closeItem->getContentSize().width * 0.5f,
+		closeItem->getContentSize().height * 0.5f));
+
+	auto startItem = MenuItemFont::create("Start (Leertaste)", CC_CALLBACK_1(CMainMenu::startCallback, pMainMenu));
+	startItem->setPosition(Point(
+		visibleSize.width * 0.5f,
+		visibleSize.height * 0.5f));
+
+	auto menu = Menu::create(startItem, closeItem, NULL);
+	menu->setPosition(0.0f, 0.0f);
+	m_pMenu->addChild(menu);
 }
 
-UIData::UIData(char* _uiLocation)
+void UI::update()
 {
-	uiLoc = new std::string(_uiLocation);
+	Point origin = m_pUINode->getParent()->getPosition();
 
-	//Position der pList
-	listLoc = new std::string(_uiLocation);
-	listLoc->append("/atlas.plist");
-
-	//Position des Scripts
-	scriptLoc = new std::string(_uiLocation);
-	scriptLoc->append("/ui.lua");
-
-	//Nicht verwaltete Variablen nullen
-	pUINode = nullptr;
-	pEngine = nullptr;
-}
-
-UIData::~UIData()
-{
-	delete uiLoc;
-	delete listLoc;
-	delete scriptLoc;
-
-	//Nicht verwaltete Variablen nullen
-	pUINode = nullptr;
-	pEngine = nullptr;
+	m_pUINode->setPosition(-origin.x, -origin.y);
 }
