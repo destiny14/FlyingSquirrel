@@ -1,6 +1,7 @@
 #include "cocos2d.h"
 #include "Moveable.h"
 #include "LevelLayer.h"
+#include "..\Components\Collider.h"
 #include <list>
 
 USING_NS_CC;
@@ -85,6 +86,7 @@ void Moveable::update(float dt, bool overwriteCollisionCheck)
 				CheckForCollisions();
 		}
 	}
+	Node::update(dt);
 }
 
 void Moveable::CheckForCollisions()
@@ -94,7 +96,8 @@ void Moveable::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
-			if (g->getCollider().intersectsRect(getCollider()))
+			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
+			if (c->getCollisionRectangle().intersectsRect(getCollider()))
 			{
 				// kollision
 				m_grounded = true;

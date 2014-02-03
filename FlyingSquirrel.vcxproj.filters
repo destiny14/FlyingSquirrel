@@ -19,6 +19,9 @@
     <Filter Include="Classes\Levelsystem\Objects">
       <UniqueIdentifier>{7427cf51-1941-47f8-a18f-043edb1ef3ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Components">
+      <UniqueIdentifier>{a43edabe-1630-4cff-940e-d4c4fa558fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="Classes\Levelsystem\Layers\CMainLayer.cpp">
       <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Components\CCollider.cpp">
+      <Filter>Classes\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +161,9 @@
     <ClInclude Include="Classes\UI.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Player.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Components\Collider.h">
+      <Filter>Classes\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

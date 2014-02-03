@@ -2,6 +2,7 @@
 #include "Moveable.h"
 #include "LevelLayer.h"
 #include "Player.h"
+#include "..\Components\Collider.h"
 
 Player* Player::create(char* filename, MainLayer* parent)
 {
@@ -88,7 +89,8 @@ void Player::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
-			if (g->getCollider().intersectsRect(getBottomCollider()))
+			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
+			if (c->getCollisionRectangle().intersectsRect(getBottomCollider()))
 			{
 				// kollision
 				setGrounded(true);

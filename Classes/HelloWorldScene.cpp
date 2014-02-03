@@ -7,6 +7,7 @@
 #include "Moveable.h"
 #include "Levelsystem\Level.h"
 #include "Levelsystem\Objects\Player.h"
+#include "Components\Collider.h"
 #include <list>
 #include <iostream>
 #include <queue>
@@ -67,6 +68,9 @@ bool HelloWorld::init()
 
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
+	Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
+	comCollider->setName("collider");
+	m_ground->addComponent(comCollider);
 	this->addChild(m_ground->getSprite(), 1);
 	list<Ground*> g = this->getPhysicsObjects();
 	g.push_back(m_ground);
@@ -74,6 +78,8 @@ bool HelloWorld::init()
 	m_moveable = Player::create("CloseNormal.png", dynamic_cast<MainLayer*>(this));
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
+
+	
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -120,13 +126,15 @@ bool HelloWorld::init()
     // add the label as a child to this layer
     this->addChild(label, 1);
 	Level* l = Level::createFromFile("test.xml");
-	this->schedule(schedule_selector(HelloWorld::tick));
+	this->scheduleUpdate();
+	//this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
     return true;
 }
 
-void HelloWorld::tick(float dt)
+void HelloWorld::update(float dt)
 {
+	Node::update(dt);
 	m_moveable->update(dt);
 }
 
@@ -140,6 +148,7 @@ void HelloWorld::draw()
 			Point(
 			m_ground->getCollider().origin.x + m_ground->getCollider().size.width,
 			m_ground->getCollider().origin.y + m_ground->getCollider().size.height));
+
 		DrawPrimitives::drawRect(Point(
 			m_moveable->getBottomCollider().origin.x,
 			m_moveable->getBottomCollider().origin.y),
