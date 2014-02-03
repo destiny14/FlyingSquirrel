@@ -15,16 +15,6 @@ list<Texture*> LevelLayer::getTextures()
 	return m_textures;
 }
 
-void LevelLayer::setPhysicsObjects(list<Ground*> physicObjects)
-{
-	m_physicObjects = physicObjects;
-}
-
-list<Ground*> LevelLayer::getPhysicsObjects()
-{
-	return m_physicObjects;
-}
-
 void LevelLayer::setName(char* name)
 {
 	m_name = name;

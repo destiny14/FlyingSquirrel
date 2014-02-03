@@ -8,8 +8,9 @@
 #include "cocos2d.h"
 #include "Levelsystem\LevelLayer.h"
 #include "Levelsystem\Objects\Player.h"
+#include "Levelsystem\Layers\MainLayer.h"
 
-class HelloWorld : public LevelLayer
+class HelloWorld : public MainLayer
 {
 public:
 	HelloWorld();

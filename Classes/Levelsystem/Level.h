@@ -9,11 +9,12 @@ USING_NS_CC;
 class Level
 {
 public:
+	static Level* createFromFile(const char* filename);
+
 	Level();
 	~Level();
-
-	bool AddGroundBox();
 private:
+	void dump_to_stdout(const char* pFilename);
 };
 
 #endif

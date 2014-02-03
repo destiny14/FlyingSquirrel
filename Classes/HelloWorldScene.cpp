@@ -5,6 +5,7 @@
 #include "Ground.h"
 #include "Texture.h"
 #include "Moveable.h"
+#include "Levelsystem\Level.h"
 #include "Levelsystem\Objects\Player.h"
 #include <list>
 #include <iostream>
@@ -63,15 +64,14 @@ bool HelloWorld::init()
 
 	/*auto tex = Texture::create("ground.png");
 	*/
-	LevelLayer* l = new LevelLayer();
-	
+
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	this->addChild(m_ground->getSprite(), 1);
-	list<Ground*> g = l->getPhysicsObjects();
+	list<Ground*> g = this->getPhysicsObjects();
 	g.push_back(m_ground);
-	l->setPhysicsObjects(g);
-	m_moveable = Player::create("CloseNormal.png", l);
+	this->setPhysicsObjects(g);
+	m_moveable = Player::create("CloseNormal.png", dynamic_cast<MainLayer*>(this));
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 	// m_ground->getSprite()->setVisible(false);
@@ -119,7 +119,7 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     this->addChild(label, 1);
-
+	Level* l = Level::createFromFile("test.xml");
 	this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
     return true;
