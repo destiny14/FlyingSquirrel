@@ -2,6 +2,7 @@
 #include "CommonMain.h"
 #include "Logfile.h"
 #include "HelloWorldScene.h"
+#include "UI.h"
 
 USING_NS_CC;
 
@@ -16,41 +17,13 @@ Scene* CMainMenu::createMainMenuScene()
 
 bool CMainMenu::init()
 {
-	if ( !Layer::init() )
-    {
+	if (!Layer::init())
         return false;
-    }
-	
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
-	origin.x += 3.0f;
-
-	auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-										   CC_CALLBACK_1(CMainMenu::exitCallback, this));
-	closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-	auto startItem = MenuItemFont::create("Start (Leertaste)", CC_CALLBACK_1(CMainMenu::startCallback, this));
-	startItem->setPosition(Point(
-		origin.x + visibleSize.width * 0.5f - closeItem->getContentSize().width * 0.5f,
-		origin.y + visibleSize.height * 0.5f - closeItem->getContentSize().height * 0.5f));
-
-	auto menu = Menu::create(closeItem, startItem, NULL);
-    menu->setPosition(Point::ZERO);
-    this->addChild(menu, 1);
-	
-	char labelVerTxt[30];
-	sprintf(labelVerTxt, "%s%s", g_pCommonMain->getAppVersion(), g_pCommonMain->getAppDebug() ? " Dev_Version" : "");
-	auto labelVer = LabelTTF::create(labelVerTxt, "Arial", 12);
-	labelVer->setPosition(Point(origin.x + labelVer->getContentSize().width * 0.5f,
-							origin.y + visibleSize.height - labelVer->getContentSize().height));
-	this->addChild(labelVer, 1);
 
 	initInput();
+	ACTIVATEMAINMENUUI(this);
 
-	this->schedule(schedule_selector(CMainMenu::update));
+	this->scheduleUpdate();
 
 	return true;
 }
@@ -65,6 +38,8 @@ void CMainMenu::initInput()
 
 void CMainMenu::update(float _dt)
 {
+	UPDATEUI;
+	this->runAction(MoveBy::create(0.0f, Point(_dt * 10.0f, 0.0f)));
 	m_pInput->update();
 	
 	if (m_pStartGame->wasReleased())
