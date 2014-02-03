@@ -4,12 +4,12 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
-#include "LevelLayer.h"
+#include "Layers\MainLayer.h"
 
 class Player : public Moveable
 {
 public:
-	static Player* create(char* filename, LevelLayer* parent);
+	static Player* create(char* filename, MainLayer* parent);
 
 	Player();
 	~Player();

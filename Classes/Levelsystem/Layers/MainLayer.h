@@ -6,7 +6,16 @@
 
 class MainLayer : public LevelLayer
 {
+public:
+	MainLayer();
+	~MainLayer();
 
+	void setPhysicsObjects(list<Ground*> physicObjects);
+
+	list<Ground*> getPhysicsObjects();
+private:
+
+	list<Ground*> m_physicObjects;
 };
 
 #endif // !__MAINLAYER_H__

@@ -3,7 +3,7 @@
 #include "LevelLayer.h"
 #include "Player.h"
 
-Player* Player::create(char* filename, LevelLayer* parent)
+Player* Player::create(char* filename, MainLayer* parent)
 {
 	Player* player = new Player();
 	Texture* tex = Texture::create(filename);

@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "LevelLayer.h"
 #include "Ground.h"
+#include "Layers\MainLayer.h"
 
 USING_NS_CC;
 
@@ -13,7 +14,7 @@ public:
 	// static create (char*)
 	//
 	// erstellt ein neues Objekt vom Typ Moveable
-	static Moveable* create(char* filename, LevelLayer* parent);
+	static Moveable* create(char* filename, MainLayer* parent);
 
 	Moveable();
 	~Moveable();
@@ -31,8 +32,8 @@ public:
 	// bestimmt, ob sich das Objekt auf dem Boden befindet
 	bool getGrounded();
 
-	void setParent(LevelLayer* parent);
-	LevelLayer* getParent();
+	void setParent(MainLayer* parent);
+	MainLayer* getParent();
 
 	virtual void update(float dt, bool overwriteCollisionCheck = false);
 protected:
@@ -41,7 +42,7 @@ private:
 	void CheckForCollisions();
 	bool m_affectedByGravity;
 	bool m_grounded;
-	LevelLayer* m_parent;
+	MainLayer* m_parent;
 	float m_gravity;
 	float m_velocity;
 };

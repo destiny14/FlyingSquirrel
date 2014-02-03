@@ -6,7 +6,7 @@
 USING_NS_CC;
 using namespace std;
 
-Moveable* Moveable::create(char* filename, LevelLayer* parent)
+Moveable* Moveable::create(char* filename, MainLayer* parent)
 {
 	Moveable* mov = new Moveable();
 	Texture* tex = Texture::create(filename);
@@ -39,12 +39,12 @@ void Moveable::updateCollider()
 	setCollider(oldCollider.size.width, oldCollider.size.height);
 }
 
-void Moveable::setParent(LevelLayer* parent)
+void Moveable::setParent(MainLayer* parent)
 {
 	m_parent = parent;
 }
 
-LevelLayer* Moveable::getParent()
+MainLayer* Moveable::getParent()
 {
 	return m_parent;
 }

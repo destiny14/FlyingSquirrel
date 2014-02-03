@@ -17,15 +17,10 @@ public:
 	void setTextures(list<Texture*> textures);
 	list<Texture*> getTextures();
 
-	void setPhysicsObjects(list<Ground*> physicObjects);
-
-	list<Ground*> getPhysicsObjects();
-
 	void setName(char* name);
 	char* getName();
 private:
 	list<Texture*> m_textures;
-	list<Ground*> m_physicObjects;
 	char* m_name;
 };
 
