@@ -18,6 +18,8 @@ public:
 	Moveable();
 	~Moveable();
 
+	void updateCollider();
+
 	// setAffectedByGravity(bool)
 	//
 	// bestimmt, ob das Objekt von Gravitation beeinflusst wird
@@ -32,7 +34,9 @@ public:
 	void setParent(LevelLayer* parent);
 	LevelLayer* getParent();
 
-	virtual void update(float dt);
+	virtual void update(float dt, bool overwriteCollisionCheck = false);
+protected:
+	void setGrounded(bool);
 private:
 	void CheckForCollisions();
 	bool m_affectedByGravity;

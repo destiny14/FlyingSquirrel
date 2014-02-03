@@ -12,7 +12,7 @@ Ground* Ground::create(char* filename)
 	if (tex)
 	{
 		ground->setTexture(tex);
-		ground->setCollisionRectangle();
+		ground->setCollider();
 		ground->setGround(true);
 		return ground;
 	}
@@ -32,12 +32,12 @@ Ground::~Ground()
 
 }
 
-void Ground::setCollisionRectangle()
+void Ground::setCollider()
 {
-	setCollisionRectangle(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
+	setCollider(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
 }
 
-void Ground::setCollisionRectangle(float width, float height)
+void Ground::setCollider(float width, float height)
 {
 	Rect r = Rect(getSprite()->getBoundingBox().origin.x, getSprite()->getBoundingBox().origin.y, width, height);
 	g_pLogfile->writeHeading("created collision rectangle", 3);
@@ -45,7 +45,7 @@ void Ground::setCollisionRectangle(float width, float height)
 	m_collisionRectangle = r;
 }
 
-Rect Ground::getCollisionRectangle()
+Rect Ground::getCollider()
 {
 	float w = m_collisionRectangle.size.width;
 	float h = m_collisionRectangle.size.height;
