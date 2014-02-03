@@ -1,5 +1,3 @@
-#include "Box2D/Box2D.h"
-#include "GLES-Render.h"
 #include "CommonMain.h"
 #include "HelloWorldScene.h"
 #include "Logfile.h"
