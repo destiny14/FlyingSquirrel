@@ -14,9 +14,9 @@ public:
 	Ground();
 	~Ground();
 
-	void setCollisionRectangle();
-	void setCollisionRectangle(float width, float height);
-	Rect getCollisionRectangle();
+	void setCollider();
+	void setCollider(float width, float height);
+	Rect getCollider();
 
 	// use setPosition(float, float) instead, it's faster
 	void setPosition(const Point& pos);

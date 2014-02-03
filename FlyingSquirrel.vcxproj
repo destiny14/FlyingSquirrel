@@ -147,6 +147,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\CPlayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\Ground.h" />
     <ClCompile Include="Classes\MainMenu.cpp" />
@@ -177,6 +178,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Levelsystem\Level.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h" />
+    <ClInclude Include="Classes\Levelsystem\Objects\Player.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Texture.h" />
     <ClInclude Include="Classes\Logfile.h" />
     <ClInclude Include="Classes\MainMenu.h" />

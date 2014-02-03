@@ -7,7 +7,7 @@
 #include <queue>
 #include "cocos2d.h"
 #include "Levelsystem\LevelLayer.h"
-
+#include "Levelsystem\Objects\Player.h"
 
 class HelloWorld : public LevelLayer
 {
@@ -31,7 +31,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
-	Moveable* m_moveable;
+	Player* m_moveable;
 	Ground* m_ground;
 
 };

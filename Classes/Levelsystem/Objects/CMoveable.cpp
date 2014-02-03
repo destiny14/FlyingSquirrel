@@ -13,7 +13,7 @@ Moveable* Moveable::create(char* filename, LevelLayer* parent)
 	if (tex)
 	{
 		mov->setTexture(tex);
-		mov->setCollisionRectangle();
+		mov->setCollider();
 		mov->setParent(parent);
 		mov->setGround(false);
 		return mov;
@@ -24,13 +24,19 @@ Moveable* Moveable::create(char* filename, LevelLayer* parent)
 Moveable::Moveable()
 {
 	m_grounded = false;
-	m_gravity = -200.0f;
+	m_gravity = -10.0f;
 	m_velocity = 0.0f;
 }
 
 Moveable::~Moveable()
 {
 
+}
+
+void Moveable::updateCollider() 
+{
+	Rect oldCollider = getCollider();
+	setCollider(oldCollider.size.width, oldCollider.size.height);
 }
 
 void Moveable::setParent(LevelLayer* parent)
@@ -58,7 +64,12 @@ bool Moveable::getGrounded()
 	return m_grounded;
 }
 
-void Moveable::update(float dt)
+void Moveable::setGrounded(bool g)
+{
+	m_grounded = g;
+}
+
+void Moveable::update(float dt, bool overwriteCollisionCheck)
 {
 	if (m_affectedByGravity)
 	{
@@ -69,7 +80,9 @@ void Moveable::update(float dt)
 			y += m_velocity * dt;
 			m_velocity += m_gravity * dt;
 			setPositionY(y);
-			CheckForCollisions();
+			updateCollider();
+			if (!overwriteCollisionCheck)
+				CheckForCollisions();
 		}
 	}
 }
@@ -81,7 +94,7 @@ void Moveable::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
-			if (g->getCollisionRectangle().intersectsRect(getCollisionRectangle()))
+			if (g->getCollider().intersectsRect(getCollider()))
 			{
 				// kollision
 				m_grounded = true;

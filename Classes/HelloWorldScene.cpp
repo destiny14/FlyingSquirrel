@@ -7,6 +7,7 @@
 #include "Ground.h"
 #include "Texture.h"
 #include "Moveable.h"
+#include "Levelsystem\Objects\Player.h"
 #include <list>
 #include <iostream>
 #include <queue>
@@ -67,11 +68,10 @@ bool HelloWorld::init()
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	this->addChild(m_ground->getSprite(), 1);
-	
 	list<Ground*> g = l->getPhysicsObjects();
 	g.push_back(m_ground);
 	l->setPhysicsObjects(g);
-	m_moveable = Moveable::create("CloseNormal.png", l);
+	m_moveable = Player::create("CloseNormal.png", l);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 	// m_ground->getSprite()->setVisible(false);
@@ -132,7 +132,32 @@ void HelloWorld::tick(float dt)
 
 void HelloWorld::draw()
 {
+	DrawPrimitives::drawRect(Point(
+		m_ground->getCollider().origin.x,
+		m_ground->getCollider().origin.y),
+		Point(
+		m_ground->getCollider().origin.x + m_ground->getCollider().size.width,
+		m_ground->getCollider().origin.y + m_ground->getCollider().size.height));
+	DrawPrimitives::drawRect(Point(
+		m_moveable->getBottomCollider().origin.x,
+		m_moveable->getBottomCollider().origin.y),
+		Point(
+		m_moveable->getBottomCollider().origin.x + m_moveable->getBottomCollider().size.width,
+		m_moveable->getBottomCollider().origin.y + m_moveable->getBottomCollider().size.height));
 
+	DrawPrimitives::drawRect(Point(
+		m_moveable->getLeftCollider().origin.x,
+		m_moveable->getLeftCollider().origin.y),
+		Point(
+		m_moveable->getLeftCollider().origin.x + m_moveable->getLeftCollider().size.width,
+		m_moveable->getLeftCollider().origin.y + m_moveable->getLeftCollider().size.height));
+
+	DrawPrimitives::drawRect(Point(
+		m_moveable->getRightCollider().origin.x,
+		m_moveable->getRightCollider().origin.y),
+		Point(
+		m_moveable->getRightCollider().origin.x + m_moveable->getRightCollider().size.width,
+		m_moveable->getRightCollider().origin.y + m_moveable->getRightCollider().size.height));
 }
 
 void HelloWorld::menuCloseCallback(Object* pSender)
