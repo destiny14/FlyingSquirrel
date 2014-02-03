@@ -52,8 +52,6 @@ bool CMainMenu::init()
 
 	this->schedule(schedule_selector(CMainMenu::update));
 
-	m_pUI = new UI(this, "addons/UI/testUI.lua");
-
 	return true;
 }
 
@@ -71,17 +69,6 @@ void CMainMenu::update(float _dt)
 	
 	if (m_pStartGame->wasReleased())
 		startCallback(this);
-
-	if (m_pToggleUI->wasReleased())
-		m_pUI->reloadUI();
-
-	if (m_pToggleUI->wasReleased())
-	{
-		if (m_pUI->isEnabled())
-			m_pUI->disableUI();
-		else
-			m_pUI->enableUI();
-	}
 }
 
 void CMainMenu::startCallback(Object* sender)

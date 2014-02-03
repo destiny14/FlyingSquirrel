@@ -1,41 +1,27 @@
 #ifndef __UI_H__
 #define __UI_H__
 
+#define ACTIVATEUI(A) UI::Get()->setUINode(A);
+#define DEACTIVATEUI UI::Get()->setUINode(nullptr);
+
+#include "Singleton.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
 
-class UIData
+class UI : public TSingleton<UI>
 {
 public:
-	UIData(char* _uiLocation);
-	~UIData(void);
+	void setUINode(Node* _pNode);
 
-	std::string* uiLoc;
-	std::string* listLoc;
-	std::string* scriptLoc;
-
-	Node* pUINode;
-	ScriptEngineProtocol* pEngine;
-};
-
-class UI
-{
-public:
-	UI(Node* _pSrcNode, char* _uiLocation);
+protected:
+	UI(void);
 	virtual ~UI(void);
 
-	void freeResources();
-	void reloadUI();
-	void enableUI();
-	void disableUI();
-	bool isEnabled() { return m_enabled; }
 private:
-	char* m_uiLoc;
-	Node* m_pNode;
-	bool m_enabled;
-	UIData* m_pData;
+	Menu* m_pUINode;
 
-	void loadResources();
+	void createUI();
 };
-#endif __UI_H__
+
+#endif//__UI_H__
