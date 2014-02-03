@@ -27,57 +27,35 @@ void Player::setCollider()
 {
 	Sprite* sprite = getSprite();
 	Rect boundingBox = sprite->getBoundingBox();
-	m_leftCollider = Rect(boundingBox.origin.x, boundingBox.origin.y + 10, 10, boundingBox.size.height - 10);
-	m_rightCollider = Rect(boundingBox.origin.x + (boundingBox.size.width - 10), boundingBox.origin.y + 10, 10, boundingBox.size.height - 10);
-	m_bottomCollider = Rect(boundingBox.origin.x + 10, boundingBox.origin.y, boundingBox.size.width - 20, 10);
+
+	PlayerCollider* collider = PlayerCollider::create(boundingBox.size.width, boundingBox.size.height);
+	this->addComponent(collider);
 }
 
-void Player::updateCollider()
+//void Player::updateCollider()
+//{
+//	Rect oldCollider = getLeftCollider();
+//	setLeftCollider(oldCollider.size.width, oldCollider.size.height);
+//	oldCollider = getRightCollider();
+//	setRightCollider(oldCollider.size.width, oldCollider.size.height);
+//	oldCollider = getBottomCollider();
+//	setBottomCollider(oldCollider.size.width, oldCollider.size.height);
+//	float y = getPositionY();
+//	Rect bb = getSprite()->getBoundingBox();
+//}
+
+PlayerCollider* Player::getPlayerColliderComponent()
 {
-	Rect oldCollider = getLeftCollider();
-	setLeftCollider(oldCollider.size.width, oldCollider.size.height);
-	oldCollider = getRightCollider();
-	setRightCollider(oldCollider.size.width, oldCollider.size.height);
-	oldCollider = getBottomCollider();
-	setBottomCollider(oldCollider.size.width, oldCollider.size.height);
-	float y = getPositionY();
-	Rect bb = getSprite()->getBoundingBox();
+	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
 }
 
-void Player::setLeftCollider(float width, float height) 
-{	 
-	m_leftCollider = Rect(getSprite()->getBoundingBox().origin.x, getSprite()->getBoundingBox().origin.y + 10, width, height);
-}	 
-
-void Player::setRightCollider(float width, float height)
-{
-	m_rightCollider = Rect(getSprite()->getBoundingBox().origin.x + (getSprite()->getBoundingBox().size.width - width), getSprite()->getBoundingBox().origin.y + 10, width, height);
-}
-
-void Player::setBottomCollider(float width, float height)
-{
-	m_bottomCollider = Rect(getSprite()->getBoundingBox().origin.x + 10, getSprite()->getBoundingBox().origin.y, width, height);
-}
-
-Rect Player::getBottomCollider()
-{
-	return m_bottomCollider;
-}
-
-Rect Player::getLeftCollider()
-{
-	return m_leftCollider;
-}
-
-Rect Player::getRightCollider()
-{
-	return m_rightCollider;
-}
 
 void Player::update(float dt)
 {
 	Moveable::update(dt, true);
-	updateCollider();
+	PlayerCollider* p = getPlayerColliderComponent();
+	if (p != nullptr)
+		p->update(dt);
 	
 	CheckForCollisions();
 }
@@ -89,10 +67,10 @@ void Player::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
-			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
-			if (c->getCollisionRectangle().intersectsRect(getBottomCollider()))
+			Collider* c = g->getColliderComponent();
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
 			{
-				// kollision
+				// kollision (boden)
 				setGrounded(true);
 			}
 		}

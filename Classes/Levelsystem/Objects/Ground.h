@@ -2,6 +2,7 @@
 #define __GROUND_H__
 
 #include "cocos2d.h"
+#include "..\Components\Collider.h"
 #include "Texture.h"
 
 USING_NS_CC;
@@ -16,7 +17,7 @@ public:
 
 	void setCollider();
 	void setCollider(float width, float height);
-	Rect getCollider();
+	Collider* getColliderComponent();
 
 	// use setPosition(float, float) instead, it's faster
 	void setPosition(const Point& pos);

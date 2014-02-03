@@ -2,6 +2,7 @@
 #include "Ground.h"
 #include "Box2D\Box2D.h"
 #include "Texture.h"
+#include "..\Components\Collider.h"
 
 USING_NS_CC;
 
@@ -39,35 +40,31 @@ void Ground::setCollider()
 
 void Ground::setCollider(float width, float height)
 {
-	Rect r = Rect(getSprite()->getBoundingBox().origin.x, getSprite()->getBoundingBox().origin.y, width, height);
-	g_pLogfile->writeHeading("created collision rectangle", 3);
-	g_pLogfile->fLog(L_DEBUG, "X: %f<br />Y: %f<br />width: %f<br />height: %f<br />", r.origin.x, r.origin.y, r.size.width, r.size.height);
-	m_collisionRectangle = r;
+	Collider* collider = Collider::create(width, height);
+	this->addComponent(collider);
 }
 
-Rect Ground::getCollider()
+Collider* Ground::getColliderComponent()
 {
-	float w = m_collisionRectangle.size.width;
-	float h = m_collisionRectangle.size.height;
-	Rect bb = m_texture->getSprite()->getBoundingBox();
-	//g_pLogfile->writeHeading("created collision rectangle", 3);
-	//g_pLogfile->fLog(L_DEBUG, "width: %f<br />height: %f<br />", w, h);
-	//g_pLogfile->writeHeading("sprite stats", 3);
-	//g_pLogfile->fLog(L_DEBUG, "X: %f<br />Y: %f<br />width: %f<br />height: %f<br />", getSprite()->getPositionX(), getSprite()->getPositionY(), getSprite()->getContentSize().width, getSprite()->getContentSize().height);
-	Rect tmp = Rect(bb.origin.x, bb.origin.y, w, h);
-	return tmp;
+	return dynamic_cast<Collider*>(this->getComponent("collider"));
 }
 
 void Ground::setPosition(const Point& pos)
 {
 	Node::setPosition(pos);
 	m_texture->setPosition(pos);
+	Collider* col = getColliderComponent();
+	if (col != nullptr)
+		col->update(0.0f);
 }
 
 void Ground::setPosition(float x, float y)
 {
 	Node::setPosition(x, y);
 	m_texture->setPosition(x, y);
+	Collider* col = getColliderComponent();
+	if (col != nullptr)
+		col->update(0.0f);
 }
 
 Sprite* Ground::getSprite()

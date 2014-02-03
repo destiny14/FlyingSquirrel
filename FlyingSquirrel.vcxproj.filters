@@ -87,6 +87,9 @@
     <ClCompile Include="Classes\Components\CCollider.cpp">
       <Filter>Classes\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
+      <Filter>Classes\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -180,6 +183,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Components\Collider.h">
+      <Filter>Classes\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Components\PlayerCollider.h">
       <Filter>Classes\Components</Filter>
     </ClInclude>
   </ItemGroup>

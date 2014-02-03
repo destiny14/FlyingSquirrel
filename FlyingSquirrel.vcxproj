@@ -140,6 +140,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\CommandLineParameter.cpp" />
     <ClCompile Include="Classes\CommonMain.cpp" />
     <ClCompile Include="Classes\Components\CCollider.cpp" />
+    <ClCompile Include="Classes\Components\CPlayerCollider.cpp" />
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
@@ -163,6 +164,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\CommandLineParameter.h" />
     <ClInclude Include="Classes\CommonMain.h" />
     <ClInclude Include="Classes\Components\Collider.h" />
+    <ClInclude Include="Classes\Components\PlayerCollider.h" />
     <ClInclude Include="Classes\HelloWorldScene.h" />
     <ClInclude Include="Classes\Input.h" />
     <ClInclude Include="Classes\InputAction.h" />

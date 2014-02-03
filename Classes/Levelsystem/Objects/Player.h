@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
+#include "..\Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
 
 class Player : public Moveable
@@ -21,21 +22,10 @@ public:
 	// setzt die Kollider entsprechend der gesetzten Texur
 	void setCollider();
 
-	void updateCollider();
-
-	Rect getLeftCollider();
-	Rect getRightCollider();
-	Rect getBottomCollider();
-
-	void setLeftCollider(float width, float height);
-	void setRightCollider(float width, float height);
-	void setBottomCollider(float width, float height);
+	PlayerCollider* getPlayerColliderComponent();
 
 private:
 	void CheckForCollisions();
-	Rect m_leftCollider;
-	Rect m_rightCollider;
-	Rect m_bottomCollider;
 };
 
 #endif // !__PLAYER_H__

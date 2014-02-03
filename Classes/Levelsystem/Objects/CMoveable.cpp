@@ -36,8 +36,8 @@ Moveable::~Moveable()
 
 void Moveable::updateCollider() 
 {
-	Rect oldCollider = getCollider();
-	setCollider(oldCollider.size.width, oldCollider.size.height);
+	/*Rect oldCollider = getCollider();
+	setCollider(oldCollider.size.width, oldCollider.size.height);*/
 }
 
 void Moveable::setParent(MainLayer* parent)
@@ -97,7 +97,8 @@ void Moveable::CheckForCollisions()
 		if (g->getGround() == true)
 		{
 			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
-			if (c->getCollisionRectangle().intersectsRect(getCollider()))
+			Collider* c2 = getColliderComponent();
+			if (c->getCollisionRectangle().intersectsRect(getColliderComponent()->getCollisionRectangle()))
 			{
 				// kollision
 				m_grounded = true;

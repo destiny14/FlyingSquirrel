@@ -28,7 +28,7 @@ Scene* HelloWorld::createScene()
     // add layer as a child to scene
     scene->addChild(layer);
 
-	scene->addChild(layer2);
+	//scene->addChild(layer2);
 
     // return the scene
     return scene;
@@ -68,10 +68,11 @@ bool HelloWorld::init()
 
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
-	Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
+	/*Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
 	comCollider->setName("collider");
-	m_ground->addComponent(comCollider);
+	m_ground->addComponent(comCollider);*/
 	this->addChild(m_ground->getSprite(), 1);
+	m_ground->getSprite()->setVisible(false);
 	list<Ground*> g = this->getPhysicsObjects();
 	g.push_back(m_ground);
 	this->setPhysicsObjects(g);
@@ -143,32 +144,32 @@ void HelloWorld::draw()
 	if (g_pCommonMain->getAppDebug())
 	{
 		DrawPrimitives::drawRect(Point(
-			m_ground->getCollider().origin.x,
-			m_ground->getCollider().origin.y),
+			m_ground->getColliderComponent()->getCollisionRectangle().origin.x,
+			m_ground->getColliderComponent()->getCollisionRectangle().origin.y),
 			Point(
-			m_ground->getCollider().origin.x + m_ground->getCollider().size.width,
-			m_ground->getCollider().origin.y + m_ground->getCollider().size.height));
+			m_ground->getColliderComponent()->getCollisionRectangle().origin.x + m_ground->getColliderComponent()->getCollisionRectangle().size.width,
+			m_ground->getColliderComponent()->getCollisionRectangle().origin.y + m_ground->getColliderComponent()->getCollisionRectangle().size.height));
 
 		DrawPrimitives::drawRect(Point(
-			m_moveable->getBottomCollider().origin.x,
-			m_moveable->getBottomCollider().origin.y),
+			m_moveable->getPlayerColliderComponent()->getBottomCollider().origin.x,
+			m_moveable->getPlayerColliderComponent()->getBottomCollider().origin.y),
 			Point(
-			m_moveable->getBottomCollider().origin.x + m_moveable->getBottomCollider().size.width,
-			m_moveable->getBottomCollider().origin.y + m_moveable->getBottomCollider().size.height));
+			m_moveable->getPlayerColliderComponent()->getBottomCollider().origin.x + m_moveable->getPlayerColliderComponent()->getBottomCollider().size.width,
+			m_moveable->getPlayerColliderComponent()->getBottomCollider().origin.y + m_moveable->getPlayerColliderComponent()->getBottomCollider().size.height));
 
 		DrawPrimitives::drawRect(Point(
-			m_moveable->getLeftCollider().origin.x,
-			m_moveable->getLeftCollider().origin.y),
+			m_moveable->getPlayerColliderComponent()->getLeftCollider().origin.x,
+			m_moveable->getPlayerColliderComponent()->getLeftCollider().origin.y),
 			Point(
-			m_moveable->getLeftCollider().origin.x + m_moveable->getLeftCollider().size.width,
-			m_moveable->getLeftCollider().origin.y + m_moveable->getLeftCollider().size.height));
+			m_moveable->getPlayerColliderComponent()->getLeftCollider().origin.x + m_moveable->getPlayerColliderComponent()->getLeftCollider().size.width,
+			m_moveable->getPlayerColliderComponent()->getLeftCollider().origin.y + m_moveable->getPlayerColliderComponent()->getLeftCollider().size.height));
 
 		DrawPrimitives::drawRect(Point(
-			m_moveable->getRightCollider().origin.x,
-			m_moveable->getRightCollider().origin.y),
+			m_moveable->getPlayerColliderComponent()->getRightCollider().origin.x,
+			m_moveable->getPlayerColliderComponent()->getRightCollider().origin.y),
 			Point(
-			m_moveable->getRightCollider().origin.x + m_moveable->getRightCollider().size.width,
-			m_moveable->getRightCollider().origin.y + m_moveable->getRightCollider().size.height));
+			m_moveable->getPlayerColliderComponent()->getRightCollider().origin.x + m_moveable->getPlayerColliderComponent()->getRightCollider().size.width,
+			m_moveable->getPlayerColliderComponent()->getRightCollider().origin.y + m_moveable->getPlayerColliderComponent()->getRightCollider().size.height));
 	}
 }
 

@@ -5,6 +5,7 @@ Collider* Collider::create(float width, float height)
 	Collider* col = new Collider(width, height);
 	if (col)
 	{
+		col->setName("collider");
 		col->autorelease();
 		return col;
 	}
@@ -34,8 +35,6 @@ void Collider::onEnter()
 	Point r = getOwner()->getPosition();
 	m_collisionRectangle.origin.x = r.x - (0.5 * m_collisionRectangle.size.width);
 	m_collisionRectangle.origin.y = r.y - (0.5 * m_collisionRectangle.size.height);
-	std::string n = getName();
-	log("X: %f Y: %f W: %f H: %f", m_collisionRectangle.origin.x, m_collisionRectangle.origin.y, m_collisionRectangle.size.width, m_collisionRectangle.size.height);
 }
 
 void Collider::onExit()
