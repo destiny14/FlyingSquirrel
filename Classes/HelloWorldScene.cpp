@@ -48,6 +48,8 @@ HelloWorld::~HelloWorld()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
+	
+
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
