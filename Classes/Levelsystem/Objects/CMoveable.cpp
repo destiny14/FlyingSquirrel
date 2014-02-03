@@ -24,7 +24,7 @@ Moveable* Moveable::create(char* filename, LevelLayer* parent)
 Moveable::Moveable()
 {
 	m_grounded = false;
-	m_gravity = -40.0f;
+	m_gravity = -200.0f;
 	m_velocity = 0.0f;
 }
 
