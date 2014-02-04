@@ -4,30 +4,41 @@
 
 UI::UI()
 {
+	active = false;
+
 	m_pUINode = Node::create();
+	m_pUINode->retain();
+
 	m_pMenu = Node::create();
+	m_pMenu->retain();
+
 	m_pIngame = Node::create();
+	m_pIngame->retain();
+
 	m_pCommon = Node::create();
+	m_pCommon->retain();
 
 	createCommonUI();
 }
 
 UI::~UI()
 {
-	setUINode(nullptr, 0);
+	setUINode(nullptr, UI_NONE);
 
 	m_pUINode->release();
 	m_pMenu->release();
 	m_pIngame->release();
+	m_pCommon->release();
 }
 
 void UI::setUINode(Node* _pNode, int _menu)
 {
-	m_pUINode->removeFromParent();
-
+	active = false;
+	m_pUINode->removeFromParentAndCleanup(false);
+	
 	if (_pNode == nullptr) return;
 
-	m_pUINode->removeAllChildren();
+	m_pUINode->removeAllChildrenWithCleanup(false);
 	m_pUINode->addChild(m_pCommon);
 
 	switch (_menu)
@@ -47,6 +58,7 @@ void UI::setUINode(Node* _pNode, int _menu)
 	}
 
 	_pNode->addChild(m_pUINode, 1);
+	active = true;
 }
 
 void UI::createCommonUI()
@@ -88,7 +100,8 @@ void UI::createMainMenuUI()
 
 void UI::update()
 {
-	Point origin = m_pUINode->getParent()->getPosition();
+	if (!active) return;
 
+	Point origin = m_pUINode->getParent()->getPosition();
 	m_pUINode->setPosition(-origin.x, -origin.y);
 }

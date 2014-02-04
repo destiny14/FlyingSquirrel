@@ -9,7 +9,9 @@
 #define DEACTIVATEUI UI::Get()->setUINode(nullptr)
 #define UPDATEUI UI::Get()->update()
 
-#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = (CMainMenu*)A; ACTIVATEUI(A, UI_MAINMENU); 
+#define ACTIVATEBASEUI(A) ACTIVATEUI(A, UI_NONE);
+#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = (CMainMenu*)A; ACTIVATEUI(A, UI_MAINMENU);
+#define ACTIVATEINGAMEUI(A) ACTIVATEUI(A, UI_INGAME);
 
 #include "Singleton.h"
 #include "cocos2d.h"
@@ -33,6 +35,7 @@ private:
 	Node* m_pCommon;
 	Node* m_pMenu;
 	Node* m_pIngame;
+	bool active;
 
 	void createCommonUI();
 	void createMainMenuUI();
