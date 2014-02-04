@@ -55,7 +55,7 @@ void KeyboardInputAction::check(InputManager* _manager)
 	bool pressed = false;
 
 	for (int i = 0; i < m_length; i++)
-		pressed = pressed || _manager->isKeyPressed(m_code[i]);
+		pressed = (pressed || (_manager->isKeyPressed(m_code[i])));
 
 	if (pressed)
 	{
