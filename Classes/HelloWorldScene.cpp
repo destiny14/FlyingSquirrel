@@ -11,6 +11,7 @@
 #include <list>
 #include <iostream>
 #include <queue>
+#include "UI.h"
 
 USING_NS_CC;
 
@@ -130,11 +131,15 @@ bool HelloWorld::init()
 	this->scheduleUpdate();
 	//this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
+
+	ACTIVATEINGAMEUI(this);
+
     return true;
 }
 
 void HelloWorld::update(float dt)
 {
+	UPDATEUI;
 	Node::update(dt);
 	m_moveable->update(dt);
 }
