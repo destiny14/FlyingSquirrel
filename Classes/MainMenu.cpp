@@ -31,10 +31,10 @@ bool CMainMenu::init()
 void CMainMenu::initInput()
 {
 	m_pInput = new InputManager(this);
-
-	m_pStartGame = m_pInput->createKeyboardAction(new EventKeyboard::KeyCode{ EventKeyboard::KeyCode::KEY_SPACE }, 1, "Spiel Starten");
+	EventKeyboard::KeyCode codes[] = { EventKeyboard::KeyCode::KEY_KP_ENTER, EventKeyboard::KeyCode::KEY_SPACE };
+	m_pStartGame = m_pInput->createKeyboardAction(codes, 2, "Spiel Starten");
 }
-
+    
 void CMainMenu::update(float _dt)
 {
 	UPDATEUI;

@@ -64,5 +64,5 @@ void InputManager::onKeyReleased(EventKeyboard::KeyCode _keyCode, Event* _event)
 
 bool InputManager::isKeyPressed(EventKeyboard::KeyCode _keyCode)
 {
-	return m_keyPressed[(int)_keyCode];
+	return m_keyPressed[(int)(_keyCode)];
 }

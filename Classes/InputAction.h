@@ -55,7 +55,7 @@ public:
 	/*
 	*	Wechselt den KeyCode
 	*/
-	void changeKeyCode(EventKeyboard::KeyCode* code, int length) { m_code = code; m_length = length; }
+	void changeKeyCode(const EventKeyboard::KeyCode* code, int length);
 private:
 	EventKeyboard::KeyCode* m_code;
 	int m_length;
