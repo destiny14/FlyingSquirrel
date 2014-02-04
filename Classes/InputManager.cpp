@@ -38,9 +38,9 @@ void InputManager::update()
 	}
 }
 
-InputAction* InputManager::createKeyboardAction(EventKeyboard::KeyCode _code, char* _name)
+InputAction* InputManager::createKeyboardAction(EventKeyboard::KeyCode* _code, int _length, char* _name)
 {
-	KeyboardInputAction* pAction = new KeyboardInputAction(_code, _name);
+	KeyboardInputAction* pAction = new KeyboardInputAction(_name, _code, _length);
 
 	m_actions.push_front(pAction);
 

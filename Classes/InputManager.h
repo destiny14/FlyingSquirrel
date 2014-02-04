@@ -15,7 +15,7 @@ public:
 	/*
 	*	Erzeugt eine neue Action mit gegebenem Namen, und KeyCode
 	*/
-	InputAction* createKeyboardAction(EventKeyboard::KeyCode _code, char* _pName);
+	InputAction* createKeyboardAction(EventKeyboard::KeyCode* _code, int length, char* _pName);
 	/*
 	*	NYI
 	*/

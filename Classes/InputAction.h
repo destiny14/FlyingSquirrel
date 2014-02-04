@@ -48,16 +48,17 @@ private:
 class KeyboardInputAction : public InputAction
 {
 public:
-	KeyboardInputAction(EventKeyboard::KeyCode code, char* name);
+	KeyboardInputAction(char* name, EventKeyboard::KeyCode* code, int length);
 	virtual ~KeyboardInputAction(void);
 	/*Internal*/
 	virtual void check(InputManager* _manager);
 	/*
 	*	Wechselt den KeyCode
 	*/
-	void changeKeyCode(EventKeyboard::KeyCode code) { m_code = code; }
+	void changeKeyCode(EventKeyboard::KeyCode* code, int length) { m_code = code; m_length = length; }
 private:
-	EventKeyboard::KeyCode m_code;
+	EventKeyboard::KeyCode* m_code;
+	int m_length;
 };
 
 //NYI

@@ -32,9 +32,9 @@ void InputAction::resetFrame()
 	m_released = false;
 }
 
-KeyboardInputAction::KeyboardInputAction(cocos2d::EventKeyboard::KeyCode code, char* name) : InputAction(name)
+KeyboardInputAction::KeyboardInputAction(char* name, cocos2d::EventKeyboard::KeyCode* code, int _length) : InputAction(name)
 {
-	this->changeKeyCode(code);
+	this->changeKeyCode(code, _length);
 }
 
 KeyboardInputAction::~KeyboardInputAction(void)
@@ -44,7 +44,12 @@ KeyboardInputAction::~KeyboardInputAction(void)
 
 void KeyboardInputAction::check(InputManager* _manager)
 {
-	if (_manager->isKeyPressed(m_code))
+	bool pressed = false;
+
+	for (int i = 0; i < m_length && !pressed; i++)
+		pressed = _manager->isKeyPressed(m_code[i]);
+
+	if (pressed)
 	{
 		m_pressed = true;
 		m_timesPressed++;

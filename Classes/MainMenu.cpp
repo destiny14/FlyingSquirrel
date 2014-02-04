@@ -31,9 +31,8 @@ bool CMainMenu::init()
 void CMainMenu::initInput()
 {
 	m_pInput = new InputManager(this);
-	m_pStartGame = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_SPACE, "Spiel Starten");
-	m_pToggleUI = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_T, "UI de-/aktivieren");
-	m_pReloadUI = m_pInput->createKeyboardAction(EventKeyboard::KeyCode::KEY_R, "UI neuladen");
+
+	m_pStartGame = m_pInput->createKeyboardAction(new EventKeyboard::KeyCode{ EventKeyboard::KeyCode::KEY_SPACE }, 1, "Spiel Starten");
 }
 
 void CMainMenu::update(float _dt)
