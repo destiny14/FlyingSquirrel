@@ -6,7 +6,8 @@ int CCommonMain::main(char** par, int parLength)
 {
 
 	CCommandLineParameter* pCommand = new CCommandLineParameter(par, parLength);
-	m_appDebug = pCommand->isParameterActive("-debug");
+	m_appDebug = pCommand->isParameterActive("-debug") || pCommand->isParameterActive("-d");
+	m_appFullscreen = pCommand->isParameterActive("-fullscreen") || pCommand->isParameterActive("-f");
 	m_windowWidth = pCommand->getParameterInt("-w", pCommand->getParameterInt("-width", 800));
 	m_windowHeight = pCommand->getParameterInt("-h", pCommand->getParameterInt("-height", 600));
 	int dFPS = pCommand->getParameterInt("-fps", 60);
@@ -39,7 +40,15 @@ int CCommonMain::main(char** par, int parLength)
 	fprintf(stdout, "========================\nDebug: %i\n", m_appDebug);
 	fprintf(stdout, "========================\nFenster:\n\tBreite: %i\n\tHoehe: %i\n========================\n", m_windowWidth, m_windowHeight);
 	
-	m_eglView.init("FlyingSquirrel", m_windowWidth, m_windowHeight);
+	if (m_appFullscreen)
+	{
+		//m_eglView.initWithFullScreen("FlyingSquirrel");
+	}
+	else
+	{
+		m_eglView.init("FlyingSquirrel", m_windowWidth, m_windowHeight);
+	}
+	
 	m_app.setDesiredFPS(dFPS);
 	return Application::getInstance()->run();
 }

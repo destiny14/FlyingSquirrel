@@ -25,6 +25,8 @@ private:
 	int m_windowHeight;
 	int m_windowWidth;
 	bool m_appDebug;
+	bool m_appFullscreen;
+
 	AppDelegate m_app;
 	EGLView m_eglView;
 };
