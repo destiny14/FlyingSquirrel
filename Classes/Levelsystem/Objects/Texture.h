@@ -4,8 +4,6 @@
 #include "cocos2d.h"
 #include "Logfile.h"
 
-#define g_pLogfile CLogfile::Get()
-
 USING_NS_CC;
 
 class Texture : public Node

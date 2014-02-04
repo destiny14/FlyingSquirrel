@@ -1,8 +1,4 @@
-#include "cocos2d.h"
 #include "Ground.h"
-#include "Box2D\Box2D.h"
-#include "Texture.h"
-#include "..\Components\Collider.h"
 
 USING_NS_CC;
 

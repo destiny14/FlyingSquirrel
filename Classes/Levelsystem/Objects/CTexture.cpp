@@ -1,4 +1,3 @@
-#include "cocos2d.h"
 #include "Texture.h"
 
 USING_NS_CC;

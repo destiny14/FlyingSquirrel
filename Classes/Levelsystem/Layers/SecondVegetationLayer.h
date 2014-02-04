@@ -7,6 +7,6 @@
 class SecondVegetationLayer : public LevelLayer
 {
 
-}
+};
 
 #endif // !__SECONDVEGETATIONLAYER_H__

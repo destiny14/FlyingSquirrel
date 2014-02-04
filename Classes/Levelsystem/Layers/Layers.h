@@ -8,7 +8,7 @@
 #include "MainLayer.h"
 #include "SecondParallaxLayer.h"
 #include "SecondVegetationLayer.h"
-#include "SkyLayer.h"
 #include "ThirdParallaxLayer.h"
+#include "SkyLayer.h"
 
 #endif // !__LAYERS_H__

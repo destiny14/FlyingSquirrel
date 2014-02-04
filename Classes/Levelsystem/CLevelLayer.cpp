@@ -1,4 +1,3 @@
-#include "cocos2d.h"
 #include "LevelLayer.h"
 
 LevelLayer::LevelLayer() {}
