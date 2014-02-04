@@ -44,11 +44,11 @@ void PlayerCollider::update(float dt)
 {
 	Point p = getOwner()->getPosition();
 	m_leftCollider.origin.x = p.x - m_leftCollider.size.width;
-	m_leftCollider.origin.y = p.y - (0.5f * m_leftCollider.size.height);
+	m_leftCollider.origin.y = p.y - (0.5f * m_leftCollider.size.height) + 5;
 	m_rightCollider.origin.x = p.x;
-	m_rightCollider.origin.y = p.y - (0.5f * m_rightCollider.size.height);
+	m_rightCollider.origin.y = p.y - (0.5f * m_rightCollider.size.height) + 5;
 	m_bottomCollider.origin.x = p.x - (0.5f * m_leftCollider.size.width);
-	m_bottomCollider.origin.y = p.y - (0.5f * m_leftCollider.size.height) - 2;
+	m_bottomCollider.origin.y = p.y - (0.5f * m_leftCollider.size.height);
 }
 
 Rect PlayerCollider::getLeftCollider() 
