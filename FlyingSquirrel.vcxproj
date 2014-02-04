@@ -173,6 +173,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\HorizontParallaxLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Layers\Layers.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\SecondParallaxLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h" />

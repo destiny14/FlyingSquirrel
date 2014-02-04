@@ -188,6 +188,9 @@
     <ClInclude Include="Classes\Components\PlayerCollider.h">
       <Filter>Classes\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Logfile.h"
 
-#define g_pLogfile CLogfile::Get ()
+#define g_pLogfile CLogfile::Get()
 
 USING_NS_CC;
 
