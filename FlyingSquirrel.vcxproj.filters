@@ -22,6 +22,9 @@
     <Filter Include="Classes\Components">
       <UniqueIdentifier>{a43edabe-1630-4cff-940e-d4c4fa558fb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Enemys">
+      <UniqueIdentifier>{75327be8-77d7-4c12-9c96-ed2a18d986c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,6 +92,27 @@
     </ClCompile>
     <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
       <Filter>Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\BaseEnemy.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\Snail.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\Mantis.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\Loewenzahn.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\Worm.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\BadPolle.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
+      <Filter>Classes\Enemys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +214,27 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\BaseEnemy.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\Snail.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\Mantis.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\Loewenzahn.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\Worm.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\BadPolle.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
+      <Filter>Classes\Enemys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
