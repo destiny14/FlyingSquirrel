@@ -2,7 +2,9 @@
 #define __LEVEL_H__
 
 #include "cocos2d.h"
+#include "Objects\Texture.h"
 #include "Layers\Layers.h"
+#include "tinyxml2\tinyxml2.h"
 
 using namespace std;
 USING_NS_CC;
@@ -17,6 +19,8 @@ public:
 
 	void setName(char* name);
 	char* getName();
+
+	void SaveLevel();
 
 	void setFirstVegetationLayer(FirstVegetationLayer* fVL);
 	void setMainLayer(MainLayer* mL);
@@ -49,6 +53,10 @@ private:
 	ThirdParallaxLayer* m_tPLayer;
 	HorizontParallaxLayer* m_hPLayer;
 	SkyLayer* m_skyLayer;
+
+	tinyxml2::XMLElement* createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture);
+	tinyxml2::XMLElement* createPointNode(tinyxml2::XMLDocument* doc, Point p);
+	const char* ftocc(float f);
 };
 
 #endif

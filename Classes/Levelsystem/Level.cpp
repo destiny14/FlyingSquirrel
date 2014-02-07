@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "tinyxml2\tinyxml2.h"
 Level* Level::createFromFile(const char* filename)
 {
 	tinyxml2::XMLDocument doc;
@@ -12,12 +11,66 @@ Level* Level::createFromFile(const char* filename)
 	
 	tinyxml2::XMLElement* levelElement = doc.FirstChildElement("level");
 	Level* l = new Level();
-	
+	l->SaveLevel();
+	delete l;
 	return nullptr;
 }
 
 Level::Level() {}
 Level::~Level() {}
+
+void Level::SaveLevel()
+{
+	MainLayer* mainLayer = new MainLayer();
+	mainLayer->setName("mainlayer");
+	Texture* tex = Texture::create("ground.png");
+	Texture* tex2 = Texture::create("CloseNormal.png");
+	list<Texture*> texList = mainLayer->getTextures();
+	texList.push_back(tex);
+	texList.push_front(tex2);
+	mainLayer->setTextures(texList);
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* baseElement = doc.NewElement("level");
+	baseElement->SetAttribute("name", "level1");
+	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("mainLayer");
+	mainLayerElement->SetAttribute("name", mainLayer->getName());
+	for (Texture* tex : mainLayer->getTextures())
+	{
+		mainLayerElement->InsertEndChild(createTextureNode(&doc, tex));
+	}
+	baseElement->InsertEndChild(mainLayerElement);
+	doc.InsertFirstChild(baseElement);
+
+	//tinyxml2::XMLText* t = doc.NewText("LEVEL1");
+	//t->SetValue("Miep?");
+	//baseElement->InsertEndChild(t);
+	//doc.InsertFirstChild(e);
+	doc.SaveFile("testlevel.xml");
+}
+
+tinyxml2::XMLElement* Level::createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture)
+{
+	tinyxml2::XMLElement* element = doc->NewElement("texture");
+	element->SetAttribute("filename", texture->getFilename());
+	tinyxml2::XMLElement* pointElement = createPointNode(doc, texture->getPosition());
+	element->InsertEndChild(pointElement);
+	return element;
+}
+
+tinyxml2::XMLElement* Level::createPointNode(tinyxml2::XMLDocument* doc, Point p)
+{
+	tinyxml2::XMLElement* element = doc->NewElement("point");
+	element->SetAttribute("x", p.x);
+	element->SetAttribute("y", p.y);
+	return element;
+}
+
+const char* Level::ftocc(float f)
+{
+	char array[64];
+	sprintf(array, "%f", f);
+	return array;
+}
 
 void Level::setFirstVegetationLayer(FirstVegetationLayer* fVL)
 {

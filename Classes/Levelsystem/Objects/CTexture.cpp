@@ -8,6 +8,7 @@ Texture* Texture::create(char* filename)
 	Sprite* sprite = Sprite::create(filename);
 	if (sprite)
 	{
+		tex->setFilename(filename);
 		tex->setSprite(sprite);
 		//tex->autorelease();
 		return tex;
@@ -63,4 +64,14 @@ bool Texture::setSprite(Sprite* sprite)
 Sprite* Texture::getSprite()
 {
 	return m_sprite;
+}
+
+void Texture::setFilename(char* filename)
+{
+	m_filename = filename;
+}
+
+char* Texture::getFilename()
+{
+	return m_filename;
 }
