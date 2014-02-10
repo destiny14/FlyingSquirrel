@@ -40,8 +40,6 @@ Player* Player::create(InputManager* pManager)
 
 bool Player::init()
 {
-	m_isGrounded = true;
-
 	return true;
 }
 
@@ -74,25 +72,27 @@ PlayerCollider* Player::getPlayerColliderComponent()
 
 void Player::update(float dt)
 {
+	Player* player = new Player;
+
 	Moveable::update(dt, true);
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
 
-	/*if (m_pForward->isPressed && m_isGrounded)
+	/*if (m_pForward->isPressed && player->getGround)
 	{
 		//getOwner()->setPositionX = getOwner()->getPositionX + 1.0f;
 	}
-	if (m_pBackward->isPressed && m_isGrounded)
+	if (m_pBackward->isPressed && player->getGround)
 	{
 		//getOwner()->setPositionX = getOwner()->getPositionX - 1.0f;
 	}
-	if (m_pJump->isPressed && m_isGrounded)
+	if (m_pJump->isPressed && player->getGround)
 	{
 		//getOwner()->setPositionY = getOwner()->getPositionY + 6.0f;
 		//m_isGrounded = false;
 	}
-	if (m_pJump->isPressed && !m_isGrounded)
+	if (m_pJump->isPressed && !player->getGround)
 	{
 		// ?!
 	}*/

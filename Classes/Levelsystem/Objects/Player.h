@@ -31,8 +31,6 @@ public:
 private:
 	void CheckForCollisions();
 
-	bool m_isGrounded;
-
 	Point m_direction;
 	float m_speed;
 
