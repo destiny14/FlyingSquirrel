@@ -128,9 +128,6 @@
     <ClInclude Include="Classes\TestLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Input.h" />
-    <ClInclude Include="Classes\InputAction.h" />
-    <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
       <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
@@ -190,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Input.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputAction.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputManager.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

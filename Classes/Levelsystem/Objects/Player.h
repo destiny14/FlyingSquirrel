@@ -6,6 +6,7 @@
 #include "Moveable.h"
 #include "..\Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
+#include "Input.h"
 
 class Player : public Moveable
 {
@@ -15,6 +16,9 @@ public:
 	Player();
 	~Player();
 
+	static Player* create(InputManager* pManager);
+
+	virtual bool init();
 	virtual void update(float dt);
 
 	// setCollider()
@@ -26,6 +30,15 @@ public:
 
 private:
 	void CheckForCollisions();
+
+	bool m_isGrounded;
+
+	Point m_direction;
+	float m_speed;
+
+	InputAction* m_pForward;
+	InputAction* m_pBackward;
+	InputAction* m_pJump;
 };
 
 #endif // !__PLAYER_H__

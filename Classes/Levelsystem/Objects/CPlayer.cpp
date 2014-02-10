@@ -23,6 +23,28 @@ Player::Player() {}
 
 Player::~Player() {}
 
+Player* Player::create(InputManager* pManager)
+{
+	Player* player = new Player;
+
+	EventKeyboard::KeyCode keysForward[] = { EventKeyboard::KeyCode::KEY_D, EventKeyboard::KeyCode::KEY_RIGHT_ARROW };
+	EventKeyboard::KeyCode keysBackward[] = { EventKeyboard::KeyCode::KEY_A, EventKeyboard::KeyCode::KEY_LEFT_ARROW };
+	EventKeyboard::KeyCode keysJump[] = { EventKeyboard::KeyCode::KEY_SPACE, EventKeyboard::KeyCode::KEY_W, EventKeyboard::KeyCode::KEY_UP_ARROW };
+
+	player->m_pForward = pManager->createKeyboardAction(keysForward, 2, "Forward");
+	player->m_pBackward = pManager->createKeyboardAction(keysBackward, 2, "Backward");
+	player->m_pJump = pManager->createKeyboardAction(keysJump, 3, "Jump");
+
+	return player;
+}
+
+bool Player::init()
+{
+	m_isGrounded = true;
+
+	return true;
+}
+
 void Player::setCollider()
 {
 	Sprite* sprite = getSprite();
@@ -56,6 +78,24 @@ void Player::update(float dt)
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
+
+	if (m_pForward->isPressed && m_isGrounded)
+	{
+		//getOwner()->setPositionX = getOwner()->getPositionX + 1.0f;
+	}
+	if (m_pBackward->isPressed && m_isGrounded)
+	{
+		//getOwner()->setPositionX = getOwner()->getPositionX - 1.0f;
+	}
+	if (m_pJump->isPressed && m_isGrounded)
+	{
+		//getOwner()->setPositionY = getOwner()->getPositionY + 6.0f;
+		//m_isGrounded = false;
+	}
+	if (m_pJump->isPressed && !m_isGrounded)
+	{
+		// ?!
+	}
 	
 	CheckForCollisions();
 }
