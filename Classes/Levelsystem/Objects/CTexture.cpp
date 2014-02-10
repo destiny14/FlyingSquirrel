@@ -8,8 +8,9 @@ Texture* Texture::create(char* filename)
 	Sprite* sprite = Sprite::create(filename);
 	if (sprite)
 	{
+		tex->setFilename(filename);
 		tex->setSprite(sprite);
-		//tex->autorelease();
+		tex->autorelease();
 		return tex;
 	}
 	return nullptr;
@@ -20,12 +21,13 @@ Texture* Texture::create(char* filename)
 // erstellt eine neue textur aus einer bilddatei und einer position
 Texture::Texture()
 {
-
+	m_sprite = nullptr;
 }
 
 Texture::~Texture()
 {
-
+	if (m_sprite != nullptr)
+		m_sprite->release();
 }
 
 void Texture::setPosition(const Point& pos)
@@ -48,11 +50,13 @@ bool Texture::setSprite(Sprite* sprite)
 	if (sprite)
 	{
 		m_sprite = sprite;
+		m_sprite->retain();
 		return true;
 	}
 	else
 	{
-		m_sprite = nullptr;
+		if (m_sprite != nullptr)
+			m_sprite->release();
 		return false;
 	}
 }
@@ -63,4 +67,14 @@ bool Texture::setSprite(Sprite* sprite)
 Sprite* Texture::getSprite()
 {
 	return m_sprite;
+}
+
+void Texture::setFilename(char* filename)
+{
+	m_filename = filename;
+}
+
+char* Texture::getFilename()
+{
+	return m_filename;
 }

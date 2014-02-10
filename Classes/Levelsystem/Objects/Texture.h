@@ -21,9 +21,12 @@ public:
 
 	bool setSprite(Sprite* sprite);
 	Sprite* getSprite();
+
+	void setFilename(char*);
+	char* getFilename();
 private:
 	Sprite* m_sprite;
-
+	char* m_filename;
 };
 
 #endif // !__TEXTURE_H__

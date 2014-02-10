@@ -79,8 +79,8 @@ bool HelloWorld::init()
 	this->setPhysicsObjects(g);
 	m_moveable = Player::create("CloseNormal.png", dynamic_cast<MainLayer*>(this));
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
-	m_moveable->addComponent(CPlayer)
-	this->addChild(m_moveable->getSprite(), 1);
+	/*m_moveable->addComponent(CPlayer)
+	this->addChild(m_moveable->getSprite(), 1);*/
 
 	
 	// m_ground->getSprite()->setVisible(false);

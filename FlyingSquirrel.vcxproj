@@ -141,6 +141,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\CommonMain.cpp" />
     <ClCompile Include="Classes\Components\CCollider.cpp" />
     <ClCompile Include="Classes\Components\CPlayerCollider.cpp" />
+    <ClCompile Include="Classes\Enemys\BadPolle.cpp" />
+    <ClCompile Include="Classes\Enemys\BaseEnemy.cpp" />
+    <ClCompile Include="Classes\Enemys\Loewenzahn.cpp" />
+    <ClCompile Include="Classes\Enemys\Mantis.cpp" />
+    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp" />
+    <ClCompile Include="Classes\Enemys\Snail.cpp" />
+    <ClCompile Include="Classes\Enemys\Worm.cpp" />
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
@@ -165,6 +172,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\CommonMain.h" />
     <ClInclude Include="Classes\Components\Collider.h" />
     <ClInclude Include="Classes\Components\PlayerCollider.h" />
+    <ClInclude Include="Classes\Enemys\BadPolle.h" />
+    <ClInclude Include="Classes\Enemys\BaseEnemy.h" />
+    <ClInclude Include="Classes\Enemys\Loewenzahn.h" />
+    <ClInclude Include="Classes\Enemys\Mantis.h" />
+    <ClInclude Include="Classes\Enemys\SlimeHeap.h" />
+    <ClInclude Include="Classes\Enemys\Snail.h" />
+    <ClInclude Include="Classes\Enemys\Worm.h" />
     <ClInclude Include="Classes\HelloWorldScene.h" />
     <ClInclude Include="Classes\Input.h" />
     <ClInclude Include="Classes\InputAction.h" />

@@ -4,7 +4,9 @@ InputManager::InputManager(Node* _pNode)
 {
 	m_pNode = _pNode;
 
-	m_keyPressed = new bool[(int) EventKeyboard::KeyCode::KEY_SEARCH];
+	m_keyPressed = new bool[(int) EventKeyboard::KeyCode::KEY_SEARCH + 1];
+	for (int i = 0; i < (int)EventKeyboard::KeyCode::KEY_SEARCH + 1; ++i)
+		m_keyPressed[i] = false;
 
 	m_keyL = EventListenerKeyboard::create();
 
@@ -64,5 +66,5 @@ void InputManager::onKeyReleased(EventKeyboard::KeyCode _keyCode, Event* _event)
 
 bool InputManager::isKeyPressed(EventKeyboard::KeyCode _keyCode)
 {
-	return m_keyPressed[(int)_keyCode];
+	return m_keyPressed[(int)(_keyCode)];
 }

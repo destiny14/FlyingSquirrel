@@ -11,6 +11,7 @@ Ground* Ground::create(char* filename)
 		ground->setTexture(tex);
 		ground->setCollider();
 		ground->setGround(true);
+		ground->autorelease();
 		return ground;
 	}
 	return nullptr;
@@ -21,12 +22,13 @@ Ground* Ground::create(char* filename)
 // erstellt eine neue Ground-Box mit der uebergebenen Textur
 Ground::Ground()
 {
-	
+	m_texture = nullptr;
 }
 
 Ground::~Ground()
 {
-
+	if (m_texture != nullptr)
+		m_texture->release();
 }
 
 void Ground::setCollider()
@@ -74,6 +76,7 @@ Sprite* Ground::getSprite()
 void Ground::setTexture(Texture* texture)
 {
 	m_texture = texture;
+	m_texture->retain();
 }
 
 // getTexture()

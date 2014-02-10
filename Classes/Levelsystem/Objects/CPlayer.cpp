@@ -79,7 +79,7 @@ void Player::update(float dt)
 	if (p != nullptr)
 		p->update(dt);
 
-	if (m_pForward->isPressed && m_isGrounded)
+	/*if (m_pForward->isPressed && m_isGrounded)
 	{
 		//getOwner()->setPositionX = getOwner()->getPositionX + 1.0f;
 	}
@@ -95,7 +95,7 @@ void Player::update(float dt)
 	if (m_pJump->isPressed && !m_isGrounded)
 	{
 		// ?!
-	}
+	}*/
 	
 	CheckForCollisions();
 }
