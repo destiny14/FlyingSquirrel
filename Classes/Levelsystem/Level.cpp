@@ -11,7 +11,8 @@ Level* Level::createFromFile(const char* filename)
 	
 	tinyxml2::XMLElement* levelElement = doc.FirstChildElement("level");
 	Level* l = new Level();
-	l->SaveLevel();
+	loadLevel("testlevel.xml");
+	//l->SaveLevel();
 	delete l;
 	return nullptr;
 }
@@ -25,16 +26,17 @@ void Level::SaveLevel()
 	mainLayer->setName("mainlayer");
 	Texture* tex = Texture::create("ground.png");
 	Texture* tex2 = Texture::create("CloseNormal.png");
-	list<Texture*> texList = mainLayer->getTextures();
-	texList.push_back(tex);
-	texList.push_front(tex2);
+	list<Texture*>* texList = mainLayer->getTextures();
+	texList->push_back(tex);
+	texList->push_front(tex2);
 	mainLayer->setTextures(texList);
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* baseElement = doc.NewElement("level");
 	baseElement->SetAttribute("name", "level1");
 	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("mainLayer");
 	mainLayerElement->SetAttribute("name", mainLayer->getName());
-	for (Texture* tex : mainLayer->getTextures())
+	mainLayerElement->SetAttribute("texcount", static_cast<int>(texList->size()));
+	for (Texture* tex : *texList)
 	{
 		mainLayerElement->InsertEndChild(createTextureNode(&doc, tex));
 	}
@@ -46,6 +48,19 @@ void Level::SaveLevel()
 	//baseElement->InsertEndChild(t);
 	//doc.InsertFirstChild(e);
 	doc.SaveFile("testlevel.xml");
+}
+
+Level* Level::loadLevel(char* filename)
+{
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(filename);
+	tinyxml2::XMLElement* rootElement = doc.RootElement();
+	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("mainLayer");
+	int texCount = mainLayerElement->IntAttribute("texcount");
+
+	log(mainLayerElement->Attribute("name"));
+	log("%i", texCount);
+	return nullptr;
 }
 
 tinyxml2::XMLElement* Level::createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture)

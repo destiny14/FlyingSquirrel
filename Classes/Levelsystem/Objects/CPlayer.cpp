@@ -102,8 +102,8 @@ void Player::update(float dt)
 
 void Player::CheckForCollisions()
 {
-	list<Ground*> physObj = getParent()->getPhysicsObjects();
-	for (Ground* g : physObj)
+	list<Ground*>* physObj = getParent()->getPhysicsObjects();
+	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
 		{
