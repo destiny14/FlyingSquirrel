@@ -114,6 +114,7 @@ void CLogfile::log(LOG_LEVEL level, const char* text)
 // schreibt einen text ins logfile und flusht es
 void CLogfile::write(const char* text)
 {
+	if (m_Logfile == nullptr) return;
 	fprintf(m_Logfile, text);
 	fflush(m_Logfile);
 }
