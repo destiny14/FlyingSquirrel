@@ -35,11 +35,13 @@ void Level::SaveLevel()
 	baseElement->SetAttribute("name", "level1");
 	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("mainLayer");
 	mainLayerElement->SetAttribute("name", mainLayer->getName());
-	mainLayerElement->SetAttribute("texcount", static_cast<int>(texList->size()));
+	tinyxml2::XMLElement* texturesElement = doc.NewElement("textures");
+	texturesElement->SetAttribute("texcount", static_cast<int>(texList->size()));
 	for (Texture* tex : *texList)
 	{
-		mainLayerElement->InsertEndChild(createTextureNode(&doc, tex));
+		texturesElement->InsertEndChild(createTextureNode(&doc, tex));
 	}
+	mainLayerElement->InsertFirstChild(texturesElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 
@@ -52,14 +54,34 @@ void Level::SaveLevel()
 
 Level* Level::loadLevel(char* filename)
 {
+	Level* l = new Level();
+	
+	MainLayer* mainlayer = MainLayer::create();
+	l->setMainLayer(mainlayer);
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile(filename);
 	tinyxml2::XMLElement* rootElement = doc.RootElement();
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("mainLayer");
-	int texCount = mainLayerElement->IntAttribute("texcount");
-
+	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("textures");
+	int texCount = texturesElement->IntAttribute("texcount");
 	log(mainLayerElement->Attribute("name"));
 	log("%i", texCount);
+	for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	{
+		char* filename = const_cast<char*>(child->Attribute("filename"));
+		Texture* tex = Texture::create(filename);
+		tinyxml2::XMLElement* pointElement = child->FirstChildElement("point");
+		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
+		tex->setPosition(p);
+		mainlayer->getTextures()->push_back(tex);
+	}
+	log("tex count: %i", mainlayer->getTextures()->size());
+	return l;
+}
+
+Texture* Level::loadTextureNode(tinyxml2::XMLElement* parentElement, int count)
+{
+	//parentElement->
 	return nullptr;
 }
 

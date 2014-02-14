@@ -114,6 +114,9 @@
     <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\LevelTestScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Enemys\SlimeHeap.h">
       <Filter>Classes\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\LevelTestScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

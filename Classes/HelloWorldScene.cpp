@@ -22,7 +22,6 @@ Scene* HelloWorld::createScene()
 	
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 	auto layer2 = TestLayer::create();
@@ -83,7 +82,9 @@ bool HelloWorld::init()
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
-	
+	//auto giantTexture = Texture::create("tree_3_parallax.png");
+	//giantTexture->getSprite()->setScale(0.5f);
+	//this->addChild(giantTexture->getSprite());
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -144,6 +145,7 @@ void HelloWorld::update(float dt)
 	UPDATEUI;
 	Node::update(dt);
 	m_moveable->update(dt);
+	m_pInput->update();
 }
 
 void HelloWorld::draw()
