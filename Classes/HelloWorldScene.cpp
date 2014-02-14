@@ -78,7 +78,7 @@ bool HelloWorld::init()
 	list<Ground*> g = this->getPhysicsObjects();
 	g.push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("sawyerrun.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
@@ -143,6 +143,7 @@ void HelloWorld::update(float dt)
 	UPDATEUI;
 	Node::update(dt);
 	m_moveable->update(dt);
+	m_pInput->update();
 }
 
 void HelloWorld::draw()

@@ -31,8 +31,14 @@ private:
 
 	Point m_direction;
 	float m_speed;
+	char* m_pState;
 
 	int m_sawyerRunFrame;
+
+	Texture* m_pStand;
+	Texture* m_pRun;
+	Texture* m_pJumpTex;
+	Texture* m_pHit;
 
 	InputAction* m_pForward;
 	InputAction* m_pBackward;
