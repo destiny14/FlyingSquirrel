@@ -26,7 +26,6 @@ Moveable::Moveable()
 {
 	m_grounded = false;
 	m_gravity = -200.0f;
-	m_velocity = 0.0f;
 }
 
 Moveable::~Moveable()
@@ -70,29 +69,40 @@ void Moveable::setGrounded(bool g)
 	m_grounded = g;
 }
 
+void Moveable::addVelocity(float _x, float _y)
+{
+	m_velocity.x += _x;
+	m_velocity.y += _y;
+}
+
 void Moveable::update(float dt, bool overwriteCollisionCheck)
 {
+	Point pos = getPosition();
+	pos += m_velocity * dt;
+	setPosition(pos);
+	updateCollider();
+	if (!overwriteCollisionCheck)
+		CheckForCollisions();
+
 	if (m_affectedByGravity)
 	{
 		if (!m_grounded)
 		{
-			float x = getPositionX();
-			float y = getPositionY();
-			y += m_velocity * dt;
-			m_velocity += m_gravity * dt;
-			setPositionY(y);
-			updateCollider();
-			if (!overwriteCollisionCheck)
-				CheckForCollisions();
+			m_velocity.y += m_gravity * dt;
+		}
+		else
+		{
+			m_velocity.y = 0.0f;
 		}
 	}
+
 	Node::update(dt);
 }
 
 void Moveable::CheckForCollisions()
 {
-	list<Ground*> physObj = m_parent->getPhysicsObjects();
-	for (Ground* g : physObj)
+	list<Ground*>* physObj = m_parent->getPhysicsObjects();
+	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
 		{

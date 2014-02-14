@@ -20,6 +20,7 @@ public:
 	~Moveable();
 
 	void updateCollider();
+	void addVelocity(float _x, float _y);
 
 	// setAffectedByGravity(bool)
 	//
@@ -44,7 +45,7 @@ private:
 	bool m_grounded;
 	MainLayer* m_parent;
 	float m_gravity;
-	float m_velocity;
+	Point m_velocity;
 };
 
 #endif // !__MOVEABLE_H__

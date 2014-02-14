@@ -41,7 +41,7 @@ public:
 	ThirdParallaxLayer* getThirdParallaxLayer();
 	HorizontParallaxLayer* getHorizontParallaxLayer();
 	SkyLayer* getSkyLayer();
-
+	static Level* loadLevel(char* filename);
 private:
 	string name;
 	FirstVegetationLayer* m_fVLayer;
@@ -57,6 +57,7 @@ private:
 	tinyxml2::XMLElement* createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture);
 	tinyxml2::XMLElement* createPointNode(tinyxml2::XMLDocument* doc, Point p);
 	const char* ftocc(float f);
+	
 };
 
 #endif
