@@ -46,9 +46,13 @@ bool Player::init()
 	m_pState = "stand";
 
 	m_pStandTex = Sprite::create("sawyerstand.png", Rect(0.0f, 0.0f, 163.0f, 243.0f));
+	m_pStandTex->retain();
 	m_pRunTex = Sprite::create("sawyerrun.png", Rect(0.0f, 0.0f, 264.0f, 270.0f));
+	m_pRunTex->retain();
 	m_pJumpTex = Sprite::create("sawyerjump.png", Rect(0.0f, 0.0f, 283.0f, 272.0f));
+	m_pJumpTex->retain();
 	m_pHitTex = Sprite::create("sawyerhit.png", Rect(0.0f, 0.0f, 214.0f, 256.0f));
+	m_pHitTex->retain();
 
 	/*m_pStandTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
 	m_pRunTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
