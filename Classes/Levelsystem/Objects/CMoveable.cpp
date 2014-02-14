@@ -92,7 +92,7 @@ void Moveable::update(float dt, bool overwriteCollisionCheck)
 		}
 		else
 		{
-			m_velocity.y = 0.0f;
+			if(m_velocity.y < 0.0f) m_velocity.y = 0.0f;
 		}
 	}
 
