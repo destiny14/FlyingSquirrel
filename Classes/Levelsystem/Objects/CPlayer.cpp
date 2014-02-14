@@ -23,7 +23,6 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	if (tex)
 	{
 		player->setTexture(tex);
-		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 214.0f, 256.0f)); // Hit
 		player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
 		player->setCollider();
 		player->setParent(parent);
@@ -40,18 +39,21 @@ Player::~Player() {}
 
 bool Player::init()
 {
+	//m_visibleSize = Director::getInstance()->getVisibleSize();
+	//m_origin = Director::getInstance()->getVisibleOrigin();
+
 	m_sawyerRunFrame = 0;
 	m_pState = "stand";
 
-	m_pStand = Texture::create("sawyerstand.png");
-	m_pRun = Texture::create("sawyerrun.png");
-	m_pJumpTex = Texture::create("sawyerjump.png");
-	m_pHit = Texture::create("sawyerhit.png");
+	m_pStandTex = Sprite::create("sawyerstand.png", Rect(0.0f, 0.0f, 163.0f, 243.0f));
+	m_pRunTex = Sprite::create("sawyerrun.png", Rect(0.0f, 0.0f, 264.0f, 270.0f));
+	m_pJumpTex = Sprite::create("sawyerjump.png", Rect(0.0f, 0.0f, 283.0f, 272.0f));
+	m_pHitTex = Sprite::create("sawyerhit.png", Rect(0.0f, 0.0f, 214.0f, 256.0f));
 
-	m_pStand->retain();
-	m_pRun->retain();
-	m_pJumpTex->retain();
-	m_pHit->retain();
+	/*m_pStandTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
+	m_pRunTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
+	m_pJumpTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
+	m_pHitTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));*/
 
 	return true;
 }
@@ -107,14 +109,17 @@ void Player::update(float dt)
 		timeForHit += 0.075f;
 	}*/
 	
+	///////////////////////////////////////////
+	// Vorwärts Gehen - Animation + Bewegung //
+	///////////////////////////////////////////
 	if (m_pForward->isPressed() && this->getGrounded())
 	{
 		static float timeForRun = 0.0275f;
 		if (strcmp(m_pState, "runForward") != 0)
 		{
-			this->setTexture(m_pRun);
-			this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f));
-			this->getSprite()->setScale(1.0f);
+			this->getTexture()->setSprite(m_pRunTex);
+			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f));
+			//this->getSprite()->setScale(1.0f);
 			m_pState = "runForward";
 		}
 		if (true)
@@ -133,16 +138,19 @@ void Player::update(float dt)
 			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 7 * 264, m_sawyerRunFrame / 7 * 270, 264, 270));
 			timeForRun += 0.0275f;
 		}
-		this->setPositionX(this->getPositionX() + 1.0f);
+		//this->setPositionX(this->getPositionX() + 1.0f);
 	}
+	////////////////////////////////////////////
+	// Rückwärts Gehen - Animation + Bewegung //
+	////////////////////////////////////////////
 	else if (m_pBackward->isPressed() && this->getGrounded())
 	{
 		static float timeForRun = 0.0275f;
 		if (strcmp(m_pState, "runBackward") != 0)
 		{
-			this->setTexture(m_pRun);
-			this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f));
-			this->getSprite()->setScale(-1.0f);
+			this->getTexture()->setSprite(m_pRunTex);
+			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f));
+			//this->getSprite()->setScale(-1.0f);
 			m_pState = "runBackward";
 		}
 		if (true)
@@ -161,15 +169,18 @@ void Player::update(float dt)
 			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 7 * 264, m_sawyerRunFrame / 7 * 270, 264, 270));
 			timeForRun += 0.0275f;
 		}
-		this->setPositionX(this->getPositionX() - 1.0f);
+		//this->setPositionX(this->getPositionX() - 1.0f);
 	}
+	/////////////////////////////////////
+	// Springen - Animation + Bewegung //
+	/////////////////////////////////////
 	else if (m_pJump->isPressed() && this->getGrounded())
 	{
 		static float timeForJump = 0.03f;
 		if (strcmp(m_pState, "jump") != 0)
 		{
-			this->setTexture(m_pJumpTex);
-			this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 283.0f, 272.0f));
+			this->getTexture()->setSprite(m_pJumpTex);
+			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 283.0f, 272.0f));
 			m_pState = "jump";
 		}
 		if (true)
@@ -188,16 +199,19 @@ void Player::update(float dt)
 			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 14 * 283, m_sawyerRunFrame / 14 * 272, 283, 272));
 			timeForJump += 0.03f;
 		}
-		this->setPositionY(this->getPositionY() + 6.0f);
+		//this->setPositionY(this->getPositionY() + 6.0f);
 		this->setGrounded(false);
 	}
+	///////////////////////////////////
+	// Stehen - Animation + Bewegung //
+	//////////////////////////////////
 	else
 	{
 		static float timeForStand = 0.065f;
 		if (strcmp(m_pState, "stand") != 0)
 		{
-			this->setTexture(m_pStand);
-			this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f));
+			this->getTexture()->setSprite(m_pStandTex);
+			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f));
 			m_pState = "stand";
 		}
 		if (true)
@@ -221,8 +235,6 @@ void Player::update(float dt)
 	{
 		this->setPositionY(this->getPositionY() + 4.0f);
 	}*/
-
-	log("%s", m_pState);
 
 	CheckForCollisions();
 }
