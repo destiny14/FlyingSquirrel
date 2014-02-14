@@ -11,12 +11,10 @@
 class Player : public Moveable
 {
 public:
-	static Player* create(char* filename, MainLayer* parent);
+	static Player* create(char* filename, MainLayer* parent, InputManager* pManager);
 
 	Player();
 	~Player();
-
-	static Player* create(InputManager* pManager);
 
 	virtual bool init();
 	virtual void update(float dt);
@@ -33,6 +31,8 @@ private:
 
 	Point m_direction;
 	float m_speed;
+
+	int m_sawyerRunFrame;
 
 	InputAction* m_pForward;
 	InputAction* m_pBackward;

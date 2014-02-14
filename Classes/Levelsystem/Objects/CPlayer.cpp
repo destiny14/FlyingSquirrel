@@ -4,28 +4,9 @@
 #include "Player.h"
 #include "..\Components\Collider.h"
 
-Player* Player::create(char* filename, MainLayer* parent)
+Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager)
 {
 	Player* player = new Player();
-	Texture* tex = Texture::create(filename);
-	if (tex)
-	{
-		player->setTexture(tex);
-		player->setCollider();
-		player->setParent(parent);
-		player->setGround(false);
-		return player;
-	}
-	return nullptr;
-}
-
-Player::Player() {}
-
-Player::~Player() {}
-
-Player* Player::create(InputManager* pManager)
-{
-	Player* player = new Player;
 
 	EventKeyboard::KeyCode keysForward[] = { EventKeyboard::KeyCode::KEY_D, EventKeyboard::KeyCode::KEY_RIGHT_ARROW };
 	EventKeyboard::KeyCode keysBackward[] = { EventKeyboard::KeyCode::KEY_A, EventKeyboard::KeyCode::KEY_LEFT_ARROW };
@@ -35,11 +16,34 @@ Player* Player::create(InputManager* pManager)
 	player->m_pBackward = pManager->createKeyboardAction(keysBackward, 2, "Backward");
 	player->m_pJump = pManager->createKeyboardAction(keysJump, 3, "Jump");
 
-	return player;
+	player->init();
+
+	Texture* tex = Texture::create(filename);
+
+	if (tex)
+	{
+		player->setTexture(tex);
+		player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f)); //Run
+		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 283.0f, 272.0f)); // Jump
+		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 214.0f, 256.0f)); // Hit
+		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
+		player->setCollider();
+		player->setParent(parent);
+		player->setGround(false);
+
+		return player;
+	}
+	return nullptr;
 }
+
+Player::Player() {}
+
+Player::~Player() {}
 
 bool Player::init()
 {
+	m_sawyerRunFrame = 0;
+
 	return true;
 }
 
@@ -72,30 +76,99 @@ PlayerCollider* Player::getPlayerColliderComponent()
 
 void Player::update(float dt)
 {
-	Player* player = new Player;
-
 	Moveable::update(dt, true);
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
 
-	/*if (m_pForward->isPressed && player->getGround)
+	/*static float timeForHit = 0.075f;
+	if (true)
 	{
-		//getOwner()->setPositionX = getOwner()->getPositionX + 1.0f;
+		timeForHit -= dt;
 	}
-	if (m_pBackward->isPressed && player->getGround)
+	if (timeForHit < 0)
 	{
-		//getOwner()->setPositionX = getOwner()->getPositionX - 1.0f;
-	}
-	if (m_pJump->isPressed && player->getGround)
-	{
-		//getOwner()->setPositionY = getOwner()->getPositionY + 6.0f;
-		//m_isGrounded = false;
-	}
-	if (m_pJump->isPressed && !player->getGround)
-	{
-		// ?!
+		// change frame
+		++m_sawyerRunFrame;
+		if (m_sawyerRunFrame > 5)
+		{
+			m_sawyerRunFrame = 0;
+		}
+
+		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 6 * 214, m_sawyerRunFrame / 6 * 256, 214, 256));
+		timeForHit += 0.075f;
 	}*/
+
+	/*static float timeForStand = 0.065f;
+	if (true)
+	{
+		timeForStand -= dt;
+	}
+	if (timeForStand < 0)
+	{
+		// change frame
+		++m_sawyerRunFrame;
+		if (m_sawyerRunFrame > 30)
+		{
+			m_sawyerRunFrame = 0;
+		}
+
+		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 12 * 163, m_sawyerRunFrame / 12 * 243, 163, 243));
+		timeForStand += 0.065f;
+	}*/
+	static float timeForRun = 0.0275f;
+	if (true)
+	{
+		timeForRun -= dt;
+	}
+	if (timeForRun < 0)
+	{
+		// change frame
+		++m_sawyerRunFrame;
+		if (m_sawyerRunFrame > 30)
+		{
+			m_sawyerRunFrame = 0;
+		}
+
+		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 7 * 264, m_sawyerRunFrame / 7 * 270, 264, 270));
+		timeForRun += 0.0275f;
+	}
+	log("%i", m_pForward->isPressed());
+	if (m_pForward->isPressed() && this->getGrounded())
+	{
+		log("ich kann humpeln");
+		this->setPositionX(this->getPositionX() + 1.0f);
+	}
+	if (m_pBackward->isPressed() && this->getGrounded())
+	{
+		this->setPositionX(this->getPositionX() - 1.0f);
+	}
+	if (m_pJump->isPressed() && this->getGrounded())
+	{
+		static float timeForJump = 0.03f;
+		if (true)
+		{
+			timeForJump -= dt;
+		}
+		if (timeForJump < 0)
+		{
+			// change frame
+			++m_sawyerRunFrame;
+			if (m_sawyerRunFrame > 45)
+			{
+				m_sawyerRunFrame = 0;
+			}
+
+			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 14 * 283, m_sawyerRunFrame / 14 * 272, 283, 272));
+			timeForJump += 0.03f;
+		}
+		this->setPositionY(this->getPositionY() + 6.0f);
+		this->setGrounded(false);
+	}
+	if (m_pJump->isPressed() && !this->getGrounded())
+	{
+		this->setPositionY(this->getPositionY() + 4.0f);
+	}
 	
 	CheckForCollisions();
 }

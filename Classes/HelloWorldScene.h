@@ -32,6 +32,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
+	InputManager* m_pInput;
 	Player* m_moveable;
 	Ground* m_ground;
 
