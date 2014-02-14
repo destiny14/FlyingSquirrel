@@ -44,7 +44,6 @@ bool Player::init()
 {
 	m_sawyerRunFrame = 0;
 
-
 	return true;
 }
 
