@@ -101,8 +101,8 @@ void Moveable::update(float dt, bool overwriteCollisionCheck)
 
 void Moveable::CheckForCollisions()
 {
-	list<Ground*> physObj = m_parent->getPhysicsObjects();
-	for (Ground* g : physObj)
+	list<Ground*>* physObj = m_parent->getPhysicsObjects();
+	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
 		{

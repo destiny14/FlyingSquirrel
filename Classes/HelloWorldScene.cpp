@@ -75,8 +75,9 @@ bool HelloWorld::init()
 	m_ground->addComponent(comCollider);*/
 	this->addChild(m_ground->getSprite(), 1);
 	m_ground->getSprite()->setVisible(false);
-	list<Ground*> g = this->getPhysicsObjects();
-	g.push_back(m_ground);
+	list<Ground*>* g = new list<Ground*>();
+	g = this->getPhysicsObjects();
+	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
 	m_moveable = Player::create("sawyerrun.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);

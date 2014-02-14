@@ -14,13 +14,13 @@ public:
 	LevelLayer();
 	~LevelLayer();
 
-	void setTextures(list<Texture*> textures);
-	list<Texture*> getTextures();
+	void setTextures(list<Texture*>* textures);
+	list<Texture*>* getTextures();
 
 	void setName(char* name);
 	char* getName();
 private:
-	list<Texture*> m_textures;
+	list<Texture*>* m_textures;
 	char* m_name;
 };
 

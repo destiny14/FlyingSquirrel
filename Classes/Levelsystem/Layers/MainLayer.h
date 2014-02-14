@@ -10,12 +10,12 @@ public:
 	MainLayer();
 	~MainLayer();
 
-	void setPhysicsObjects(list<Ground*> physicObjects);
+	void setPhysicsObjects(list<Ground*>* physicObjects);
 
-	list<Ground*> getPhysicsObjects();
+	list<Ground*>* getPhysicsObjects();
 private:
 
-	list<Ground*> m_physicObjects;
+	list<Ground*>* m_physicObjects;
 };
 
 #endif // !__MAINLAYER_H__

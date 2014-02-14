@@ -1,16 +1,21 @@
 #include "LevelLayer.h"
 
-LevelLayer::LevelLayer() {}
+LevelLayer::LevelLayer() 
+{
+	m_textures = nullptr;
+}
 
 LevelLayer::~LevelLayer() {}
 
-void LevelLayer::setTextures(list<Texture*> textures)
+void LevelLayer::setTextures(list<Texture*>* textures)
 {
 	m_textures = textures;
 }
 
-list<Texture*> LevelLayer::getTextures()
+list<Texture*>* LevelLayer::getTextures()
 {
+	if (m_textures == nullptr)
+		m_textures = new list<Texture*>();
 	return m_textures;
 }
 
