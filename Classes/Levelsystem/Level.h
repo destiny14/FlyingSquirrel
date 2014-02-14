@@ -56,6 +56,9 @@ private:
 
 	tinyxml2::XMLElement* createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture);
 	tinyxml2::XMLElement* createPointNode(tinyxml2::XMLDocument* doc, Point p);
+	
+	Texture* loadTextureNode(tinyxml2::XMLElement* parentElement, int count);
+
 	const char* ftocc(float f);
 	
 };

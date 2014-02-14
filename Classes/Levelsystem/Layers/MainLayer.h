@@ -10,6 +10,14 @@ public:
 	MainLayer();
 	~MainLayer();
 
+	static MainLayer* create();
+
+	virtual bool init();
+
+	virtual void update(float dt);
+
+	virtual void draw();
+
 	void setPhysicsObjects(list<Ground*>* physicObjects);
 
 	list<Ground*>* getPhysicsObjects();
