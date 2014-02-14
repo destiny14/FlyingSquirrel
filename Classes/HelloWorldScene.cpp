@@ -67,6 +67,7 @@ bool HelloWorld::init()
 	/*auto tex = Texture::create("ground.png");
 	*/
 
+	m_pInput = new InputManager(this);
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	/*Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
@@ -77,10 +78,10 @@ bool HelloWorld::init()
 	list<Ground*> g = this->getPhysicsObjects();
 	g.push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("CloseNormal.png", dynamic_cast<MainLayer*>(this));
+	m_moveable = Player::create("sawyerrun.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
-	/*m_moveable->addComponent(CPlayer)
-	this->addChild(m_moveable->getSprite(), 1);*/
+	//m_moveable->addComponent(CPlayer);
+	this->addChild(m_moveable->getSprite(), 1);
 
 	
 	// m_ground->getSprite()->setVisible(false);
