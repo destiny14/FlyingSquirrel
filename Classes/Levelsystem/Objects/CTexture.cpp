@@ -47,18 +47,14 @@ void Texture::setPosition(float x, float y)
 // setzt das sprite der textur
 bool Texture::setSprite(Sprite* sprite)
 {
-	if (sprite)
-	{
-		m_sprite = sprite;
+	if (m_sprite != nullptr)
+		m_sprite->release();
+	m_sprite = sprite;
+
+	if (m_sprite)
 		m_sprite->retain();
-		return true;
-	}
-	else
-	{
-		if (m_sprite != nullptr)
-			m_sprite->release();
-		return false;
-	}
+
+	return m_sprite != nullptr;
 }
 
 // getSprite()
