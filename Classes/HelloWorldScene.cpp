@@ -22,6 +22,7 @@ Scene* HelloWorld::createScene()
 	
     // 'scene' is an autorelease object
     auto scene = Scene::create();
+    
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 	auto layer2 = TestLayer::create();
@@ -78,13 +79,11 @@ bool HelloWorld::init()
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("sawyerrun.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
-	//auto giantTexture = Texture::create("tree_3_parallax.png");
-	//giantTexture->getSprite()->setScale(0.5f);
-	//this->addChild(giantTexture->getSprite());
+	
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
