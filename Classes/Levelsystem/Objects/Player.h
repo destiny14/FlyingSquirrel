@@ -30,7 +30,6 @@ private:
 	void CheckForCollisions();
 
 	Point m_direction;
-	float m_speed;
 	char* m_pState;
 
 	//Size m_visibleSize;
