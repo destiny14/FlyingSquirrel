@@ -2,11 +2,11 @@
 #define __THIRDPARALLAXLAYER_H__
 
 #include "cocos2d.h"
-#include "LevelLayer.h"
+#include "ParallaxLayer.h"
 
-class ThirdParallaxLayer : public LevelLayer
+class ThirdParallaxLayer : public ParallaxLayer
 {
-	
+	ThirdParallaxLayer();
 };
 
 #endif // !__THIRDPARALLAXLAYER_H__
