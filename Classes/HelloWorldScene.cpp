@@ -49,7 +49,8 @@ HelloWorld::~HelloWorld()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-	
+	m_rot = 0.0f;
+	m_lsd = false;
 
     //////////////////////////////
     // 1. super init first
@@ -68,6 +69,8 @@ bool HelloWorld::init()
 	*/
 
 	m_pInput = new InputManager(this);
+	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_0;
+	m_pLSD = m_pInput->createKeyboardAction(&code, 1, "LSD");
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	/*Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
@@ -83,6 +86,7 @@ bool HelloWorld::init()
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
+	this->getActionManager()->addAction(Follow::create(m_moveable->getSprite()), this, false);
 	
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
@@ -145,6 +149,26 @@ void HelloWorld::update(float dt)
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
+
+	if (m_pLSD->wasPressed())
+		m_lsd = !m_lsd;
+
+	if (m_lsd)
+	{
+		kmGLMatrixMode(KM_GL_MODELVIEW);
+		kmGLTranslatef(400.0f, 300.0f, 0.0f);
+		kmGLRotatef(45.0f * dt, -1.0f, 1.0f, 1.0f);
+		m_rot += 45.0f * dt;
+		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+	}
+	else if (m_rot != 0.0f)
+	{
+		kmGLMatrixMode(KM_GL_MODELVIEW);
+		kmGLTranslatef(400.0f, 300.0f, 0.0f);
+		kmGLRotatef(-m_rot, -1.0f, 1.0f, 1.0f);
+		m_rot = 0.0f;
+		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+	}
 }
 
 void HelloWorld::draw()
