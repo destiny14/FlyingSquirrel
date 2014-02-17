@@ -21,6 +21,7 @@ public:
 
 	void updateCollider();
 	void addVelocity(float _x, float _y);
+	void setVelocityX(float _x);
 
 	// setAffectedByGravity(bool)
 	//

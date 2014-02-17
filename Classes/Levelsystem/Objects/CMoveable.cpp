@@ -75,6 +75,11 @@ void Moveable::addVelocity(float _x, float _y)
 	m_velocity.y += _y;
 }
 
+void Moveable::setVelocityX(float _x)
+{
+	m_velocity.x = _x;
+}
+
 void Moveable::update(float dt, bool overwriteCollisionCheck)
 {
 	Point pos = getPosition();
