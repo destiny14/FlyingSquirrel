@@ -18,6 +18,9 @@ UI::UI()
 	m_pCommon = Node::create();
 	m_pCommon->retain();
 
+	m_pLevelEditor = Node::create();
+	m_pLevelEditor->retain();
+
 	createCommonUI();
 }
 
@@ -52,6 +55,11 @@ void UI::setUINode(Node* _pNode, int _menu)
 			m_pUINode->addChild(m_pIngame);
 			break;
 
+		case UI_LEVELEDITOR:
+			createLevelEditorUI();
+			m_pUINode->addChild(m_pLevelEditor);
+			break;
+
 		case UI_NONE:
 		default:
 			break;
@@ -59,6 +67,15 @@ void UI::setUINode(Node* _pNode, int _menu)
 
 	_pNode->addChild(m_pUINode, 1);
 	active = true;
+}
+
+void UI::createLevelEditorUI()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	auto labelMenuTitle = LabelTTF::create("Level Editor", "Segoe UI", 12);
+	labelMenuTitle->setPosition(35, visibleSize.height - 30);
+	m_pLevelEditor->addChild(labelMenuTitle);
+	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
 }
 
 void UI::createCommonUI()
@@ -93,7 +110,12 @@ void UI::createMainMenuUI()
 		visibleSize.width * 0.5f,
 		visibleSize.height * 0.5f));
 
-	auto menu = Menu::create(startItem, closeItem, NULL);
+	auto levelEditor = MenuItemFont::create("Level Editor", CC_CALLBACK_1(CMainMenu::levelEditorCallback, pMainMenu));
+	levelEditor->setPosition(Point(
+		visibleSize.width * 0.5f,
+		visibleSize.height * 0.5f - 50));
+
+	auto menu = Menu::create(startItem, closeItem, levelEditor, NULL);
 	menu->setPosition(0.0f, 0.0f);
 	m_pMenu->addChild(menu);
 }

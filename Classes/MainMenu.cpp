@@ -2,7 +2,9 @@
 #include "CommonMain.h"
 #include "Logfile.h"
 #include "HelloWorldScene.h"
+#include "LevelTestScene.h"
 #include "UI.h"
+#include "LevelEditor.h"
 
 USING_NS_CC;
 
@@ -53,4 +55,9 @@ void CMainMenu::startCallback(Object* sender)
 void CMainMenu::exitCallback(Object* sender)
 {
 	Director::getInstance()->end();
+}
+
+void CMainMenu::levelEditorCallback(Object* sender)
+{
+	Director::getInstance()->replaceScene(LevelEditor::createScene());
 }

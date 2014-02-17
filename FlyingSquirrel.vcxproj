@@ -151,6 +151,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\HelloWorldScene.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
+    <ClCompile Include="Classes\LevelEditor.cpp" />
     <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Layers\CMainLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
@@ -184,6 +185,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Input.h" />
     <ClInclude Include="Classes\InputAction.h" />
     <ClInclude Include="Classes\InputManager.h" />
+    <ClInclude Include="Classes\LevelEditor.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\FirstParallaxLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h" />

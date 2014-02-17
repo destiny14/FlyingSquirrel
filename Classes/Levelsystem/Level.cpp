@@ -11,8 +11,8 @@ Level* Level::createFromFile(const char* filename)
 	
 	tinyxml2::XMLElement* levelElement = doc.FirstChildElement("level");
 	Level* l = new Level();
-	loadLevel("testlevel.xml");
-	//l->SaveLevel();
+	//loadLevel("testlevel.xml");
+	l->SaveLevel();
 	delete l;
 	return nullptr;
 }
@@ -30,18 +30,28 @@ void Level::SaveLevel()
 	texList->push_back(tex);
 	texList->push_front(tex2);
 	mainLayer->setTextures(texList);
+	Ground* g1 = Ground::create("HelloWorld.png");
+	g1->setPosition(50, 50);
+	list<Ground*>* groundList = mainLayer->getPhysicsObjects();
+	groundList->push_back(g1);
 	tinyxml2::XMLDocument doc;
-	tinyxml2::XMLElement* baseElement = doc.NewElement("level");
+	tinyxml2::XMLElement* baseElement = doc.NewElement("Level");
 	baseElement->SetAttribute("name", "level1");
-	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("mainLayer");
+	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("MainLayer");
 	mainLayerElement->SetAttribute("name", mainLayer->getName());
-	tinyxml2::XMLElement* texturesElement = doc.NewElement("textures");
-	texturesElement->SetAttribute("texcount", static_cast<int>(texList->size()));
+	tinyxml2::XMLElement* texturesElement = doc.NewElement("Textures");
 	for (Texture* tex : *texList)
 	{
 		texturesElement->InsertEndChild(createTextureNode(&doc, tex));
 	}
+	tinyxml2::XMLElement* phyObjectsElement = doc.NewElement("PhysicsObjects");
+
+	for (Ground* ground : *groundList)
+	{
+		phyObjectsElement->InsertEndChild(createGroundNode(&doc, ground));
+	}
 	mainLayerElement->InsertFirstChild(texturesElement);
+	mainLayerElement->InsertEndChild(phyObjectsElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 
@@ -61,31 +71,52 @@ Level* Level::loadLevel(char* filename)
 	tinyxml2::XMLDocument doc;
 	doc.LoadFile(filename);
 	tinyxml2::XMLElement* rootElement = doc.RootElement();
-	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("mainLayer");
-	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("textures");
-	int texCount = texturesElement->IntAttribute("texcount");
+	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
+	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
+	tinyxml2::XMLElement* phyObjectsElement = mainLayerElement->FirstChildElement("PhysicsObjects");
 	for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 	{
 		char* filename = const_cast<char*>(child->Attribute("filename"));
 		Texture* tex = Texture::create(filename);
-		tinyxml2::XMLElement* pointElement = child->FirstChildElement("point");
+		tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 		tex->setPosition(p);
 		mainlayer->getTextures()->push_back(tex);
+	}
+	for (tinyxml2::XMLElement* child = phyObjectsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	{
+		char* filename = const_cast<char*>(child->Attribute("filename"));
+		Ground* ground = Ground::create(filename);
+		tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
+		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
+		ground->setPosition(p);
+		tinyxml2::XMLElement* sizeElement = child->FirstChildElement("ColliderSize");
+		Rect colRect = Rect(0, 0, sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
+		ground->getColliderComponent()->setCollisionRectangle(colRect);
+		ground->setGround(child->BoolAttribute("isGround"));
+		mainlayer->getPhysicsObjects()->push_front(ground);
 	}
 	mainlayer->init();
 	return l;
 }
 
-Texture* Level::loadTextureNode(tinyxml2::XMLElement* parentElement, int count)
+tinyxml2::XMLElement* Level::createGroundNode(tinyxml2::XMLDocument* doc, Ground* ground)
 {
-	//parentElement->
-	return nullptr;
+	tinyxml2::XMLElement* element = doc->NewElement("Ground");
+	element->SetAttribute("filename", ground->getTexture()->getFilename());
+	element->SetAttribute("isGround", ground->getGround());
+	tinyxml2::XMLElement* pointElement = createPointNode(doc, ground->getPosition());
+	element->InsertEndChild(pointElement);
+	tinyxml2::XMLElement* sizeElement = doc->NewElement("ColliderSize");
+	sizeElement->SetAttribute("width", ground->getColliderComponent()->getCollisionRectangle().size.width);
+	sizeElement->SetAttribute("height", ground->getColliderComponent()->getCollisionRectangle().size.height);
+	element->InsertEndChild(sizeElement);
+	return element;
 }
 
 tinyxml2::XMLElement* Level::createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture)
 {
-	tinyxml2::XMLElement* element = doc->NewElement("texture");
+	tinyxml2::XMLElement* element = doc->NewElement("Texture");
 	element->SetAttribute("filename", texture->getFilename());
 	tinyxml2::XMLElement* pointElement = createPointNode(doc, texture->getPosition());
 	element->InsertEndChild(pointElement);
@@ -94,7 +125,7 @@ tinyxml2::XMLElement* Level::createTextureNode(tinyxml2::XMLDocument* doc, Textu
 
 tinyxml2::XMLElement* Level::createPointNode(tinyxml2::XMLDocument* doc, Point p)
 {
-	tinyxml2::XMLElement* element = doc->NewElement("point");
+	tinyxml2::XMLElement* element = doc->NewElement("Point");
 	element->SetAttribute("x", p.x);
 	element->SetAttribute("y", p.y);
 	return element;

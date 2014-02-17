@@ -33,6 +33,10 @@ bool MainLayer::init()
 	{
 		addChild(t->getSprite());
 	}
+	for (Ground* g : *getPhysicsObjects())
+	{
+		addChild(g->getSprite());
+	}
 	return true;
 }
 

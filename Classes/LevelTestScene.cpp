@@ -45,9 +45,6 @@ bool LevelTestScene::init()
 	{
 		return false;
 	}
-	log("huhu :-(");
-
-	
 	return true;
 }
 

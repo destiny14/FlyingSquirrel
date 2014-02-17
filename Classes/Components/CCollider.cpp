@@ -25,6 +25,11 @@ Rect Collider::getCollisionRectangle()
 	return m_collisionRectangle;
 }
 
+void Collider::setCollisionRectangle(Rect colRect)
+{
+	m_collisionRectangle = colRect;
+}
+
 bool Collider::init()
 {
 	return true;
