@@ -26,21 +26,11 @@ public:
 	void setMainLayer(MainLayer* mL);
 	void setSecondVegetationLayer(SecondVegetationLayer* svL);
 	void setGroundLayer(GroundLayer* gL);
-	void setFirstParallaxLayer(FirstParallaxLayer* fPL);
-	void setSecondParallaxLayer(SecondParallaxLayer* sPL);
-	void setThirdParallaxLayer(ThirdParallaxLayer* tPL);
-	void setHorizontParallaxLayer(HorizontParallaxLayer* hPL);
-	void setSkyLayer(SkyLayer* skyLayer);
 
 	FirstVegetationLayer* getFirstVegetationLayer();
 	MainLayer* getMainLayer();
 	SecondVegetationLayer* getSecondVegetationLayer();
 	GroundLayer* getGroundLayer();
-	FirstParallaxLayer* getFirstParallaxLayer();
-	SecondParallaxLayer* getSecondParallaxLayer();
-	ThirdParallaxLayer* getThirdParallaxLayer();
-	HorizontParallaxLayer* getHorizontParallaxLayer();
-	SkyLayer* getSkyLayer();
 	static Level* loadLevel(char* filename);
 private:
 	string name;
@@ -48,11 +38,6 @@ private:
 	MainLayer* m_mainLayer;
 	SecondVegetationLayer* m_sVLayer;
 	GroundLayer* m_gLayer;
-	FirstParallaxLayer* m_fPLayer;
-	SecondParallaxLayer* m_sPLayer;
-	ThirdParallaxLayer* m_tPLayer;
-	HorizontParallaxLayer* m_hPLayer;
-	SkyLayer* m_skyLayer;
 
 	// createGroundNode (XMLDocument*, Ground*)
 	//

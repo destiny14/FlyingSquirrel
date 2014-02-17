@@ -154,26 +154,6 @@ void Level::setGroundLayer(GroundLayer* gL)
 {
 	m_gLayer = gL;
 }
-void Level::setFirstParallaxLayer(FirstParallaxLayer* fPL)
-{
-	m_fPLayer = fPL;
-}
-void Level::setSecondParallaxLayer(SecondParallaxLayer* sPL)
-{
-	m_sPLayer = sPL;
-}
-void Level::setThirdParallaxLayer(ThirdParallaxLayer* tPL)
-{
-	m_tPLayer = tPL;
-}
-void Level::setHorizontParallaxLayer(HorizontParallaxLayer* hPL)
-{
-	m_hPLayer = hPL;
-}
-void Level::setSkyLayer(SkyLayer* skyLayer)
-{
-	m_skyLayer = skyLayer;
-}
 
 FirstVegetationLayer* Level::getFirstVegetationLayer()
 {
@@ -190,24 +170,4 @@ SecondVegetationLayer* Level::getSecondVegetationLayer()
 GroundLayer* Level::getGroundLayer()
 {
 	return m_gLayer;
-}
-FirstParallaxLayer* Level::getFirstParallaxLayer()
-{
-	return m_fPLayer;
-}
-SecondParallaxLayer* Level::getSecondParallaxLayer()
-{
-	return m_sPLayer;
-}
-ThirdParallaxLayer* Level::getThirdParallaxLayer()
-{
-	return m_tPLayer;
-}
-HorizontParallaxLayer* Level::getHorizontParallaxLayer()
-{
-	return m_hPLayer;
-}
-SkyLayer* Level::getSkyLayer()
-{
-	return m_skyLayer;
 }
