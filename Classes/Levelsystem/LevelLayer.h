@@ -19,6 +19,10 @@ public:
 
 	void setName(char* name);
 	char* getName();
+
+	virtual bool init();
+	virtual void update(float dt);
+	virtual void draw();
 private:
 	list<Texture*>* m_textures;
 	char* m_name;

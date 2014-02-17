@@ -26,21 +26,11 @@ public:
 	void setMainLayer(MainLayer* mL);
 	void setSecondVegetationLayer(SecondVegetationLayer* svL);
 	void setGroundLayer(GroundLayer* gL);
-	void setFirstParallaxLayer(FirstParallaxLayer* fPL);
-	void setSecondParallaxLayer(SecondParallaxLayer* sPL);
-	void setThirdParallaxLayer(ThirdParallaxLayer* tPL);
-	void setHorizontParallaxLayer(HorizontParallaxLayer* hPL);
-	void setSkyLayer(SkyLayer* skyLayer);
 
 	FirstVegetationLayer* getFirstVegetationLayer();
 	MainLayer* getMainLayer();
 	SecondVegetationLayer* getSecondVegetationLayer();
 	GroundLayer* getGroundLayer();
-	FirstParallaxLayer* getFirstParallaxLayer();
-	SecondParallaxLayer* getSecondParallaxLayer();
-	ThirdParallaxLayer* getThirdParallaxLayer();
-	HorizontParallaxLayer* getHorizontParallaxLayer();
-	SkyLayer* getSkyLayer();
 	static Level* loadLevel(char* filename);
 private:
 	string name;
@@ -48,14 +38,22 @@ private:
 	MainLayer* m_mainLayer;
 	SecondVegetationLayer* m_sVLayer;
 	GroundLayer* m_gLayer;
-	FirstParallaxLayer* m_fPLayer;
-	SecondParallaxLayer* m_sPLayer;
-	ThirdParallaxLayer* m_tPLayer;
-	HorizontParallaxLayer* m_hPLayer;
-	SkyLayer* m_skyLayer;
 
+	// createGroundNode (XMLDocument*, Ground*)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Ground" aus einem Objetkt vom Typ "Ground"
+	tinyxml2::XMLElement* createGroundNode(tinyxml2::XMLDocument* doc, Ground* ground);
+	// createTextureNode (XMLDocument*, Texture*)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Texture" aus einem Objekt vom Typ "Texture"
 	tinyxml2::XMLElement* createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture);
+	// createPointNode (XMLDocument*, Point)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Point" aus einem Objetkt vom Typ "Point"
 	tinyxml2::XMLElement* createPointNode(tinyxml2::XMLDocument* doc, Point p);
+	
+	Texture* loadTextureNode(tinyxml2::XMLElement* parentElement, int count);
+
 	const char* ftocc(float f);
 	
 };
