@@ -54,7 +54,17 @@ private:
 	HorizontParallaxLayer* m_hPLayer;
 	SkyLayer* m_skyLayer;
 
+	// createGroundNode (XMLDocument*, Ground*)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Ground" aus einem Objetkt vom Typ "Ground"
+	tinyxml2::XMLElement* createGroundNode(tinyxml2::XMLDocument* doc, Ground* ground);
+	// createTextureNode (XMLDocument*, Texture*)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Texture" aus einem Objekt vom Typ "Texture"
 	tinyxml2::XMLElement* createTextureNode(tinyxml2::XMLDocument* doc, Texture* texture);
+	// createPointNode (XMLDocument*, Point)
+	//
+	// erstellt ein neues XMLElement mit dem Namen "Point" aus einem Objetkt vom Typ "Point"
 	tinyxml2::XMLElement* createPointNode(tinyxml2::XMLDocument* doc, Point p);
 	
 	Texture* loadTextureNode(tinyxml2::XMLElement* parentElement, int count);

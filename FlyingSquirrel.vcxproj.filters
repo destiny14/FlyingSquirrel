@@ -117,6 +117,9 @@
     <ClCompile Include="Classes\LevelTestScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\LevelEditor.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -240,6 +243,9 @@
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
     <ClInclude Include="Classes\LevelTestScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\LevelEditor.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

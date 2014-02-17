@@ -28,3 +28,15 @@ char* LevelLayer::getName()
 {
 	return m_name;
 }
+
+bool LevelLayer::init() 
+{
+	if (!Layer::init())
+	{
+		return false;
+	}
+	
+	return true;
+}
+void LevelLayer::update(float dt) {}
+void LevelLayer::draw() {}

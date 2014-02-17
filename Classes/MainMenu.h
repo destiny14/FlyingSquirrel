@@ -12,6 +12,7 @@ public:
 
 	void startCallback(Object* sender);
 	void exitCallback(Object* sender);
+	void levelEditorCallback(Object* sender);
 
 	virtual void update(float _dt);
 
