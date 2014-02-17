@@ -42,7 +42,7 @@ int CCommonMain::main(char** par, int parLength)
 	
 	if (m_appFullscreen)
 	{
-		m_eglView.initWithFullScreen("FlyingSquirrel");
+		//m_eglView.initWithFullScreen("FlyingSquirrel");
 	}
 	else
 	{

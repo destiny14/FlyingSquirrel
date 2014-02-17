@@ -57,6 +57,7 @@ void UI::setUINode(Node* _pNode, int _menu)
 
 		case UI_LEVELEDITOR:
 			createLevelEditorUI();
+			createLevelEditorFilePopup();
 			m_pUINode->addChild(m_pLevelEditor);
 			break;
 
@@ -69,13 +70,68 @@ void UI::setUINode(Node* _pNode, int _menu)
 	active = true;
 }
 
+void UI::createLevelEditorFilePopup()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	
+	MenuItemFont* addTextureObject = MenuItemFont::create("choose file", CC_CALLBACK_0(UI::nullCallback, this));
+	addTextureObject->setFontNameObj("Segoe UI");
+	addTextureObject->setFontSizeObj(18);
+	addTextureObject->setPosition(visibleSize.width * 0.5f, visibleSize.height - 30);
+	
+	MenuItemFont* scrollUpObject = MenuItemFont::create("up", CC_CALLBACK_0(LevelEditor::moveFileSelectUpCallback, pLevelEditor));
+	scrollUpObject->setFontNameObj("Segoe UI");
+	scrollUpObject->setFontSizeObj(24);
+	scrollUpObject->setPosition(visibleSize.width - 40, visibleSize.height - 30);
+
+	MenuItemFont* scrollDownObject = MenuItemFont::create("down", CC_CALLBACK_0(LevelEditor::moveFileSelectDownCallback, pLevelEditor));
+	scrollDownObject->setFontNameObj("Segoe UI");
+	scrollDownObject->setFontSizeObj(24);
+	scrollDownObject->setPosition(visibleSize.width - 40, 30);
+
+	int paddingTop = 60;
+	Vector<MenuItem*> lMenuItems;
+	lMenuItems.pushBack(addTextureObject);
+	for (string s : getAllFilesInFolder(""))
+	{
+		MenuItemFont* menuItem = MenuItemFont::create(s, CC_CALLBACK_1(LevelEditor::chooseFileCallback, pLevelEditor, s));
+		menuItem->setFontNameObj("Segoe UI");
+		menuItem->setFontSizeObj(18);
+		menuItem->setPosition(visibleSize.width * 0.5f, visibleSize.height - paddingTop);
+		paddingTop += 30;
+		lMenuItems.pushBack(menuItem);
+	}
+	auto menu = Menu::createWithArray(lMenuItems);
+	auto scrollMenu = Menu::create(scrollDownObject, scrollUpObject, NULL);
+	scrollMenu->retain();
+	scrollMenu->setPosition(0, 0);
+	menu->retain();
+	menu->setPosition(0, 0);
+	m_pLevelEditor->addChild(menu);
+	m_pLevelEditor->addChild(scrollMenu);
+	pLevelEditor->ChooseFileMenu = menu;
+}
+
 void UI::createLevelEditorUI()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	auto labelMenuTitle = LabelTTF::create("Level Editor", "Segoe UI", 12);
-	labelMenuTitle->setPosition(35, visibleSize.height - 30);
+	labelMenuTitle->setPosition(35.0f, visibleSize.height - 30.0f);
 	m_pLevelEditor->addChild(labelMenuTitle);
+
 	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
+	addTextureObject->setFontNameObj("Segoe UI");
+	addTextureObject->setFontSizeObj(14);
+	addTextureObject->setPosition(40.0f, visibleSize.height - 60.0f);
+
+	MenuItemFont* addGroundObject = MenuItemFont::create("add ground", CC_CALLBACK_1(LevelEditor::addGroundObjectCallback, pLevelEditor));
+	addGroundObject->setFontNameObj("Segoe UI");
+	addGroundObject->setFontSizeObj(14);
+	addGroundObject->setPosition(40.0f, visibleSize.height - 90.0f);
+
+	auto menu = Menu::create(addTextureObject, addGroundObject, NULL);
+	menu->setPosition(0, 0);
+	m_pLevelEditor->addChild(menu);
 }
 
 void UI::createCommonUI()
@@ -126,4 +182,46 @@ void UI::update()
 
 	Point origin = m_pUINode->getParent()->getPosition();
 	m_pUINode->setPosition(-origin.x, -origin.y);
+}
+
+void UI::nullCallback() {}
+
+vector<string> UI::getAllFilesInFolder(string folder)
+{
+	vector<string> names;
+	char search_path[200];
+	sprintf(search_path, "%s*.*", folder.c_str());
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = ::FindFirstFile(convertCharArrayToLPCWSTR(search_path), &fd);
+	if (hFind != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			// read all (real) files in current folder, delete '!' read other 2 default folder . and ..
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+			{
+				//wide char array
+				WCHAR* wc = fd.cFileName;
+
+				//convert from wide char to narrow char array
+				char chr[260];
+				char DefChar = ' ';
+				WideCharToMultiByte(CP_ACP, 0, wc, -1, chr, 260, &DefChar, NULL);
+
+				//A std:string  using the char* constructor.
+				std::string ss(chr);
+
+				names.push_back(ss);
+			}
+		} while (::FindNextFile(hFind, &fd));
+		::FindClose(hFind);
+	}
+	return names;
+}
+
+wchar_t* UI::convertCharArrayToLPCWSTR(const char* charArray)
+{
+	wchar_t* wString = new wchar_t[4096];
+	MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+	return wString;
 }
