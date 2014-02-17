@@ -120,6 +120,9 @@
     <ClCompile Include="Classes\LevelEditor.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp">
+      <Filter>Classes\Levelsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -164,31 +167,16 @@
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
       <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\FirstParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\HorizontParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\SecondParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\SkyLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\ThirdParallaxLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Texture.h">
@@ -247,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Classes\LevelEditor.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\ParallaxLayer.h">
+      <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
