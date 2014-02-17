@@ -18,6 +18,7 @@ MainLayer* MainLayer::create()
 	else
 	{
 		delete mainLayer;
+		mainLayer = nullptr;
 		return nullptr;
 	}
 	return mainLayer;
@@ -25,12 +26,9 @@ MainLayer* MainLayer::create()
 
 bool MainLayer::init()
 {
-	//////////////////////////////
-	// 1. super init first
-	if (!Layer::init())
-	{
+	if (!LevelLayer::init())
 		return false;
-	}
+	
 	for (Texture* t : *getTextures())
 	{
 		addChild(t->getSprite());

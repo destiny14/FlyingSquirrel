@@ -64,8 +64,6 @@ Level* Level::loadLevel(char* filename)
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("mainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("textures");
 	int texCount = texturesElement->IntAttribute("texcount");
-	log(mainLayerElement->Attribute("name"));
-	log("%i", texCount);
 	for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 	{
 		char* filename = const_cast<char*>(child->Attribute("filename"));
@@ -75,7 +73,7 @@ Level* Level::loadLevel(char* filename)
 		tex->setPosition(p);
 		mainlayer->getTextures()->push_back(tex);
 	}
-	log("tex count: %i", mainlayer->getTextures()->size());
+	mainlayer->init();
 	return l;
 }
 

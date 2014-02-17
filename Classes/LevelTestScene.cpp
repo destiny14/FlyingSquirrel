@@ -8,13 +8,17 @@ Scene* LevelTestScene::createScene()
 	auto scene = Scene::create();
 	
 	auto layer = LevelTestScene::create();
-	auto layer2 = MainLayer::create();
 	
 	// 'layer' is an autorelease object
 	
 	// add layer as a child to scene
 	scene->addChild(layer);
-	scene->addChild(layer2);
+	Level* l = Level::loadLevel("testlevel.xml");
+
+	auto mainlayer = l->getMainLayer();
+
+	//MainLayer* mainlayer = l->getMainLayer();
+	scene->addChild(mainlayer);
 
 	//scene->addChild(layer2);
 
@@ -41,13 +45,9 @@ bool LevelTestScene::init()
 	{
 		return false;
 	}
+	log("huhu :-(");
 
-	Level* l = Level::loadLevel("testlevel.xml");
-
-	auto mainlayer = MainLayer::create();
-
-	//MainLayer* mainlayer = l->getMainLayer();
-	addChild(mainlayer);
+	
 	return true;
 }
 
