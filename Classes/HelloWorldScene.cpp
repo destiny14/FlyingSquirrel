@@ -12,6 +12,7 @@
 #include <iostream>
 #include <queue>
 #include "UI.h"
+#include "Levelsystem\ParallaxLayer.h"
 
 USING_NS_CC;
 
@@ -139,6 +140,14 @@ bool HelloWorld::init()
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
 
 	ACTIVATEINGAMEUI(this);
+
+	ParallaxLayer* para = ParallaxLayer::create();
+	Point pos = Point(2500.0f, 2100.0f);
+	para->addParallaxElement(Sprite::create("bg1.png"), pos, Point(0.6f, 0.1f), 4);
+	para->addParallaxElement(Sprite::create("bg2.png"), pos, Point(0.3f, 0.05f), 3);
+	para->addParallaxElement(Sprite::create("bg3.png"), pos, Point(0.07f, 0.01f), 2);
+	para->addParallaxElement(Sprite::create("bg4.png"), pos, Point(0.0f, 0.0f), 1);
+	this->addChild(para);
 
     return true;
 }
