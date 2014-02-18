@@ -299,11 +299,26 @@ void Player::CheckForCollisions()
 		if (g->getGround() == true)
 		{
 			Collider* c = g->getColliderComponent();
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
 			{
 				// kollision (boden)
 				setGrounded(true);
 				m_doubleJump = false;
+				setPositionY(getPositionY() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
+			{
+				//Collision left wand
+				setPositionX(getPositionX() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+			{
+				//Collision right wand
+				setPositionX(getPositionX() - 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
 			}
 		}
 	}

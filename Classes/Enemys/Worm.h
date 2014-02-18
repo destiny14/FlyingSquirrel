@@ -2,22 +2,27 @@
 #define __WORM_H__
 
 #include "Moveable.h"
-#include "BaseEnemy.h"
 //TODO #include player
 
+enum Moods
+{
+	E_MoodWalk = 0,
+	E_MoodAttack = 1,
+	E_MoodDie = 2
+};
 
-class Worm : public BaseEnemy
+class Worm : public Moveable
 {
 protected:
 
 	Worm();
 	virtual ~Worm();
 
-	float walkTime();
-
-	bool canAttack();
+	bool init();
 
 	void update(float dt);
+
+	bool canAttack();
 
 	void moodWalk(float dt);
 
@@ -25,13 +30,29 @@ protected:
 
 	void moodDie(float dt);
 
+	void moveActionCompleted(Node* pSender);
+
+
 public:
 
-private:
+	int mood = 1;
+
+	int timer = 0;
+
+	int attackRange = 20;
 
 	bool m_isAlive = true;
 
-};
+	Worm* create(Point position, MainLayer* layer);
 
+	CREATE_FUNC(Worm);
+
+private:
+
+	bool m_isForward = true;
+
+	Texture* m_ptex = nullptr;
+
+};
 
 #endif // __WORM_H__

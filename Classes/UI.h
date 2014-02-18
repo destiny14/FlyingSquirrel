@@ -18,10 +18,12 @@
 #include "Singleton.h"
 #include "cocos2d.h"
 #include "LevelEditor.h"
+#include <vector>
 
 class CMainMenu;
 
 USING_NS_CC;
+using namespace std;
 
 class UI : public TSingleton<UI>
 {
@@ -34,6 +36,7 @@ public:
 
 	void setUINode(Node* _pNode, int _menu);
 	void update();
+	void nullCallback();
 private:
 	Node* m_pUINode;
 	Node* m_pCommon;
@@ -41,6 +44,9 @@ private:
 	Node* m_pIngame;
 	Node* m_pLevelEditor;
 	bool active;
+	vector<string> getAllFilesInFolder(string folder);
+	wchar_t* convertCharArrayToLPCWSTR(const char* charArray);
+	void createLevelEditorFilePopup();
 	void createLevelEditorUI();
 	void createCommonUI();
 	void createMainMenuUI();

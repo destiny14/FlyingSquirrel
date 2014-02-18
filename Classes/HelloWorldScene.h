@@ -33,9 +33,11 @@ public:
     CREATE_FUNC(HelloWorld);
 private:
 	InputManager* m_pInput;
+	InputAction* m_pLSD;
 	Player* m_moveable;
 	Ground* m_ground;
-
+	bool m_lsd;
+	float m_rot;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
