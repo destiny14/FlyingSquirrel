@@ -10,21 +10,20 @@ Snail::~Snail()
 {
 }
 
-Snail* Snail::create(Point position, MainLayer* layer)
+Snail* Snail::create( MainLayer* layer)
 {
 	Snail* snail = new Snail();
 
-	snail->init();
 
-	m_ptex = Texture::create("snail.png");
+	Texture* m_ptex = Texture::create("snail.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
 		snail->setTexture(m_ptex);
 		snail->setCollider();
 		snail->setParent(layer);
-		snail->setGround(false);
+
+		snail->init();
 
 		return snail;
 	}
@@ -64,9 +63,9 @@ void Snail::update(float dt)
 //TODO
 void Snail::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Snail::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO

@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	Snail* create(Point position, MainLayer* layer);
+	static Snail* create(MainLayer* layer);
 
 	CREATE_FUNC(Snail);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 
