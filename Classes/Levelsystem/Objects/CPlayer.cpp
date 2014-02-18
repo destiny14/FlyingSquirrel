@@ -307,12 +307,19 @@ void Player::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
+			bool hack = false;
 			Collider* c = g->getColliderComponent();
 			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
 			{
+				hack = true;
 				// kollision (boden)
 				setGrounded(true);
 				setPositionY(getPositionY() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+			if (hack)
+			{
+				setPositionY(getPositionY() - 0.01f);
 				getPlayerColliderComponent()->update(0.0f);
 			}
 
