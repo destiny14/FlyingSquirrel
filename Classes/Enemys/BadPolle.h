@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	BadPolle* create(Point position, MainLayer* layer);
+	BadPolle* create(MainLayer* layer);
 
 	CREATE_FUNC(BadPolle);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 

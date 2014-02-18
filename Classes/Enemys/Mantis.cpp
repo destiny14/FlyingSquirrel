@@ -10,21 +10,20 @@ Mantis::~Mantis()
 {
 }
 
-Mantis* Mantis::create(Point position, MainLayer* layer)
+Mantis* Mantis::create(MainLayer* layer)
 {
 	Mantis* mantis = new Mantis();
 
-	mantis->init();
 
-	m_ptex = Texture::create("mantis.png");
+	Texture* m_ptex = Texture::create("mantis.png");
 
 	if (m_ptex)
 	{
-		mantis->setPosition(position);
 		mantis->setTexture(m_ptex);
 		mantis->setCollider();
 		mantis->setParent(layer);
-		mantis->setGround(false);
+
+		mantis->init();
 
 		return mantis;
 	}
@@ -64,9 +63,9 @@ void Mantis::update(float dt)
 //TODO
 void Mantis::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Mantis::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO

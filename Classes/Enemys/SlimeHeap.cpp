@@ -10,21 +10,20 @@ SlimeHeap::~SlimeHeap()
 {
 }
 
-SlimeHeap* SlimeHeap::create(Point position, MainLayer* layer)
+SlimeHeap* SlimeHeap::create(MainLayer* layer)
 {
 	SlimeHeap* slimeHeap = new SlimeHeap();
 
-	slimeHeap->init();
 
-	m_ptex = Texture::create("slimeHeap.png");
+	Texture* m_ptex = Texture::create("slimeHeap.png");
 
 	if (m_ptex)
 	{
-		slimeHeap->setPosition(position);
 		slimeHeap->setTexture(m_ptex);
 		slimeHeap->setCollider();
 		slimeHeap->setParent(layer);
-		slimeHeap->setGround(false);
+
+		slimeHeap->init();
 
 		return slimeHeap;
 	}
@@ -64,9 +63,9 @@ void SlimeHeap::update(float dt)
 //TODO
 void SlimeHeap::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(SlimeHeap::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO
