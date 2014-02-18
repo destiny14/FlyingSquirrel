@@ -93,9 +93,6 @@
     <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
       <Filter>Classes\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Enemys\BaseEnemy.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\Enemys\Snail.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
@@ -111,11 +108,11 @@
     <ClCompile Include="Classes\Enemys\BadPolle.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\LevelTestScene.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
+      <Filter>Classes\Enemys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,9 +215,6 @@
     <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\BaseEnemy.h">
-      <Filter>Classes\Enemys</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Enemys\Snail.h">
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
@@ -236,11 +230,11 @@
     <ClInclude Include="Classes\Enemys\BadPolle.h">
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
-      <Filter>Classes\Enemys</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\LevelTestScene.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
+      <Filter>Classes\Enemys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
