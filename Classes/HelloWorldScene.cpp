@@ -83,11 +83,6 @@ bool HelloWorld::init()
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
-	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
-	this->addChild(m_moveable->getSprite(), 1);
-
-	this->getActionManager()->addAction(Follow::create(m_moveable->getSprite()), this, false);
 	
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
@@ -142,12 +137,18 @@ bool HelloWorld::init()
 	ACTIVATEINGAMEUI(this);
 
 	ParallaxLayer* para = ParallaxLayer::create();
-	Point pos = Point(2500.0f, 2100.0f);
-	para->addParallaxElement(Sprite::create("bg1.png"), pos, Point(0.6f, 0.1f), 4);
-	para->addParallaxElement(Sprite::create("bg2.png"), pos, Point(0.3f, 0.05f), 3);
-	para->addParallaxElement(Sprite::create("bg3.png"), pos, Point(0.07f, 0.01f), 2);
-	para->addParallaxElement(Sprite::create("bg4.png"), pos, Point(0.0f, 0.0f), 1);
+	Point posForParallax = Point(2500.0f, 2100.0f);
+	para->addParallaxElement(Sprite::create("bg1.png"), posForParallax, Point(0.6f, 0.1f), 12);
+	para->addParallaxElement(Sprite::create("bg2.png"), posForParallax, Point(0.3f, 0.05f), 11);
+	para->addParallaxElement(Sprite::create("bg3.png"), posForParallax, Point(0.07f, 0.01f), 10);
+	para->addParallaxElement(Sprite::create("bg4.png"), posForParallax, Point(0.0f, 0.0f), 9);
 	this->addChild(para);
+
+	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
+	this->addChild(m_moveable, 1);
+
+	this->getActionManager()->addAction(Follow::create(m_moveable), this, false);
 
     return true;
 }
