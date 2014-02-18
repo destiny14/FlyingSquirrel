@@ -52,7 +52,7 @@ bool HelloWorld::init()
 {
 	m_rot = 0.0f;
 	m_lsd = false;
-
+	
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
@@ -83,12 +83,19 @@ bool HelloWorld::init()
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_moveable = Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
+	//this->getActionManager()->addAction(Follow::create(m_moveable->getSprite()), this, false);
 
-	this->getActionManager()->addAction(Follow::create(m_moveable->getSprite()), this, false);
-	
+	ParallaxLayer* para = ParallaxLayer::create();
+	Point paraPos = Point(2500.0f, 2000.0f);
+	para->addParallaxElement(Sprite::create("bg1.png"), paraPos, Point(0.3f, 0.01f), 4);
+	para->addParallaxElement(Sprite::create("bg2.png"), paraPos, Point(0.03f, 0.001f), 3);
+	para->addParallaxElement(Sprite::create("bg3.png"), paraPos, Point(0.003f, 0.0001f), 2);
+	para->addParallaxElement(Sprite::create("bg4.png"), paraPos, Point(0.0003f, 0.00001f), 1);
+	this->addChild(para, -9999);
+
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -141,23 +148,24 @@ bool HelloWorld::init()
 
 	ACTIVATEINGAMEUI(this);
 
-	ParallaxLayer* para = ParallaxLayer::create();
-	Point pos = Point(2500.0f, 2100.0f);
-	para->addParallaxElement(Sprite::create("bg1.png"), pos, Point(0.6f, 0.1f), 4);
-	para->addParallaxElement(Sprite::create("bg2.png"), pos, Point(0.3f, 0.05f), 3);
-	para->addParallaxElement(Sprite::create("bg3.png"), pos, Point(0.07f, 0.01f), 2);
-	para->addParallaxElement(Sprite::create("bg4.png"), pos, Point(0.0f, 0.0f), 1);
-	this->addChild(para);
-
     return true;
 }
 
 void HelloWorld::update(float dt)
 {
-	UPDATEUI;
+	dt = dt > (1.0f / 60.0f)? (1.0f / 60.0f) : dt;
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
+
+	Point tar = m_moveable->getPosition();
+	tar.x *= -1.0f;
+	tar.y *= -1.0f;
+	tar.x += 400.0f;
+	tar.y += 300.0f;
+	this->setPosition(this->getPosition().lerp(tar, 0.6f));
+
+	UPDATEUI;
 
 	if (m_pLSD->wasPressed())
 		m_lsd = !m_lsd;

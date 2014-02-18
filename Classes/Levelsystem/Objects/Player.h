@@ -40,22 +40,40 @@ private:
 	EMovement m_movement;
 	Point m_direction;
 	float m_speed;
+
+	bool m_inAir;
+
+	bool m_jump;
 	bool m_doubleJump;
 	bool m_readyToFly;
+	bool m_isFlying;
 
 	//Size m_visibleSize;
 	//Point m_origin;
 
 	int m_sawyerRunFrame;
 
-	Sprite* m_pStandFrames;
-	Sprite* m_pRunFrames;
-	Sprite* m_pJumpFrames;
-	Sprite* m_pHitFrames;
+	Animation* m_pStandFrames;
+	Animation* m_pRunFrames;
+	Animation* m_pJumpFrames;
+	Animation* m_pHitFrames;
+	Animation* m_pFlightFrames;
+	Animation* m_pLandingFrames;
+
+	Action* m_pStandAction;
+	Action* m_pRunAction;
+	Action* m_pJumpAction;
+	Action* m_pHitAction;
+	Action* m_pFlightAction;
+	Action* m_pLandingAction;
 
 	InputAction* m_pForward;
 	InputAction* m_pBackward;
 	InputAction* m_pJump;
+
+	Vector<SpriteFrame*> frames;
+	String* filename;
+	SpriteFrame* frame;
 
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;

@@ -2,22 +2,21 @@
 #define __SNAIL_H__
 
 #include "Moveable.h"
-#include "BaseEnemy.h"
 //TODO #include player
 
 
-class Snail : public BaseEnemy
+class Snail : public Moveable
 {
 protected:
 
 	Snail();
 	virtual ~Snail();
-
-	float walkTime();
-
-	bool canAttack();
+		
+	bool init();
 
 	void update(float dt);
+
+	bool canAttack();
 
 	void moodWalk(float dt);
 
@@ -25,13 +24,29 @@ protected:
 
 	void moodDie(float dt);
 
+	void moveActionCompleted(Node* pSender);
+
+
 public:
 
-private:
+	int mood = 1;
+
+	int timer = 0;
+
+	int attackRange = 20;
 
 	bool m_isAlive = true;
 
-};
+	Snail* create(Point position, MainLayer* layer);
 
+	CREATE_FUNC(Snail);
+
+private:
+
+	bool m_isForward = true;
+
+	Texture* m_ptex = nullptr;
+
+};
 
 #endif // __SNAIL_H__
