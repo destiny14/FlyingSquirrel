@@ -12,21 +12,21 @@ Mantis::~Mantis()
 
 Mantis* Mantis::create(Point position, MainLayer* layer)
 {
-	Mantis* snail = new Mantis();
+	Mantis* mantis = new Mantis();
 
-	snail->init();
+	mantis->init();
 
-	m_ptex = Texture::create("snail.png");
+	m_ptex = Texture::create("mantis.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
-		snail->setTexture(m_ptex);
-		snail->setCollider();
-		snail->setParent(layer);
-		snail->setGround(false);
+		mantis->setPosition(position);
+		mantis->setTexture(m_ptex);
+		mantis->setCollider();
+		mantis->setParent(layer);
+		mantis->setGround(false);
 
-		return snail;
+		return mantis;
 	}
 
 	return nullptr;
@@ -36,7 +36,6 @@ bool Mantis::init()
 {
 	this->schedule(schedule_selector(Mantis::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 

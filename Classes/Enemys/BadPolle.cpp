@@ -12,21 +12,21 @@ BadPolle::~BadPolle()
 
 BadPolle* BadPolle::create(Point position, MainLayer* layer)
 {
-	BadPolle* snail = new BadPolle();
+	BadPolle* badPolle = new BadPolle();
 
-	snail->init();
+	badPolle->init();
 
-	m_ptex = Texture::create("snail.png");
+	m_ptex = Texture::create("badPolle.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
-		snail->setTexture(m_ptex);
-		snail->setCollider();
-		snail->setParent(layer);
-		snail->setGround(false);
+		badPolle->setPosition(position);
+		badPolle->setTexture(m_ptex);
+		badPolle->setCollider();
+		badPolle->setParent(layer);
+		badPolle->setGround(false);
 
-		return snail;
+		return badPolle;
 	}
 
 	return nullptr;
@@ -36,7 +36,6 @@ bool BadPolle::init()
 {
 	this->schedule(schedule_selector(BadPolle::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 
