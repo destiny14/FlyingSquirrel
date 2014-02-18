@@ -93,6 +93,9 @@
     <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
       <Filter>Classes\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Enemys\BaseEnemy.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
     <ClCompile Include="Classes\Enemys\Snail.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
@@ -108,11 +111,17 @@
     <ClCompile Include="Classes\Enemys\BadPolle.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
+      <Filter>Classes\Enemys</Filter>
+    </ClCompile>
     <ClCompile Include="Classes\LevelTestScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
-      <Filter>Classes\Enemys</Filter>
+    <ClCompile Include="Classes\LevelEditor.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp">
+      <Filter>Classes\Levelsystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,31 +167,16 @@
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
       <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\FirstParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\HorizontParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\SecondParallaxLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\SkyLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\ThirdParallaxLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Texture.h">
@@ -215,6 +209,9 @@
     <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Enemys\BaseEnemy.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
     <ClInclude Include="Classes\Enemys\Snail.h">
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
@@ -230,11 +227,17 @@
     <ClInclude Include="Classes\Enemys\BadPolle.h">
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
+      <Filter>Classes\Enemys</Filter>
+    </ClInclude>
     <ClInclude Include="Classes\LevelTestScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\LevelEditor.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\ParallaxLayer.h">
+      <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

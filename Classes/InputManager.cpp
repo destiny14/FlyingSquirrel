@@ -3,16 +3,23 @@
 InputManager::InputManager(Node* _pNode)
 {
 	m_pNode = _pNode;
+	m_mousePosition = Point(0, 0);
 
 	m_keyPressed = new bool[(int) EventKeyboard::KeyCode::KEY_SEARCH + 1];
 	for (int i = 0; i < (int)EventKeyboard::KeyCode::KEY_SEARCH + 1; ++i)
 		m_keyPressed[i] = false;
 
 	m_keyL = EventListenerKeyboard::create();
+	m_mouseL = EventListenerMouse::create();
+	m_mouse1Pressed = false;
+	m_mouseL->onMouseMove = CC_CALLBACK_1(InputManager::onMouseMove, this);
+	m_mouseL->onMouseDown = CC_CALLBACK_1(InputManager::onMouseDown, this);
+	m_mouseL->onMouseUp = CC_CALLBACK_1(InputManager::onMouseUp, this);
 
 	m_keyL->onKeyPressed = CC_CALLBACK_2(InputManager::onKeyPressed, this);
 	m_keyL->onKeyReleased = CC_CALLBACK_2(InputManager::onKeyReleased, this);
 	m_pNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_keyL, m_pNode);
+	m_pNode->getEventDispatcher()->addEventListenerWithSceneGraphPriority(m_mouseL, m_pNode);
 }
 
 InputManager::~InputManager()
@@ -49,9 +56,39 @@ InputAction* InputManager::createKeyboardAction(EventKeyboard::KeyCode* _code, i
 	return pAction;
 }
 
-InputAction* InputManager::createMouseAction(char* _name)
+MouseInputAction* InputManager::createMouseAction(char* _name)
 {
-	return nullptr;
+	MouseInputAction* pAction = new MouseInputAction(_name);
+	m_actions.push_front(pAction);
+	return pAction;
+}
+
+void InputManager::onMouseMove(Event* _event)
+{
+	EventMouse* eMouse = dynamic_cast<EventMouse*>(_event);
+	m_mousePosition.x = eMouse->getCursorX();
+	m_mousePosition.y = eMouse->getCursorY();
+	
+}
+
+void InputManager::onMouseDown(Event* _event)
+{
+	EventMouse* eMouse = dynamic_cast<EventMouse*>(_event);
+
+	if (eMouse->getMouseButton() == 0)
+	{
+		m_mouse1Pressed = true;
+	}
+	else
+	{
+		m_mouse1Pressed = false;
+	}
+}
+
+void InputManager::onMouseUp(Event* _event)
+{
+	
+	m_mouse1Pressed = false;
 }
 
 void InputManager::onKeyPressed(EventKeyboard::KeyCode _keyCode, Event* _event)
@@ -67,4 +104,14 @@ void InputManager::onKeyReleased(EventKeyboard::KeyCode _keyCode, Event* _event)
 bool InputManager::isKeyPressed(EventKeyboard::KeyCode _keyCode)
 {
 	return m_keyPressed[(int)(_keyCode)];
+}
+
+bool InputManager::isMouse1Pressed()
+{
+	return m_mouse1Pressed;
+}
+
+Point InputManager::getMousePosition()
+{
+	return m_mousePosition;
 }

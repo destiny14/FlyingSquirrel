@@ -64,12 +64,15 @@ private:
 //NYI
 class MouseInputAction : public InputAction {
 public:
-
-	int getX() { return m_x; }
-	int getY() { return m_y; }
+	MouseInputAction(char* _name);
+	~MouseInputAction();
+	virtual void check(InputManager* _manager);
+	Point getMousePosition() { return m_mousePos; }
+	bool isMouse1Pressed() { return m_mouse1Pressed; }
 private:
-	int m_x;
-	int m_y;
+	
+	Point m_mousePos;
+	bool m_mouse1Pressed;
 };
 
 #endif
