@@ -86,7 +86,7 @@ bool HelloWorld::init()
 	m_moveable = Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
-
+	this->getActionManager()->addAction(Follow::create(m_moveable->getSprite()), this, false);
 	// m_ground->getSprite()->setVisible(false);
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
