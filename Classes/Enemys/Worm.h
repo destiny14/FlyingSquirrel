@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	static Worm* create(Point position, MainLayer* layer);
+	Worm* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(Worm);
 

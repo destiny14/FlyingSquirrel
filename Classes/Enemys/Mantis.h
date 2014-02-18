@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	static Mantis* create(Point position, MainLayer* layer);
+	Mantis* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(Mantis);
 
