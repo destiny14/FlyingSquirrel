@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "MainMenu.h"
+#include "HelloWorldScene.h"
 #include "CommonMain.h"
 
 UI::UI()
@@ -52,14 +53,18 @@ void UI::setUINode(Node* _pNode, int _menu)
 			break;
 
 		case UI_INGAME:
+			createIngameUI();
 			m_pUINode->addChild(m_pIngame);
 			break;
 
 		case UI_LEVELEDITOR:
 			createLevelEditorUI();
-			createLevelEditorFilePopup();
 			m_pUINode->addChild(m_pLevelEditor);
 			break;
+
+		case UI_FILECHOOSER:
+			createLevelEditorFilePopup();
+			m_pUINode->addChild(m_pLevelEditor);
 
 		case UI_NONE:
 		default:
@@ -74,9 +79,11 @@ void UI::createLevelEditorFilePopup()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
+	
+
 	MenuItemFont* addTextureObject = MenuItemFont::create("choose file", CC_CALLBACK_0(UI::nullCallback, this));
 	addTextureObject->setFontNameObj("Segoe UI");
-	addTextureObject->setFontSizeObj(18);
+	addTextureObject->setFontSizeObj(24);
 	addTextureObject->setPosition(visibleSize.width * 0.5f, visibleSize.height - 30);
 	
 	MenuItemFont* scrollUpObject = MenuItemFont::create("up", CC_CALLBACK_0(LevelEditor::moveFileSelectUpCallback, pLevelEditor));
@@ -89,27 +96,33 @@ void UI::createLevelEditorFilePopup()
 	scrollDownObject->setFontSizeObj(24);
 	scrollDownObject->setPosition(visibleSize.width - 40, 30);
 
+	MenuItemImage* scrollBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
+	scrollBackground->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	scrollBackground->setScale(400, visibleSize.height);
+
 	int paddingTop = 60;
 	Vector<MenuItem*> lMenuItems;
 	lMenuItems.pushBack(addTextureObject);
 	for (string s : getAllFilesInFolder(""))
 	{
-		MenuItemFont* menuItem = MenuItemFont::create(s, CC_CALLBACK_1(LevelEditor::chooseFileCallback, pLevelEditor, s));
+		MenuItemFont* menuItem = MenuItemFont::create(s, CC_CALLBACK_1(LevelEditor::chooseFileCallback, pLevelEditor, s, levelType));
 		menuItem->setFontNameObj("Segoe UI");
-		menuItem->setFontSizeObj(18);
+		menuItem->setFontSizeObj(14);
 		menuItem->setPosition(visibleSize.width * 0.5f, visibleSize.height - paddingTop);
 		paddingTop += 30;
 		lMenuItems.pushBack(menuItem);
 	}
 	auto menu = Menu::createWithArray(lMenuItems);
-	auto scrollMenu = Menu::create(scrollDownObject, scrollUpObject, NULL);
+	auto scrollMenu = Menu::create(scrollBackground, scrollDownObject, scrollUpObject,  NULL);
 	scrollMenu->retain();
 	scrollMenu->setPosition(0, 0);
+	scrollMenu->setZOrder(-10);
 	menu->retain();
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
 	m_pLevelEditor->addChild(scrollMenu);
 	pLevelEditor->ChooseFileMenu = menu;
+	pLevelEditor->ChooseFileNavMenu = scrollMenu;
 }
 
 void UI::createLevelEditorUI()
@@ -129,9 +142,21 @@ void UI::createLevelEditorUI()
 	addGroundObject->setFontSizeObj(14);
 	addGroundObject->setPosition(40.0f, visibleSize.height - 90.0f);
 
-	auto menu = Menu::create(addTextureObject, addGroundObject, NULL);
+	MenuItemFont* changeLayerObject = MenuItemFont::create("mainLayer", CC_CALLBACK_0(LevelEditor::changeLayerCallback, pLevelEditor));
+	changeLayerObject->setFontNameObj("Segoe UI");
+	changeLayerObject->setFontSizeObj(14);
+	changeLayerObject->setPosition(40.0f, visibleSize.height - 120.0f);
+	changeLayerObject->setTag(111);
+
+	MenuItemFont* saveLevelObject = MenuItemFont::create("save level", CC_CALLBACK_0(LevelEditor::saveLevelCallback, pLevelEditor));
+	saveLevelObject->setFontNameObj("Segoe UI");
+	saveLevelObject->setFontSizeObj(14);
+	saveLevelObject->setPosition(40.0f, visibleSize.height - 150.0f);
+	
+	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, NULL);
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
+	pLevelEditor->MainMenu = menu;
 }
 
 void UI::createCommonUI()
@@ -174,6 +199,37 @@ void UI::createMainMenuUI()
 	auto menu = Menu::create(startItem, closeItem, levelEditor, NULL);
 	menu->setPosition(0.0f, 0.0f);
 	m_pMenu->addChild(menu);
+}
+
+void UI::createIngameUI()
+{
+	m_pIngame->removeAllChildren();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	auto lblText = "Hello World";
+	if (g_pCommonMain->getAppDebug())
+	{
+		lblText = "Hello World (DEBUG)";
+	}
+	auto label = LabelTTF::create(lblText, "Arial", 24);
+
+	// position the label on the center of the screen
+	label->setPosition(visibleSize.width * 0.5f,
+		visibleSize.height - label->getContentSize().height);
+	m_pIngame->addChild(label, 1);
+
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(HelloWorld::menuCloseCallback, pHelloWorld));
+
+	closeItem->setPosition(Point(visibleSize.width - closeItem->getContentSize().width * 0.5f,
+		closeItem->getContentSize().height * 0.5f));
+
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(closeItem, NULL);
+	menu->setPosition(Point::ZERO);
+	m_pIngame->addChild(menu, 1);
 }
 
 void UI::update()

@@ -80,6 +80,11 @@ void Moveable::setVelocityX(float _x)
 	m_velocity.x = _x;
 }
 
+float Moveable::getVelocityX()
+{
+	return m_velocity.x;
+}
+
 void Moveable::update(float dt, bool overwriteCollisionCheck)
 {
 	Point pos = getPosition();

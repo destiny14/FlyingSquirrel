@@ -8,9 +8,9 @@ Texture* Texture::create(char* filename)
 	Sprite* sprite = Sprite::create(filename);
 	if (sprite)
 	{
+		tex->autorelease();
 		tex->setFilename(filename);
 		tex->setSprite(sprite);
-		tex->autorelease();
 		return tex;
 	}
 	return nullptr;
@@ -67,7 +67,9 @@ Sprite* Texture::getSprite()
 
 void Texture::setFilename(char* filename)
 {
-	m_filename = filename;
+	m_filename = new char[1024];
+	strcpy(m_filename, filename);
+	//m_filename = filename;
 }
 
 char* Texture::getFilename()

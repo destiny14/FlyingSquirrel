@@ -66,19 +66,13 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
-	/*auto tex = Texture::create("ground.png");
-	*/
-
 	m_pInput = new InputManager(this);
 	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_0;
 	m_pLSD = m_pInput->createKeyboardAction(&code, 1, "LSD");
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
-	/*Collider* comCollider = Collider::create(m_ground->getSprite()->getBoundingBox().size.width, m_ground->getSprite()->getBoundingBox().size.height);
-	comCollider->setName("collider");
-	m_ground->addComponent(comCollider);*/
 	this->addChild(m_ground->getSprite(), 1);
-	m_ground->getSprite()->setVisible(false);
+	//m_ground->getSprite()->setVisible(false);
 	list<Ground*>* g = new list<Ground*>();
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
@@ -87,52 +81,15 @@ bool HelloWorld::init()
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
-	// m_ground->getSprite()->setVisible(false);
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	ParallaxLayer* para = ParallaxLayer::create();
+	Point paraPos = Point(2500.0f, 2000.0f);
+	para->addParallaxElement(Sprite::create("bg1.png"), paraPos, Point(0.3f, 0.01f), 4);
+	para->addParallaxElement(Sprite::create("bg2.png"), paraPos, Point(0.03f, 0.001f), 3);
+	para->addParallaxElement(Sprite::create("bg3.png"), paraPos, Point(0.003f, 0.0001f), 2);
+	para->addParallaxElement(Sprite::create("bg4.png"), paraPos, Point(0.0003f, 0.00001f), 1);
+	this->addChild(para, -9999);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-	closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Point::ZERO);
-    this->addChild(menu, 1);
-
-	/*auto sprite = Sprite::create("miep/*");
-	sprite->setPosition()*/
-
-	// ground box creation
-	
-
-	/////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    auto lblText = "Hello World";
-
-    if (g_pCommonMain->getAppDebug())
-    {
-        lblText = "Hello World (DEBUG)";
-    }
-
-    auto label = LabelTTF::create(lblText, "Arial", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Point(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-	Level* l = Level::createFromFile("test.xml");
+	//Level* l = Level::createFromFile("test.xml");
 	this->scheduleUpdate();
 	//this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
@@ -144,10 +101,19 @@ bool HelloWorld::init()
 
 void HelloWorld::update(float dt)
 {
-	UPDATEUI;
+	dt = dt > (1.0f / 60.0f)? (1.0f / 60.0f) : dt;
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
+
+	Point tar = m_moveable->getPosition();
+	tar.x *= -1.0f;
+	tar.y *= -1.0f;
+	tar.x += 400.0f;
+	tar.y += 300.0f;
+	this->setPosition(this->getPosition().lerp(tar, 0.6f));
+
+	UPDATEUI;
 
 	if (m_pLSD->wasPressed())
 		m_lsd = !m_lsd;

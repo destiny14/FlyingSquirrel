@@ -44,7 +44,6 @@ bool Player::init()
 	m_direction.x = 0.0f;
 	m_direction.y = 0.0f;
 	m_speed = 10.0f;
-	m_inAir = false;
 	m_jump = false;
 	m_doubleJump = false;
 	m_readyToFly = false;
@@ -177,6 +176,78 @@ void Player::update(float dt)
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
+	///////////////////////
+	// Stehen - Bewegung //
+	///////////////////////
+	if (!m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed())
+	{
+		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
+		{
+			this->getSprite()->stopAllActions();
+			m_pStandAction = RepeatForever::create(Animate::create(m_pStandFrames));
+			m_pStandAction->setTag(0);
+			this->getSprite()->runAction(m_pStandAction);
+		}
+	}
+	/////////////////////////
+	// Springen - Bewegung //
+	/////////////////////////
+ 	if (m_pJump->wasPressed() && this->getGrounded())
+	{
+		addVelocity(0.0f, 300.0f);
+		this->setGrounded(false);
+		m_jump = true;
+		if (!this->getSprite()->getActionByTag(2))
+		{
+			this->getSprite()->stopAllActions();
+			m_pJumpAction = Repeat::create(Animate::create(m_pJumpFrames), 1);
+			m_pJumpAction->setTag(2);
+			this->getSprite()->runAction(m_pJumpAction);
+		}
+	}
+	///////////////////////
+	// Landen - Bewegung //
+	///////////////////////
+	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_isFlying)
+	{
+		this->getSprite()->stopAllActions();
+		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
+		m_pLandingAction->setTag(4);
+		this->getSprite()->runAction(m_pLandingAction);
+		m_jump = false;
+		m_doubleJump = false;
+		m_readyToFly = false;
+		m_isFlying = false;
+	}
+	/////////////////////////////
+	// Doppelsprung - Bewegung //
+	/////////////////////////////
+	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump && m_jump)
+	{
+		addVelocity(0.0f, 200.0f);
+		m_doubleJump = true;
+		m_readyToFly = false;
+	}
+	////////////////////////
+	// Fliegen - Bewegung //
+	////////////////////////
+	else if (m_pJump->wasReleased() && !m_isFlying && m_doubleJump)
+	{
+		m_readyToFly = true;
+	}
+	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly)
+	{
+   		if (!this->getSprite()->getActionByTag(3))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
+			m_pFlightAction->setTag(3);
+			this->getSprite()->runAction(m_pFlightAction);
+		}
+
+		m_isFlying = true;
+		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
+	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
@@ -209,58 +280,7 @@ void Player::update(float dt)
 		}
 		this->getSprite()->setScaleX(1.0f);
 	}
-
-	m_direction.x *= m_speed;
-
-	///////////////////////////////
-	// Abfrage für Sprunglandung //
-	///////////////////////////////
 	if (!this->getGrounded())
-	{
-		m_inAir = true;
-	}
-
-	/////////////////////////
-	// Springen - Bewegung //
-	/////////////////////////
- 	if (m_pJump->wasPressed() && this->getGrounded())
-	{
-		addVelocity(0.0f, 300.0f);
-		this->setGrounded(false);
-		m_jump = true;
-		if (!this->getSprite()->getActionByTag(2))
-		{
-			this->getSprite()->stopAllActions();
-			m_pJumpAction = Repeat::create(Animate::create(m_pJumpFrames), 1);
-			m_pJumpAction->setTag(2);
-			this->getSprite()->runAction(m_pJumpAction);
-		}
-	}
-	/////////////////////////////
-	// Doppelsprung - Bewegung //
-	/////////////////////////////
-	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump)
-	{
-		m_readyToFly = false;
-		addVelocity(0.0f, 200.0f);
-		m_doubleJump = true;
-	}
-	else if (m_jump && this->getGrounded())
-	{
-		log("Boden");
-		this->getSprite()->stopAllActions();
-		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
-		m_pLandingAction->setTag(4);
-		this->getSprite()->runAction(m_pLandingAction);
-	}
-	////////////////////////
-	// Fliegen - Bewegung //
-	////////////////////////
-	else if (m_pJump->wasReleased() && !m_isFlying)
-	{
-		m_readyToFly = true;
-	}
-	else if (m_pJump->isPressed() && !(this->getGrounded()) && m_doubleJump && m_readyToFly)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -269,20 +289,9 @@ void Player::update(float dt)
 			m_pFlightAction->setTag(3);
 			this->getSprite()->runAction(m_pFlightAction);
 		}
-		m_isFlying = true;
-		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
-	}
-	else if (!this->getSprite()->getActionByTag(4) && ((m_pJump->isPressed() && this->getGrounded() && m_isFlying) || (!m_pJump->wasReleased() && m_isFlying) || (m_jump && m_inAir && this->getGrounded())))
-	{
-		this->getSprite()->stopAllActions();
-		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
-		m_pLandingAction->setTag(4);
-		this->getSprite()->runAction(m_pLandingAction);
-		m_isFlying = false;
-		m_jump = false;
-		m_inAir = false;
 	}
 
+	m_direction.x *= m_speed;
 	this->setPosition(this->getPosition() + m_direction);
 
 	//static float timeForHit = 0.075f;
@@ -298,13 +307,19 @@ void Player::CheckForCollisions()
 	{
 		if (g->getGround() == true)
 		{
+			bool hack = false;
 			Collider* c = g->getColliderComponent();
 			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
 			{
+				hack = true;
 				// kollision (boden)
 				setGrounded(true);
-				m_doubleJump = false;
 				setPositionY(getPositionY() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+			if (hack)
+			{
+				setPositionY(getPositionY() - 0.01f);
 				getPlayerColliderComponent()->update(0.0f);
 			}
 
