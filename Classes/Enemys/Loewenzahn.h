@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	Loewenzahn* create(Point position, MainLayer* layer);
+	static Loewenzahn* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(Loewenzahn);
 

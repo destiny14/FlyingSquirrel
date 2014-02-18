@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	BadPolle* create(Point position, MainLayer* layer);
+	static BadPolle* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(BadPolle);
 

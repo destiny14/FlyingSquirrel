@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	SlimeHeap* create(Point position, MainLayer* layer);
+	static SlimeHeap* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(SlimeHeap);
 

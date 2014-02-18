@@ -37,7 +37,7 @@ public:
 
 	bool m_isAlive = true;
 
-	Snail* create(Point position, MainLayer* layer);
+	static Snail* create(Point position, MainLayer* layer);
 
 	CREATE_FUNC(Snail);
 
