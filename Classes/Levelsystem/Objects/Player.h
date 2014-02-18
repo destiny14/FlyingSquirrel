@@ -40,9 +40,6 @@ private:
 	EMovement m_movement;
 	Point m_direction;
 	float m_speed;
-
-	bool m_inAir;
-
 	bool m_jump;
 	bool m_doubleJump;
 	bool m_readyToFly;
