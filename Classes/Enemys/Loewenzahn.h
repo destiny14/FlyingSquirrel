@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	Loewenzahn* create(Point position, MainLayer* layer);
+	Loewenzahn* create(MainLayer* layer);
 
 	CREATE_FUNC(Loewenzahn);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 

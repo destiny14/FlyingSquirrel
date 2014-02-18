@@ -10,21 +10,21 @@ Worm::~Worm()
 {
 }
 
-Worm* Worm::create(Point position, MainLayer* layer)
+Worm* Worm::create(MainLayer* layer)
 {
 	Worm* worm = new Worm();
 
-	worm->init();
 
-	m_ptex = Texture::create("worm.png");
+	Texture* m_ptex = Texture::create("worm.png");
 
 	if (m_ptex)
 	{
-		worm->setPosition(position);
 		worm->setTexture(m_ptex);
 		worm->setCollider();
 		worm->setParent(layer);
-		worm->setGround(false);
+
+		worm->init();
+
 
 		return worm;
 	}
@@ -64,9 +64,9 @@ void Worm::update(float dt)
 //TODO
 void Worm::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Worm::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO

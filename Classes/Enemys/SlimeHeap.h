@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	SlimeHeap* create(Point position, MainLayer* layer);
+	SlimeHeap* create(MainLayer* layer);
 
 	CREATE_FUNC(SlimeHeap);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 

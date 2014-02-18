@@ -10,21 +10,20 @@ Loewenzahn::~Loewenzahn()
 {
 }
 
-Loewenzahn* Loewenzahn::create(Point position, MainLayer* layer)
+Loewenzahn* Loewenzahn::create(MainLayer* layer)
 {
 	Loewenzahn* loewenzahn = new Loewenzahn();
 
-	loewenzahn->init();
 
-	m_ptex = Texture::create("loewenzahn.png");
+	Texture* m_ptex = Texture::create("loewenzahn.png");
 
 	if (m_ptex)
 	{
-		loewenzahn->setPosition(position);
 		loewenzahn->setTexture(m_ptex);
 		loewenzahn->setCollider();
 		loewenzahn->setParent(layer);
-		loewenzahn->setGround(false);
+
+		loewenzahn->init();
 
 		return loewenzahn;
 	}
@@ -64,9 +63,9 @@ void Loewenzahn::update(float dt)
 //TODO
 void Loewenzahn::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Loewenzahn::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO

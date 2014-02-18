@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	Mantis* create(Point position, MainLayer* layer);
+	static Mantis* create(MainLayer* layer);
 
 	CREATE_FUNC(Mantis);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 

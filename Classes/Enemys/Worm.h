@@ -37,15 +37,13 @@ public:
 
 	bool m_isAlive = true;
 
-	Worm* create(Point position, MainLayer* layer);
+	Worm* create(MainLayer* layer);
 
 	CREATE_FUNC(Worm);
 
 private:
 
 	bool m_isForward = true;
-
-	Texture* m_ptex = nullptr;
 
 };
 

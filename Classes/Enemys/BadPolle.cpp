@@ -10,21 +10,20 @@ BadPolle::~BadPolle()
 {
 }
 
-BadPolle* BadPolle::create(Point position, MainLayer* layer)
+BadPolle* BadPolle::create(MainLayer* layer)
 {
 	BadPolle* badPolle = new BadPolle();
 
-	badPolle->init();
 
-	m_ptex = Texture::create("badPolle.png");
+	Texture* m_ptex = Texture::create("badPolle.png");
 
 	if (m_ptex)
 	{
-		badPolle->setPosition(position);
 		badPolle->setTexture(m_ptex);
 		badPolle->setCollider();
 		badPolle->setParent(layer);
-		badPolle->setGround(false);
+
+		badPolle->init();
 
 		return badPolle;
 	}
@@ -64,9 +63,9 @@ void BadPolle::update(float dt)
 //TODO
 void BadPolle::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, m_ptex->getPosition() + Point(200, 0));
+	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
 	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(BadPolle::moveActionCompleted));
-	m_ptex->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
 }
 
 //TODO
