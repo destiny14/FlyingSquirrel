@@ -11,8 +11,8 @@
 #define UPDATEUI UI::Get()->update()
 
 #define ACTIVATEBASEUI(A) ACTIVATEUI(A, UI_NONE);
-#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = (CMainMenu*)A; ACTIVATEUI(A, UI_MAINMENU);
-#define ACTIVATEINGAMEUI(A) ACTIVATEUI(A, UI_INGAME);
+#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = A; ACTIVATEUI(A, UI_MAINMENU);
+#define ACTIVATEINGAMEUI(A) UI::Get()->pHelloWorld = A; ACTIVATEUI(A, UI_INGAME);
 #define ACTIVATELEVELEDITORUI(A) UI::Get()->pLevelEditor = (LevelEditor*)A; ACTIVATEUI(A, UI_LEVELEDITOR);
 
 #include "Singleton.h"
@@ -21,6 +21,7 @@
 #include <vector>
 
 class CMainMenu;
+class HelloWorld;
 
 USING_NS_CC;
 using namespace std;
@@ -32,6 +33,7 @@ public:
 	virtual ~UI(void);
 
 	CMainMenu* pMainMenu;
+	HelloWorld* pHelloWorld;
 	LevelEditor* pLevelEditor;
 
 	void setUINode(Node* _pNode, int _menu);
@@ -50,6 +52,7 @@ private:
 	void createLevelEditorUI();
 	void createCommonUI();
 	void createMainMenuUI();
+	void createIngameUI();
 };
 
 #endif//__UI_H__
