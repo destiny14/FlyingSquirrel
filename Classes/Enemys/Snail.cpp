@@ -36,7 +36,6 @@ bool Snail::init()
 {
 	this->schedule(schedule_selector(Snail::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 

@@ -12,21 +12,21 @@ SlimeHeap::~SlimeHeap()
 
 SlimeHeap* SlimeHeap::create(Point position, MainLayer* layer)
 {
-	SlimeHeap* snail = new SlimeHeap();
+	SlimeHeap* slimeHeap = new SlimeHeap();
 
-	snail->init();
+	slimeHeap->init();
 
-	m_ptex = Texture::create("snail.png");
+	m_ptex = Texture::create("slimeHeap.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
-		snail->setTexture(m_ptex);
-		snail->setCollider();
-		snail->setParent(layer);
-		snail->setGround(false);
+		slimeHeap->setPosition(position);
+		slimeHeap->setTexture(m_ptex);
+		slimeHeap->setCollider();
+		slimeHeap->setParent(layer);
+		slimeHeap->setGround(false);
 
-		return snail;
+		return slimeHeap;
 	}
 
 	return nullptr;
@@ -36,7 +36,6 @@ bool SlimeHeap::init()
 {
 	this->schedule(schedule_selector(SlimeHeap::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 

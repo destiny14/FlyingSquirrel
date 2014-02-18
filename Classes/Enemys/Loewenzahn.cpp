@@ -12,21 +12,21 @@ Loewenzahn::~Loewenzahn()
 
 Loewenzahn* Loewenzahn::create(Point position, MainLayer* layer)
 {
-	Loewenzahn* snail = new Loewenzahn();
+	Loewenzahn* loewenzahn = new Loewenzahn();
 
-	snail->init();
+	loewenzahn->init();
 
-	m_ptex = Texture::create("snail.png");
+	m_ptex = Texture::create("loewenzahn.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
-		snail->setTexture(m_ptex);
-		snail->setCollider();
-		snail->setParent(layer);
-		snail->setGround(false);
+		loewenzahn->setPosition(position);
+		loewenzahn->setTexture(m_ptex);
+		loewenzahn->setCollider();
+		loewenzahn->setParent(layer);
+		loewenzahn->setGround(false);
 
-		return snail;
+		return loewenzahn;
 	}
 
 	return nullptr;
@@ -36,7 +36,6 @@ bool Loewenzahn::init()
 {
 	this->schedule(schedule_selector(Loewenzahn::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 

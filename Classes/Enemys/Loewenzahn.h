@@ -4,12 +4,6 @@
 #include "Moveable.h"
 //TODO #include player
 
-enum Moods
-{
-	E_MoodWalk = 0,
-	E_MoodAttack = 1,
-	E_MoodDie = 2
-};
 
 class Loewenzahn : public Moveable
 {
