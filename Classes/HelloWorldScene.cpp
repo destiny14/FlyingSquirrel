@@ -79,7 +79,7 @@ bool HelloWorld::init()
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
-	m_moveable = Player::create("sawyerstand.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_moveable = Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
