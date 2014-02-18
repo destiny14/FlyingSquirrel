@@ -39,6 +39,7 @@ Player::~Player() {}
 
 bool Player::init()
 {
+	m_health = 5;
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -48,13 +49,14 @@ bool Player::init()
 	m_doubleJump = false;
 	m_readyToFly = false;
 	m_isFlying = false;
+	m_rescueFly = false;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
 
 	////////////////////////
-	// Stehen - Animation //
+	// Stehen - Animation // // 0
 	////////////////////////
 	for (int i = 0; i < 31; i++)
 	{
@@ -67,9 +69,8 @@ bool Player::init()
 	m_pStandAction->setTag(0);
 	m_pStandFrames->retain();
 	frames.clear();
-
 	///////////////////////
-	// Gehen - Animation //
+	// Gehen - Animation // // 1
 	///////////////////////
 	for (int i = 0; i < 31; i++)
 	{
@@ -80,9 +81,8 @@ bool Player::init()
 	m_pRunFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
 	m_pRunFrames->retain();
 	frames.clear();
-
 	//////////////////////////
-	// Springen - Animation //
+	// Springen - Animation // // 2
 	//////////////////////////
 	for (int i = 0; i < 43; i++)
 	{
@@ -93,9 +93,8 @@ bool Player::init()
 	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.03f);
 	m_pJumpFrames->retain();
 	frames.clear();
-
 	//////////////////////
-	// Flug - Animation //
+	// Flug - Animation // // 3
 	//////////////////////
 	for (int i = 0; i < 21; i++)
 	{
@@ -103,12 +102,11 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.035f);
 	m_pFlightFrames->retain();
 	frames.clear();
-
 	////////////////////////
-	// Landen - Animation //
+	// Landen - Animation // // 4
 	////////////////////////
 	for (int i = 42; i < 69; i++)
 	{
@@ -118,6 +116,30 @@ bool Player::init()
 	}
 	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pLandingFrames->retain();
+	frames.clear();
+	/////////////////////
+	// Hit - Animation // // 5
+	/////////////////////
+	for (int i = 0; i < 9; i++)
+	{
+		filename = String::createWithFormat("skeleton-Hit%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pHitFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pHitFrames->retain();
+	frames.clear();
+	/////////////////////
+	// Tot - Animation // // 6
+	/////////////////////
+	for (int i = 0; i < 24; i++)
+	{
+		filename = String::createWithFormat("skeleton-Dead%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pDeathFrames->retain();
 	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
@@ -154,11 +176,17 @@ PlayerCollider* Player::getPlayerColliderComponent()
 
 void Player::update(float dt)
 {
-	Moveable::update(dt, true);
+	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
+	{
+		m_movement = None;
+		return;
+	}
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
-
+	CheckForCollisions();
+	Moveable::update(dt, true);
+	
 	if (m_pForward->wasPressed())
 		m_movement = (EMovement)(m_movement | EMovement::Right);
 	if (m_pBackward->wasPressed())
@@ -179,7 +207,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
-	if (!m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed())
+	if (!m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4))
 	{
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
@@ -192,9 +220,10 @@ void Player::update(float dt)
 	/////////////////////////
 	// Springen - Bewegung //
 	/////////////////////////
- 	if (m_pJump->wasPressed() && this->getGrounded())
+	if (m_pJump->wasPressed() && this->getGrounded())
 	{
 		addVelocity(0.0f, 300.0f);
+		setPositionY(getPositionY() + 0.01);
 		this->setGrounded(false);
 		m_jump = true;
 		if (!this->getSprite()->getActionByTag(2))
@@ -208,7 +237,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Landen - Bewegung //
 	///////////////////////
-	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_isFlying)
+	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump)
 	{
 		this->getSprite()->stopAllActions();
 		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
@@ -237,7 +266,7 @@ void Player::update(float dt)
 	}
 	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly)
 	{
-   		if (!this->getSprite()->getActionByTag(3))
+		if (!this->getSprite()->getActionByTag(3))
 		{
 			this->getSprite()->stopAllActions();
 			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
@@ -279,8 +308,12 @@ void Player::update(float dt)
 			this->getSprite()->runAction(m_pRunAction);
 		}
 		this->getSprite()->setScaleX(1.0f);
+		hit();
 	}
-	if (!this->getGrounded())
+	///////////////////////
+	// Fallen - Bewegung //
+	///////////////////////
+	if (!this->getGrounded() && !m_jump)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -295,8 +328,6 @@ void Player::update(float dt)
 	this->setPosition(this->getPosition() + m_direction);
 
 	//static float timeForHit = 0.075f;
-
-	CheckForCollisions();
 }
 
 void Player::CheckForCollisions()
@@ -337,4 +368,30 @@ void Player::CheckForCollisions()
 			}
 		}
 	}
+}
+
+void Player::hit()
+{
+	m_health = m_health - 1;
+
+	if (m_health == 0)
+	{
+		addVelocity((-100.0f * this->getSprite()->getScaleX()), 10.0f);
+		this->getSprite()->stopAllActions();
+		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+		m_pDeathAction->setTag(6);
+		this->getSprite()->runAction(m_pDeathAction);
+	}
+	else
+	{
+		this->getSprite()->stopAllActions();
+		m_pHitAction = Repeat::create(Animate::create(m_pHitFrames), 1);
+		m_pHitAction->setTag(5);
+		this->getSprite()->runAction(m_pHitAction);
+	}
+}
+
+int Player::getHealth()
+{
+	return m_health;
 }

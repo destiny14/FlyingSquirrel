@@ -82,6 +82,7 @@ Level* Level::loadLevel(char* filename)
 		tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 		tex->setPosition(p);
+		tex->getSprite()->setVisible(child->BoolAttribute("Visibility"));
 		mainlayer->getTextures()->push_back(tex);
 	}
 	for (tinyxml2::XMLElement* child = phyObjectsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
@@ -112,6 +113,10 @@ tinyxml2::XMLElement* Level::createGroundNode(tinyxml2::XMLDocument* doc, Ground
 	sizeElement->SetAttribute("width", ground->getColliderComponent()->getCollisionRectangle().size.width);
 	sizeElement->SetAttribute("height", ground->getColliderComponent()->getCollisionRectangle().size.height);
 	element->InsertEndChild(sizeElement);
+	
+	tinyxml2::XMLElement* visElement = doc->NewElement("ColliderSize");
+	visElement->SetAttribute("Visibility", ground->getSprite()->isVisible());
+	element->InsertEndChild(visElement);
 	return element;
 }
 

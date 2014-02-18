@@ -34,19 +34,34 @@ public:
 
 	PlayerCollider* getPlayerColliderComponent();
 
+	int getHealth();
+	void hit();
+
 private:
 	void CheckForCollisions();
 
-	EMovement m_movement;
+	int m_health;
 	Point m_direction;
 	float m_speed;
 	bool m_jump;
 	bool m_doubleJump;
 	bool m_readyToFly;
 	bool m_isFlying;
+	bool m_rescueFly; //not used, added for free-fall
 
-	//Size m_visibleSize;
-	//Point m_origin;
+	///////////
+	// Input //
+	///////////
+
+	EMovement m_movement;
+
+	InputAction* m_pForward;
+	InputAction* m_pBackward;
+	InputAction* m_pJump;
+
+	///////////////////////
+	// Animationhandling //
+	///////////////////////
 
 	int m_sawyerRunFrame;
 
@@ -56,6 +71,7 @@ private:
 	Animation* m_pHitFrames;
 	Animation* m_pFlightFrames;
 	Animation* m_pLandingFrames;
+	Animation* m_pDeathFrames;
 
 	Action* m_pStandAction;
 	Action* m_pRunAction;
@@ -63,10 +79,7 @@ private:
 	Action* m_pHitAction;
 	Action* m_pFlightAction;
 	Action* m_pLandingAction;
-
-	InputAction* m_pForward;
-	InputAction* m_pBackward;
-	InputAction* m_pJump;
+	Action* m_pDeathAction;
 
 	Vector<SpriteFrame*> frames;
 	String* filename;
