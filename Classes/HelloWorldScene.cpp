@@ -81,6 +81,10 @@ bool HelloWorld::init()
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
 	this->addChild(m_moveable->getSprite(), 1);
 
+	m_pCam = new GameCamera(this);
+	m_pCam->setFollowTarget(m_moveable);
+	//m_pCam->setBoundingRect(Rect(-300.0f, -300.0f, 300.0f, 300.0f));
+
 	ParallaxLayer* para = ParallaxLayer::create();
 	Point paraPos = Point(2500.0f, 2000.0f);
 	para->addParallaxElement(Sprite::create("bg1.png"), paraPos, Point(0.3f, 0.01f), 4);
@@ -105,14 +109,7 @@ void HelloWorld::update(float dt)
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
-
-	Point tar = m_moveable->getPosition();
-	tar.x *= -1.0f;
-	tar.y *= -1.0f;
-	tar.x += 400.0f;
-	tar.y += 300.0f;
-	this->setPosition(this->getPosition().lerp(tar, 0.6f));
-
+	m_pCam->update(dt);
 	UPDATEUI;
 
 	if (m_pLSD->wasPressed())
@@ -122,7 +119,7 @@ void HelloWorld::update(float dt)
 	{
 		kmGLMatrixMode(KM_GL_MODELVIEW);
 		kmGLTranslatef(400.0f, 300.0f, 0.0f);
-		kmGLRotatef(45.0f * dt, -1.0f, 1.0f, 1.0f);
+		kmGLRotatef(45.0f * dt, 0.0f, 0.0f, 1.0f);
 		m_rot += 45.0f * dt;
 		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
 	}
@@ -130,7 +127,7 @@ void HelloWorld::update(float dt)
 	{
 		kmGLMatrixMode(KM_GL_MODELVIEW);
 		kmGLTranslatef(400.0f, 300.0f, 0.0f);
-		kmGLRotatef(-m_rot, -1.0f, 1.0f, 1.0f);
+		kmGLRotatef(-m_rot, 0.0f, 0.0f, 1.0f);
 		m_rot = 0.0f;
 		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
 	}

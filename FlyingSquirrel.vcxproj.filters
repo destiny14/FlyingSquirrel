@@ -93,9 +93,6 @@
     <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
       <Filter>Classes\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Enemys\BaseEnemy.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\Enemys\Snail.cpp">
       <Filter>Classes\Enemys</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp">
       <Filter>Classes\Levelsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\GameCamera.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +209,6 @@
     <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\BaseEnemy.h">
-      <Filter>Classes\Enemys</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Enemys\Snail.h">
       <Filter>Classes\Enemys</Filter>
     </ClInclude>
@@ -238,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\ParallaxLayer.h">
       <Filter>Classes\Levelsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\GameCamera.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@
 #include "Levelsystem\LevelLayer.h"
 #include "Levelsystem\Objects\Player.h"
 #include "Levelsystem\Layers\MainLayer.h"
+#include "GameCamera.h"
 
 class HelloWorld : public MainLayer
 {
@@ -35,6 +36,7 @@ private:
 	InputManager* m_pInput;
 	InputAction* m_pLSD;
 	Player* m_moveable;
+	GameCamera* m_pCam;
 	Ground* m_ground;
 	bool m_lsd;
 	float m_rot;

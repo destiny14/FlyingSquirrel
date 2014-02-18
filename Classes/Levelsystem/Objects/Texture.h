@@ -15,9 +15,9 @@ public:
 	~Texture();
 
 	// use setPosition(float, float) instead, it's faster
-	void setPosition(const Point& pos);
+	void setPosition(const Point& pos) override;
 
-	void setPosition(float x, float y);
+	void setPosition(float x, float y) override;
 
 	bool setSprite(Sprite* sprite);
 	Sprite* getSprite();
