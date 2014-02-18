@@ -4,7 +4,6 @@
 #include "Moveable.h"
 //TODO #include player
 
-
 class Snail : public Moveable
 {
 protected:
@@ -14,7 +13,7 @@ protected:
 		
 	bool init();
 
-	void update(float dt);
+	void setCollider();
 
 	bool canAttack();
 
@@ -29,21 +28,25 @@ protected:
 
 public:
 
-	int mood = 1;
+	int attackRange;
 
-	int timer = 0;
-
-	int attackRange = 20;
+	void update(float dt);
 
 	bool m_isAlive = true;
 
 	static Snail* create(MainLayer* layer);
 
-	CREATE_FUNC(Snail);
-
 private:
 
+	float m_timer = 3.0;
+
+	float m_speed = 100.0f;
+
+	Point m_moveDirection;
+
 	bool m_isForward = true;
+
+	Action* m_pMoveAction;
 
 };
 

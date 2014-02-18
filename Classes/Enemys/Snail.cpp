@@ -33,18 +33,28 @@ Snail* Snail::create( MainLayer* layer)
 
 bool Snail::init()
 {
-	this->schedule(schedule_selector(Snail::update));
-
 	attackRange = 20.0f;
 	m_isAlive = true;
 
 	return true;
 }
 
+void Snail::setCollider()
+{
+	Sprite* sprite = getSprite();
+	Rect boundingBox = sprite->getBoundingBox();
+
+	Collider* collider = Collider::create(240.0f, 165.0f);
+	this->addComponent(collider);
+}
+
 void Snail::update(float dt)
 {
+	Moveable::update(dt, false);	
+
 	if (this->m_isAlive)
 	{
+
 		if (canAttack())
 		{
 			this->moodAttack(dt);
@@ -60,12 +70,29 @@ void Snail::update(float dt)
 	}
 }
 
+
+
 //TODO
 void Snail::moodWalk(float dt)
 {
-	auto moveAction = MoveTo::create(2.0f, getTexture()->getPosition() + Point(200, 0));
-	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Snail::moveActionCompleted));
-	getTexture()->getSprite()->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
+	
+	if (m_timer >= 0)
+	{
+		m_moveDirection.x -= 1.0f;
+		m_timer -= dt;
+	}
+	else if (m_timer < 0)
+	{
+		m_moveDirection.x += 1.0f;
+		m_timer -= dt;
+	}
+	if (m_timer <= -3)
+	{
+		m_moveDirection.x = 0.0f;
+		m_timer = 3;
+	}
+
+	getTexture()->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
 }
 
 //TODO
@@ -84,21 +111,6 @@ void Snail::moodDie(float dt)
 bool Snail::canAttack()
 {
 	//TODO attackrange <= distanz zum spieler
-	return true;
+	return false;
 }
 
-void Snail::moveActionCompleted(Node* pSender)
-{
-	auto sprite = dynamic_cast<Sprite*>(pSender);
-	FiniteTimeAction* moveAction;
-
-	if (m_isForward)
-		moveAction = MoveTo::create(2.0f, sprite->getPosition() + Point(-200, 0));
-	else
-		moveAction = MoveTo::create(2.0f, sprite->getPosition() + Point(200, 0));
-
-	auto moveActionEnded = CallFuncN::create(this, callfuncN_selector(Snail::moveActionCompleted));
-	sprite->runAction(Sequence::create(moveAction, moveActionEnded, nullptr));
-
-	m_isForward = !m_isForward;
-}
