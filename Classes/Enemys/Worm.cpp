@@ -12,21 +12,21 @@ Worm::~Worm()
 
 Worm* Worm::create(Point position, MainLayer* layer)
 {
-	Worm* snail = new Worm();
+	Worm* worm = new Worm();
 
-	snail->init();
+	worm->init();
 
-	m_ptex = Texture::create("snail.png");
+	m_ptex = Texture::create("worm.png");
 
 	if (m_ptex)
 	{
-		snail->setPosition(position);
-		snail->setTexture(m_ptex);
-		snail->setCollider();
-		snail->setParent(layer);
-		snail->setGround(false);
+		worm->setPosition(position);
+		worm->setTexture(m_ptex);
+		worm->setCollider();
+		worm->setParent(layer);
+		worm->setGround(false);
 
-		return snail;
+		return worm;
 	}
 
 	return nullptr;
@@ -36,7 +36,6 @@ bool Worm::init()
 {
 	this->schedule(schedule_selector(Worm::update));
 
-	mood = E_MoodWalk;
 	attackRange = 20.0f;
 	m_isAlive = true;
 

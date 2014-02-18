@@ -5,15 +5,17 @@
 #define UI_MAINMENU 1
 #define UI_INGAME 2
 #define UI_LEVELEDITOR 3
+#define UI_FILECHOOSER 4
 
 #define ACTIVATEUI(A, B) UI::Get()->setUINode(A, B)
 #define DEACTIVATEUI UI::Get()->setUINode(nullptr)
 #define UPDATEUI UI::Get()->update()
 
 #define ACTIVATEBASEUI(A) ACTIVATEUI(A, UI_NONE);
-#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = (CMainMenu*)A; ACTIVATEUI(A, UI_MAINMENU);
-#define ACTIVATEINGAMEUI(A) ACTIVATEUI(A, UI_INGAME);
+#define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = A; ACTIVATEUI(A, UI_MAINMENU);
+#define ACTIVATEINGAMEUI(A) UI::Get()->pHelloWorld = A; ACTIVATEUI(A, UI_INGAME);
 #define ACTIVATELEVELEDITORUI(A) UI::Get()->pLevelEditor = (LevelEditor*)A; ACTIVATEUI(A, UI_LEVELEDITOR);
+#define ACTIVATEFILECHOOSERMENU(A, B) UI::Get()->pLevelEditor = (LevelEditor*)A; UI::Get()->levelType = (int)B; UI::Get()->setUINode(A, UI_FILECHOOSER);
 
 #include "Singleton.h"
 #include "cocos2d.h"
@@ -21,6 +23,7 @@
 #include <vector>
 
 class CMainMenu;
+class HelloWorld;
 
 USING_NS_CC;
 using namespace std;
@@ -32,7 +35,9 @@ public:
 	virtual ~UI(void);
 
 	CMainMenu* pMainMenu;
+	HelloWorld* pHelloWorld;
 	LevelEditor* pLevelEditor;
+	int levelType;
 
 	void setUINode(Node* _pNode, int _menu);
 	void update();
@@ -50,6 +55,7 @@ private:
 	void createLevelEditorUI();
 	void createCommonUI();
 	void createMainMenuUI();
+	void createIngameUI();
 };
 
 #endif//__UI_H__

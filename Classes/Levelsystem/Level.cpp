@@ -17,36 +17,32 @@ Level* Level::createFromFile(const char* filename)
 	return nullptr;
 }
 
+Level* Level::createNew(char* levelname)
+{
+	Level* l = new Level();
+	l->setName(levelname);
+	return l;
+}
+
 Level::Level() {}
 Level::~Level() {}
 
 void Level::SaveLevel()
 {
-	MainLayer* mainLayer = new MainLayer();
-	mainLayer->setName("mainlayer");
-	Texture* tex = Texture::create("ground.png");
-	Texture* tex2 = Texture::create("CloseNormal.png");
-	list<Texture*>* texList = mainLayer->getTextures();
-	texList->push_back(tex);
-	texList->push_front(tex2);
-	mainLayer->setTextures(texList);
-	Ground* g1 = Ground::create("HelloWorld.png");
-	g1->setPosition(50, 50);
-	list<Ground*>* groundList = mainLayer->getPhysicsObjects();
-	groundList->push_back(g1);
+	MainLayer* mainLayer = getMainLayer();
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* baseElement = doc.NewElement("Level");
 	baseElement->SetAttribute("name", "level1");
 	tinyxml2::XMLElement* mainLayerElement = doc.NewElement("MainLayer");
 	mainLayerElement->SetAttribute("name", mainLayer->getName());
 	tinyxml2::XMLElement* texturesElement = doc.NewElement("Textures");
-	for (Texture* tex : *texList)
+	for (Texture* tex : *mainLayer->getTextures())
 	{
 		texturesElement->InsertEndChild(createTextureNode(&doc, tex));
 	}
 	tinyxml2::XMLElement* phyObjectsElement = doc.NewElement("PhysicsObjects");
 
-	for (Ground* ground : *groundList)
+	for (Ground* ground : *mainLayer->getPhysicsObjects())
 	{
 		phyObjectsElement->InsertEndChild(createGroundNode(&doc, ground));
 	}
@@ -54,12 +50,17 @@ void Level::SaveLevel()
 	mainLayerElement->InsertEndChild(phyObjectsElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
+	doc.SaveFile(getName());
+}
 
-	//tinyxml2::XMLText* t = doc.NewText("LEVEL1");
-	//t->SetValue("Miep?");
-	//baseElement->InsertEndChild(t);
-	//doc.InsertFirstChild(e);
-	doc.SaveFile("testlevel.xml");
+void Level::setName(char* name)
+{
+	m_name = name;
+}
+
+char* Level::getName()
+{
+	return m_name;
 }
 
 Level* Level::loadLevel(char* filename)
