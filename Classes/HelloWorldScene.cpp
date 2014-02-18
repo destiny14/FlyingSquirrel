@@ -89,7 +89,7 @@ bool HelloWorld::init()
 	para->addParallaxElement(Sprite::create("bg4.png"), paraPos, Point(0.0003f, 0.00001f), 1);
 	this->addChild(para, -9999);
 
-	Level* l = Level::createFromFile("test.xml");
+	//Level* l = Level::createFromFile("test.xml");
 	this->scheduleUpdate();
 	//this->schedule(schedule_selector(HelloWorld::tick));
     g_pLogfile->fWrite(GREEN, false, "%s\n", "init succeeded");
