@@ -104,13 +104,10 @@ void LevelEditor::draw()
 
 void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 {
-	char chr[1024] = "";
-	strcpy(chr, s.c_str());
-	log("%s", chr);
 	log("%i", levelType);
 	if (levelType == 0)
 	{
-		auto tex = Texture::create(chr);
+		auto tex = Texture::create(const_cast<char*>(s.c_str()));
 		tex->retain();
 		tex->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
 		tex->getSprite()->setZOrder(-1);
@@ -121,7 +118,7 @@ void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 	else
 	{
 		log("%s", "ground created");
-		auto ground = Ground::create(chr);
+		auto ground = Ground::create(const_cast<char*>(s.c_str()));
 		ground->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
 		ground->retain();
 		ground->getSprite()->setZOrder(-1);

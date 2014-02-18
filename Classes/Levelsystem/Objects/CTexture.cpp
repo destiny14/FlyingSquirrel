@@ -22,7 +22,6 @@ Texture* Texture::create(char* filename)
 Texture::Texture()
 {
 	m_sprite = nullptr;
-	m_filename = nullptr;
 }
 
 Texture::~Texture()
@@ -68,7 +67,9 @@ Sprite* Texture::getSprite()
 
 void Texture::setFilename(char* filename)
 {
-	m_filename = filename;
+	m_filename = new char[1024];
+	strcpy(m_filename, filename);
+	//m_filename = filename;
 }
 
 char* Texture::getFilename()
