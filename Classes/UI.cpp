@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "MainMenu.h"
+#include "HelloWorldScene.h"
 #include "CommonMain.h"
 
 UI::UI()
@@ -52,6 +53,7 @@ void UI::setUINode(Node* _pNode, int _menu)
 			break;
 
 		case UI_INGAME:
+			createIngameUI();
 			m_pUINode->addChild(m_pIngame);
 			break;
 
@@ -197,6 +199,37 @@ void UI::createMainMenuUI()
 	auto menu = Menu::create(startItem, closeItem, levelEditor, NULL);
 	menu->setPosition(0.0f, 0.0f);
 	m_pMenu->addChild(menu);
+}
+
+void UI::createIngameUI()
+{
+	m_pIngame->removeAllChildren();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	auto lblText = "Hello World";
+	if (g_pCommonMain->getAppDebug())
+	{
+		lblText = "Hello World (DEBUG)";
+	}
+	auto label = LabelTTF::create(lblText, "Arial", 24);
+
+	// position the label on the center of the screen
+	label->setPosition(visibleSize.width * 0.5f,
+		visibleSize.height - label->getContentSize().height);
+	m_pIngame->addChild(label, 1);
+
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(HelloWorld::menuCloseCallback, pHelloWorld));
+
+	closeItem->setPosition(Point(visibleSize.width - closeItem->getContentSize().width * 0.5f,
+		closeItem->getContentSize().height * 0.5f));
+
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(closeItem, NULL);
+	menu->setPosition(Point::ZERO);
+	m_pIngame->addChild(menu, 1);
 }
 
 void UI::update()
