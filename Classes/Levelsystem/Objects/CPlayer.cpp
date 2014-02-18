@@ -103,7 +103,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.035f);
 	m_pFlightFrames->retain();
 	frames.clear();
 
@@ -189,10 +189,24 @@ void Player::update(float dt)
 			this->getSprite()->runAction(m_pStandAction);
 		}
 	}
+	///////////////////////
+	// Landen - Bewegung //
+	///////////////////////
+	if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump)
+	{
+		this->getSprite()->stopAllActions();
+		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
+		m_pLandingAction->setTag(4);
+		this->getSprite()->runAction(m_pLandingAction);
+		m_jump = false;
+		m_doubleJump = false;
+		m_readyToFly = false;
+		m_isFlying = false;
+	}
 	/////////////////////////
 	// Springen - Bewegung //
 	/////////////////////////
- 	if (m_pJump->wasPressed() && this->getGrounded())
+ 	else if (m_pJump->wasPressed() && this->getGrounded())
 	{
 		addVelocity(0.0f, 300.0f);
 		this->setGrounded(false);
@@ -204,20 +218,6 @@ void Player::update(float dt)
 			m_pJumpAction->setTag(2);
 			this->getSprite()->runAction(m_pJumpAction);
 		}
-	}
-	///////////////////////
-	// Landen - Bewegung //
-	///////////////////////
-	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_isFlying)
-	{
-		this->getSprite()->stopAllActions();
-		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
-		m_pLandingAction->setTag(4);
-		this->getSprite()->runAction(m_pLandingAction);
-		m_jump = false;
-		m_doubleJump = false;
-		m_readyToFly = false;
-		m_isFlying = false;
 	}
 	/////////////////////////////
 	// Doppelsprung - Bewegung //
@@ -280,7 +280,7 @@ void Player::update(float dt)
 		}
 		this->getSprite()->setScaleX(1.0f);
 	}
-	if (!this->getGrounded())
+	if (!this->getGrounded() && !m_jump)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{

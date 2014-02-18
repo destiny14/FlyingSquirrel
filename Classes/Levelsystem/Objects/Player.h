@@ -44,6 +44,7 @@ private:
 	bool m_doubleJump;
 	bool m_readyToFly;
 	bool m_isFlying;
+	bool m_rescueFly;
 
 	//Size m_visibleSize;
 	//Point m_origin;
