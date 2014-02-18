@@ -34,7 +34,7 @@ void GameCamera::update(float _dt)
 	Point tmp = m_pFollowed->getPosition();
 	tmp.x *= -1.0f;
 	tmp.y *= -1.0f;
-	Size size = EGLView::getInstance()->getFrameSize() * 0.5f;
+	Size size = EGLView::getInstance()->getVisibleSize() * 0.5f;
 	tmp += Point(size.width, size.height);
 
 	tmp = m_pFollow->getPosition().lerp(tmp, 0.6f);
