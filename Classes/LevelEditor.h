@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "InputAction.h"
 #include "InputManager.h"
+#include "Levelsystem\Level.h"
 #include <string>
 
 USING_NS_CC;
@@ -13,7 +14,9 @@ using namespace std;
 class LevelEditor : public Layer
 {
 public:
+	Menu* MainMenu;
 	Menu* ChooseFileMenu;
+	Menu* ChooseFileNavMenu;
 
 	static Scene* createScene();
 	LevelEditor();
@@ -25,12 +28,15 @@ public:
 
 	void addTextureObjectCallback(Object* sender);
 	void addGroundObjectCallback(Object* sender);
-	void chooseFileCallback(Object* sender, string file);
+	void chooseFileCallback(Object* sender, string file, int levelType);
 	void moveFileSelectUpCallback();
 	void moveFileSelectDownCallback();
+	void changeLayerCallback();
+	void saveLevelCallback();
 
 	CREATE_FUNC(LevelEditor);
 private:
+	Level* m_pLevel;
 	InputManager* m_pInput;
 	MouseInputAction* m_mouseInputAction;
 	Node* m_pCurrentMoving;

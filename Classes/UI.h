@@ -5,6 +5,7 @@
 #define UI_MAINMENU 1
 #define UI_INGAME 2
 #define UI_LEVELEDITOR 3
+#define UI_FILECHOOSER 4
 
 #define ACTIVATEUI(A, B) UI::Get()->setUINode(A, B)
 #define DEACTIVATEUI UI::Get()->setUINode(nullptr)
@@ -14,6 +15,7 @@
 #define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = A; ACTIVATEUI(A, UI_MAINMENU);
 #define ACTIVATEINGAMEUI(A) UI::Get()->pHelloWorld = A; ACTIVATEUI(A, UI_INGAME);
 #define ACTIVATELEVELEDITORUI(A) UI::Get()->pLevelEditor = (LevelEditor*)A; ACTIVATEUI(A, UI_LEVELEDITOR);
+#define ACTIVATEFILECHOOSERMENU(A, B) UI::Get()->pLevelEditor = (LevelEditor*)A; UI::Get()->levelType = (int)B; UI::Get()->setUINode(A, UI_FILECHOOSER);
 
 #include "Singleton.h"
 #include "cocos2d.h"
@@ -35,6 +37,7 @@ public:
 	CMainMenu* pMainMenu;
 	HelloWorld* pHelloWorld;
 	LevelEditor* pLevelEditor;
+	int levelType;
 
 	void setUINode(Node* _pNode, int _menu);
 	void update();

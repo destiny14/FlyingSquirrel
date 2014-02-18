@@ -20,6 +20,10 @@ LevelEditor::~LevelEditor() {}
 
 bool LevelEditor::init()
 {
+	m_pLevel = Level::createNew("tmpname.xml");
+	MainLayer* mainL = MainLayer::create();
+	mainL->retain();
+	m_pLevel->setMainLayer(mainL);
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
 	m_pInput = new InputManager(this);
@@ -29,12 +33,11 @@ bool LevelEditor::init()
 	m_pBackgroundSprite = nullptr;
 	if (!Layer::init())
 		return false;
-	m_pBackgroundSprite = Sprite::create("leveleditorbg.png");
+	m_pBackgroundSprite = Sprite::create("ui_background.png");
 	if (m_pBackgroundSprite != nullptr)
 	{
 		m_pBackgroundSprite->setPosition(0, m_visibleSize.height);
-		m_pBackgroundSprite->setScaleX(40);
-		m_pBackgroundSprite->setScaleY(500);
+		m_pBackgroundSprite->setScale(300, m_visibleSize.height * 4);
 		m_pBackgroundSprite->setZOrder(0);
 		this->addChild(m_pBackgroundSprite);
 	}
@@ -44,22 +47,12 @@ bool LevelEditor::init()
 
 void LevelEditor::addTextureObjectCallback(Object* sender)
 {
-	auto tex = Texture::create("ground.png");
-	tex->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
-	tex->retain();
-	tex->getSprite()->setZOrder(-1);
-	m_pCurrentMoving = tex;
-	addChild(tex->getSprite());
+	ACTIVATEFILECHOOSERMENU(this, 0);
 }
 
 void LevelEditor::addGroundObjectCallback(Object* sender)
 {
-	auto ground = Ground::create("tree_2_parallax.png");
-	ground->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
-	ground->retain();
-	ground->getSprite()->setZOrder(-1);
-	m_pCurrentMoving = ground;
-	addChild(ground->getSprite());
+	ACTIVATEFILECHOOSERMENU(this, 1);
 }
 
 void LevelEditor::moveFileSelectUpCallback()
@@ -72,6 +65,15 @@ void LevelEditor::moveFileSelectDownCallback()
 {
 	if (ChooseFileMenu != nullptr)
 		ChooseFileMenu->setPositionY(ChooseFileMenu->getPositionY() + 30);
+}
+
+void LevelEditor::changeLayerCallback()
+{
+	MenuItemFont* mainMenuLayerLabel = (MenuItemFont*)MainMenu->getChildByTag(111);
+	if (mainMenuLayerLabel != nullptr)
+	{
+		mainMenuLayerLabel->setString("NÄÄCHSTER");
+	}
 }
 
 void LevelEditor::update(float dt)
@@ -100,18 +102,38 @@ void LevelEditor::draw()
 	//DrawPrimitives::drawSolidRect(Point(0, m_visibleSize.height), Point(120, 0), Color4F(0, 0, 255, 255));
 }
 
-void LevelEditor::chooseFileCallback(Object* sender, string s)
+void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 {
-	char* chr;
-	chr = &s[0];
+	char chr[1024] = "";
+	strcpy(chr, s.c_str());
 	log("%s", chr);
+	log("%i", levelType);
+	if (levelType == 0)
+	{
+		auto tex = Texture::create(chr);
+		tex->retain();
+		tex->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
+		tex->getSprite()->setZOrder(-1);
+		m_pCurrentMoving = tex;
+		m_pLevel->getMainLayer()->getTextures()->push_back(tex);
+		addChild(tex->getSprite());
+	}
+	else
+	{
+		log("%s", "ground created");
+		auto ground = Ground::create(chr);
+		ground->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
+		ground->retain();
+		ground->getSprite()->setZOrder(-1);
+		m_pCurrentMoving = ground;
+		m_pLevel->getMainLayer()->getPhysicsObjects()->push_back(ground);
+		addChild(ground->getSprite());
+	}
+	ChooseFileMenu->removeFromParentAndCleanup(true);
+	ChooseFileNavMenu->removeFromParentAndCleanup(true);
+}
 
-	auto tex = Texture::create(chr);
-	tex->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
-	tex->retain();
-	tex->getSprite()->setZOrder(-1);
-	m_pCurrentMoving = tex;
-	addChild(tex->getSprite());
-
-	ChooseFileMenu->removeFromParentAndCleanup(false);
+void LevelEditor::saveLevelCallback()
+{
+	m_pLevel->SaveLevel();
 }
