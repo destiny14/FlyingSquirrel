@@ -16,17 +16,17 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	player->m_pBackward = pManager->createKeyboardAction(keysBackward, 2, "Backward");
 	player->m_pJump = pManager->createKeyboardAction(keysJump, 3, "Jump");
 
-	player->init();
-
 	Texture* tex = Texture::create(filename);
 
 	if (tex)
 	{
 		player->setTexture(tex);
-		player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
+		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
 		player->setCollider();
 		player->setParent(parent);
 		player->setGround(false);
+
+		player->init();
 
 		return player;
 	}
@@ -39,46 +39,89 @@ Player::~Player() {}
 
 bool Player::init()
 {
-	//m_visibleSize = Director::getInstance()->getVisibleSize();
-	//m_origin = Director::getInstance()->getVisibleOrigin();
-
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
 	m_direction.y = 0.0f;
-	m_speed = 100.0f;
+	m_speed = 10.0f;
+	m_inAir = false;
+	m_jump = false;
 	m_doubleJump = false;
 	m_readyToFly = false;
+	m_isFlying = false;
 
-	/*
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
-
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
-	this->getParent()->addChild(m_pSpriteBatch, 10);
 
-	m_pStandFrames = m_pSpriteFrame->getSpriteFrameByName("sawyerstand.png");
-	m_pRunFrames = m_pSpriteFrame->getSpriteFrameByName("sawyerrun.png");
-	m_pJumpFrames = m_pSpriteFrame->getSpriteFrameByName("sawyerjump.png");
-	m_pHitFrames = m_pSpriteFrame->getSpriteFrameByName("sawyerhit.png");
-	*/
-	//Animation* anim = Animation::createWithSpriteFrames(
-
-	
-	m_pStandFrames = Sprite::create("sawyerstand.png", Rect(0.0f, 0.0f, 163.0f, 243.0f));
+	////////////////////////
+	// Stehen - Animation //
+	////////////////////////
+	for (int i = 0; i < 31; i++)
+	{
+		filename = String::createWithFormat("skeleton-Stand%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pStandFrames = Animation::createWithSpriteFrames(frames, 0.065f);
+	m_pStandAction = RepeatForever::create(Animate::create(m_pStandFrames));
+	m_pStandAction->setTag(0);
 	m_pStandFrames->retain();
-	m_pRunFrames = Sprite::create("sawyerrun.png", Rect(0.0f, 0.0f, 264.0f, 270.0f));
-	m_pRunFrames->retain();
-	m_pJumpFrames = Sprite::create("sawyerjump.png", Rect(0.0f, 0.0f, 283.0f, 272.0f));
-	m_pJumpFrames->retain();
-	m_pHitFrames = Sprite::create("sawyerhit.png", Rect(0.0f, 0.0f, 214.0f, 256.0f));
-	m_pHitFrames->retain();
-	
+	frames.clear();
 
-	/*m_pStandTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
-	m_pRunTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
-	m_pJumpTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));
-	m_pHitTex->setPosition(Point(m_visibleSize.width / 2 + m_origin.x, m_visibleSize.height / 2 + m_origin.y));*/
+	///////////////////////
+	// Gehen - Animation //
+	///////////////////////
+	for (int i = 0; i < 31; i++)
+	{
+		filename = String::createWithFormat("skeleton-Run%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pRunFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
+	m_pRunFrames->retain();
+	frames.clear();
+
+	//////////////////////////
+	// Springen - Animation //
+	//////////////////////////
+	for (int i = 0; i < 43; i++)
+	{
+		filename = String::createWithFormat("skeleton-Jump%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.03f);
+	m_pJumpFrames->retain();
+	frames.clear();
+
+	//////////////////////
+	// Flug - Animation //
+	//////////////////////
+	for (int i = 0; i < 21; i++)
+	{
+		filename = String::createWithFormat("skeleton-Flug%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pFlightFrames->retain();
+	frames.clear();
+
+	////////////////////////
+	// Landen - Animation //
+	////////////////////////
+	for (int i = 42; i < 69; i++)
+	{
+		filename = String::createWithFormat("skeleton-Jump%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pLandingFrames->retain();
+	frames.clear();
+
+	this->getSprite()->runAction(m_pStandAction);
 
 	return true;
 }
@@ -88,7 +131,7 @@ void Player::setCollider()
 	Sprite* sprite = getSprite();
 	Rect boundingBox = sprite->getBoundingBox();
 
-	PlayerCollider* collider = PlayerCollider::create(boundingBox.size.width, boundingBox.size.height);
+	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);//boundingBox.size.width, boundingBox.size.height);
 	this->addComponent(collider);
 }
 
@@ -134,173 +177,115 @@ void Player::update(float dt)
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
-	////////////////////////////////////////////
-	// Rückwärts Gehen - Animation + Bewegung //
-	////////////////////////////////////////////
+	////////////////////////////////
+	// Rückwärts Gehen - Bewegung //
+	////////////////////////////////
 	if (m_movement & EMovement::Left)
 	{
 		m_direction.x = -1.0f;
+
+		if (!this->getSprite()->getActionByTag(1) && this->getGrounded())
+		{
+			this->getSprite()->stopAllActions();
+			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
+			m_pRunAction->setTag(1);
+			this->getSprite()->runAction(m_pRunAction);
+		}
 		this->getSprite()->setScaleX(-1.0f);
 	}
-	///////////////////////////////////////////
-	// Vorwärts Gehen - Animation + Bewegung //
-	///////////////////////////////////////////
+	///////////////////////////////
+	// Vorwärts Gehen - Bewegung //
+	///////////////////////////////
 	if (m_movement & EMovement::Right)
 	{
 		m_direction.x += 1.0f;
+
+		if (!this->getSprite()->getActionByTag(1) && this->getGrounded())
+		{
+			this->getSprite()->stopAllActions();
+			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
+			m_pRunAction->setTag(1);
+			this->getSprite()->runAction(m_pRunAction);
+		}
 		this->getSprite()->setScaleX(1.0f);
 	}
 
 	m_direction.x *= m_speed;
 
-	/////////////////////////////////////
-	// Springen - Animation + Bewegung //
-	/////////////////////////////////////
-	if (m_pJump->wasPressed() && this->getGrounded())
+	///////////////////////////////
+	// Abfrage für Sprunglandung //
+	///////////////////////////////
+	if (!this->getGrounded())
+	{
+		m_inAir = true;
+	}
+
+	/////////////////////////
+	// Springen - Bewegung //
+	/////////////////////////
+ 	if (m_pJump->wasPressed() && this->getGrounded())
 	{
 		addVelocity(0.0f, 300.0f);
+		this->setGrounded(false);
+		m_jump = true;
+		if (!this->getSprite()->getActionByTag(2))
+		{
+			this->getSprite()->stopAllActions();
+			m_pJumpAction = Repeat::create(Animate::create(m_pJumpFrames), 1);
+			m_pJumpAction->setTag(2);
+			this->getSprite()->runAction(m_pJumpAction);
+		}
 	}
-	/////////////////////////////////////////
-	// Doppelsprung - Animation + Bewegung //
-	/////////////////////////////////////////
+	/////////////////////////////
+	// Doppelsprung - Bewegung //
+	/////////////////////////////
 	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump)
 	{
 		m_readyToFly = false;
 		addVelocity(0.0f, 200.0f);
 		m_doubleJump = true;
 	}
-	////////////////////////////////////
-	// Fliegen - Animation + Bewegung //
-	////////////////////////////////////
-	else if (m_pJump->wasReleased())
+	else if (m_jump && this->getGrounded())
+	{
+		log("Boden");
+		this->getSprite()->stopAllActions();
+		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
+		m_pLandingAction->setTag(4);
+		this->getSprite()->runAction(m_pLandingAction);
+	}
+	////////////////////////
+	// Fliegen - Bewegung //
+	////////////////////////
+	else if (m_pJump->wasReleased() && !m_isFlying)
 	{
 		m_readyToFly = true;
 	}
 	else if (m_pJump->isPressed() && !(this->getGrounded()) && m_doubleJump && m_readyToFly)
 	{
-		addVelocity((400.0f * this->getSprite()->getScaleX()), 0.0f);
+		if (!this->getSprite()->getActionByTag(3))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
+			m_pFlightAction->setTag(3);
+			this->getSprite()->runAction(m_pFlightAction);
+		}
+		m_isFlying = true;
+		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
 	}
+	else if (!this->getSprite()->getActionByTag(4) && ((m_pJump->isPressed() && this->getGrounded() && m_isFlying) || (!m_pJump->wasReleased() && m_isFlying) || (m_jump && m_inAir && this->getGrounded())))
+	{
+		this->getSprite()->stopAllActions();
+		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
+		m_pLandingAction->setTag(4);
+		this->getSprite()->runAction(m_pLandingAction);
+		m_isFlying = false;
+		m_jump = false;
+		m_inAir = false;
+	}
+
+	this->setPosition(this->getPosition() + m_direction);
 
 	//static float timeForHit = 0.075f;
-	static float timeForStand = 0.065f;
-	static float timeForRun = 0.0275f;
-
-	/*if (m_direction.x != 0.0f && this->getGrounded())
-	{
-		timeForStand -= dt;
-	}
-	if (timeForStand < 0 && m_direction.x != 0.0f)
-	{
-		// change frame
-		++m_sawyerRunFrame;
-		if (m_sawyerRunFrame > 30)
-		{
-			m_sawyerRunFrame = 0;
-		}
-
-		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 12 * 163, m_sawyerRunFrame / 12 * 243, 163, 243));
-		timeForStand += 0.065f;
-	}*/
-	if (m_direction.x != 0.0f && this->getGrounded())
-	{
-		timeForRun -= dt;
-	}
-	if (timeForRun < 0 && m_direction.x != 0.0f)
-	{
-		// change frame
-		++m_sawyerRunFrame;
-		if (m_sawyerRunFrame > 30)
-		{
-			m_sawyerRunFrame = 0;
-		}
-
-		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 7 * 264, m_sawyerRunFrame / 7 * 270, 264, 270));
-		timeForRun += 0.0275f;
-	}
-	
-
-	this->setPosition(this->getPosition() + m_direction * dt);
-
-	/*
-	if (true)
-	{
-		timeForHit -= dt;
-	}
-	if (timeForHit < 0)
-	{
-		// change frame
-		++m_sawyerRunFrame;
-		if (m_sawyerRunFrame > 5)
-		{
-			m_sawyerRunFrame = 0;
-		}
-
-		this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 6 * 214, m_sawyerRunFrame / 6 * 256, 214, 256));
-		timeForHit += 0.075f;
-	}*/
-	/*/
-	////////////////////////////////////////////
-	// Rückwärts Gehen - Animation + Bewegung //
-	////////////////////////////////////////////
-	else if (m_pBackward->isPressed() && this->getGrounded())
-	{
-		static float timeForRun = 0.0275f;
-		if (strcmp(m_pState, "runBackward") != 0)
-		{
-			this->getTexture()->setSprite(m_pRunTex);
-			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 264.0f, 270.0f));
-			this->getSprite()->setScale(-1.0f);
-			m_pState = "runBackward";
-		}
-		if (true)
-		{
-			timeForRun -= dt;
-		}
-		if (timeForRun < 0)
-		{
-			// change frame
-			++m_sawyerRunFrame;
-			if (m_sawyerRunFrame > 30)
-			{
-				m_sawyerRunFrame = 0;
-			}
-
-			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 7 * 264, m_sawyerRunFrame / 7 * 270, 264, 270));
-			timeForRun += 0.0275f;
-		}
-		this->setPositionX(this->getPositionX() - 1.0f);
-	}
-	/////////////////////////////////////
-	// Springen - Animation + Bewegung //
-	/////////////////////////////////////
-	else if (m_pJump->isPressed() && this->getGrounded())
-	{
-		static float timeForJump = 0.03f;
-		if (strcmp(m_pState, "jump") != 0)
-		{
-			this->getTexture()->setSprite(m_pJumpTex);
-			//this->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 283.0f, 272.0f));
-			m_pState = "jump";
-		}
-		if (true)
-		{
-			timeForJump -= dt;
-		}
-		if (timeForJump < 0)
-		{
-			// change frame
-			++m_sawyerRunFrame;
-			if (m_sawyerRunFrame > 45)
-			{
-				m_sawyerRunFrame = 0;
-			}
-
-			this->getSprite()->setTextureRect(Rect(m_sawyerRunFrame % 14 * 283, m_sawyerRunFrame / 14 * 272, 283, 272));
-			timeForJump += 0.03f;
-		}
-		this->setPositionY(this->getPositionY() + 6.0f);
-		this->setGrounded(false);
-	}*/
 
 	CheckForCollisions();
 }
@@ -314,11 +299,26 @@ void Player::CheckForCollisions()
 		if (g->getGround() == true)
 		{
 			Collider* c = g->getColliderComponent();
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
 			{
 				// kollision (boden)
 				setGrounded(true);
 				m_doubleJump = false;
+				setPositionY(getPositionY() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
+			{
+				//Collision left wand
+				setPositionX(getPositionX() + 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
+			}
+			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+			{
+				//Collision right wand
+				setPositionX(getPositionX() - 0.01f);
+				getPlayerColliderComponent()->update(0.0f);
 			}
 		}
 	}

@@ -20,8 +20,8 @@ public:
 	Collider* getColliderComponent();
 
 	// use setPosition(float, float) instead, it's faster
-	void setPosition(const Point& pos);
-	void setPosition(float x, float y);
+	void setPosition(const Point& pos) override;
+	void setPosition(float x, float y) override;
 
 	Sprite* getSprite();
 
