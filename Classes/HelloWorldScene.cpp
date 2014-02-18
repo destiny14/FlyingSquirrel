@@ -72,7 +72,7 @@ bool HelloWorld::init()
 	m_ground = Ground::create("ground.png");
 	m_ground->setPosition(visibleSize.width * 0.5f, 100);
 	this->addChild(m_ground->getSprite(), 1);
-	m_ground->getSprite()->setVisible(false);
+	//m_ground->getSprite()->setVisible(false);
 	list<Ground*>* g = new list<Ground*>();
 	g = this->getPhysicsObjects();
 	g->push_back(m_ground);
