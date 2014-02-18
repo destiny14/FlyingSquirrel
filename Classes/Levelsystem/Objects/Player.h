@@ -58,6 +58,7 @@ private:
 	InputAction* m_pForward;
 	InputAction* m_pBackward;
 	InputAction* m_pJump;
+	InputAction* m_pShoot;
 
 	///////////////////////
 	// Animationhandling //

@@ -11,10 +11,12 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	EventKeyboard::KeyCode keysForward[] = { EventKeyboard::KeyCode::KEY_D, EventKeyboard::KeyCode::KEY_RIGHT_ARROW };
 	EventKeyboard::KeyCode keysBackward[] = { EventKeyboard::KeyCode::KEY_A, EventKeyboard::KeyCode::KEY_LEFT_ARROW };
 	EventKeyboard::KeyCode keysJump[] = { EventKeyboard::KeyCode::KEY_SPACE, EventKeyboard::KeyCode::KEY_W, EventKeyboard::KeyCode::KEY_UP_ARROW };
+	EventKeyboard::KeyCode keysShoot[] = { EventKeyboard::KeyCode::KEY_SHIFT, EventKeyboard::KeyCode::KEY_RETURN , EventKeyboard::KeyCode::KEY_KP_ENTER };
 
 	player->m_pForward = pManager->createKeyboardAction(keysForward, 2, "Forward");
 	player->m_pBackward = pManager->createKeyboardAction(keysBackward, 2, "Backward");
 	player->m_pJump = pManager->createKeyboardAction(keysJump, 3, "Jump");
+	player->m_pShoot = pManager->createKeyboardAction(keysShoot, 3, "Shoot");
 
 	Texture* tex = Texture::create(filename);
 
@@ -39,7 +41,7 @@ Player::~Player() {}
 
 bool Player::init()
 {
-	m_health = 5;
+	m_health = 3;
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -176,17 +178,6 @@ PlayerCollider* Player::getPlayerColliderComponent()
 
 void Player::update(float dt)
 {
-	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
-	{
-		m_movement = None;
-		return;
-	}
-	PlayerCollider* p = getPlayerColliderComponent();
-	if (p != nullptr)
-		p->update(dt);
-	CheckForCollisions();
-	Moveable::update(dt, true);
-	
 	if (m_pForward->wasPressed())
 		m_movement = (EMovement)(m_movement | EMovement::Right);
 	if (m_pBackward->wasPressed())
@@ -201,6 +192,17 @@ void Player::update(float dt)
 	if (m_pJump->wasReleased())
 		m_movement = (EMovement)(m_movement ^ EMovement::Jump);
 
+	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
+	{
+		m_movement = None;
+		return;
+	}
+	PlayerCollider* p = getPlayerColliderComponent();
+	if (p != nullptr)
+		p->update(dt);
+	CheckForCollisions();
+	Moveable::update(dt, true);
+	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
@@ -222,7 +224,7 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_pJump->wasPressed() && this->getGrounded())
 	{
-		addVelocity(0.0f, 300.0f);
+		addVelocity(0.0f, 600.0f);
 		setPositionY(getPositionY() + 0.01);
 		this->setGrounded(false);
 		m_jump = true;
@@ -253,7 +255,7 @@ void Player::update(float dt)
 	/////////////////////////////
 	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump && m_jump)
 	{
-		addVelocity(0.0f, 200.0f);
+		addVelocity(0.0f, 400.0f);
 		m_doubleJump = true;
 		m_readyToFly = false;
 	}
@@ -308,7 +310,6 @@ void Player::update(float dt)
 			this->getSprite()->runAction(m_pRunAction);
 		}
 		this->getSprite()->setScaleX(1.0f);
-		hit();
 	}
 	///////////////////////
 	// Fallen - Bewegung //
