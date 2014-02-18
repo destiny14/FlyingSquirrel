@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "MainLayer.h"
 
-MainLayer::MainLayer() 
+MainLayer::MainLayer() : LevelLayer()
 {
 	m_physicObjects = nullptr;
 }
@@ -13,7 +13,9 @@ MainLayer* MainLayer::create()
 	MainLayer* mainLayer = new MainLayer();
 	if (mainLayer)
 	{
+		mainLayer->setName("mainLayer");
 		mainLayer->autorelease();
+		mainLayer->retain();
 	}
 	else
 	{

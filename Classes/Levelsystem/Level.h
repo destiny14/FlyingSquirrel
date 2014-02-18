@@ -14,6 +14,8 @@ class Level
 public:
 	static Level* createFromFile(const char* filename);
 
+	static Level* createNew(char* levelname);
+
 	Level();
 	~Level();
 
@@ -33,7 +35,7 @@ public:
 	GroundLayer* getGroundLayer();
 	static Level* loadLevel(char* filename);
 private:
-	string name;
+	char* m_name;
 	FirstVegetationLayer* m_fVLayer;
 	MainLayer* m_mainLayer;
 	SecondVegetationLayer* m_sVLayer;
