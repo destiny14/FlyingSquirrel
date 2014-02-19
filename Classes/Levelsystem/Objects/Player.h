@@ -7,6 +7,7 @@
 #include "Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
 #include "Input.h"
+#include "Bullet.h"
 
 enum EMovement
 {
@@ -35,12 +36,14 @@ public:
 	PlayerCollider* getPlayerColliderComponent();
 
 	int getHealth();
+	int getNuts();
 	void hit();
 
 private:
 	void CheckForCollisions();
 
 	int m_health;
+	int m_nuts;
 	Point m_direction;
 	float m_speed;
 	bool m_jump;

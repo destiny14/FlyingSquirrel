@@ -3,6 +3,7 @@
 #include "LevelLayer.h"
 #include "Player.h"
 #include "..\Components\Collider.h"
+#include "Bullet.h"
 
 Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager)
 {
@@ -42,6 +43,7 @@ Player::~Player() {}
 bool Player::init()
 {
 	m_health = 3;
+	m_nuts = 0;
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -206,9 +208,20 @@ void Player::update(float dt)
 	CheckForCollisions();
 	Moveable::update(dt, true);
 	
+	/*for (Bullet* b : *this->nuts)
+	{
+		b->update(dt);
+	}*/
+	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
+	if (m_pShoot->wasPressed())
+	{
+		/*Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+		this->getParent()->addChild(nut->getSprite(), 1);
+		this->nuts->push_back(nut);*/
+	}
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
@@ -330,8 +343,6 @@ void Player::update(float dt)
 
 	m_direction.x *= m_speed;
 	this->setPosition(this->getPosition() + m_direction);
-
-	//static float timeForHit = 0.075f;
 }
 
 void Player::CheckForCollisions()
@@ -463,4 +474,9 @@ void Player::hit()
 int Player::getHealth()
 {
 	return m_health;
+}
+
+int Player::getNuts()
+{
+	return m_nuts;
 }

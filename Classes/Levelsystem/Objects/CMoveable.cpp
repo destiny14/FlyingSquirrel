@@ -2,6 +2,7 @@
 #include "Moveable.h"
 #include "LevelLayer.h"
 #include "..\Components\Collider.h"
+#include "Bullet.h"
 #include <list>
 
 USING_NS_CC;

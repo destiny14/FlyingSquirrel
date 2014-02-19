@@ -30,6 +30,8 @@ public:
 	// a selector callback
     void menuCloseCallback(Object* pSender);
 
+	Player* getPlayer() { return m_moveable; }
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 private:
