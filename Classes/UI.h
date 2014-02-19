@@ -22,6 +22,7 @@
 #include "LevelEditor.h"
 #include <vector>
 
+class Player;
 class CMainMenu;
 class HelloWorld;
 
@@ -48,7 +49,11 @@ private:
 	Node* m_pMenu;
 	Node* m_pIngame;
 	Node* m_pLevelEditor;
+	Player* m_pPlayer;
+	Sprite** m_pPlayerLife;
+	int lastLife;
 	bool active;
+
 	vector<string> getAllFilesInFolder(string folder);
 	wchar_t* convertCharArrayToLPCWSTR(const char* charArray);
 	void createLevelEditorFilePopup();
