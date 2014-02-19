@@ -4,26 +4,25 @@
 #include "Bullet.h"
 #include "..\Components\Collider.h"
 
-Bullet* Bullet::create(char* filename, MainLayer* parent, Point* position)
+Bullet* Bullet::createNut(MainLayer* parent, Point* position, Point* direction, float force)
 {
 	Bullet* bullet = new Bullet();
-	Texture* tex = Texture::create(filename);
+	Texture* tex = Texture::create("nuss.png");
 
-	if (tex)
-	{
-		bullet->setTexture(tex);
-		bullet->setCollider();
-		bullet->setParent(parent);
-		bullet->setGround(false);
+	bullet->setTexture(tex);
+	bullet->setCollider();
+	bullet->setParent(parent);
+	bullet->setGround(false);
+	bullet->setPosition(position->x, position->y);
 
-		bullet->init();
+	m_pDirection = direction;
+	m_force = force;
 
-		return bullet;
-	}
-	else
-	{
-		return nullptr;
-	}
+	m_bullettype = Nut;
+
+	bullet->init();
+
+	return bullet;
 }
 
 Bullet::Bullet() {}
@@ -32,7 +31,7 @@ Bullet::~Bullet() {}
 
 bool Bullet::init()
 {
-
+	return true;
 }
 
 void Bullet::update(float dt)
@@ -45,8 +44,8 @@ void Bullet::setCollider()
 	Sprite* sprite = getSprite();
 	Rect boundingBox = sprite->getBoundingBox();
 
-	// PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);//boundingBox.size.width, boundingBox.size.height);
-	//this->addComponent(collider);
+	Collider* collider = Collider::create(10.0f, 10.0f);
+	this->addComponent(collider);
 }
 
 void Bullet::destroy()
