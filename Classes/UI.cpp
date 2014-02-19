@@ -135,6 +135,10 @@ void UI::createLevelEditorUI()
 	labelMenuTitle->setPosition(35.0f, visibleSize.height - 40.0f);
 	m_pLevelEditor->addChild(labelMenuTitle);
 
+	MenuItemImage* sidebarBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
+	sidebarBackground->setPosition(100.0f, visibleSize.height * 0.5f);
+	sidebarBackground->setScale(200, visibleSize.height);
+	
 	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
 	addTextureObject->setFontNameObj("Arial");
 	addTextureObject->setFontSizeObj(30);
@@ -157,8 +161,12 @@ void UI::createLevelEditorUI()
 	saveLevelObject->setPosition(70.0f, visibleSize.height - 200.0f);
 	
 	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, NULL);
+	auto menuBackground = Menu::create(sidebarBackground, NULL);
+	menuBackground->setPosition(0, 0);
+	menuBackground->setZOrder(-10);
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
+	m_pLevelEditor->addChild(menuBackground);
 	pLevelEditor->MainMenu = menu;
 }
 

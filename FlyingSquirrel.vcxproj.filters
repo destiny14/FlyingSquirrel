@@ -179,9 +179,6 @@
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
@@ -250,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Shooter.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
