@@ -16,11 +16,11 @@ Snail* Snail::create( MainLayer* layer)
 	Snail* snail = new Snail();
 
 
-	Texture* m_ptex = Texture::create("snail.png");
+	Texture* tex = Texture::create("snail.png");
 
-	if (m_ptex)
+	if (tex)
 	{
-		snail->setTexture(m_ptex);
+		snail->setTexture(tex);
 		snail->setCollider();
 		snail->setParent(layer);
 
@@ -29,14 +29,94 @@ Snail* Snail::create( MainLayer* layer)
 		return snail;
 	}
 
-	return nullptr;
+	return nullptr;	
 }
 
 bool Snail::init()
 {
 	m_isAlive = true;
 
+	this->getSprite()->setScale(1.5f);
+
 	//-----Animationen-----//
+
+	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame->addSpriteFramesWithFile("snail.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("snail.png");
+
+	//-----Crouch_Cycle-----//		//--Tag_0--//
+
+	for (int i = 0; i < 90; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Crouchcycle(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	m_pCrouchCycleFrames = Animation::createWithSpriteFrames(frames, 0.0025f);
+	m_pCrouchCycleFrames->retain();
+	frames.clear();
+
+
+	//-----Punsh_1-----//		//--Tag_1--//
+
+	for (int i = 0; i < 85; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Punch_1(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	m_pPunch_1Frames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pPunsh1Action = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+	m_pPunsh1Action->setTag(1);
+	m_pPunch_1Frames->retain();
+	frames.clear();
+
+	//-----Punch_2-----//		//--Tag_2--//
+
+	for (int i = 0; i < 85; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Punch_2(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	m_pPunch_2Frames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pPunsh2Action = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+	m_pPunsh2Action->setTag(2);
+	m_pPunch_2Frames->retain();
+	frames.clear();
+
+	//-----Death-----//			//--Tag_3--//
+
+	for (int i = 0; i < 58; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pDeathAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+	m_pDeathAction->setTag(3);
+	m_pDeathFrames->retain();
+	frames.clear();
+
+	//-----Hit-----//		//--Tag_4--//
+
+	for (int i = 0; i < 25; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Hit(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	m_pHitFrames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pHitAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+	m_pHitAction->setTag(4);
+	m_pHitFrames->retain();
+	frames.clear();
 
 
 	return true;
@@ -44,16 +124,22 @@ bool Snail::init()
 
 void Snail::setCollider()
 {
-	Sprite* sprite = getSprite();
-	Rect boundingBox = sprite->getBoundingBox();
+	//Sprite* sprite = getSprite();
+	//Rect boundingBox = sprite->getBoundingBox();
 
-	Collider* collider = Collider::create(240.0f, 165.0f);
-	this->addComponent(collider);
+	m_pcollider = Collider::create(220.0f, 175.0f);
+	this->addComponent(m_pcollider);
 }
 
 void Snail::update(float dt)
 {
-	Moveable::update(dt, false);	
+
+	Moveable::update(dt, false);
+	
+
+
+	
+	
 
 	if (this->m_isAlive)
 	{
@@ -78,16 +164,28 @@ void Snail::update(float dt)
 //TODO
 void Snail::moodWalk(float dt)
 {
+
+	if (!this->getSprite()->getActionByTag(0))
+	{
+		this->getSprite()->stopAllActions();
+		m_pCrouchAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+		m_pCrouchAction->setTag(0);
+		this->getSprite()->runAction(m_pCrouchAction);
+	}
 	
 	if (m_timer >= 0)
 	{
-		m_moveDirection.x -= 1.0f;
+
+		m_moveDirection.x = -1.0f;
 		m_timer -= dt;
+		this->getSprite()->setScaleX(1.0f);
+
 	}
 	else if (m_timer < 0)
 	{
-		m_moveDirection.x += 1.0f;
+		m_moveDirection.x = 1.0f;
 		m_timer -= dt;
+		this->getSprite()->setScaleX(-1.0f);
 	}
 	if (m_timer <= -3)
 	{
@@ -95,13 +193,18 @@ void Snail::moodWalk(float dt)
 		m_timer = 3;
 	}
 
-	getTexture()->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
+	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
+	if (m_pcollider != nullptr)
+	{
+		m_pcollider->update(dt);
+	}
 }
 
 //TODO
 void Snail::moodAttack(float dt)
 {
-	//animation + player::hit
+	
+
 }
 
 //TODO
