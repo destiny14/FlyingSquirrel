@@ -1,6 +1,7 @@
 #include "cocos2d.h"
 #include "MainLayer.h"
 #include "Objects\Player.h"
+#include "..\GameCamera.h"
 #include "..\CommonMain.h"
 
 MainLayer::MainLayer() : LevelLayer()
@@ -37,6 +38,11 @@ bool MainLayer::init()
 	m_pInput = new InputManager(this);
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(visibleSize.width * 0.5f - 50, 600);
+
+	m_pCam = new GameCamera(this);
+	m_pCam->setFollowTarget(m_pPlayer);
+	m_pCam->setBoundingRect(Rect(-800.0f, -800.0f, 2400.0f, 2400.0f));
+
 	//m_pPlayer->setAffectedByGravity(false);
 	this->addChild(m_pPlayer->getSprite(), 1);
 
@@ -56,6 +62,7 @@ void MainLayer::update(float dt)
 {
 	m_pPlayer->update(dt);
 	m_pInput->update();
+	m_pCam->update(dt);
 	/*for (Texture* t : *getTextures())
 	{
 		t->update(dt);

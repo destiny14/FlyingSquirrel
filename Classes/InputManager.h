@@ -40,6 +40,7 @@ public:
 	/*Internal*/
 	Point getMousePosition();
 	bool isMouse1Pressed();
+	bool isMouse2Pressed();
 private:
 	Point m_mousePosition;
 	Node* m_pNode;
@@ -48,6 +49,7 @@ private:
 	std::list<InputAction*> m_actions;
 	bool* m_keyPressed;
 	bool m_mouse1Pressed;
+	bool m_mouse2Pressed;
 };
 
 #endif
