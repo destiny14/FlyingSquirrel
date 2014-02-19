@@ -48,6 +48,10 @@ void MainLayer::update(float dt)
 	{
 		t->update(dt);
 	}
+	for (Ground* g : *getPhysicsObjects())
+	{
+		g->update(dt);
+	}
 }
 
 void MainLayer::draw()
