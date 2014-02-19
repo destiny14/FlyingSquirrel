@@ -22,6 +22,8 @@ public:
 
 	virtual void draw();
 
+	Player* getPlayer() { return m_pPlayer; }
+
 	void setPhysicsObjects(list<Ground*>* physicObjects);
 
 	list<Ground*>* getPhysicsObjects();

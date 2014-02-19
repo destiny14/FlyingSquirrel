@@ -129,6 +129,12 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Collectible.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Nut.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -250,6 +256,12 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Collectible.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Nut.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

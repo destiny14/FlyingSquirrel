@@ -137,6 +137,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   <ItemGroup>
     <ClCompile Include="Classes\AppDelegate.cpp" />
     <ClCompile Include="Classes\CLogfile.cpp" />
+    <ClCompile Include="Classes\Collectible.cpp" />
     <ClCompile Include="Classes\CommandLineParameter.cpp" />
     <ClCompile Include="Classes\CommonMain.cpp" />
     <ClCompile Include="Classes\Components\CCollider.cpp" />
@@ -165,6 +166,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp" />
     <ClCompile Include="Classes\LevelTestScene.cpp" />
     <ClCompile Include="Classes\MainMenu.cpp" />
+    <ClCompile Include="Classes\Nut.cpp" />
     <ClCompile Include="Classes\TestLayer.cpp" />
     <ClCompile Include="Classes\UI.cpp" />
     <ClCompile Include="main.cpp" />
@@ -173,6 +175,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   <ItemGroup>
     <ClInclude Include="Classes\AppDelegate.h" />
     <ClInclude Include="Classes\BaseScene.h" />
+    <ClInclude Include="Classes\Collectible.h" />
     <ClInclude Include="Classes\CommandLineParameter.h" />
     <ClInclude Include="Classes\CommonMain.h" />
     <ClInclude Include="Classes\Components\Collider.h" />
@@ -205,6 +208,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\LevelTestScene.h" />
     <ClInclude Include="Classes\Logfile.h" />
     <ClInclude Include="Classes\MainMenu.h" />
+    <ClInclude Include="Classes\Nut.h" />
     <ClInclude Include="Classes\Singleton.h" />
     <ClInclude Include="Classes\TestLayer.h" />
     <ClInclude Include="Classes\UI.h" />
