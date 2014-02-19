@@ -3,9 +3,9 @@
 #include "LevelLayer.h"
 #include "Bullet.h"
 #include "..\Components\Collider.h"
-#include "Player.h"
+#include "Shooter.h"
 
-Bullet* Bullet::createNut(Moveable* shooter, MainLayer* parent, Point position, float direction, float force)
+Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, float direction, float force)
 {
 	Bullet* bullet = new Bullet();
 	Texture* tex = Texture::create("nuss.png");
@@ -27,7 +27,7 @@ Bullet::Bullet() {}
 
 Bullet::~Bullet() {}
 
-bool Bullet::init(Moveable* shooter, float direction, float force)
+bool Bullet::init(Shooter* shooter, float direction, float force)
 {
 	m_shooter = shooter;
 	m_direction = direction;

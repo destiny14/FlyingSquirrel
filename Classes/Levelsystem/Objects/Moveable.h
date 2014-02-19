@@ -5,7 +5,6 @@
 #include "LevelLayer.h"
 #include "Ground.h"
 #include "Layers\MainLayer.h"
-//#include "Bullet.h"
 #include <list>
 
 USING_NS_CC;
