@@ -19,6 +19,7 @@ private:
 	Node* m_pFollow;
 	Node* m_pFollowed;
 	Rect m_bounds;
+	Rect m_camBounds;
 
 	Point clamp(Rect _b, Point _p);
 };
