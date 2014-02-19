@@ -32,7 +32,7 @@ Bullet::~Bullet() {}
 
 bool Bullet::init()
 {
-
+	return true;
 }
 
 void Bullet::update(float dt)
