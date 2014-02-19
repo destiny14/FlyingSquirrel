@@ -92,7 +92,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.03f);
+	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.01f);
 	m_pJumpFrames->retain();
 	frames.clear();
 	//////////////////////
@@ -116,7 +116,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.015f);
 	m_pLandingFrames->retain();
 	frames.clear();
 	/////////////////////
