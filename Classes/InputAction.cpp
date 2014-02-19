@@ -98,4 +98,20 @@ void MouseInputAction::check(InputManager* _manager)
 			m_released = true; //set to false, to indicate this was not the first press
 	//set to true, to indicate, this was the last press
 	}
+
+	pressed = false;
+	if (_manager->isMouse2Pressed())
+	{
+		pressed = true;
+		m_timesPressed++;
+	}
+	m_mouse2Pressed = pressed;
+	if (m_timesPressed > 1) //Was recently pressed  
+	{
+		if (_manager->isMouse2Pressed()) //was pressed this frame
+			pressed = false;
+		else
+			m_released = true; //set to false, to indicate this was not the first press
+		//set to true, to indicate, this was the last press
+	}
 }

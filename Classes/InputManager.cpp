@@ -79,12 +79,16 @@ void InputManager::onMouseDown(Event* _event)
 	{
 		m_mouse1Pressed = true;
 	}
+	if (eMouse->getMouseButton() == 1)
+	{
+		m_mouse2Pressed = true;
+	}
 }
 
 void InputManager::onMouseUp(Event* _event)
 {
-	
 	m_mouse1Pressed = false;
+	m_mouse2Pressed = false;
 }
 
 void InputManager::onKeyPressed(EventKeyboard::KeyCode _keyCode, Event* _event)
@@ -105,6 +109,11 @@ bool InputManager::isKeyPressed(EventKeyboard::KeyCode _keyCode)
 bool InputManager::isMouse1Pressed()
 {
 	return m_mouse1Pressed;
+}
+
+bool InputManager::isMouse2Pressed()
+{
+	return m_mouse2Pressed;
 }
 
 Point InputManager::getMousePosition()

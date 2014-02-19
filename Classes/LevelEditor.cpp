@@ -20,12 +20,14 @@ LevelEditor::~LevelEditor() {}
 
 bool LevelEditor::init()
 {
+	m_snapToGrid = true;
 	m_pLevel = Level::createNew("tmpname.xml");
 	MainLayer* mainL = MainLayer::create();
 	mainL->retain();
 	m_pLevel->setMainLayer(mainL);
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
+	m_currentSelected = nullptr;
 	m_pInput = new InputManager(this);
 	m_mouseInputAction = m_pInput->createMouseAction("mousepos");
 	m_visibleSize = Director::getInstance()->getVisibleSize();
@@ -33,14 +35,6 @@ bool LevelEditor::init()
 	m_pBackgroundSprite = nullptr;
 	if (!Layer::init())
 		return false;
-	/*m_pBackgroundSprite = Sprite::create("ui_background.png");
-	if (m_pBackgroundSprite != nullptr)
-	{
-		m_pBackgroundSprite->setPosition(0, m_visibleSize.height);
-		m_pBackgroundSprite->setScale(500, m_visibleSize.height * 4);
-		m_pBackgroundSprite->setZOrder(0);
-		this->addChild(m_pBackgroundSprite);
-	}*/
 	this->scheduleUpdate();
 	return true;
 }
@@ -76,18 +70,46 @@ void LevelEditor::changeLayerCallback()
 	}
 }
 
+void LevelEditor::toggleGridCallback()
+{
+	MenuItemFont* toggleGridLabel = (MenuItemFont*) MainMenu->getChildByTag(112);
+	if (toggleGridLabel != nullptr)
+	{
+		if (m_snapToGrid)
+		{
+			toggleGridLabel->setString("no snap");
+			m_snapToGrid = false;
+		}
+		else
+		{
+			toggleGridLabel->setString("snap to grid");
+			m_snapToGrid = true;
+		}
+		
+	}
+}
+
 void LevelEditor::update(float dt)
 {
 	m_pInput->update();
+	Point p = m_mouseInputAction->getMousePosition();
 	if (m_pCurrentMoving != nullptr)
 	{
-		Point p = m_mouseInputAction->getMousePosition();
+		
 		Point o = this->getPosition();
-		float xp = ((int)((p.x - o.x) / 10)) * 10;
-		float yp = ((int)((p.y - o.y) / 10)) * 10;
-		m_pCurrentMoving->setPosition(
-			xp,
-			yp);
+		if (m_snapToGrid)
+		{
+			float xp = ((int) ((p.x - o.x) / 10)) * 10;
+			float yp = ((int) ((p.y - o.y) / 10)) * 10;
+			m_pCurrentMoving->setPosition(
+				xp,
+				yp);
+		}
+		else
+		{
+			Point o = this->getPosition();
+			m_pCurrentMoving->setPosition(p - o);
+		}
 	}
 
 	if (m_mouseInputAction->isMouse1Pressed())
@@ -98,13 +120,37 @@ void LevelEditor::update(float dt)
 		}
 		else
 		{
-			Point mPos = m_mouseInputAction->getMousePosition();
-			Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
-			m_lastMousePos = mPos;
-
-			this->setPositionX(this->getPositionX() - diff.x);
-			this->setPositionY(this->getPositionY() - diff.y);
+			for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
+			{
+				Point o = this->getPosition();
+				if (tex->getSprite()->getBoundingBox().containsPoint(m_mouseInputAction->getMousePosition()))
+				{
+					if (m_currentSelected != nullptr)
+					{
+						log("Z Order: %i, %i", tex->getZOrder() > m_currentSelected->getZOrder());
+						if (tex->getZOrder() > m_currentSelected->getZOrder())
+						{
+							m_currentSelected = tex;
+						}
+					}
+					else
+					{
+						m_currentSelected = tex;
+					}
+					
+				}
+			}
+			m_pCurrentMoving = m_currentSelected;
 		}
+	}
+	else if (m_mouseInputAction->isMouse2Pressed())
+	{
+		Point mPos = m_mouseInputAction->getMousePosition();
+		Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
+		m_lastMousePos = mPos;
+
+		this->setPositionX(this->getPositionX() - diff.x);
+		this->setPositionY(this->getPositionY() - diff.y);
 	}
 	else
 	{
