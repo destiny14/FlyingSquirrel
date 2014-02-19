@@ -2,8 +2,8 @@
 #define __LEVELLAYER_H__
 
 #include "cocos2d.h"
-#include "Texture.h"
-#include "Ground.h"
+#include "..\Objects\Texture.h"
+#include "..\Objects\Ground.h"
 #include <list>
 
 using namespace std;

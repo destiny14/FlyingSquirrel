@@ -22,6 +22,7 @@ UI::UI()
 
 	m_pLevelEditor = Node::create();
 	m_pLevelEditor->retain();
+	m_playerMuni = nullptr;
 
 	createCommonUI();
 }
@@ -134,6 +135,10 @@ void UI::createLevelEditorUI()
 	labelMenuTitle->setPosition(35.0f, visibleSize.height - 40.0f);
 	m_pLevelEditor->addChild(labelMenuTitle);
 
+	MenuItemImage* sidebarBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
+	sidebarBackground->setPosition(100.0f, visibleSize.height * 0.5f);
+	sidebarBackground->setScale(200, visibleSize.height);
+	
 	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
 	addTextureObject->setFontNameObj("Arial");
 	addTextureObject->setFontSizeObj(30);
@@ -156,8 +161,12 @@ void UI::createLevelEditorUI()
 	saveLevelObject->setPosition(70.0f, visibleSize.height - 200.0f);
 	
 	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, NULL);
+	auto menuBackground = Menu::create(sidebarBackground, NULL);
+	menuBackground->setPosition(0, 0);
+	menuBackground->setZOrder(-10);
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
+	m_pLevelEditor->addChild(menuBackground);
 	pLevelEditor->MainMenu = menu;
 }
 
@@ -214,12 +223,13 @@ void UI::createIngameUI()
 	lastLife = m_pPlayer->getHealth();
 	m_pPlayerLife = new Sprite*[3];
 
-	m_pPlayerLife[0] = Sprite::create("GUI/life1.png");
-	m_pPlayerLife[1] = Sprite::create("GUI/life2.png");
-	m_pPlayerLife[2] = Sprite::create("GUI/life3.png");
-
 	for (int i = 0; i < 3; ++i)
 	{
+		std::string str = std::string("GUI/life");
+		str.append(std::to_string(i+1));
+		str.append(".png");
+
+		m_pPlayerLife[i] = Sprite::create(str);
 		m_pPlayerLife[i]->setPosition(
 			198.0f + m_pPlayerLife[i]->getContentSize().width * 0.5f,
 			133.0f + m_pPlayerLife[i]->getContentSize().height * 0.5f);
@@ -227,12 +237,40 @@ void UI::createIngameUI()
 		m_pIngame->addChild(m_pPlayerLife[i], 2);
 	}
 
+	lastCrystal = 1;
+	m_pCrystals = new Sprite*[4];
+	for (int i = 0; i < 4; ++i)
+	{
+		std::string str = std::string("GUI/");
+		str.append(std::to_string(i+1));
+		str.append(".png");
+
+		m_pCrystals[i] = Sprite::create(str);
+		m_pCrystals[i]->setPosition(
+			285.0f + m_pCrystals[i]->getContentSize().width * 0.5f,
+			60.0f + m_pCrystals[i]->getContentSize().height * 0.5f);
+		m_pCrystals[i]->setVisible((lastCrystal - 1) == i);
+		m_pIngame->addChild(m_pCrystals[i], 2);
+	}
+
+	m_polle = Sprite::create("GUI/holybell.png");
+	m_polle->setPosition(380.0f, 90.0f);
+	m_polle->setVisible(lastCrystal > 0);
+
+	m_crystal = Sprite::create("GUI/crystall.png");
+	m_crystal->setPosition(245.0f, 82.0f);
+	m_crystal->setVisible(lastCrystal > 0);
+
+	lastMuni = m_pPlayer->getNuts();
+	createMuniLabel();
+
 	Sprite* bg = Sprite::create("GUI/bg.png");
 	bg->setPosition(
 		bg->getContentSize().width * 0.5f,
 		bg->getContentSize().height *0.5f);
 
-
+	m_pIngame->addChild(m_polle, 2);
+	m_pIngame->addChild(m_crystal, 2);
 	m_pIngame->addChild(bg, 1);
 
 	//################################################
@@ -265,6 +303,34 @@ void UI::update()
 		for (int i = 0; i < 3; ++i)
 			m_pPlayerLife[i]->setVisible((lastLife - 1) == i);
 	}
+
+	if ((m_pPlayer != nullptr) && (lastCrystal != 1))
+	{
+		lastCrystal = 1;
+		m_crystal->setVisible(lastCrystal > 0);
+		for (int i = 0; i < 4; ++i)
+			m_pCrystals[i]->setVisible((lastCrystal - 1) == i);
+	}
+	
+
+	if ((m_pPlayer != nullptr) && lastMuni != m_pPlayer->getNuts())
+	{
+		lastMuni = m_pPlayer->getNuts();
+		createMuniLabel();
+	}
+}
+
+void UI::createMuniLabel()
+{
+	if (m_playerMuni != nullptr)
+		m_playerMuni->removeFromParentAndCleanup(true);
+
+	std::string str = std::string("x");
+	str.append(std::to_string(lastMuni +12));
+	m_playerMuni = LabelTTF::create(str, "fonts/Comic Book.ttf", 40);
+	m_playerMuni->setColor(Color3B::BLACK);
+	m_playerMuni->setPosition(505.0f, 95.0f);
+	m_pIngame->addChild(m_playerMuni, 2);
 }
 
 void UI::nullCallback() {}

@@ -33,14 +33,14 @@ bool LevelEditor::init()
 	m_pBackgroundSprite = nullptr;
 	if (!Layer::init())
 		return false;
-	m_pBackgroundSprite = Sprite::create("ui_background.png");
+	/*m_pBackgroundSprite = Sprite::create("ui_background.png");
 	if (m_pBackgroundSprite != nullptr)
 	{
 		m_pBackgroundSprite->setPosition(0, m_visibleSize.height);
 		m_pBackgroundSprite->setScale(500, m_visibleSize.height * 4);
 		m_pBackgroundSprite->setZOrder(0);
 		this->addChild(m_pBackgroundSprite);
-	}
+	}*/
 	this->scheduleUpdate();
 	return true;
 }
