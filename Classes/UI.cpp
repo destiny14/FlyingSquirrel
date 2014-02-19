@@ -332,7 +332,12 @@ void UI::update()
 
 	if ((m_pPlayer != nullptr) && (m_pGameOver != nullptr))
 	{
-		m_pGameOver->setVisible(m_pPlayer->getHealth() <= 0);
+		static bool dead = false;
+		if (!dead && m_pPlayer->getHealth() <= 0)
+		{
+			m_pGameOver->setVisible(true);
+			dead = true;
+		}
 	}
 }
 
