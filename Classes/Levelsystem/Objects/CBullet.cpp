@@ -15,8 +15,9 @@ Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, f
 	bullet->setCollider();
 	bullet->setParent(parent);
 	bullet->setGround(false);
-	bullet->setPosition(position.x + (150.0f * direction), position.y);
+	bullet->setPosition(position.x + (100.0f * direction), position.y + 25.0f);
 	bullet->setAffectedByGravity(true);
+	bullet->getSprite()->setScale(0.5f);
 
 	bullet->init(shooter, direction, force);
 

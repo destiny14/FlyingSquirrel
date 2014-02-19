@@ -109,7 +109,8 @@ void HelloWorld::update(float dt)
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
-	m_pCam->update(dt);
+	if (!m_moveable->m_isDead)
+		m_pCam->update(dt);
 	UPDATEUI;
 
 	if (m_pLSD->wasPressed())

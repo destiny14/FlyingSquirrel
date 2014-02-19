@@ -8,7 +8,7 @@
 #define UI_FILECHOOSER 4
 
 #define ACTIVATEUI(A, B) UI::Get()->setUINode(A, B)
-#define DEACTIVATEUI UI::Get()->setUINode(nullptr)
+#define DEACTIVATEUI UI::Get()->setUINode(nullptr, UI_NONE)
 #define UPDATEUI UI::Get()->update()
 
 #define ACTIVATEBASEUI(A) ACTIVATEUI(A, UI_NONE);

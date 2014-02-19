@@ -22,6 +22,9 @@ bool CMainMenu::init()
 	if (!Layer::init())
         return false;
 
+	loadScene = false;
+	t = 0.0f;
+
 	initInput();
 	ACTIVATEMAINMENUUI(this);
 
@@ -42,14 +45,26 @@ void CMainMenu::update(float _dt)
 	UPDATEUI;
 	this->runAction(MoveBy::create(0.0f, Point(_dt * 10.0f, 0.0f)));
 	m_pInput->update();
-	
+
+	if (loadScene)
+	{
+		t += _dt;
+		if (t >= 0.5f)
+			Director::getInstance()->replaceScene(HelloWorld::createScene());
+	}
+		
 	if (m_pStartGame->wasReleased())
 		startCallback(this);
 }
 
 void CMainMenu::startCallback(Object* sender)
 {
-	Director::getInstance()->replaceScene(HelloWorld::createScene());
+	DEACTIVATEUI;
+	Size visibleSize = EGLView::getInstance()->getVisibleSize();
+	auto label = LabelTTF::create("Bin am Laden...", "fonts/Comic Book.ttf", 48);
+	label->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	this->addChild(label);
+	loadScene = true;
 }
 
 void CMainMenu::exitCallback(Object* sender)

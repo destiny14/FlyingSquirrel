@@ -9,9 +9,13 @@ InputManager::InputManager(Node* _pNode)
 	for (int i = 0; i < (int)EventKeyboard::KeyCode::KEY_SEARCH + 1; ++i)
 		m_keyPressed[i] = false;
 
+	m_mousePressed = new bool[8];
+	for (int i = 0; i < 8; ++i)
+		m_mousePressed[i] = false;
+
 	m_keyL = EventListenerKeyboard::create();
 	m_mouseL = EventListenerMouse::create();
-	m_mouse1Pressed = false;
+
 	m_mouseL->onMouseMove = CC_CALLBACK_1(InputManager::onMouseMove, this);
 	m_mouseL->onMouseDown = CC_CALLBACK_1(InputManager::onMouseDown, this);
 	m_mouseL->onMouseUp = CC_CALLBACK_1(InputManager::onMouseUp, this);
@@ -56,9 +60,9 @@ InputAction* InputManager::createKeyboardAction(EventKeyboard::KeyCode* _code, i
 	return pAction;
 }
 
-MouseInputAction* InputManager::createMouseAction(char* _name)
+MouseInputAction* InputManager::createMouseAction(char* _name, int _button)
 {
-	MouseInputAction* pAction = new MouseInputAction(_name);
+	MouseInputAction* pAction = new MouseInputAction(_name, _button);
 	m_actions.push_front(pAction);
 	return pAction;
 }
@@ -75,16 +79,14 @@ void InputManager::onMouseDown(Event* _event)
 {
 	EventMouse* eMouse = dynamic_cast<EventMouse*>(_event);
 
-	if (eMouse->getMouseButton() == 0)
-	{
-		m_mouse1Pressed = true;
-	}
+	m_mousePressed[eMouse->getMouseButton()] = true;
 }
 
 void InputManager::onMouseUp(Event* _event)
 {
-	
-	m_mouse1Pressed = false;
+	EventMouse* eMouse = dynamic_cast<EventMouse*>(_event);
+
+	m_mousePressed[eMouse->getMouseButton()] = false;
 }
 
 void InputManager::onKeyPressed(EventKeyboard::KeyCode _keyCode, Event* _event)
@@ -102,9 +104,9 @@ bool InputManager::isKeyPressed(EventKeyboard::KeyCode _keyCode)
 	return m_keyPressed[(int)(_keyCode)];
 }
 
-bool InputManager::isMouse1Pressed()
+bool InputManager::isMousePressed(int button)
 {
-	return m_mouse1Pressed;
+	return m_mousePressed[button];
 }
 
 Point InputManager::getMousePosition()

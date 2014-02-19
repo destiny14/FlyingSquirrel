@@ -19,7 +19,7 @@ public:
 	/*
 	*	Erzeugt eine neue (Mouse)Action mit gegebenem Namen
 	*/
-	MouseInputAction* createMouseAction(char* _name);
+	MouseInputAction* createMouseAction(char* _name, int _button);
 	
 	/*
 	*	Muss jedes Frame aufgerufen werden
@@ -39,7 +39,7 @@ public:
 	bool isKeyPressed(EventKeyboard::KeyCode _keyCode);
 	/*Internal*/
 	Point getMousePosition();
-	bool isMouse1Pressed();
+	bool isMousePressed(int _button);
 private:
 	Point m_mousePosition;
 	Node* m_pNode;
@@ -47,7 +47,7 @@ private:
 	EventListenerMouse* m_mouseL;
 	std::list<InputAction*> m_actions;
 	bool* m_keyPressed;
-	bool m_mouse1Pressed;
+	bool* m_mousePressed;
 };
 
 #endif
