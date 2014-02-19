@@ -7,6 +7,7 @@
 #include "..\Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
 #include "Input.h"
+#include "Bullet.h"
 
 enum EMovement
 {
@@ -48,6 +49,8 @@ private:
 	bool m_readyToFly;
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
+
+	list<Bullet*>* nuts;
 
 	///////////
 	// Input //

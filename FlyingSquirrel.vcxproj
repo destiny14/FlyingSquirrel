@@ -135,7 +135,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="Classes\AppDelegate.cpp" />
     <ClCompile Include="Classes\CLogfile.cpp" />
     <ClCompile Include="Classes\CommandLineParameter.cpp" />
@@ -156,6 +155,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Layers\CMainLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Level.cpp" />
+    <ClCompile Include="Classes\Levelsystem\Objects\CBullet.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CPlayer.cpp" />
@@ -170,7 +170,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="WinStringHelp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Classes\AppDelegate.h" />
     <ClInclude Include="Classes\BaseScene.h" />
     <ClInclude Include="Classes\CommandLineParameter.h" />
@@ -196,6 +195,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Level.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h" />
+    <ClInclude Include="Classes\Levelsystem\Objects\Bullet.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Player.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Texture.h" />

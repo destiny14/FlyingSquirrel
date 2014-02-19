@@ -14,15 +14,15 @@ enum Bullettype
 	Shockwave = 2
 };
 
-class Bullet : Moveable
+class Bullet : public Moveable
 {
 public:
-	Bullet* createNut(MainLayer* parent, Point* position, Point* direction, float force);
+	static Bullet* createNut(MainLayer* parent, Point position, float direction, float force);
 
 	Bullet();
 	~Bullet();
 
-	virtual bool init();
+	virtual bool init(float direction, float force);
 	virtual void update(float dt);
 
 protected:
@@ -32,7 +32,7 @@ private:
 	void destroy();
 
 	Bullettype m_bullettype;
-	Point* m_pDirection;
+	float m_direction;
 	float m_force;
 };
 
