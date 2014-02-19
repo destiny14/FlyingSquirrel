@@ -44,6 +44,9 @@ bool Player::init()
 
 	m_health = 3;
 	m_nuts = 0;
+
+	m_counterDeath = 0;
+
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -54,6 +57,7 @@ bool Player::init()
 	m_readyToFly = false;
 	m_isFlying = false;
 	m_rescueFly = false;
+	m_isDead = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
@@ -197,7 +201,7 @@ void Player::update(float dt)
 	if (m_pJump->wasReleased())
 		m_movement = (EMovement)(m_movement ^ EMovement::Jump);
 
-	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
+	if (this->getSprite()->getActionByTag(5))// || this->getSprite()->getActionByTag(6))
 	{
 		m_movement = None;
 		return;
@@ -205,12 +209,35 @@ void Player::update(float dt)
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
-	CheckForCollisions();
+	//if (m_health != 0)
+		CheckForCollisions();
 	Shooter::update(dt, true);
 	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
+	if (m_health == 0 && !m_isDead)
+	{
+		addVelocity((-750.0f * this->getScaleX()), -300.0f);
+		if (m_counterDeath == 0)
+		{
+			this->getSprite()->stopAllActions();
+			m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+			m_pDeathAction->setTag(6);
+			this->getSprite()->runAction(m_pDeathAction);
+		}
+		if (m_counterDeath == 23)
+		{
+			m_isDead = true;
+		}
+		m_counterDeath++;
+		return;
+	}
+	else if (m_health == 0 && m_isDead)
+	{
+		//CheckForCollisions();
+		return;
+	}
 	if (m_pShoot->wasPressed())
 	{
 		Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
@@ -449,15 +476,7 @@ void Player::hit()
 {
 	m_health = m_health - 1;
 
-	if (m_health == 0)
-	{
-		addVelocity((-100.0f * this->getSprite()->getScaleX()), 10.0f);
-		this->getSprite()->stopAllActions();
-		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
-		m_pDeathAction->setTag(6);
-		this->getSprite()->runAction(m_pDeathAction);
-	}
-	else
+	if (m_health != 0)
 	{
 		this->getSprite()->stopAllActions();
 		m_pHitAction = Repeat::create(Animate::create(m_pHitFrames), 1);

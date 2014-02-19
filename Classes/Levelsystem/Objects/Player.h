@@ -45,6 +45,9 @@ private:
 
 	int m_health;
 	int m_nuts;
+
+	int m_counterDeath;
+
 	Point m_direction;
 	float m_speed;
 	bool m_jump;
@@ -52,9 +55,11 @@ private:
 	bool m_readyToFly;
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
+	bool m_isDead;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
+
 	///////////
 	// Input //
 	///////////

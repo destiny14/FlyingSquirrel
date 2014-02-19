@@ -40,9 +40,9 @@ int CCommonMain::main(char** par, int parLength)
 	fprintf(stdout, "========================\nDebug: %i\n", m_appDebug);
 	fprintf(stdout, "========================\nFenster:\n\tBreite: %i\n\tHoehe: %i\n========================\n", m_windowWidth, m_windowHeight);
 	
-	if (true || m_appFullscreen)
+	if (m_appFullscreen)
 	{
-		m_eglView.initWithFullScreen("FlyingSquirrel");
+		//m_eglView.initWithFullScreen("FlyingSquirrel");
 	}
 	else
 	{
