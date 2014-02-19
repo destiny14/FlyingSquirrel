@@ -23,6 +23,7 @@ UI::UI()
 	m_pLevelEditor = Node::create();
 	m_pLevelEditor->retain();
 	m_playerMuni = nullptr;
+	m_pGameOver = nullptr;
 
 	createCommonUI();
 }
@@ -267,6 +268,10 @@ void UI::createIngameUI()
 	m_crystal->setPosition(245.0f, 82.0f);
 	m_crystal->setVisible(lastCrystal > 0);
 
+	m_pGameOver = LabelTTF::create("GAME OVER", "Comic Book.ttf", 64);
+	m_pGameOver->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	m_pGameOver->setVisible(false);
+
 	lastMuni = m_pPlayer->getNuts();
 	createMuniLabel();
 
@@ -323,6 +328,11 @@ void UI::update()
 	{
 		lastMuni = m_pPlayer->getNuts();
 		createMuniLabel();
+	}
+
+	if ((m_pPlayer != nullptr) && (m_pGameOver != nullptr))
+	{
+		m_pGameOver->setVisible(m_pPlayer->getHealth() <= 0);
 	}
 }
 

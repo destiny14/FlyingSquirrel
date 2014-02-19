@@ -49,6 +49,7 @@ private:
 	Node* m_pMenu;
 	Node* m_pIngame;
 	Node* m_pLevelEditor;
+	LabelTTF* m_pGameOver;
 	LabelTTF* m_playerMuni;
 	Player* m_pPlayer;
 	Sprite** m_pPlayerLife;
