@@ -2,6 +2,7 @@
 #define __SNAIL_H__
 
 #include "Moveable.h"
+#include <vector>
 //TODO #include player
 
 class Snail : public Moveable
@@ -38,6 +39,8 @@ public:
 
 private:
 
+	bool m_first = true;
+
 	float m_timer = 3.0;
 
 	float m_speed = 100.0f;
@@ -46,7 +49,26 @@ private:
 
 	bool m_isForward = true;
 
-	Action* m_pMoveAction;
+	Collider* m_pcollider;
+
+	Action* m_pCrouchAction;
+	Action* m_pPunsh1Action;
+	Action* m_pPunsh2Action;
+	Action* m_pDeathAction;
+	Action* m_pHitAction;
+
+	Animation* m_pCrouchCycleFrames;
+	Animation* m_pPunch_1Frames;
+	Animation* m_pPunch_2Frames;
+	Animation* m_pDeathFrames;
+	Animation* m_pHitFrames;
+
+	Vector<SpriteFrame*> frames;
+	String* m_pSpriteString;
+	SpriteFrame* m_pFrame;
+
+	SpriteFrameCache* m_pSpriteFrame;
+	SpriteBatchNode* m_pSpriteBatch;
 
 };
 
