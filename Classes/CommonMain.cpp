@@ -8,8 +8,8 @@ int CCommonMain::main(char** par, int parLength)
 	CCommandLineParameter* pCommand = new CCommandLineParameter(par, parLength);
 	m_appDebug = pCommand->isParameterActive("-debug") || pCommand->isParameterActive("-d");
 	m_appFullscreen = pCommand->isParameterActive("-fullscreen") || pCommand->isParameterActive("-f");
-	m_windowWidth = pCommand->getParameterInt("-w", pCommand->getParameterInt("-width", 800));
-	m_windowHeight = pCommand->getParameterInt("-h", pCommand->getParameterInt("-height", 600));
+	m_windowWidth = pCommand->getParameterInt("-w", pCommand->getParameterInt("-width", 1200));
+	m_windowHeight = pCommand->getParameterInt("-h", pCommand->getParameterInt("-height", 675));
 	int dFPS = pCommand->getParameterInt("-fps", 60);
 
 	char* tmp = pCommand->getParameterCharArr("-l", "h");
@@ -42,7 +42,7 @@ int CCommonMain::main(char** par, int parLength)
 	
 	if (m_appFullscreen)
 	{
-//		m_eglView.initWithFullScreen("FlyingSquirrel");
+		//m_eglView.initWithFullScreen("FlyingSquirrel");
 	}
 	else
 	{

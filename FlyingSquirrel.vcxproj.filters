@@ -123,7 +123,10 @@
     <ClCompile Include="Classes\GameCamera.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="CBullet.cpp">
+    <ClCompile Include="Classes\Levelsystem\Objects\CBullet.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,9 +177,6 @@
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
@@ -242,8 +242,14 @@
     <ClInclude Include="Classes\GameCamera.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Classes\Levelsystem\Objects\Bullet.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Shooter.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
+      <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

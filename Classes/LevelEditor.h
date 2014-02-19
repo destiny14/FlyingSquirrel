@@ -33,15 +33,22 @@ public:
 	void moveFileSelectDownCallback();
 	void changeLayerCallback();
 	void saveLevelCallback();
+	void toggleGridCallback();
 
 	CREATE_FUNC(LevelEditor);
 private:
+	Texture* m_currentSelected;
+	bool m_snapToGrid;
 	Level* m_pLevel;
 	InputManager* m_pInput;
 	MouseInputAction* m_mouseInputAction;
+	MouseInputAction* m_mouseInputAction2;
+	InputAction* m_deleteObjectInputAction;
 	Node* m_pCurrentMoving;
 	Size m_visibleSize;
 	Sprite* m_pBackgroundSprite;
+	Point m_lastMousePos;
+	Ground* m_currentSelectedGround;
 };
 
 #endif // !__LEVELEDITOR_H__

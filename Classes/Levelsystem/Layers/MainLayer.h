@@ -3,7 +3,11 @@
 
 #include "cocos2d.h"
 #include "LevelLayer.h"
+#include "..\InputManager.h"
+//#include "../../InputManager.h"
 
+class Player;
+class GameCamera;
 class MainLayer : public LevelLayer
 {
 public:
@@ -22,7 +26,9 @@ public:
 
 	list<Ground*>* getPhysicsObjects();
 private:
-
+	GameCamera* m_pCam;
+	InputManager* m_pInput;
+	Player* m_pPlayer;
 	list<Ground*>* m_physicObjects;
 };
 

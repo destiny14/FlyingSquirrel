@@ -23,7 +23,6 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	if (tex)
 	{
 		player->setTexture(tex);
-		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
 		player->setCollider();
 		player->setParent(parent);
 		player->setGround(false);
@@ -41,7 +40,14 @@ Player::~Player() {}
 
 bool Player::init()
 {
+	Shooter* shooter = Shooter::create(this->getTexture()->getFilename(), this->getParent());
+
 	m_health = 3;
+	m_nuts = 0;
+
+	m_counterDeath = 0;
+	m_counterToShoot = 0;
+
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -52,6 +58,11 @@ bool Player::init()
 	m_readyToFly = false;
 	m_isFlying = false;
 	m_rescueFly = false;
+	m_isDead = false;
+	m_shooted = false;
+	m_topCollision = false;
+	m_bottomColWhileTopCol = false;
+	m_topCollisionGround = nullptr;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -92,7 +103,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.03f);
+	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.01f);
 	m_pJumpFrames->retain();
 	frames.clear();
 	//////////////////////
@@ -116,7 +127,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.015f);
 	m_pLandingFrames->retain();
 	frames.clear();
 	/////////////////////
@@ -143,6 +154,18 @@ bool Player::init()
 	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pDeathFrames->retain();
 	frames.clear();
+	////////////////////////
+	// Schuss - Animation // // 7
+	////////////////////////
+	for (int i = 0; i < 22; i++)
+	{
+		filename = String::createWithFormat("skeleton-Shot%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pShootFrames->retain();
+	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
 
@@ -154,27 +177,14 @@ void Player::setCollider()
 	Sprite* sprite = getSprite();
 	Rect boundingBox = sprite->getBoundingBox();
 
-	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);//boundingBox.size.width, boundingBox.size.height);
+	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);
 	this->addComponent(collider);
 }
-
-//void Player::updateCollider()
-//{
-//	Rect oldCollider = getLeftCollider();
-//	setLeftCollider(oldCollider.size.width, oldCollider.size.height);
-//	oldCollider = getRightCollider();
-//	setRightCollider(oldCollider.size.width, oldCollider.size.height);
-//	oldCollider = getBottomCollider();
-//	setBottomCollider(oldCollider.size.width, oldCollider.size.height);
-//	float y = getPositionY();
-//	Rect bb = getSprite()->getBoundingBox();
-//}
 
 PlayerCollider* Player::getPlayerColliderComponent()
 {
 	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
 }
-
 
 void Player::update(float dt)
 {
@@ -192,7 +202,7 @@ void Player::update(float dt)
 	if (m_pJump->wasReleased())
 		m_movement = (EMovement)(m_movement ^ EMovement::Jump);
 
-	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
+	if (this->getSprite()->getActionByTag(5))
 	{
 		m_movement = None;
 		return;
@@ -200,16 +210,74 @@ void Player::update(float dt)
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
-	CheckForCollisions();
-	Moveable::update(dt, true);
+	Shooter::update(dt, true);
 	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
+	////////////////////////////////
+	// Tod - Bewegung - SPIELENDE //
+	////////////////////////////////
+	if (m_health > 0)
+	{
+		CheckForCollisions();
+	}
+	else if (m_health <= 0 && !m_isDead)
+	{
+		addVelocity((-750.0f * this->getScaleX()), -300.0f);
+		if (m_counterDeath == 0)
+		{
+			this->getSprite()->stopAllActions();
+			m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+			m_pDeathAction->setTag(6);
+			this->getSprite()->runAction(m_pDeathAction);
+		}
+		if (m_counterDeath == 23)
+		{
+			m_isDead = true;
+		}
+		m_counterDeath++;
+		return;
+	}
+	else if (m_health <= 0 && m_isDead)
+	{
+		addVelocity(0.0f, -500.0f);
+		return;
+	}
+	/////////////////////////
+	// Schießen - Bewegung //
+	/////////////////////////
+	if (m_pShoot->wasPressed())// && this->getGrounded())
+	{
+		this->getSprite()->stopAllActions();
+		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
+		m_pShootAction->setTag(7);
+		this->getSprite()->runAction(m_pShootAction);
+
+		m_shooted = true;
+	}
+	/////////////////////////
+	// Schießen - Geschoss //
+	/////////////////////////
+	if (m_shooted)
+	{
+		if (m_counterToShoot == 15)
+		{
+			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+			this->getParent()->addChild(nut->getSprite(), 1);
+			this->nuts->push_back(nut);
+			m_shooted = false;
+			m_counterToShoot = 0;
+		}
+		else
+		{
+			m_counterToShoot++;
+		}
+	}
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
-	if (!m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4))
+	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7))
 	{
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
@@ -327,46 +395,109 @@ void Player::update(float dt)
 
 	m_direction.x *= m_speed;
 	this->setPosition(this->getPosition() + m_direction);
-
-	//static float timeForHit = 0.075f;
 }
 
 void Player::CheckForCollisions()
 {
+	bool collided = false;
 	setGrounded(false);
 	list<Ground*>* physObj = getParent()->getPhysicsObjects();
 	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
-		{
+		{			
 			bool hack = false;
 			Collider* c = g->getColliderComponent();
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+			
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()))
 			{
-				hack = true;
-				// kollision (boden)
-				setGrounded(true);
-				setPositionY(getPositionY() + 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
+				if (m_topCollisionGround != nullptr)
+				{
+					m_topCollisionGround == nullptr;
+				}
+				else
+				{
+					if (m_bottomColWhileTopCol == false)
+					{
+						m_topCollision = true;
+						m_topCollisionGround = g;
+					}
+				}
+				collided = true;
 			}
-			if (hack)
+			else
 			{
-				setPositionY(getPositionY() - 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
-			}
+				Collider* topc = nullptr;
+				if (m_topCollisionGround != nullptr)
+					topc = m_topCollisionGround->getColliderComponent();
+				
+				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				{
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+					{
+						collided = true;
+						hack = true;
+						// kollision (boden)
+						setGrounded(true);
+						setPositionY(getPositionY() + 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
 
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
-			{
-				//Collision left wand
-				setPositionX(getPositionX() + 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
+					}
+				}
+				else if (m_topCollision && c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+				{
+					collided = true;
+					m_bottomColWhileTopCol = true;
+				}
+				if (m_bottomColWhileTopCol == true)
+				{
+					if (topc != nullptr)
+					{
+						if (!topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+						{
+							m_bottomColWhileTopCol = false;
+							m_topCollision = false;
+							collided = true;
+						}
+					}
+				}
+				if (hack)
+				{
+						setPositionY(getPositionY() - 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+				}
+				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				{
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
+					{
+						setPositionX(getPositionX() + 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+						collided = true;
+					}
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+					{
+						//Collision right wand
+						setPositionX(getPositionX() - 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+						collided = true;
+					}
+				}
+				if (topc != nullptr)
+				{
+					if (topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()) &&
+						topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+					{
+						m_topCollision = true;
+						collided = true;
+					}
+				}
 			}
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
-			{
-				//Collision right wand
-				setPositionX(getPositionX() - 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
-			}
+		}
+		if (!collided)
+		{
+			m_bottomColWhileTopCol = false;
+			m_topCollision = false;
+			m_topCollisionGround = nullptr;
 		}
 	}
 }
@@ -375,15 +506,7 @@ void Player::hit()
 {
 	m_health = m_health - 1;
 
-	if (m_health == 0)
-	{
-		addVelocity((-100.0f * this->getSprite()->getScaleX()), 10.0f);
-		this->getSprite()->stopAllActions();
-		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
-		m_pDeathAction->setTag(6);
-		this->getSprite()->runAction(m_pDeathAction);
-	}
-	else
+	if (m_health != 0)
 	{
 		this->getSprite()->stopAllActions();
 		m_pHitAction = Repeat::create(Animate::create(m_pHitFrames), 1);
@@ -395,4 +518,9 @@ void Player::hit()
 int Player::getHealth()
 {
 	return m_health;
+}
+
+int Player::getNuts()
+{
+	return m_nuts;
 }

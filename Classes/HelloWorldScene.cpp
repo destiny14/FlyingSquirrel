@@ -78,19 +78,19 @@ bool HelloWorld::init()
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
 	m_moveable = Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
-	m_moveable->setPosition(visibleSize.width * 0.5f, 500);
+	m_moveable->setPosition(visibleSize.width * 0.5f, 500.0f);
 	this->addChild(m_moveable->getSprite(), 1);
 
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_moveable);
-	//m_pCam->setBoundingRect(Rect(-300.0f, -300.0f, 300.0f, 300.0f));
+	m_pCam->setBoundingRect(Rect(-800.0f, -20000.0f, 2400.0f, 40000.0f));
 
 	ParallaxLayer* para = ParallaxLayer::create();
-	Point paraPos = Point(2500.0f, 2000.0f);
-	para->addParallaxElement(Sprite::create("bg1.png"), paraPos, Point(0.3f, 0.01f), 4);
-	para->addParallaxElement(Sprite::create("bg2.png"), paraPos, Point(0.03f, 0.001f), 3);
-	para->addParallaxElement(Sprite::create("bg3.png"), paraPos, Point(0.003f, 0.0001f), 2);
-	para->addParallaxElement(Sprite::create("bg4.png"), paraPos, Point(0.0003f, 0.00001f), 1);
+	Point paraPos = Point(2500.0f, 0.0f);
+	para->addParallaxElement(Sprite::create("bg1.png"), paraPos, Point(0.3f, 0.1f), 4);
+	para->addParallaxElement(Sprite::create("bg2.png"), paraPos, Point(0.03f, 0.01f), 3);
+	para->addParallaxElement(Sprite::create("bg3.png"), paraPos, Point(0.003f, 0.001f), 2);
+	para->addParallaxElement(Sprite::create("bg4.png"), paraPos, Point(0.0003f, 0.0001f), 1);
 	this->addChild(para, -9999);
 
 	//Level* l = Level::createFromFile("test.xml");
@@ -109,7 +109,8 @@ void HelloWorld::update(float dt)
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
-	m_pCam->update(dt);
+	if (!m_moveable->m_isDead)
+		m_pCam->update(dt);
 	UPDATEUI;
 
 	if (m_pLSD->wasPressed())

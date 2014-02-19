@@ -20,27 +20,25 @@ LevelEditor::~LevelEditor() {}
 
 bool LevelEditor::init()
 {
+	m_snapToGrid = true;
 	m_pLevel = Level::createNew("tmpname.xml");
 	MainLayer* mainL = MainLayer::create();
 	mainL->retain();
 	m_pLevel->setMainLayer(mainL);
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
+	m_currentSelected = nullptr;
+	m_currentSelectedGround = nullptr;
 	m_pInput = new InputManager(this);
-	m_mouseInputAction = m_pInput->createMouseAction("mousepos");
+	m_mouseInputAction = m_pInput->createMouseAction("mousepos", 0);
+	m_mouseInputAction2 = m_pInput->createMouseAction("mousepos", 1);
+	EventKeyboard::KeyCode keysDelete[] = { EventKeyboard::KeyCode::KEY_DELETE };
+	m_deleteObjectInputAction = m_pInput->createKeyboardAction(keysDelete, 1, "deleteObject");
 	m_visibleSize = Director::getInstance()->getVisibleSize();
 	ACTIVATELEVELEDITORUI(this);
 	m_pBackgroundSprite = nullptr;
 	if (!Layer::init())
 		return false;
-	m_pBackgroundSprite = Sprite::create("ui_background.png");
-	if (m_pBackgroundSprite != nullptr)
-	{
-		m_pBackgroundSprite->setPosition(0, m_visibleSize.height);
-		m_pBackgroundSprite->setScale(300, m_visibleSize.height * 4);
-		m_pBackgroundSprite->setZOrder(0);
-		this->addChild(m_pBackgroundSprite);
-	}
 	this->scheduleUpdate();
 	return true;
 }
@@ -76,25 +74,151 @@ void LevelEditor::changeLayerCallback()
 	}
 }
 
+void LevelEditor::toggleGridCallback()
+{
+	MenuItemFont* toggleGridLabel = (MenuItemFont*) MainMenu->getChildByTag(112);
+	if (toggleGridLabel != nullptr)
+	{
+		if (m_snapToGrid)
+		{
+			toggleGridLabel->setString("no snap");
+			m_snapToGrid = false;
+		}
+		else
+		{
+			toggleGridLabel->setString("snap to grid");
+			m_snapToGrid = true;
+		}
+		
+	}
+}
+
 void LevelEditor::update(float dt)
 {
-	UPDATEUI;
 	m_pInput->update();
+	Point p = m_mouseInputAction->getMousePosition();
 	if (m_pCurrentMoving != nullptr)
 	{
-		Point p = m_mouseInputAction->getMousePosition();
-		float xp = ((int) (p.x / 10)) * 10;
-		float yp = ((int) (p.y / 10)) * 10;
-		m_pCurrentMoving->setPosition(
-			xp,
-			yp);
+		
+		Point o = this->getPosition();
+		if (m_snapToGrid)
+		{
+			float xp = ((int) ((p.x - o.x) / 10)) * 10;
+			float yp = ((int) ((p.y - o.y) / 10)) * 10;
+			m_pCurrentMoving->setPosition(
+				xp,
+				yp);
+		}
+		else
+		{
+			Point o = this->getPosition();
+			m_pCurrentMoving->setPosition(p - o);
+		}
 	}
-		//m_pCurrentMoving->setPosition(m_mouseInputAction->getMousePosition());
 
-	if (m_mouseInputAction->isMouse1Pressed())
+	if (m_mouseInputAction->wasPressed())
 	{
-		m_pCurrentMoving = nullptr;
+		if (m_pCurrentMoving != nullptr)
+		{
+			m_pCurrentMoving = nullptr;
+			m_currentSelected = nullptr;
+			m_currentSelectedGround = nullptr;
+		}
+		else if (m_currentSelected != nullptr)
+		{
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			if (m_currentSelected->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+			{
+				m_pCurrentMoving = m_currentSelected;
+			}
+		}
+		else if (m_currentSelectedGround != nullptr)
+		{
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			if (m_currentSelectedGround->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+			{
+				m_pCurrentMoving = m_currentSelectedGround;
+			}
+		}
+		else
+		{
+			m_currentSelected = nullptr;
+			m_currentSelectedGround = nullptr;
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
+			{ 
+				if (tex->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+				{
+					if (m_currentSelected != nullptr)
+					{
+						if (tex->getZOrder() > m_currentSelected->getZOrder())
+						{
+							m_currentSelected = tex;
+						}
+					}
+					else
+					{
+						m_currentSelected = tex;
+					}
+					
+				}
+			}
+			for (Ground* ground : *m_pLevel->getMainLayer()->getPhysicsObjects())
+			{
+				if (ground->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+				{
+					if (m_currentSelectedGround != nullptr)
+					{
+						if (ground->getZOrder() > m_currentSelectedGround->getZOrder())
+						{
+							m_currentSelectedGround = ground;
+						}
+					}
+					else
+					{
+						m_currentSelectedGround = ground;
+					}
+				}
+			}
+			/*m_pCurrentMoving = m_currentSelected;
+			if (m_currentSelectedGround != nullptr)
+				m_pCurrentMoving = m_currentSelectedGround;*/
+		}
 	}
+	else if (m_mouseInputAction2->wasPressed())
+	{
+		m_lastMousePos = m_mouseInputAction->getMousePosition();
+	}
+	else if (m_mouseInputAction2->isPressed())
+	{
+		Point mPos = m_mouseInputAction->getMousePosition();
+		Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
+		m_lastMousePos = mPos;
+
+		this->setPositionX(this->getPositionX() - diff.x);
+		this->setPositionY(this->getPositionY() - diff.y);
+	}
+	if (m_deleteObjectInputAction->isPressed())
+	{
+		if (m_currentSelected != nullptr)
+		{
+			m_pLevel->getMainLayer()->getTextures()->remove(m_currentSelected);
+			removeChild(m_currentSelected);
+			delete m_currentSelected;
+			m_currentSelected = nullptr;
+		}
+		else if (m_currentSelectedGround != nullptr)
+		{
+			m_pLevel->getMainLayer()->getPhysicsObjects()->remove(m_currentSelectedGround);
+			removeChild(m_currentSelectedGround);
+			delete m_currentSelectedGround;
+			m_currentSelectedGround = nullptr;
+		}
+	}
+	UPDATEUI;
 }
 
 void LevelEditor::draw()
