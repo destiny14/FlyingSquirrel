@@ -72,8 +72,10 @@ void KeyboardInputAction::check(InputManager* _manager)
 	}
 }
 
-MouseInputAction::MouseInputAction(char* _name) : InputAction(_name)
-{}
+MouseInputAction::MouseInputAction(char* _name, int _button) : InputAction(_name)
+{
+	button = _button;
+}
 
 MouseInputAction::~MouseInputAction()
 {
@@ -82,36 +84,19 @@ MouseInputAction::~MouseInputAction()
 
 void MouseInputAction::check(InputManager* _manager)
 {
-	bool pressed = false;
-	m_mousePos = _manager->getMousePosition();
-	if (_manager->isMouse1Pressed())
+	bool pressed = _manager->isMousePressed(button);
+
+	if (pressed)
 	{
-		pressed = true;
+		m_pressed = true;
 		m_timesPressed++;
-	}
-	m_mouse1Pressed = pressed;
-	if (m_timesPressed > 1) //Was recently pressed  
-	{
-		if (_manager->isMouse1Pressed()) //was pressed this frame
-			pressed = false;
-		else
-			m_released = true; //set to false, to indicate this was not the first press
-	//set to true, to indicate, this was the last press
 	}
 
-	pressed = false;
-	if (_manager->isMouse2Pressed())
-	{
-		pressed = true;
-		m_timesPressed++;
-	}
-	m_mouse2Pressed = pressed;
 	if (m_timesPressed > 1) //Was recently pressed  
 	{
-		if (_manager->isMouse2Pressed()) //was pressed this frame
-			pressed = false;
+		if (m_pressed) //was pressed this frame
+			m_pressed = false;	//set to false, to indicate this was not the first press
 		else
-			m_released = true; //set to false, to indicate this was not the first press
-		//set to true, to indicate, this was the last press
+			m_released = true;	//set to true, to indicate, this was the last press
 	}
 }
