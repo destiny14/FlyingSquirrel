@@ -3,9 +3,10 @@
 
 #include "Moveable.h"
 #include <vector>
+#include "Levelsystem\Objects\Shooter.h"
 //TODO #include player
 
-class Snail : public Moveable
+class Snail : public Shooter
 {
 protected:
 
