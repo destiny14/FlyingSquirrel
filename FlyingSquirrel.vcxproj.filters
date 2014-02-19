@@ -123,6 +123,9 @@
     <ClCompile Include="Classes\GameCamera.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Classes\GameCamera.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
