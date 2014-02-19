@@ -15,6 +15,31 @@ GameCamera::~GameCamera()
 void GameCamera::setBoundingRect(Rect _bounds)
 {
 	m_bounds = _bounds;
+
+	if (Rect::ZERO.equals(m_bounds)) return;
+
+	Size winSize = Director::getInstance()->getWinSize();
+	Point _fullScreenSize = Point(winSize.width, winSize.height);
+
+	float _leftBoundary = -((m_bounds.origin.x + m_bounds.size.width) - _fullScreenSize.x);
+	float _rightBoundary = -m_bounds.origin.x;
+	float _topBoundary = -m_bounds.origin.y;
+	float _bottomBoundary = -((m_bounds.origin.y + m_bounds.size.height) - _fullScreenSize.y);
+
+	if (_rightBoundary < _leftBoundary)
+	{
+		// screen width is larger than world's boundary width
+		//set both in the middle of the world
+		_rightBoundary = _leftBoundary = (_leftBoundary + _rightBoundary) / 2;
+	}
+	if (_topBoundary < _bottomBoundary)
+	{
+		// screen width is larger than world's boundary width
+		//set both in the middle of the world
+		_topBoundary = _bottomBoundary = (_topBoundary + _bottomBoundary) / 2;
+	}
+
+	m_camBounds = Rect(_leftBoundary, _bottomBoundary, _rightBoundary - _leftBoundary, _topBoundary - _bottomBoundary);
 }
 
 void GameCamera::setFollowTarget(Node* _followed)
@@ -31,23 +56,25 @@ void GameCamera::update(float _dt)
 {
 	if (m_pFollow == nullptr || m_pFollowed == nullptr) return;
 
-	Point tmp = m_pFollowed->getPosition();
+	Point target = clamp(m_bounds, m_pFollowed->getPosition());
+	m_pFollowed->setPosition(target);
+
+	Size size = EGLView::getInstance()->getVisibleSize() * 0.5f;
+	Point tmp = target;
 	tmp.x *= -1.0f;
 	tmp.y *= -1.0f;
-	Size size = EGLView::getInstance()->getVisibleSize() * 0.5f;
 	tmp += Point(size.width, size.height);
-
 	tmp = m_pFollow->getPosition().lerp(tmp, 0.6f);
+	tmp = clamp(m_camBounds, tmp);
+	m_pFollow->setPosition(tmp);
+}
 
-	if (!m_bounds.equals(Rect::ZERO))
-	{
-		m_pFollow->setPosition(Point(
-			clampf(tmp.x, m_bounds.getMinX(), m_bounds.getMaxX()),
-			clampf(tmp.y, m_bounds.getMinY(), m_bounds.getMaxY()))
-			);
-	}
-	else
-	{
-		m_pFollow->setPosition(tmp);
-	}
+Point GameCamera::clamp(Rect _b, Point _p)
+{
+	if (Rect::ZERO.equals(_b)) return _p;
+
+	return Point(
+		clampf(_p.x, _b.getMinX(), _b.getMaxX()),
+		clampf(_p.y, _b.getMinY(), _b.getMaxY())
+		);
 }

@@ -13,7 +13,7 @@ Scene* LevelTestScene::createScene()
 	
 	// add layer as a child to scene
 	scene->addChild(layer);
-	Level* l = Level::loadLevel("testlevel.xml");
+	Level* l = Level::loadLevel("testlevel1.xml");
 
 	auto mainlayer = l->getMainLayer();
 
