@@ -31,23 +31,26 @@ void GameCamera::update(float _dt)
 {
 	if (m_pFollow == nullptr || m_pFollowed == nullptr) return;
 
-	Point tmp = m_pFollowed->getPosition();
+	Point target = clamp(m_bounds, m_pFollowed->getPosition());
+	m_pFollowed->setPosition(target);
+
+	Size size = EGLView::getInstance()->getVisibleSize() * 0.5f;
+
+	Point tmp = target;
 	tmp.x *= -1.0f;
 	tmp.y *= -1.0f;
-	Size size = EGLView::getInstance()->getVisibleSize() * 0.5f;
 	tmp += Point(size.width, size.height);
-
 	tmp = m_pFollow->getPosition().lerp(tmp, 0.6f);
+	tmp = clamp(m_bounds, tmp);
+	m_pFollow->setPosition(tmp);
+}
 
-	if (!m_bounds.equals(Rect::ZERO))
-	{
-		m_pFollow->setPosition(Point(
-			clampf(tmp.x, m_bounds.getMinX(), m_bounds.getMaxX()),
-			clampf(tmp.y, m_bounds.getMinY(), m_bounds.getMaxY()))
-			);
-	}
-	else
-	{
-		m_pFollow->setPosition(tmp);
-	}
+Point GameCamera::clamp(Rect _b, Point _p)
+{
+	if (Rect::ZERO.equals(_b)) return _p;
+
+	return Point(
+		clampf(_p.x, _b.getMinX(), _b.getMaxX()),
+		clampf(_p.y, _b.getMinY(), _b.getMaxY())
+		);
 }

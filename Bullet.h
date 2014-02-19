@@ -7,10 +7,17 @@
 #include "..\Components\Collider.h"
 #include "Layers\MainLayer.h"
 
+enum Bullettype
+{
+	Nut = 0,
+	Fireball = 1,
+	Shockwave = 2
+};
+
 class Bullet : Moveable
 {
 public:
-	static Bullet* create(char* filename, MainLayer* parent, Point* position);
+	Bullet* createNut(MainLayer* parent, Point* position, Point* direction, float force);
 
 	Bullet();
 	~Bullet();
@@ -23,6 +30,10 @@ protected:
 private:
 	void setCollider();
 	void destroy();
+
+	Bullettype m_bullettype;
+	Point* m_pDirection;
+	float m_force;
 };
 
 #endif // !__BULLET_H__

@@ -89,7 +89,7 @@ void MouseInputAction::check(InputManager* _manager)
 		pressed = true;
 		m_timesPressed++;
 	}
-	log(m_timesPressed);
+	m_mouse1Pressed = pressed;
 	if (m_timesPressed > 1) //Was recently pressed  
 	{
 		if (_manager->isMouse1Pressed()) //was pressed this frame
@@ -98,5 +98,4 @@ void MouseInputAction::check(InputManager* _manager)
 			m_released = true; //set to false, to indicate this was not the first press
 	//set to true, to indicate, this was the last press
 	}
-	m_mouse1Pressed = pressed;
 }

@@ -83,7 +83,7 @@ bool HelloWorld::init()
 
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_moveable);
-	//m_pCam->setBoundingRect(Rect(-300.0f, -300.0f, 300.0f, 300.0f));
+	m_pCam->setBoundingRect(Rect(-800.0f, -800.0f, 2400.0f, 2400.0f));
 
 	ParallaxLayer* para = ParallaxLayer::create();
 	Point paraPos = Point(2500.0f, 2000.0f);

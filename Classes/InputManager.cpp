@@ -79,10 +79,6 @@ void InputManager::onMouseDown(Event* _event)
 	{
 		m_mouse1Pressed = true;
 	}
-	else
-	{
-		m_mouse1Pressed = false;
-	}
 }
 
 void InputManager::onMouseUp(Event* _event)
