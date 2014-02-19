@@ -36,12 +36,14 @@ public:
 	PlayerCollider* getPlayerColliderComponent();
 
 	int getHealth();
+	int getNuts();
 	void hit();
 
 private:
 	void CheckForCollisions();
 
 	int m_health;
+	int m_nuts;
 	Point m_direction;
 	float m_speed;
 	bool m_jump;
@@ -49,8 +51,6 @@ private:
 	bool m_readyToFly;
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
-
-	list<Bullet*>* nuts;
 
 	///////////
 	// Input //

@@ -49,7 +49,7 @@ void CMainMenu::update(float _dt)
 
 void CMainMenu::startCallback(Object* sender)
 {
-	Director::getInstance()->replaceScene(LevelTestScene::createScene());
+	Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
 
 void CMainMenu::exitCallback(Object* sender)

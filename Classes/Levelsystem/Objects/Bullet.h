@@ -17,12 +17,12 @@ enum Bullettype
 class Bullet : public Moveable
 {
 public:
-	static Bullet* createNut(MainLayer* parent, Point position, float direction, float force);
+	static Bullet* createNut(Moveable* shooter, MainLayer* parent, Point position, float direction, float force);
 
 	Bullet();
 	~Bullet();
 
-	virtual bool init(float direction, float force);
+	virtual bool init(Moveable* shooter, float direction, float force);
 	virtual void update(float dt);
 
 protected:
@@ -30,7 +30,9 @@ protected:
 private:
 	void setCollider();
 	void destroy();
+	void CheckForCollisions();
 
+	Moveable* m_shooter;
 	Bullettype m_bullettype;
 	float m_direction;
 	float m_force;

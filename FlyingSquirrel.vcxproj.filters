@@ -126,6 +126,9 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CBullet.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -243,6 +246,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Bullet.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Shooter.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,6 +43,7 @@ Player::~Player() {}
 bool Player::init()
 {
 	m_health = 3;
+	m_nuts = 0;
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -53,8 +54,6 @@ bool Player::init()
 	m_readyToFly = false;
 	m_isFlying = false;
 	m_rescueFly = false;
-
-	nuts = new list<Bullet*>;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -206,19 +205,19 @@ void Player::update(float dt)
 	CheckForCollisions();
 	Moveable::update(dt, true);
 	
-	for (Bullet* b : *nuts)
+	/*for (Bullet* b : *this->nuts)
 	{
 		b->update(dt);
-	}
+	}*/
 	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
 	if (m_pShoot->wasPressed())
 	{
-		Bullet* nut = Bullet::createNut(this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 20.0f);
+		/*Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 		this->getParent()->addChild(nut->getSprite(), 1);
-		nuts->push_back(nut);
+		this->nuts->push_back(nut);*/
 	}
 	///////////////////////
 	// Stehen - Bewegung //
@@ -407,4 +406,9 @@ void Player::hit()
 int Player::getHealth()
 {
 	return m_health;
+}
+
+int Player::getNuts()
+{
+	return m_nuts;
 }
