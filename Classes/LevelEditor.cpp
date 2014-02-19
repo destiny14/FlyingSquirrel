@@ -37,7 +37,7 @@ bool LevelEditor::init()
 	if (m_pBackgroundSprite != nullptr)
 	{
 		m_pBackgroundSprite->setPosition(0, m_visibleSize.height);
-		m_pBackgroundSprite->setScale(300, m_visibleSize.height * 4);
+		m_pBackgroundSprite->setScale(500, m_visibleSize.height * 4);
 		m_pBackgroundSprite->setZOrder(0);
 		this->addChild(m_pBackgroundSprite);
 	}
