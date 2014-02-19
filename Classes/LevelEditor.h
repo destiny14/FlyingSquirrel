@@ -42,6 +42,7 @@ private:
 	Level* m_pLevel;
 	InputManager* m_pInput;
 	MouseInputAction* m_mouseInputAction;
+	MouseInputAction* m_mouseInputAction2;
 	Node* m_pCurrentMoving;
 	Size m_visibleSize;
 	Sprite* m_pBackgroundSprite;

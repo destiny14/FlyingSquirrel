@@ -29,7 +29,8 @@ bool LevelEditor::init()
 	m_pCurrentMoving = nullptr;
 	m_currentSelected = nullptr;
 	m_pInput = new InputManager(this);
-	m_mouseInputAction = m_pInput->createMouseAction("mousepos");
+	m_mouseInputAction = m_pInput->createMouseAction("mousepos", 0);
+	m_mouseInputAction2 = m_pInput->createMouseAction("mousepos", 1);
 	m_visibleSize = Director::getInstance()->getVisibleSize();
 	ACTIVATELEVELEDITORUI(this);
 	m_pBackgroundSprite = nullptr;
@@ -112,7 +113,7 @@ void LevelEditor::update(float dt)
 		}
 	}
 
-	if (m_mouseInputAction->isMouse1Pressed())
+	if (m_mouseInputAction->isPressed())
 	{
 		if (m_pCurrentMoving != nullptr)
 		{
@@ -143,7 +144,7 @@ void LevelEditor::update(float dt)
 			m_pCurrentMoving = m_currentSelected;
 		}
 	}
-	else if (m_mouseInputAction->isMouse2Pressed())
+	else if (m_mouseInputAction2->isPressed())
 	{
 		Point mPos = m_mouseInputAction->getMousePosition();
 		Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
