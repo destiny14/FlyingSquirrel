@@ -3,7 +3,6 @@
 #include "LevelLayer.h"
 #include "Player.h"
 #include "..\Components\Collider.h"
-#include "Bullet.h"
 
 Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager)
 {
@@ -24,7 +23,6 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	if (tex)
 	{
 		player->setTexture(tex);
-		//player->getSprite()->setTextureRect(Rect(0.0f, 0.0f, 163.0f, 243.0f)); // Stand
 		player->setCollider();
 		player->setParent(parent);
 		player->setGround(false);
@@ -42,6 +40,8 @@ Player::~Player() {}
 
 bool Player::init()
 {
+	Shooter* shooter = Shooter::create(this->getTexture()->getFilename(), this->getParent());
+
 	m_health = 3;
 	m_nuts = 0;
 	m_sawyerRunFrame = 0;
@@ -203,21 +203,16 @@ void Player::update(float dt)
 	if (p != nullptr)
 		p->update(dt);
 	CheckForCollisions();
-	Moveable::update(dt, true);
-	
-	/*for (Bullet* b : *this->nuts)
-	{
-		b->update(dt);
-	}*/
+	Shooter::update(dt, true);
 	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
 	if (m_pShoot->wasPressed())
 	{
-		/*Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+		Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 		this->getParent()->addChild(nut->getSprite(), 1);
-		this->nuts->push_back(nut);*/
+		this->nuts->push_back(nut);
 	}
 	///////////////////////
 	// Stehen - Bewegung //
