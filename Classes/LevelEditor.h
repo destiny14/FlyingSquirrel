@@ -42,6 +42,7 @@ private:
 	Node* m_pCurrentMoving;
 	Size m_visibleSize;
 	Sprite* m_pBackgroundSprite;
+	Point m_lastMousePos;
 };
 
 #endif // !__LEVELEDITOR_H__

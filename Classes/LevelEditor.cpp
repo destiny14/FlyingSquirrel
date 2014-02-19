@@ -78,23 +78,39 @@ void LevelEditor::changeLayerCallback()
 
 void LevelEditor::update(float dt)
 {
-	UPDATEUI;
 	m_pInput->update();
 	if (m_pCurrentMoving != nullptr)
 	{
 		Point p = m_mouseInputAction->getMousePosition();
-		float xp = ((int) (p.x / 10)) * 10;
-		float yp = ((int) (p.y / 10)) * 10;
+		Point o = this->getPosition();
+		float xp = ((int)((p.x - o.x) / 10)) * 10;
+		float yp = ((int)((p.y - o.y) / 10)) * 10;
 		m_pCurrentMoving->setPosition(
 			xp,
 			yp);
 	}
-		//m_pCurrentMoving->setPosition(m_mouseInputAction->getMousePosition());
 
 	if (m_mouseInputAction->isMouse1Pressed())
 	{
-		m_pCurrentMoving = nullptr;
+		if (m_pCurrentMoving != nullptr)
+		{
+			m_pCurrentMoving = nullptr;
+		}
+		else
+		{
+			Point mPos = m_mouseInputAction->getMousePosition();
+			Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
+			m_lastMousePos = mPos;
+
+			this->setPositionX(this->getPositionX() - diff.x);
+			this->setPositionY(this->getPositionY() - diff.y);
+		}
 	}
+	else
+	{
+		m_lastMousePos = m_mouseInputAction->getMousePosition();
+	}
+	UPDATEUI;
 }
 
 void LevelEditor::draw()
