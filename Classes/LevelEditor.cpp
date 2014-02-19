@@ -207,14 +207,14 @@ void LevelEditor::update(float dt)
 		{
 			removeChild(m_currentSelected->getSprite());
 			m_pLevel->getMainLayer()->getTextures()->remove(m_currentSelected);
-			delete m_currentSelected;
+			//delete m_currentSelected;
 			m_currentSelected = nullptr;
 		}
 		else if (m_currentSelectedGround != nullptr)
 		{
 			removeChild(m_currentSelectedGround->getSprite());
 			m_pLevel->getMainLayer()->getPhysicsObjects()->remove(m_currentSelectedGround);
-			delete m_currentSelectedGround;
+			//delete m_currentSelectedGround;
 			m_currentSelectedGround = nullptr;
 		}
 	}
