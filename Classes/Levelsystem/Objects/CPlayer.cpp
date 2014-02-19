@@ -44,6 +44,10 @@ bool Player::init()
 
 	m_health = 3;
 	m_nuts = 0;
+
+	m_counterDeath = 0;
+	m_counterToShoot = 0;
+
 	m_sawyerRunFrame = 0;
 	m_movement = None;
 	m_direction.x = 0.0f;
@@ -54,6 +58,8 @@ bool Player::init()
 	m_readyToFly = false;
 	m_isFlying = false;
 	m_rescueFly = false;
+	m_isDead = false;
+	m_shooted = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
@@ -148,6 +154,18 @@ bool Player::init()
 	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pDeathFrames->retain();
 	frames.clear();
+	////////////////////////
+	// Schuss - Animation // // 7
+	////////////////////////
+	for (int i = 0; i < 22; i++)
+	{
+		filename = String::createWithFormat("skeleton-Shot%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pShootFrames->retain();
+	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
 
@@ -159,27 +177,14 @@ void Player::setCollider()
 	Sprite* sprite = getSprite();
 	Rect boundingBox = sprite->getBoundingBox();
 
-	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);//boundingBox.size.width, boundingBox.size.height);
+	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);
 	this->addComponent(collider);
 }
-
-//void Player::updateCollider()
-//{
-//	Rect oldCollider = getLeftCollider();
-//	setLeftCollider(oldCollider.size.width, oldCollider.size.height);
-//	oldCollider = getRightCollider();
-//	setRightCollider(oldCollider.size.width, oldCollider.size.height);
-//	oldCollider = getBottomCollider();
-//	setBottomCollider(oldCollider.size.width, oldCollider.size.height);
-//	float y = getPositionY();
-//	Rect bb = getSprite()->getBoundingBox();
-//}
 
 PlayerCollider* Player::getPlayerColliderComponent()
 {
 	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
 }
-
 
 void Player::update(float dt)
 {
@@ -197,7 +202,7 @@ void Player::update(float dt)
 	if (m_pJump->wasReleased())
 		m_movement = (EMovement)(m_movement ^ EMovement::Jump);
 
-	if (this->getSprite()->getActionByTag(5) || this->getSprite()->getActionByTag(6))
+	if (this->getSprite()->getActionByTag(5))
 	{
 		m_movement = None;
 		return;
@@ -205,22 +210,74 @@ void Player::update(float dt)
 	PlayerCollider* p = getPlayerColliderComponent();
 	if (p != nullptr)
 		p->update(dt);
-	CheckForCollisions();
 	Shooter::update(dt, true);
 	
 	m_direction.x = 0.0f;
 	setVelocityX(0.0f);
 
-	if (m_pShoot->wasPressed())
+	////////////////////////////////
+	// Tod - Bewegung - SPIELENDE //
+	////////////////////////////////
+	if (m_health > 0)
 	{
-		Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
-		this->getParent()->addChild(nut->getSprite(), 1);
-		this->nuts->push_back(nut);
+		CheckForCollisions();
+	}
+	else if (m_health <= 0 && !m_isDead)
+	{
+		addVelocity((-750.0f * this->getScaleX()), -300.0f);
+		if (m_counterDeath == 0)
+		{
+			this->getSprite()->stopAllActions();
+			m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+			m_pDeathAction->setTag(6);
+			this->getSprite()->runAction(m_pDeathAction);
+		}
+		if (m_counterDeath == 23)
+		{
+			m_isDead = true;
+		}
+		m_counterDeath++;
+		return;
+	}
+	else if (m_health <= 0 && m_isDead)
+	{
+		addVelocity(0.0f, -500.0f);
+		return;
+	}
+	/////////////////////////
+	// Schießen - Bewegung //
+	/////////////////////////
+	if (m_pShoot->wasPressed())// && this->getGrounded())
+	{
+		this->getSprite()->stopAllActions();
+		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
+		m_pShootAction->setTag(7);
+		this->getSprite()->runAction(m_pShootAction);
+
+		m_shooted = true;
+	}
+	/////////////////////////
+	// Schießen - Geschoss //
+	/////////////////////////
+	if (m_shooted)
+	{
+		if (m_counterToShoot == 15)
+		{
+			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+			this->getParent()->addChild(nut->getSprite(), 1);
+			this->nuts->push_back(nut);
+			m_shooted = false;
+			m_counterToShoot = 0;
+		}
+		else
+		{
+			m_counterToShoot++;
+		}
 	}
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
-	if (!m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4))
+	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7))
 	{
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
@@ -449,15 +506,7 @@ void Player::hit()
 {
 	m_health = m_health - 1;
 
-	if (m_health == 0)
-	{
-		addVelocity((-100.0f * this->getSprite()->getScaleX()), 10.0f);
-		this->getSprite()->stopAllActions();
-		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
-		m_pDeathAction->setTag(6);
-		this->getSprite()->runAction(m_pDeathAction);
-	}
-	else
+	if (m_health != 0)
 	{
 		this->getSprite()->stopAllActions();
 		m_pHitAction = Repeat::create(Animate::create(m_pHitFrames), 1);

@@ -38,6 +38,8 @@ public:
 
 	int getHealth();
 	int getNuts();
+	bool m_isDead;
+
 	void hit();
 
 private:
@@ -45,6 +47,10 @@ private:
 
 	int m_health;
 	int m_nuts;
+
+	int m_counterDeath;
+	int m_counterToShoot;
+
 	Point m_direction;
 	float m_speed;
 	bool m_jump;
@@ -52,9 +58,11 @@ private:
 	bool m_readyToFly;
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
+	bool m_shooted;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
+
 	///////////
 	// Input //
 	///////////
@@ -79,6 +87,7 @@ private:
 	Animation* m_pFlightFrames;
 	Animation* m_pLandingFrames;
 	Animation* m_pDeathFrames;
+	Animation* m_pShootFrames;
 
 	Action* m_pStandAction;
 	Action* m_pRunAction;
@@ -87,6 +96,7 @@ private:
 	Action* m_pFlightAction;
 	Action* m_pLandingAction;
 	Action* m_pDeathAction;
+	Action* m_pShootAction;
 
 	Vector<SpriteFrame*> frames;
 	String* filename;

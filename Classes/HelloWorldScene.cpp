@@ -78,7 +78,7 @@ bool HelloWorld::init()
 	g->push_back(m_ground);
 	this->setPhysicsObjects(g);
 	m_moveable = Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
-	m_moveable->setPosition(0.0f, 20000.0f);
+	m_moveable->setPosition(visibleSize.width * 0.5f, 500.0f);
 	this->addChild(m_moveable->getSprite(), 1);
 
 	m_pCam = new GameCamera(this);
@@ -109,7 +109,8 @@ void HelloWorld::update(float dt)
 	Node::update(dt);
 	m_moveable->update(dt);
 	m_pInput->update();
-	m_pCam->update(dt);
+	if (!m_moveable->m_isDead)
+		m_pCam->update(dt);
 	UPDATEUI;
 
 	if (m_pLSD->wasPressed())
