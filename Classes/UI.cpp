@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "HelloWorldScene.h"
 #include "CommonMain.h"
+#include "Player.h"
 
 UI::UI()
 {
@@ -37,6 +38,7 @@ UI::~UI()
 
 void UI::setUINode(Node* _pNode, int _menu)
 {
+	m_pPlayer = nullptr;
 	active = false;
 	m_pUINode->removeFromParentAndCleanup(false);
 	
@@ -71,7 +73,7 @@ void UI::setUINode(Node* _pNode, int _menu)
 			break;
 	}
 
-	_pNode->addChild(m_pUINode, 1);
+	_pNode->addChild(m_pUINode, 9999);
 	active = true;
 }
 
@@ -166,7 +168,7 @@ void UI::createCommonUI()
 	char labelVerTxt[30];
 	sprintf(labelVerTxt, "%s%s", g_pCommonMain->getAppVersion(), g_pCommonMain->getAppDebug() ? " Dev_Version" : "");
 	
-	auto labelVer = LabelTTF::create(labelVerTxt, "Arial", 18);
+	auto labelVer = LabelTTF::create(labelVerTxt, "Arial", 36);
 	labelVer->setPosition(Point(3.0f + labelVer->getContentSize().width * 0.5f,
 		visibleSize.height - labelVer->getContentSize().height * 0.5f));
 	m_pCommon->addChild(labelVer);
@@ -178,23 +180,23 @@ void UI::createMainMenuUI()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(CMainMenu::exitCallback, pMainMenu));
-	closeItem->setPosition(Point(
-		visibleSize.width - closeItem->getContentSize().width * 0.5f,
-		closeItem->getContentSize().height * 0.5f));
-
-	auto startItem = MenuItemFont::create("Start (Leertaste)", CC_CALLBACK_1(CMainMenu::startCallback, pMainMenu));
+	auto startItem = MenuItemFont::create("Spiel starten", CC_CALLBACK_1(CMainMenu::startCallback, pMainMenu));
+	startItem->setScale(2.0f);
 	startItem->setPosition(Point(
+		visibleSize.width * 0.5f,
+		visibleSize.height * 0.6f));
+
+	auto levelEditor = MenuItemFont::create("Level Editor", CC_CALLBACK_1(CMainMenu::levelEditorCallback, pMainMenu));
+	levelEditor->setScale(2.0f);
+	levelEditor->setPosition(Point(
 		visibleSize.width * 0.5f,
 		visibleSize.height * 0.5f));
 
-	auto levelEditor = MenuItemFont::create("Level Editor", CC_CALLBACK_1(CMainMenu::levelEditorCallback, pMainMenu));
-	levelEditor->setPosition(Point(
+	auto closeItem = MenuItemFont::create("Spiel verlassen", CC_CALLBACK_1(CMainMenu::exitCallback , pMainMenu));
+	closeItem->setScale(2.0f);
+	closeItem->setPosition(Point(
 		visibleSize.width * 0.5f,
-		visibleSize.height * 0.5f - 50));
+		visibleSize.height * 0.4f));
 
 	auto menu = Menu::create(startItem, closeItem, levelEditor, NULL);
 	menu->setPosition(0.0f, 0.0f);
@@ -204,27 +206,45 @@ void UI::createMainMenuUI()
 void UI::createIngameUI()
 {
 	m_pIngame->removeAllChildren();
+
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	auto lblText = "Hello World";
-	if (g_pCommonMain->getAppDebug())
-	{
-		lblText = "Hello World (DEBUG)";
-	}
-	auto label = LabelTTF::create(lblText, "Arial", 24);
+	//################################################
+	m_pPlayer = pHelloWorld->getPlayer();
+	lastLife = m_pPlayer->getHealth();
+	m_pPlayerLife = new Sprite*[3];
 
-	// position the label on the center of the screen
-	label->setPosition(visibleSize.width * 0.5f,
-		visibleSize.height - label->getContentSize().height);
-	m_pIngame->addChild(label, 1);
+	m_pPlayerLife[0] = Sprite::create("GUI/life1.png");
+	m_pPlayerLife[1] = Sprite::create("GUI/life2.png");
+	m_pPlayerLife[2] = Sprite::create("GUI/life3.png");
+
+	for (int i = 0; i < 3; ++i)
+	{
+		m_pPlayerLife[i]->setPosition(
+			198.0f + m_pPlayerLife[i]->getContentSize().width * 0.5f,
+			133.0f + m_pPlayerLife[i]->getContentSize().height * 0.5f);
+		m_pPlayerLife[i]->setVisible((lastLife-1) == i);
+		m_pIngame->addChild(m_pPlayerLife[i], 2);
+	}
+
+	Sprite* bg = Sprite::create("GUI/bg.png");
+	bg->setPosition(
+		bg->getContentSize().width * 0.5f,
+		bg->getContentSize().height *0.5f);
+
+
+	m_pIngame->addChild(bg, 1);
+
+	//################################################
 
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
 		CC_CALLBACK_1(HelloWorld::menuCloseCallback, pHelloWorld));
-
-	closeItem->setPosition(Point(visibleSize.width - closeItem->getContentSize().width * 0.5f,
-		closeItem->getContentSize().height * 0.5f));
+	closeItem->setScale(2.0f);
+	closeItem->setPosition(
+		visibleSize.width - closeItem->getScaleX() * closeItem->getContentSize().width * 0.5f,
+		closeItem->getScaleY() * closeItem->getContentSize().height * 0.5f);
 
 	// create menu, it's an autorelease object
 	auto menu = Menu::create(closeItem, NULL);
@@ -238,6 +258,13 @@ void UI::update()
 
 	Point origin = m_pUINode->getParent()->getPosition();
 	m_pUINode->setPosition(-origin.x, -origin.y);
+
+	if ((m_pPlayer != nullptr) && (lastLife != m_pPlayer->getHealth()))
+	{
+		lastLife = m_pPlayer->getHealth();
+		for (int i = 0; i < 3; ++i)
+			m_pPlayerLife[i]->setVisible((lastLife - 1) == i);
+	}
 }
 
 void UI::nullCallback() {}
