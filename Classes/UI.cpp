@@ -332,7 +332,7 @@ void UI::createMuniLabel()
 		m_playerMuni->removeFromParentAndCleanup(true);
 
 	std::string str = std::string("x");
-	str.append(std::to_string(lastMuni +12));
+	str.append(std::to_string(lastMuni));
 	m_playerMuni = LabelTTF::create(str, "fonts/Comic Book.ttf", 40);
 	m_playerMuni->setColor(Color3B::BLACK);
 	m_playerMuni->setPosition(505.0f, 95.0f);
