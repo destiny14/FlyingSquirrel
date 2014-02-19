@@ -22,6 +22,7 @@ private:
 	InputAction* m_pStartGame;
 	InputAction* m_pToggleUI;
 	InputAction* m_pReloadUI;
+	bool loadScene;
 
 	void initInput();
 };
