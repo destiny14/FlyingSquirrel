@@ -1,4 +1,5 @@
 #include "Snail.h"
+#include "Levelsystem\Objects\Player.h"
 
 USING_NS_CC;
 
@@ -33,8 +34,10 @@ Snail* Snail::create( MainLayer* layer)
 
 bool Snail::init()
 {
-	attackRange = 20.0f;
 	m_isAlive = true;
+
+	//-----Animationen-----//
+
 
 	return true;
 }
@@ -98,7 +101,7 @@ void Snail::moodWalk(float dt)
 //TODO
 void Snail::moodAttack(float dt)
 {
-	//animation + attack
+	//animation + player::hit
 }
 
 //TODO

@@ -66,8 +66,8 @@ MouseInputAction* InputManager::createMouseAction(char* _name)
 void InputManager::onMouseMove(Event* _event)
 {
 	EventMouse* eMouse = dynamic_cast<EventMouse*>(_event);
-	m_mousePosition.x = eMouse->getCursorX();
-	m_mousePosition.y = eMouse->getCursorY();
+	m_mousePosition.x = eMouse->getCursorX() / EGLView::getInstance()->getScaleX();
+	m_mousePosition.y = eMouse->getCursorY() / EGLView::getInstance()->getScaleY();
 	
 }
 

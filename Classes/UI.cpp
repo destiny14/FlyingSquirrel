@@ -83,18 +83,18 @@ void UI::createLevelEditorFilePopup()
 
 	MenuItemFont* addTextureObject = MenuItemFont::create("choose file", CC_CALLBACK_0(UI::nullCallback, this));
 	addTextureObject->setFontNameObj("Segoe UI");
-	addTextureObject->setFontSizeObj(24);
+	addTextureObject->setFontSizeObj(34);
 	addTextureObject->setPosition(visibleSize.width * 0.5f, visibleSize.height - 30);
 	
 	MenuItemFont* scrollUpObject = MenuItemFont::create("up", CC_CALLBACK_0(LevelEditor::moveFileSelectUpCallback, pLevelEditor));
 	scrollUpObject->setFontNameObj("Segoe UI");
-	scrollUpObject->setFontSizeObj(24);
-	scrollUpObject->setPosition(visibleSize.width - 40, visibleSize.height - 30);
+	scrollUpObject->setFontSizeObj(34);
+	scrollUpObject->setPosition(visibleSize.width - 50, visibleSize.height - 30);
 
 	MenuItemFont* scrollDownObject = MenuItemFont::create("down", CC_CALLBACK_0(LevelEditor::moveFileSelectDownCallback, pLevelEditor));
 	scrollDownObject->setFontNameObj("Segoe UI");
-	scrollDownObject->setFontSizeObj(24);
-	scrollDownObject->setPosition(visibleSize.width - 40, 30);
+	scrollDownObject->setFontSizeObj(34);
+	scrollDownObject->setPosition(visibleSize.width - 50, 30);
 
 	MenuItemImage* scrollBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
 	scrollBackground->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
@@ -107,7 +107,7 @@ void UI::createLevelEditorFilePopup()
 	{
 		MenuItemFont* menuItem = MenuItemFont::create(s, CC_CALLBACK_1(LevelEditor::chooseFileCallback, pLevelEditor, s, levelType));
 		menuItem->setFontNameObj("Segoe UI");
-		menuItem->setFontSizeObj(14);
+		menuItem->setFontSizeObj(24);
 		menuItem->setPosition(visibleSize.width * 0.5f, visibleSize.height - paddingTop);
 		paddingTop += 30;
 		lMenuItems.pushBack(menuItem);
@@ -129,29 +129,29 @@ void UI::createLevelEditorUI()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	auto labelMenuTitle = LabelTTF::create("Level Editor", "Segoe UI", 12);
-	labelMenuTitle->setPosition(35.0f, visibleSize.height - 30.0f);
+	labelMenuTitle->setPosition(35.0f, visibleSize.height - 40.0f);
 	m_pLevelEditor->addChild(labelMenuTitle);
 
 	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
-	addTextureObject->setFontNameObj("Segoe UI");
-	addTextureObject->setFontSizeObj(14);
-	addTextureObject->setPosition(40.0f, visibleSize.height - 60.0f);
+	addTextureObject->setFontNameObj("Arial");
+	addTextureObject->setFontSizeObj(30);
+	addTextureObject->setPosition(80.0f, visibleSize.height - 80.0f);
 
 	MenuItemFont* addGroundObject = MenuItemFont::create("add ground", CC_CALLBACK_1(LevelEditor::addGroundObjectCallback, pLevelEditor));
-	addGroundObject->setFontNameObj("Segoe UI");
-	addGroundObject->setFontSizeObj(14);
-	addGroundObject->setPosition(40.0f, visibleSize.height - 90.0f);
+	addGroundObject->setFontNameObj("Arial");
+	addGroundObject->setFontSizeObj(30);
+	addGroundObject->setPosition(80.0f, visibleSize.height - 120.0f);
 
 	MenuItemFont* changeLayerObject = MenuItemFont::create("mainLayer", CC_CALLBACK_0(LevelEditor::changeLayerCallback, pLevelEditor));
-	changeLayerObject->setFontNameObj("Segoe UI");
-	changeLayerObject->setFontSizeObj(14);
-	changeLayerObject->setPosition(40.0f, visibleSize.height - 120.0f);
+	changeLayerObject->setFontNameObj("Arial");
+	changeLayerObject->setFontSizeObj(30);
+	changeLayerObject->setPosition(73.0f, visibleSize.height - 160.0f);
 	changeLayerObject->setTag(111);
 
 	MenuItemFont* saveLevelObject = MenuItemFont::create("save level", CC_CALLBACK_0(LevelEditor::saveLevelCallback, pLevelEditor));
-	saveLevelObject->setFontNameObj("Segoe UI");
-	saveLevelObject->setFontSizeObj(14);
-	saveLevelObject->setPosition(40.0f, visibleSize.height - 150.0f);
+	saveLevelObject->setFontNameObj("Arial");
+	saveLevelObject->setFontSizeObj(30);
+	saveLevelObject->setPosition(70.0f, visibleSize.height - 200.0f);
 	
 	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, NULL);
 	menu->setPosition(0, 0);
