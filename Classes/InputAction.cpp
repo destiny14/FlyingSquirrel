@@ -86,6 +86,8 @@ void MouseInputAction::check(InputManager* _manager)
 {
 	bool pressed = _manager->isMousePressed(button);
 
+	m_mousePos = _manager->getMousePosition();
+
 	if (pressed)
 	{
 		m_pressed = true;
