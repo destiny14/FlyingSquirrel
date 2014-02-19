@@ -49,9 +49,15 @@ private:
 	Node* m_pMenu;
 	Node* m_pIngame;
 	Node* m_pLevelEditor;
+	LabelTTF* m_playerMuni;
 	Player* m_pPlayer;
 	Sprite** m_pPlayerLife;
+	Sprite** m_pCrystals;
+	Sprite* m_crystal;
+	Sprite* m_polle;
 	int lastLife;
+	int lastCrystal;
+	int lastMuni;
 	bool active;
 
 	vector<string> getAllFilesInFolder(string folder);
@@ -61,6 +67,7 @@ private:
 	void createCommonUI();
 	void createMainMenuUI();
 	void createIngameUI();
+	void createMuniLabel();
 };
 
 #endif//__UI_H__
