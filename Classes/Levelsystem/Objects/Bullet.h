@@ -6,6 +6,7 @@
 #include "Moveable.h"
 #include "..\Components\Collider.h"
 #include "Layers\MainLayer.h"
+#include "Shooter.h"
 
 enum Bullettype
 {
@@ -17,12 +18,12 @@ enum Bullettype
 class Bullet : public Moveable
 {
 public:
-	static Bullet* createNut(Moveable* shooter, MainLayer* parent, Point position, float direction, float force);
+	static Bullet* createNut(Shooter* shooter, MainLayer* parent, Point position, float direction, float force);
 
 	Bullet();
 	~Bullet();
 
-	virtual bool init(Moveable* shooter, float direction, float force);
+	virtual bool init(Shooter* shooter, float direction, float force);
 	virtual void update(float dt);
 
 protected:
@@ -32,7 +33,7 @@ private:
 	void destroy();
 	void CheckForCollisions();
 
-	Moveable* m_shooter;
+	Shooter* m_shooter;
 	Bullettype m_bullettype;
 	float m_direction;
 	float m_force;

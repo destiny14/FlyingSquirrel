@@ -7,6 +7,7 @@
 #include "Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
 #include "Input.h"
+#include "Shooter.h"
 #include "Bullet.h"
 
 enum EMovement
@@ -17,7 +18,7 @@ enum EMovement
 	Jump = 4
 };
 
-class Player : public Moveable
+class Player : public Shooter
 {
 public:
 	static Player* create(char* filename, MainLayer* parent, InputManager* pManager);
