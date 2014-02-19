@@ -113,7 +113,7 @@ void LevelEditor::update(float dt)
 		}
 	}
 
-	if (m_mouseInputAction->isPressed())
+	if (m_mouseInputAction->wasPressed())
 	{
 		if (m_pCurrentMoving != nullptr)
 		{
@@ -121,10 +121,12 @@ void LevelEditor::update(float dt)
 		}
 		else
 		{
+			m_currentSelected = nullptr;
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
 			for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
-			{
-				Point o = this->getPosition();
-				if (tex->getSprite()->getBoundingBox().containsPoint(m_mouseInputAction->getMousePosition()))
+			{ 
+				if (tex->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
 				{
 					if (m_currentSelected != nullptr)
 					{
@@ -144,6 +146,10 @@ void LevelEditor::update(float dt)
 			m_pCurrentMoving = m_currentSelected;
 		}
 	}
+	else if (m_mouseInputAction2->wasPressed())
+	{
+		m_lastMousePos = m_mouseInputAction->getMousePosition();
+	}
 	else if (m_mouseInputAction2->isPressed())
 	{
 		Point mPos = m_mouseInputAction->getMousePosition();
@@ -152,10 +158,6 @@ void LevelEditor::update(float dt)
 
 		this->setPositionX(this->getPositionX() - diff.x);
 		this->setPositionY(this->getPositionY() - diff.y);
-	}
-	else
-	{
-		m_lastMousePos = m_mouseInputAction->getMousePosition();
 	}
 	UPDATEUI;
 }
