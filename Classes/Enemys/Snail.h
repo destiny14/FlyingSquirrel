@@ -28,7 +28,7 @@ protected:
 
 public:
 
-	int attackRange;
+	int attackRange = 20;
 
 	void update(float dt);
 
