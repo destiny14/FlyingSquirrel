@@ -28,9 +28,12 @@ bool LevelEditor::init()
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
 	m_currentSelected = nullptr;
+	m_currentSelectedGround = nullptr;
 	m_pInput = new InputManager(this);
 	m_mouseInputAction = m_pInput->createMouseAction("mousepos", 0);
 	m_mouseInputAction2 = m_pInput->createMouseAction("mousepos", 1);
+	EventKeyboard::KeyCode keysDelete[] = { EventKeyboard::KeyCode::KEY_DELETE };
+	m_deleteObjectInputAction = m_pInput->createKeyboardAction(keysDelete, 1, "deleteObject");
 	m_visibleSize = Director::getInstance()->getVisibleSize();
 	ACTIVATELEVELEDITORUI(this);
 	m_pBackgroundSprite = nullptr;
@@ -118,10 +121,31 @@ void LevelEditor::update(float dt)
 		if (m_pCurrentMoving != nullptr)
 		{
 			m_pCurrentMoving = nullptr;
+			m_currentSelected = nullptr;
+			m_currentSelectedGround = nullptr;
+		}
+		else if (m_currentSelected != nullptr)
+		{
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			if (m_currentSelected->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+			{
+				m_pCurrentMoving = m_currentSelected;
+			}
+		}
+		else if (m_currentSelectedGround != nullptr)
+		{
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			if (m_currentSelectedGround->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+			{
+				m_pCurrentMoving = m_currentSelectedGround;
+			}
 		}
 		else
 		{
 			m_currentSelected = nullptr;
+			m_currentSelectedGround = nullptr;
 			Point o = this->getPosition();
 			Point p = m_mouseInputAction->getMousePosition();
 			for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
@@ -130,7 +154,6 @@ void LevelEditor::update(float dt)
 				{
 					if (m_currentSelected != nullptr)
 					{
-						log("Z Order: %i, %i", tex->getZOrder() > m_currentSelected->getZOrder());
 						if (tex->getZOrder() > m_currentSelected->getZOrder())
 						{
 							m_currentSelected = tex;
@@ -143,7 +166,26 @@ void LevelEditor::update(float dt)
 					
 				}
 			}
-			m_pCurrentMoving = m_currentSelected;
+			for (Ground* ground : *m_pLevel->getMainLayer()->getPhysicsObjects())
+			{
+				if (ground->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+				{
+					if (m_currentSelectedGround != nullptr)
+					{
+						if (ground->getZOrder() > m_currentSelectedGround->getZOrder())
+						{
+							m_currentSelectedGround = ground;
+						}
+					}
+					else
+					{
+						m_currentSelectedGround = ground;
+					}
+				}
+			}
+			/*m_pCurrentMoving = m_currentSelected;
+			if (m_currentSelectedGround != nullptr)
+				m_pCurrentMoving = m_currentSelectedGround;*/
 		}
 	}
 	else if (m_mouseInputAction2->wasPressed())
@@ -158,6 +200,23 @@ void LevelEditor::update(float dt)
 
 		this->setPositionX(this->getPositionX() - diff.x);
 		this->setPositionY(this->getPositionY() - diff.y);
+	}
+	if (m_deleteObjectInputAction->isPressed())
+	{
+		if (m_currentSelected != nullptr)
+		{
+			m_pLevel->getMainLayer()->getTextures()->remove(m_currentSelected);
+			removeChild(m_currentSelected);
+			delete m_currentSelected;
+			m_currentSelected = nullptr;
+		}
+		else if (m_currentSelectedGround != nullptr)
+		{
+			m_pLevel->getMainLayer()->getPhysicsObjects()->remove(m_currentSelectedGround);
+			removeChild(m_currentSelectedGround);
+			delete m_currentSelectedGround;
+			m_currentSelectedGround = nullptr;
+		}
 	}
 	UPDATEUI;
 }
