@@ -21,6 +21,7 @@ PlayerCollider::PlayerCollider(float width, float height)
 	m_leftCollider = Rect(0, 0, width * 0.5, height);
 	m_rightCollider = Rect(0, 0, width * 0.5, height);
 	m_bottomCollider = Rect(0, 0, width * 0.5, 3);
+	m_topCollider = Rect(0, 0, width * 0.5, 3);
 }
 
 PlayerCollider::~PlayerCollider() {}
@@ -49,6 +50,8 @@ void PlayerCollider::update(float dt)
 	m_rightCollider.origin.y = p.y - (0.5f * m_rightCollider.size.height) + 5;
 	m_bottomCollider.origin.x = p.x - (0.5f * m_leftCollider.size.width);
 	m_bottomCollider.origin.y = p.y - (0.5f * m_leftCollider.size.height);
+	m_topCollider.origin.x = p.x - (0.5f * m_leftCollider.size.width);
+	m_topCollider.origin.y = p.y + (0.5f * m_leftCollider.size.height) + 5;
 }
 
 Rect PlayerCollider::getLeftCollider() 
@@ -64,6 +67,11 @@ Rect PlayerCollider::getRightCollider()
 Rect PlayerCollider::getBottomCollider()
 {
 	return m_bottomCollider;
+}
+
+Rect PlayerCollider::getTopCollider()
+{
+	return m_topCollider;
 }
 
 void PlayerCollider::setLeftCollider(float width, float height)

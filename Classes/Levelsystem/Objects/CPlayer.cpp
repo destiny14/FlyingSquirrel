@@ -52,6 +52,9 @@ bool Player::init()
 	m_readyToFly = false;
 	m_isFlying = false;
 	m_rescueFly = false;
+	m_topCollision = false;
+	m_bottomColWhileTopCol = false;
+	m_topCollisionGround = nullptr;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -333,40 +336,105 @@ void Player::update(float dt)
 
 void Player::CheckForCollisions()
 {
+	bool collided = false;
 	setGrounded(false);
 	list<Ground*>* physObj = getParent()->getPhysicsObjects();
 	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
-		{
+		{			
 			bool hack = false;
 			Collider* c = g->getColliderComponent();
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+			
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()))
 			{
-				hack = true;
-				// kollision (boden)
-				setGrounded(true);
-				setPositionY(getPositionY() + 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
+				if (m_topCollisionGround != nullptr)
+				{
+					m_topCollisionGround == nullptr;
+				}
+				else
+				{
+					if (m_bottomColWhileTopCol == false)
+					{
+						m_topCollision = true;
+						m_topCollisionGround = g;
+					}
+				}
+				collided = true;
 			}
-			if (hack)
+			else
 			{
-				setPositionY(getPositionY() - 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
-			}
+				Collider* topc = nullptr;
+				if (m_topCollisionGround != nullptr)
+					topc = m_topCollisionGround->getColliderComponent();
+				
+				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				{
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+					{
+						collided = true;
+						hack = true;
+						// kollision (boden)
+						setGrounded(true);
+						setPositionY(getPositionY() + 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
 
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
-			{
-				//Collision left wand
-				setPositionX(getPositionX() + 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
+					}
+				}
+				else if (m_topCollision && c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+				{
+					collided = true;
+					m_bottomColWhileTopCol = true;
+				}
+				if (m_bottomColWhileTopCol == true)
+				{
+					if (topc != nullptr)
+					{
+						if (!topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+						{
+							m_bottomColWhileTopCol = false;
+							m_topCollision = false;
+							collided = true;
+						}
+					}
+				}
+				if (hack)
+				{
+						setPositionY(getPositionY() - 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+				}
+				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				{
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
+					{
+						setPositionX(getPositionX() + 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+						collided = true;
+					}
+					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+					{
+						//Collision right wand
+						setPositionX(getPositionX() - 0.01f);
+						getPlayerColliderComponent()->update(0.0f);
+						collided = true;
+					}
+				}
+				if (topc != nullptr)
+				{
+					if (topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()) &&
+						topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+					{
+						m_topCollision = true;
+						collided = true;
+					}
+				}
 			}
-			while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
-			{
-				//Collision right wand
-				setPositionX(getPositionX() - 0.01f);
-				getPlayerColliderComponent()->update(0.0f);
-			}
+		}
+		if (!collided)
+		{
+			m_bottomColWhileTopCol = false;
+			m_topCollision = false;
+			m_topCollisionGround = nullptr;
 		}
 	}
 }

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
-#include "..\Components\PlayerCollider.h"
+#include "Components\PlayerCollider.h"
 #include "Layers\MainLayer.h"
 #include "Input.h"
 
@@ -48,7 +48,9 @@ private:
 	bool m_readyToFly;
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
-
+	bool m_topCollision;
+	bool m_bottomColWhileTopCol;
+	Ground* m_topCollisionGround;
 	///////////
 	// Input //
 	///////////

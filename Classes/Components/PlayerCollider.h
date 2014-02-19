@@ -24,12 +24,15 @@ public:
 	Rect getLeftCollider();
 	Rect getRightCollider();
 	Rect getBottomCollider();
+	Rect getTopCollider();
 
 	void setLeftCollider(float width, float height);
 	void setRightCollider(float width, float height);
 	void setBottomCollider(float width, float height);
+	void setTopCollider(float width, float height);
 
 private:
+	Rect m_topCollider;
 	Rect m_leftCollider;
 	Rect m_rightCollider;
 	Rect m_bottomCollider;
