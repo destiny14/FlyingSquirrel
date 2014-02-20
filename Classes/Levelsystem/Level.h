@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Objects\Texture.h"
+#include "Objects\PlayerSpawner.h"
 #include "Layers\Layers.h"
 #include "tinyxml2\tinyxml2.h"
 
@@ -33,6 +34,7 @@ public:
 	MainLayer* getMainLayer();
 	SecondVegetationLayer* getSecondVegetationLayer();
 	GroundLayer* getGroundLayer();
+
 	static Level* loadLevel(char* filename);
 private:
 	char* m_name;

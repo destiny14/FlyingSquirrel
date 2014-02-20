@@ -46,8 +46,11 @@ void Level::SaveLevel()
 	{
 		phyObjectsElement->InsertEndChild(createGroundNode(&doc, ground));
 	}
+	tinyxml2::XMLElement* playerSpawnerElement = doc.NewElement("PlayerSpawner");
+	playerSpawnerElement->InsertFirstChild(createPointNode(&doc, mainLayer->getPlayerSpawner()->getSpawnPosition()));
 	mainLayerElement->InsertFirstChild(texturesElement);
 	mainLayerElement->InsertEndChild(phyObjectsElement);
+	mainLayerElement->InsertEndChild(playerSpawnerElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 	doc.SaveFile(getName());
@@ -75,15 +78,18 @@ Level* Level::loadLevel(char* filename)
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
 	tinyxml2::XMLElement* phyObjectsElement = mainLayerElement->FirstChildElement("PhysicsObjects");
-	for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	if (texturesElement != nullptr)
 	{
-		char* filename = const_cast<char*>(child->Attribute("filename"));
-		Texture* tex = Texture::create(filename);
-		tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
-		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
-		tex->setPosition(p);
-		tex->getSprite()->setVisible(child->BoolAttribute("visibility"));
-		mainlayer->getTextures()->push_back(tex);
+		for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			char* filename = const_cast<char*>(child->Attribute("filename"));
+			Texture* tex = Texture::create(filename);
+			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
+			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
+			tex->setPosition(p);
+			tex->getSprite()->setVisible(child->BoolAttribute("visibility"));
+			mainlayer->getTextures()->push_back(tex);
+		}
 	}
 	if (phyObjectsElement != nullptr)
 	{
@@ -100,6 +106,19 @@ Level* Level::loadLevel(char* filename)
 			ground->setGround(child->BoolAttribute("isGround"));
 			mainlayer->getPhysicsObjects()->push_front(ground);
 		}
+	}
+	tinyxml2::XMLElement* playerSpawnerElement = mainLayerElement->FirstChildElement("PlayerSpawner");
+	if (playerSpawnerElement != nullptr)
+	{
+		tinyxml2::XMLElement* playerSpawnerPosElement = playerSpawnerElement->FirstChildElement("Point");
+		Point p = Point(playerSpawnerPosElement->FloatAttribute("x"), playerSpawnerPosElement->FloatAttribute("y"));
+		PlayerSpawner* ps = new PlayerSpawner(p);
+		mainlayer->setPlayerSpawner(ps);
+	}
+	else
+	{
+		PlayerSpawner* playerSpawner = new PlayerSpawner(Point(1200, 500));
+		mainlayer->setPlayerSpawner(playerSpawner);
 	}
 	mainlayer->init();
 	return l;

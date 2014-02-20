@@ -42,6 +42,8 @@ bool MainLayer::init()
 	//############################################################
 	m_pInput = new InputManager(this);
 	_test = m_pInput->createMouseAction("TEST", 0);
+	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_0;
+	m_pLSD = m_pInput->createKeyboardAction(&code, 1, "LSD");
 	//############################################################
 	//## Init Player                                            ##
 	//############################################################
@@ -78,6 +80,17 @@ void MainLayer::update(float dt)
 	m_pInput->update();
 	m_pCam->update(dt);
 	UPDATEUI;
+
+	if (m_pLSD->wasPressed())
+		m_pCam->toggleLSD();
+
+	if (_test->wasPressed())
+	{
+		/*Nut* nut = new Nut(this);
+		nut->setPosition();
+		this->addChild(new Nut(this));*/
+	}
+
 	/*for (Texture* t : *getTextures())
 	{
 		t->update(dt);
@@ -85,13 +98,6 @@ void MainLayer::update(float dt)
 	for (Ground* g : *getPhysicsObjects())
 	{
 		g->update(dt);
-	}
-
-	if (_test->wasPressed())
-	{
-		/*Nut* nut = new Nut(this);
-		nut->setPosition();
-		this->addChild(new Nut(this));*/
 	}
 }
 
@@ -139,6 +145,16 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 		m_physicObjects = new list<Ground*>();
 	}
 	return m_physicObjects;
+}
+
+void MainLayer::setPlayerSpawner(PlayerSpawner* pS)
+{
+	m_playerSpawner = pS;
+}
+
+PlayerSpawner* MainLayer::getPlayerSpawner()
+{
+	return m_playerSpawner;
 }
 
 void MainLayer::menuCloseCallback(Object* pSender)
