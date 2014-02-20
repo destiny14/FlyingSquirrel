@@ -1,10 +1,11 @@
-#include "cocos2d.h"
 #include "MainLayer.h"
+
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
 #include "..\Nut.h"
 #include "..\UI.h"
+#include "..\InputManager.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -18,6 +19,8 @@ MainLayer* MainLayer::create()
 	MainLayer* mainLayer = new MainLayer();
 	if (mainLayer)
 	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		mainLayer->setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 		mainLayer->setName("mainLayer");
 		mainLayer->autorelease();
 		mainLayer->retain();
@@ -37,6 +40,8 @@ bool MainLayer::init()
 		return false;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 	//############################################################
 	//## Init Input                                             ##
 	//############################################################
@@ -48,7 +53,7 @@ bool MainLayer::init()
 	//## Init Player                                            ##
 	//############################################################
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
-	m_pPlayer->setPosition(visibleSize.width * 0.5f - 50, 600);
+	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
 	this->addChild(m_pPlayer->getSprite(), 1);
 	//############################################################
 	//## Init Camera                                            ##
@@ -59,6 +64,7 @@ bool MainLayer::init()
 	//############################################################
 	//## Init Level                                             ##
 	//############################################################
+
 	for (Texture* t : *getTextures())
 	{
 		addChild(t->getSprite());
@@ -76,6 +82,7 @@ bool MainLayer::init()
 
 void MainLayer::update(float dt)
 {
+	dt = dt > (1.0f / 60.0f) ? (1.0f / 60.0f) : dt;
 	m_pPlayer->update(dt);
 	m_pInput->update();
 	m_pCam->update(dt);
@@ -86,15 +93,11 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		/*Nut* nut = new Nut(this);
-		nut->setPosition();
-		this->addChild(new Nut(this));*/
+		CollectibleNut* nut = CollectibleNut::create(this);
+		nut->setPosition(_test->getMousePosition() - this->getPosition());
+		this->addChild(nut);
 	}
 
-	/*for (Texture* t : *getTextures())
-	{
-		t->update(dt);
-	}*/
 	for (Ground* g : *getPhysicsObjects())
 	{
 		g->update(dt);

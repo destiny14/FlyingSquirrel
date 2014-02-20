@@ -47,6 +47,9 @@ bool Player::init()
 
 	m_counterDeath = 0;
 	m_counterToShoot = 0;
+	m_counterToFall = 0;
+	m_counterToRescueFly = 0;
+	m_counterToShoot = 0;
 
 	m_sawyerRunFrame = 0;
 	m_movement = None;
@@ -60,9 +63,14 @@ bool Player::init()
 	m_rescueFly = false;
 	m_isDead = false;
 	m_shooted = false;
+	m_readyToFall = false;
+	m_noNuts = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
+
+	cs_flight = false;
+	cs_run = false;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -166,6 +174,78 @@ bool Player::init()
 	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pShootFrames->retain();
 	frames.clear();
+	////////////////////////////////
+	// Falleinleitung - Animation // // 8
+	////////////////////////////////
+	for (int i = 0; i < 4; i++)
+	{
+		filename = String::createWithFormat("skeleton-Fall_Einleitung%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallStartFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallStartFrames->retain();
+	frames.clear();
+	//////////////////////
+	// Fall - Animation // // 9
+	//////////////////////
+	for (int i = 0; i < 6; i++)
+	{
+		filename = String::createWithFormat("skeleton-Fall%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallFrames = Animation::createWithSpriteFrames(frames, 0.03f);
+	m_pFallFrames->retain();
+	frames.clear();
+	///////////////////////////
+	// FallToFly - Animation // // 10
+	///////////////////////////
+	for (int i = 0; i < 6; i++)
+	{
+		filename = String::createWithFormat("skeleton-Flug_Einleitung%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallToFlyFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallToFlyFrames->retain();
+	frames.clear();
+	/////////////////////////////////////
+	// Dont know direction - Animation // // 11
+	/////////////////////////////////////
+	for (int i = 0; i < 35; i++)
+	{
+		filename = String::createWithFormat("skeleton-Idle2%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pDontKnowDirectionFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pDontKnowDirectionFrames->retain();
+	frames.clear();
+	////////////////////////////
+	// Jump Shoot - Animation // // 12
+	////////////////////////////
+	for (int i = 0; i < 51; i++)
+	{
+		filename = String::createWithFormat("skeleton-Jump_shot%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pJumpShootFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pJumpShootFrames->retain();
+	frames.clear();
+	/////////////////////////////
+	// Double Jump - Animation // // 13
+	/////////////////////////////
+	for (int i = 0; i < 58; i++)
+	{
+		filename = String::createWithFormat("skeleton-Double_Jump%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pDoubleJumpFrames = Animation::createWithSpriteFrames(frames, 0.008f);
+	m_pDoubleJumpFrames->retain();
+	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
 
@@ -247,37 +327,74 @@ void Player::update(float dt)
 	/////////////////////////
 	// Schießen - Bewegung //
 	/////////////////////////
-	if (m_pShoot->wasPressed())// && this->getGrounded())
+	if (m_pShoot->wasPressed() && m_nuts > 0 && this->getGrounded())
 	{
 		this->getSprite()->stopAllActions();
 		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
 		m_pShootAction->setTag(7);
 		this->getSprite()->runAction(m_pShootAction);
 
+		m_countToShoot = 15;
+		m_noNuts = false;
 		m_shooted = true;
+	}
+	else if (m_pShoot->wasPressed() && m_nuts > 0 && !this->getGrounded() && m_jump)
+	{
+		this->getSprite()->stopAllActions();
+		m_pJumpShootAction = Repeat::create(Animate::create(m_pJumpShootFrames), 1);
+		m_pJumpShootAction->setTag(12);
+		this->getSprite()->runAction(m_pJumpShootAction);
+
+		m_countToShoot = 40;
+		m_noNuts = false;
+		m_shooted = true;
+	}
+	else if (m_pShoot->wasPressed() && !this->getSprite()->getActionByTag(11) && this->getGrounded() && !m_shooted)
+	{
+		this->getSprite()->stopAllActions();
+		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
+		m_pDontKnowDirectionAction->setTag(11);
+		this->getSprite()->runAction(m_pDontKnowDirectionAction);
+
+		m_noNuts = true;
 	}
 	/////////////////////////
 	// Schießen - Geschoss //
 	/////////////////////////
 	if (m_shooted)
 	{
-		if (m_counterToShoot == 15)
+		if (m_counterToShoot == m_countToShoot)
 		{
 			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
 			m_shooted = false;
+			m_nuts = m_nuts - 1;
 			m_counterToShoot = 0;
+			m_countToShoot = 0;
 		}
 		else
 		{
 			m_counterToShoot++;
 		}
 	}
+	/////////////////////////
+	// Verwirrt - Bewegung //
+	/////////////////////////
+	if (m_pForward->isPressed() && m_pBackward->isPressed())
+	{
+		if (!this->getSprite()->getActionByTag(11) && this->getGrounded())
+		{
+		this->getSprite()->stopAllActions();
+		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
+		m_pDontKnowDirectionAction->setTag(11);
+		this->getSprite()->runAction(m_pDontKnowDirectionAction);
+		}
+	}
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
-	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7))
+	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7) && !this->getSprite()->getActionByTag(11))
 	{
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
@@ -307,7 +424,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Landen - Bewegung //
 	///////////////////////
-	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump)
+	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump || this->getGrounded() && m_readyToFall)
 	{
 		this->getSprite()->stopAllActions();
 		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
@@ -316,6 +433,8 @@ void Player::update(float dt)
 		m_jump = false;
 		m_doubleJump = false;
 		m_readyToFly = false;
+		m_readyToFall = false;
+		m_rescueFly = false;
 		m_isFlying = false;
 	}
 	/////////////////////////////
@@ -326,6 +445,13 @@ void Player::update(float dt)
 		addVelocity(0.0f, 400.0f);
 		m_doubleJump = true;
 		m_readyToFly = false;
+		if (!this->getSprite()->getActionByTag(13))
+		{
+			this->getSprite()->stopAllActions();
+			m_pDoubleJumpAction = Repeat::create(Animate::create(m_pDoubleJumpFrames), 1);
+			m_pDoubleJumpAction->setTag(13);
+			this->getSprite()->runAction(m_pDoubleJumpAction);
+		}
 	}
 	////////////////////////
 	// Fliegen - Bewegung //
@@ -334,7 +460,7 @@ void Player::update(float dt)
 	{
 		m_readyToFly = true;
 	}
-	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly)
+	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly || cs_flight)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -350,7 +476,7 @@ void Player::update(float dt)
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
-	if (m_movement & EMovement::Left && !m_shooted)
+	if (m_movement & EMovement::Left && !m_shooted && !m_pForward->isPressed())
 	{
 		m_direction.x = -1.0f;
 
@@ -363,10 +489,18 @@ void Player::update(float dt)
 		}
 		this->getSprite()->setScaleX(-1.0f);
 	}
+	////////////////////////
+	// Cutscene - Trigger //
+	////////////////////////
+	if (cs_flight && this->getGrounded())
+	{
+		cs_flight = false;
+		cs_run = true;
+	}
 	///////////////////////////////
 	// Vorwärts Gehen - Bewegung //
 	///////////////////////////////
-	if (m_movement & EMovement::Right && !m_shooted)
+	if (m_movement & EMovement::Right && !m_shooted && !m_pBackward->isPressed() || cs_run)
 	{
 		m_direction.x += 1.0f;
 
@@ -382,7 +516,53 @@ void Player::update(float dt)
 	///////////////////////
 	// Fallen - Bewegung //
 	///////////////////////
-	if (!this->getGrounded() && !m_jump)
+	if (!this->getGrounded() && !m_jump && !m_readyToFall)
+	{
+		if (!this->getSprite()->getActionByTag(8))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFallStartAction = Repeat::create(Animate::create(m_pFallStartFrames), 1);
+			m_pFallStartAction->setTag(8);
+			this->getSprite()->runAction(m_pFallStartAction);
+		}
+		if (m_counterToFall == 4)
+		{
+			m_readyToFall = true;
+			m_counterToFall = 0;
+		}
+		else
+		{
+			m_counterToFall++;
+		}
+	}
+	else if (!this->getSprite()->getActionByTag(9) && !this->getGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
+	{
+		m_readyToFall = true;
+		this->getSprite()->stopAllActions();
+		m_pFallAction = RepeatForever::create(Animate::create(m_pFallFrames));
+		m_pFallAction->setTag(9);
+		this->getSprite()->runAction(m_pFallAction);
+	}
+	else if (m_pJump->isPressed() && !this->getGrounded() && m_readyToFall && !m_rescueFly)
+	{
+		if (!this->getSprite()->getActionByTag(10))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFallToFlyAction = Repeat::create(Animate::create(m_pFallToFlyFrames), 1);
+			m_pFallToFlyAction->setTag(10);
+			this->getSprite()->runAction(m_pFallToFlyAction);
+		}
+		if (m_counterToRescueFly == 6)
+		{
+			m_rescueFly = true;
+			m_counterToRescueFly = 0;
+		}
+		else
+		{
+			m_counterToRescueFly++;
+		}
+	}
+	else if (m_pJump->isPressed() && !this->getGrounded() && m_rescueFly)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -391,6 +571,9 @@ void Player::update(float dt)
 			m_pFlightAction->setTag(3);
 			this->getSprite()->runAction(m_pFlightAction);
 		}
+
+		m_isFlying = true;
+		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
 	}
 
 	m_direction.x *= m_speed;
@@ -409,7 +592,7 @@ void Player::CheckForCollisions()
 			bool hack = false;
 			Collider* c = g->getColliderComponent();
 			
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()))
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()) && !g->getWall())
 			{
 				if (m_topCollisionGround != nullptr)
 				{
@@ -466,7 +649,7 @@ void Player::CheckForCollisions()
 						setPositionY(getPositionY() - 0.01f);
 						getPlayerColliderComponent()->update(0.0f);
 				}
-				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				if (g->getWall() == false && m_topCollision == false && m_topCollisionGround == nullptr)
 				{
 					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
 					{
@@ -523,4 +706,9 @@ int Player::getHealth()
 int Player::getNuts()
 {
 	return m_nuts;
+}
+
+void Player::setNuts(int nuts)
+{
+	m_nuts = nuts;
 }

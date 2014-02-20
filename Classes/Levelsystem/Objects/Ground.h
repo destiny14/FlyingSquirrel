@@ -31,10 +31,13 @@ public:
 	void setGround(bool);
 	bool getGround();
 
+	void setWall(bool _w) { m_isWall = _w; }
+	bool getWall() { return m_isWall; }
 private:
 	Texture* m_texture;
 	Rect m_collisionRectangle;
 	bool m_isGround;
+	bool m_isWall;
 };
 
 #endif // !__GROUND_H__

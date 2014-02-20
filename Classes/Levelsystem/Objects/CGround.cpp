@@ -9,7 +9,7 @@ Ground* Ground::create(char* filename)
 	if (tex)
 	{
 		ground->setTexture(tex);
-		ground->setCollider();
+		ground->setCollider(tex->getSprite()->getBoundingBox().size.width, tex->getSprite()->getBoundingBox().size.height - 50);
 		ground->setGround(true);
 		ground->autorelease();
 		return ground;
@@ -38,6 +38,8 @@ void Ground::setCollider()
 
 void Ground::setCollider(float width, float height)
 {
+	if (height < 10)
+		height = 10;
 	Collider* collider = Collider::create(width, height);
 	this->addComponent(collider);
 }

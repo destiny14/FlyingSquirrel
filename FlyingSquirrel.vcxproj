@@ -151,6 +151,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\GameCamera.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
+    <ClCompile Include="Classes\IntroScene.cpp" />
     <ClCompile Include="Classes\LevelEditor.cpp" />
     <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp" />
     <ClCompile Include="Classes\Levelsystem\Layers\CMainLayer.cpp" />
@@ -190,6 +191,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Input.h" />
     <ClInclude Include="Classes\InputAction.h" />
     <ClInclude Include="Classes\InputManager.h" />
+    <ClInclude Include="Classes\IntroScene.h" />
     <ClInclude Include="Classes\LevelEditor.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h" />
@@ -210,6 +212,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\MainMenu.h" />
     <ClInclude Include="Classes\Nut.h" />
     <ClInclude Include="Classes\Singleton.h" />
+    <ClInclude Include="Classes\StoryScene.h" />
     <ClInclude Include="Classes\TestLayer.h" />
     <ClInclude Include="Classes\UI.h" />
     <ClInclude Include="main.h" />

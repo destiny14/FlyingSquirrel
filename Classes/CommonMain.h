@@ -19,6 +19,7 @@ public:
 	int getWindowWidth();
 	int getWindowHeight();
 	bool getAppDebug();
+	char* getEditFilename();
 
 private:
 	void printHelp();
@@ -26,6 +27,7 @@ private:
 	int m_windowWidth;
 	bool m_appDebug;
 	bool m_appFullscreen;
+	char* m_editFilename;
 
 	AppDelegate m_app;
 	EGLView m_eglView;

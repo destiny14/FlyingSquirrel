@@ -53,20 +53,33 @@ void Shooter::update(float dt, bool overwriteCollisionCheck)
 	}
 	if (!this->nutsToDelete.empty())
 	{
-		for (list<Bullet*>::iterator itr = nuts.begin(); itr != nuts.end(); ++itr)
+		bool deleteItr = false;
+		for (list<Bullet*>::iterator itr = nuts.begin(); itr != nuts.end();)
 		{
-			for (list<Bullet*>::iterator itr2 = nutsToDelete.begin(); itr2 != nutsToDelete.end(); ++itr2)
+			for (list<Bullet*>::iterator itr2 = nutsToDelete.begin(); itr2 != nutsToDelete.end();)
 			{
-				if (itr == itr2)
+				if (*itr == *itr2)
 				{
-					nuts.remove(*itr);
-					nutsToDelete.remove(*itr2);
+					itr = nuts.erase(itr);
+					itr2 = nutsToDelete.erase(itr2);
+					deleteItr = true;
 				}
+				else
+				{
+					++itr2;
+				}
+			}
+			if (deleteItr)
+			{
+				deleteItr = false;
+			}
+			else
+			{
+				++itr;
 			}
 		}
 	}
 }
-
 void Shooter::deleteBullet(Bullet* bullet)
 {
 	nutsToDelete.push_back(bullet);

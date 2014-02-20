@@ -38,9 +38,12 @@ public:
 
 	int getHealth();
 	int getNuts();
+	void setNuts(int nuts);
 	bool m_isDead;
 
 	void hit();
+	bool cs_flight;
+	bool cs_run;
 
 private:
 	void CheckForCollisions();
@@ -50,6 +53,9 @@ private:
 
 	int m_counterDeath;
 	int m_counterToShoot;
+	int m_counterToFall;
+	int m_counterToRescueFly;
+	int m_countToShoot;
 
 	Point m_direction;
 	float m_speed;
@@ -57,8 +63,10 @@ private:
 	bool m_doubleJump;
 	bool m_readyToFly;
 	bool m_isFlying;
-	bool m_rescueFly; //not used, added for free-fall
+	bool m_rescueFly;
 	bool m_shooted;
+	bool m_readyToFall;
+	bool m_noNuts;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
@@ -88,6 +96,12 @@ private:
 	Animation* m_pLandingFrames;
 	Animation* m_pDeathFrames;
 	Animation* m_pShootFrames;
+	Animation* m_pFallStartFrames;
+	Animation* m_pFallFrames;
+	Animation* m_pFallToFlyFrames;
+	Animation* m_pDontKnowDirectionFrames;
+	Animation* m_pJumpShootFrames;
+	Animation* m_pDoubleJumpFrames;
 
 	Action* m_pStandAction;
 	Action* m_pRunAction;
@@ -97,6 +111,12 @@ private:
 	Action* m_pLandingAction;
 	Action* m_pDeathAction;
 	Action* m_pShootAction;
+	Action* m_pFallStartAction;
+	Action* m_pFallAction;
+	Action* m_pFallToFlyAction;
+	Action* m_pDontKnowDirectionAction;
+	Action* m_pJumpShootAction;
+	Action* m_pDoubleJumpAction;
 
 	Vector<SpriteFrame*> frames;
 	String* filename;
@@ -105,5 +125,4 @@ private:
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
 };
-
 #endif // !__PLAYER_H__

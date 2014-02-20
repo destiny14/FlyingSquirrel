@@ -162,12 +162,18 @@ void UI::createLevelEditorUI()
 	toggleGrid->setPosition(80.0f, visibleSize.height - 200.0f);
 	toggleGrid->setTag(112);
 
+	MenuItemFont* toggleSelectionMode = MenuItemFont::create("selection", CC_CALLBACK_0(LevelEditor::toggleSelectionMode, pLevelEditor));
+	toggleSelectionMode->setFontNameObj("Arial");
+	toggleSelectionMode->setFontSizeObj(30);
+	toggleSelectionMode->setPosition(80.0f, visibleSize.height - 240.0f);
+	toggleSelectionMode->setTag(113);
+
 	MenuItemFont* saveLevelObject = MenuItemFont::create("save level", CC_CALLBACK_0(LevelEditor::saveLevelCallback, pLevelEditor));
 	saveLevelObject->setFontNameObj("Arial");
 	saveLevelObject->setFontSizeObj(30);
-	saveLevelObject->setPosition(70.0f, visibleSize.height - 240.0f);
+	saveLevelObject->setPosition(70.0f, visibleSize.height - 280.0f);
 	
-	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, toggleGrid, NULL);
+	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, NULL);
 	auto menuBackground = Menu::create(sidebarBackground, NULL);
 	menuBackground->setPosition(0, 0);
 	menuBackground->setZOrder(-10);
@@ -238,8 +244,8 @@ void UI::createIngameUI()
 
 		m_pPlayerLife[i] = Sprite::create(str);
 		m_pPlayerLife[i]->setPosition(
-			198.0f + m_pPlayerLife[i]->getContentSize().width * 0.5f,
-			133.0f + m_pPlayerLife[i]->getContentSize().height * 0.5f);
+			135.0f + m_pPlayerLife[i]->getContentSize().width * 0.5f,
+			95.0f + m_pPlayerLife[i]->getContentSize().height * 0.5f);
 		m_pPlayerLife[i]->setVisible((lastLife-1) == i);
 		m_pIngame->addChild(m_pPlayerLife[i], 2);
 	}
@@ -254,18 +260,18 @@ void UI::createIngameUI()
 
 		m_pCrystals[i] = Sprite::create(str);
 		m_pCrystals[i]->setPosition(
-			285.0f + m_pCrystals[i]->getContentSize().width * 0.5f,
-			60.0f + m_pCrystals[i]->getContentSize().height * 0.5f);
+			202.0f + m_pCrystals[i]->getContentSize().width * 0.5f,
+			42.0f + m_pCrystals[i]->getContentSize().height * 0.5f);
 		m_pCrystals[i]->setVisible((lastCrystal - 1) == i);
 		m_pIngame->addChild(m_pCrystals[i], 2);
 	}
 
 	m_polle = Sprite::create("GUI/holybell.png");
-	m_polle->setPosition(380.0f, 90.0f);
+	m_polle->setPosition(270.0f, 66.0f);
 	m_polle->setVisible(lastCrystal > 0);
 
 	m_crystal = Sprite::create("GUI/crystall.png");
-	m_crystal->setPosition(245.0f, 82.0f);
+	m_crystal->setPosition(175.0f, 61.0f);
 	m_crystal->setVisible(lastCrystal > 0);
 
 	m_pGameOver = LabelTTF::create("GAME OVER", "Comic Book.ttf", 64);
@@ -277,8 +283,8 @@ void UI::createIngameUI()
 
 	Sprite* bg = Sprite::create("GUI/bg.png");
 	bg->setPosition(
-		bg->getContentSize().width * 0.5f,
-		bg->getContentSize().height *0.5f);
+		5 + bg->getContentSize().width * 0.5f,
+		5 + bg->getContentSize().height *0.5f);
 
 	m_pIngame->addChild(m_polle, 2);
 	m_pIngame->addChild(m_crystal, 2);
@@ -348,9 +354,9 @@ void UI::createMuniLabel()
 
 	std::string str = std::string("x");
 	str.append(std::to_string(lastMuni));
-	m_playerMuni = LabelTTF::create(str, "fonts/Comic Book.ttf", 40);
+	m_playerMuni = LabelTTF::create(str, "fonts/Comic Book.ttf", 25);
 	m_playerMuni->setColor(Color3B::BLACK);
-	m_playerMuni->setPosition(505.0f, 95.0f);
+	m_playerMuni->setPosition(360.0f, 65.0f);
 	m_pIngame->addChild(m_playerMuni, 2);
 }
 

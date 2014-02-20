@@ -23,6 +23,7 @@ public:
 	virtual void update(float dt, bool overwriteCollisionCheck = false);
 
 	void deleteBullet(Bullet* bullet);
+	void killBullet(Bullet* bullet);
 	list<Bullet*> nuts;
 
 protected:

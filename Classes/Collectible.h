@@ -11,7 +11,10 @@ class Collectible : public Ground
 public:
 	Collectible(MainLayer* parent);
 	void update(float dt) override;
+	bool init() override;
 protected:
+	void deleteCollectible();
+	virtual void initCollectible() = 0;
 	virtual void onCollidedWithPlayer(Player* _player) = 0;
 private:
 	MainLayer* m_pLayer;
