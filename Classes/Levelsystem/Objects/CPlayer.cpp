@@ -447,7 +447,7 @@ void Player::CheckForCollisions()
 			bool hack = false;
 			Collider* c = g->getColliderComponent();
 			
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()))
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()) && !g->getWall())
 			{
 				if (m_topCollisionGround != nullptr)
 				{
