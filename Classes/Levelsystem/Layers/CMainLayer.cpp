@@ -1,10 +1,11 @@
-#include "cocos2d.h"
 #include "MainLayer.h"
+
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
 #include "..\Nut.h"
 #include "..\UI.h"
+#include "..\InputManager.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {

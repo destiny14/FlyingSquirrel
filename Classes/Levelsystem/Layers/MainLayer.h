@@ -3,11 +3,14 @@
 
 #include "cocos2d.h"
 #include "LevelLayer.h"
-#include "..\InputManager.h"
-//#include "../../InputManager.h"
+
 
 class Player;
 class GameCamera;
+class InputManager;
+class InputAction;
+class MouseInputAction;
+
 class MainLayer : public LevelLayer
 {
 public:
