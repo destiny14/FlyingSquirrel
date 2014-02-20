@@ -75,15 +75,18 @@ Level* Level::loadLevel(char* filename)
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
 	tinyxml2::XMLElement* phyObjectsElement = mainLayerElement->FirstChildElement("PhysicsObjects");
-	for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	if (texturesElement != nullptr)
 	{
-		char* filename = const_cast<char*>(child->Attribute("filename"));
-		Texture* tex = Texture::create(filename);
-		tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
-		Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
-		tex->setPosition(p);
-		tex->getSprite()->setVisible(child->BoolAttribute("visibility"));
-		mainlayer->getTextures()->push_back(tex);
+		for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			char* filename = const_cast<char*>(child->Attribute("filename"));
+			Texture* tex = Texture::create(filename);
+			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
+			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
+			tex->setPosition(p);
+			tex->getSprite()->setVisible(child->BoolAttribute("visibility"));
+			mainlayer->getTextures()->push_back(tex);
+		}
 	}
 	if (phyObjectsElement != nullptr)
 	{

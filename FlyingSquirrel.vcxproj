@@ -162,6 +162,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp" />
     <ClCompile Include="Classes\Levelsystem\Objects\Ground.h" />
+    <ClCompile Include="Classes\Levelsystem\Objects\PlayerSpawner.cpp" />
     <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp" />
     <ClCompile Include="Classes\LevelTestScene.cpp" />
     <ClCompile Include="Classes\MainMenu.cpp" />
@@ -197,6 +198,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Levelsystem\Level.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Bullet.h" />
+    <ClInclude Include="Classes\Levelsystem\Objects\PlayerSpawner.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Shooter.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h" />
     <ClInclude Include="Classes\Levelsystem\Objects\Player.h" />

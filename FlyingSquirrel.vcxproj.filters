@@ -129,6 +129,9 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\PlayerSpawner.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\PlayerSpawner.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
