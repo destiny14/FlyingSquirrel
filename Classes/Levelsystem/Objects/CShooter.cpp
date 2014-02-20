@@ -5,6 +5,7 @@
 #include "..\Components\Collider.h"
 #include "Bullet.h"
 #include <list>
+#include <iterator>
 
 USING_NS_CC;
 using namespace std;
@@ -31,7 +32,7 @@ Shooter* Shooter::create(char* filename, MainLayer* parent)
 	}
 }
 
-Shooter::Shooter() { nuts = nullptr; }
+Shooter::Shooter() {}
 Shooter::~Shooter() {}
 
 bool Shooter::init()
@@ -41,20 +42,32 @@ bool Shooter::init()
 
 void Shooter::update(float dt, bool overwriteCollisionCheck)
 {
-	if (nuts == nullptr)
-		nuts = new list<Bullet*>();
 	Moveable::update(dt, overwriteCollisionCheck);
 
-	if (!this->nuts->empty())
+	if (!this->nuts.empty())
 	{
-		for (Bullet* n : *this->nuts)
+		for (Bullet* n : this->nuts)
 		{
 			n->update(dt);
 		}
 	}
+	if (!this->nutsToDelete.empty())
+	{
+		for (list<Bullet*>::iterator itr = nuts.begin(); itr != nuts.end(); ++itr)
+		{
+			for (list<Bullet*>::iterator itr2 = nutsToDelete.begin(); itr2 != nutsToDelete.end(); ++itr2)
+			{
+				if (itr == itr2)
+				{
+					nuts.remove(*itr);
+					nutsToDelete.remove(*itr2);
+				}
+			}
+		}
+	}
 }
 
-void Shooter::deleteBullet()
+void Shooter::deleteBullet(Bullet* bullet)
 {
-
+	nutsToDelete.push_back(bullet);
 }
