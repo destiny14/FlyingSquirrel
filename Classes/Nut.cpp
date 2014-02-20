@@ -24,6 +24,6 @@ void CollectibleNut::initCollectible()
 
 void CollectibleNut::onCollidedWithPlayer(Player* _player)
 {
-	//_player->addNut();
+	_player->setNuts(_player->getNuts() + 1);
 	deleteCollectible();
 }
