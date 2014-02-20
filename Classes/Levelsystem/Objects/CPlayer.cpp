@@ -504,7 +504,7 @@ void Player::CheckForCollisions()
 						setPositionY(getPositionY() - 0.01f);
 						getPlayerColliderComponent()->update(0.0f);
 				}
-				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				if (g->getWall() == false && m_topCollision == false && m_topCollisionGround == nullptr)
 				{
 					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
 					{

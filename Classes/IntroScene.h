@@ -19,6 +19,7 @@ private:
 	Sprite* m_saeLogo;
 	float m_timeElapsed;
 	float m_timeToElapse;
+	int m_page;
 };
 
 #endif // !__INTROSCENE_H__
