@@ -38,6 +38,8 @@ void Ground::setCollider()
 
 void Ground::setCollider(float width, float height)
 {
+	if (height < 10)
+		height = 10;
 	Collider* collider = Collider::create(width, height);
 	this->addComponent(collider);
 }
