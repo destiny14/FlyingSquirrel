@@ -162,12 +162,18 @@ void UI::createLevelEditorUI()
 	toggleGrid->setPosition(80.0f, visibleSize.height - 200.0f);
 	toggleGrid->setTag(112);
 
+	MenuItemFont* toggleSelectionMode = MenuItemFont::create("selection", CC_CALLBACK_0(LevelEditor::toggleSelectionMode, pLevelEditor));
+	toggleSelectionMode->setFontNameObj("Arial");
+	toggleSelectionMode->setFontSizeObj(30);
+	toggleSelectionMode->setPosition(80.0f, visibleSize.height - 240.0f);
+	toggleSelectionMode->setTag(113);
+
 	MenuItemFont* saveLevelObject = MenuItemFont::create("save level", CC_CALLBACK_0(LevelEditor::saveLevelCallback, pLevelEditor));
 	saveLevelObject->setFontNameObj("Arial");
 	saveLevelObject->setFontSizeObj(30);
-	saveLevelObject->setPosition(70.0f, visibleSize.height - 240.0f);
+	saveLevelObject->setPosition(70.0f, visibleSize.height - 280.0f);
 	
-	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, saveLevelObject, toggleGrid, NULL);
+	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, NULL);
 	auto menuBackground = Menu::create(sidebarBackground, NULL);
 	menuBackground->setPosition(0, 0);
 	menuBackground->setZOrder(-10);

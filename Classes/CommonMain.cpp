@@ -36,13 +36,21 @@ int CCommonMain::main(char** par, int parLength)
 			break;
 	}
 
+	m_editFilename = pCommand->getParameterCharArr("-edit", "");
+
+
 
 	fprintf(stdout, "========================\nDebug: %i\n", m_appDebug);
 	fprintf(stdout, "========================\nFenster:\n\tBreite: %i\n\tHoehe: %i\n========================\n", m_windowWidth, m_windowHeight);
 	
 	if (m_appFullscreen)
 	{
-		//m_eglView.initWithFullScreen("FlyingSquirrel");
+		const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+		m_eglView.init("FlyingSquirrel", videoMode->width, videoMode->height);
+		GLFWwindow* win = glfwGetCurrentContext();
+		glfwShowWindow(win);
 	}
 	else
 	{
@@ -51,6 +59,11 @@ int CCommonMain::main(char** par, int parLength)
 	
 	m_app.setDesiredFPS(dFPS);
 	return Application::getInstance()->run();
+}
+
+char* CCommonMain::getEditFilename()
+{
+	return m_editFilename;
 }
 
 void CCommonMain::printHelp()

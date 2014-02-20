@@ -35,7 +35,7 @@ public:
 	SecondVegetationLayer* getSecondVegetationLayer();
 	GroundLayer* getGroundLayer();
 
-	static Level* loadLevel(char* filename);
+	static Level* loadLevel(char* filename, bool levelEditor = false);
 private:
 	char* m_name;
 	FirstVegetationLayer* m_fVLayer;
