@@ -3,6 +3,7 @@
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
+#include "..\Nut.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -39,6 +40,8 @@ bool MainLayer::init()
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(visibleSize.width * 0.5f - 50, 600);
 
+	_test = m_pInput->createMouseAction("TEST", 0);
+
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_pPlayer);
 	m_pCam->setBoundingRect(Rect(-800.0f, -800.0f, 2400.0f, 2400.0f));
@@ -70,6 +73,13 @@ void MainLayer::update(float dt)
 	for (Ground* g : *getPhysicsObjects())
 	{
 		g->update(dt);
+	}
+
+	if (_test->wasPressed())
+	{
+		/*Nut* nut = new Nut(this);
+		nut->setPosition();
+		this->addChild(new Nut(this));*/
 	}
 }
 

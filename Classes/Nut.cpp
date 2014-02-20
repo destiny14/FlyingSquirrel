@@ -1,12 +1,12 @@
 #include "Nut.h"
 #include "Levelsystem\Objects\Player.h"
 
-Nut::Nut(MainLayer* layer) : Nut(layer)
+CollectibleNut::CollectibleNut(MainLayer* layer) : Collectible(layer)
 {
 	setTexture(Texture::create("nuss.png"));
 }
 
-void Nut::onCollidedWithPlayer(Player* _player)
+void CollectibleNut::onCollidedWithPlayer(Player* _player)
 {
 	//_player->addNut();
 	this->removeFromParentAndCleanup(true);

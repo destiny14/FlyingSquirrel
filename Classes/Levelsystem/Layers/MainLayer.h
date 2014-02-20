@@ -32,6 +32,7 @@ private:
 	InputManager* m_pInput;
 	Player* m_pPlayer;
 	list<Ground*>* m_physicObjects;
+	MouseInputAction* _test;
 };
 
 #endif // !__MAINLAYER_H__
