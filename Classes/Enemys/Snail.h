@@ -15,7 +15,7 @@ protected:
 		
 	bool init();
 
-	void setCollider();
+	void setCollider(float width, float height);
 
 	bool canAttack();
 
@@ -39,6 +39,10 @@ public:
 	static Snail* create(MainLayer* layer);
 
 private:
+
+	bool debugAttack = false;
+
+	void CheckForCollisions();
 
 	bool m_first = true;
 

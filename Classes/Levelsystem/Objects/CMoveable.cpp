@@ -124,6 +124,10 @@ void Moveable::CheckForCollisions()
 				// kollision
 				m_grounded = true;
 			}
+			else
+			{
+				m_grounded = false;
+			}
 		}
 	}
 }
