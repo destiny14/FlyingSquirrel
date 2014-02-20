@@ -38,6 +38,7 @@ bool LevelEditor::init(char* filename)
 	if (!Layer::init())
 		return false;
 	m_snapToGrid = true;
+	m_selectionMode = true;
 	MainLayer* mainL = MainLayer::create();
 	if (filename != "")
 	{
@@ -111,7 +112,7 @@ void LevelEditor::changeLayerCallback()
 	MenuItemFont* mainMenuLayerLabel = (MenuItemFont*)MainMenu->getChildByTag(111);
 	if (mainMenuLayerLabel != nullptr)
 	{
-		mainMenuLayerLabel->setString("NÄÄCHSTER");
+		mainMenuLayerLabel->setString("NYI...");
 	}
 }
 
@@ -131,6 +132,24 @@ void LevelEditor::toggleGridCallback()
 			m_snapToGrid = true;
 		}
 		
+	}
+}
+
+void LevelEditor::toggleSelectionMode()
+{
+	MenuItemFont* toggleSelectionModeLabel = (MenuItemFont*) MainMenu->getChildByTag(113);
+	if (toggleSelectionModeLabel != nullptr)
+	{
+		if (m_selectionMode)
+		{
+			toggleSelectionModeLabel->setString("no selection");
+			m_selectionMode = false;
+		}
+		else
+		{
+			toggleSelectionModeLabel->setString("selection");
+			m_selectionMode = true;
+		}
 	}
 }
 
@@ -183,7 +202,7 @@ void LevelEditor::update(float dt)
 				m_pCurrentMoving = m_currentSelectedGround;
 			}
 		}
-		else
+		else if (m_selectionMode)
 		{
 			m_currentSelected = nullptr;
 			m_currentSelectedGround = nullptr;
