@@ -166,6 +166,42 @@ bool Player::init()
 	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pShootFrames->retain();
 	frames.clear();
+	////////////////////////////////
+	// Falleinleitung - Animation // // 8
+	////////////////////////////////
+	for (int i = 0; i < 4; i++)
+	{
+		filename = String::createWithFormat("skeleton-Fall_Einleitung%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallStartFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallStartFrames->retain();
+	frames.clear();
+	//////////////////////
+	// Fall - Animation // // 9
+	//////////////////////
+	for (int i = 0; i < 6; i++)
+	{
+		filename = String::createWithFormat("skeleton-Fall%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallFrames->retain();
+	frames.clear();
+	///////////////////////////
+	// FallToFly - Animation // // 10
+	///////////////////////////
+	for (int i = 0; i < 6; i++)
+	{
+		filename = String::createWithFormat("skeleton-Flug_Einleitung%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pFallToFlyFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallToFlyFrames->retain();
+	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
 
@@ -523,4 +559,9 @@ int Player::getHealth()
 int Player::getNuts()
 {
 	return m_nuts;
+}
+
+void Player::setNuts(int nuts)
+{
+	m_nuts = nuts;
 }

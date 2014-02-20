@@ -42,10 +42,9 @@ bool Bullet::init(Shooter* shooter, float direction, float force)
 void Bullet::update(float dt)
 {
 	Moveable::update(dt, false);
-	CheckForCollisions();
-
 	this->setPositionX(this->getPosition().x + (m_force * m_direction));
 	this->getSprite()->setRotation(this->getSprite()->getRotation() + (m_force * m_direction));
+	CheckForCollisions();
 }
 
 void Bullet::setCollider()
@@ -61,6 +60,8 @@ void Bullet::destroy()
 {
 	if (m_bullettype == Bullettype::Nut)
 	{
+		this->getParent()->removeChild(this->getSprite());
+		this->removeFromParent();
 		m_shooter->deleteBullet(this);
 	}
 }
@@ -68,16 +69,23 @@ void Bullet::destroy()
 void Bullet::CheckForCollisions()
 {
 	list<Ground*>* physObj = this->getParent()->getPhysicsObjects();
+	list<Ground*> desObj;
 	for (Ground* g : *physObj)
 	{
-		if (g->getGround() == true)
-		{
-			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
-			Collider* c2 = getColliderComponent();
-			if (c->getCollisionRectangle().intersectsRect(getColliderComponent()->getCollisionRectangle()))
+			if (g->getGround())
 			{
-				this->destroy();
+				Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
+				Collider* c2 = getColliderComponent();
+				if (c->getCollisionRectangle().intersectsRect(getColliderComponent()->getCollisionRectangle()))
+				{
+					desObj.push_back(g);
+				}
 			}
-		}
+			
+	}
+	for (list<Ground*>::iterator itr = desObj.begin(); itr != desObj.end();)
+	{
+		this->destroy();
+		itr = desObj.erase(itr);
 	}
 }

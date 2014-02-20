@@ -80,7 +80,6 @@ void Shooter::update(float dt, bool overwriteCollisionCheck)
 		}
 	}
 }
-
 void Shooter::deleteBullet(Bullet* bullet)
 {
 	nutsToDelete.push_back(bullet);
