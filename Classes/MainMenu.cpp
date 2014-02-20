@@ -74,5 +74,5 @@ void CMainMenu::exitCallback(Object* sender)
 
 void CMainMenu::levelEditorCallback(Object* sender)
 {
-	Director::getInstance()->replaceScene(LevelEditor::createScene());
+	Director::getInstance()->replaceScene(LevelEditor::createScene(g_pCommonMain->getEditFilename()));
 }

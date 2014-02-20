@@ -18,11 +18,11 @@ public:
 	Menu* ChooseFileMenu;
 	Menu* ChooseFileNavMenu;
 
-	static Scene* createScene();
+	static Scene* createScene(char* filename = "");
 	LevelEditor();
 	~LevelEditor();
 
-	virtual bool init();
+	virtual bool init(char* filename = "");
 	virtual void update(float dt);
 	virtual void draw();
 
@@ -35,7 +35,7 @@ public:
 	void saveLevelCallback();
 	void toggleGridCallback();
 
-	CREATE_FUNC(LevelEditor);
+	static LevelEditor* create(char* filename);
 private:
 	Sprite* m_PlayerSpawner;
 	Texture* m_currentSelected;

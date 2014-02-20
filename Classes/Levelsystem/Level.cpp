@@ -10,11 +10,8 @@ Level* Level::createFromFile(const char* filename)
 	}
 	
 	tinyxml2::XMLElement* levelElement = doc.FirstChildElement("level");
-	Level* l = new Level();
-	//loadLevel("testlevel.xml");
-	l->SaveLevel();
-	delete l;
-	return nullptr;
+	Level* l = loadLevel(const_cast<char*>(filename), true);
+	return l;
 }
 
 Level* Level::createNew(char* levelname)
@@ -66,7 +63,7 @@ char* Level::getName()
 	return m_name;
 }
 
-Level* Level::loadLevel(char* filename)
+Level* Level::loadLevel(char* filename, bool levelEditor)
 {
 	Level* l = new Level();
 	
@@ -84,6 +81,7 @@ Level* Level::loadLevel(char* filename)
 		{
 			char* filename = const_cast<char*>(child->Attribute("filename"));
 			Texture* tex = Texture::create(filename);
+			tex->retain();
 			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 			tex->setPosition(p);
@@ -115,12 +113,10 @@ Level* Level::loadLevel(char* filename)
 		PlayerSpawner* ps = new PlayerSpawner(p);
 		mainlayer->setPlayerSpawner(ps);
 	}
+	if (!levelEditor)
+		mainlayer->init();
 	else
-	{
-		PlayerSpawner* playerSpawner = new PlayerSpawner(Point(1200, 500));
-		mainlayer->setPlayerSpawner(playerSpawner);
-	}
-	mainlayer->init();
+		l->setName("tmpname.xml");
 	return l;
 }
 

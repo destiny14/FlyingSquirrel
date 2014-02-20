@@ -5,31 +5,56 @@
 #include "Levelsystem\Objects\Ground.h"
 #include <math.h>
 
-Scene* LevelEditor::createScene()
+Scene* LevelEditor::createScene(char* filename)
 {
 	auto scene = Scene::create();
-
-	auto layer = LevelEditor::create();
-
+	auto layer = LevelEditor::create(filename);
 	scene->addChild(layer);
 	return scene;
+}
+
+LevelEditor* LevelEditor::create(char* filename)
+{
+	LevelEditor* levelEditor = new LevelEditor();
+	if (levelEditor && levelEditor->init(filename))
+	{
+		levelEditor->autorelease();
+		return levelEditor;
+	}
+	else
+	{
+		delete levelEditor;
+		levelEditor = NULL;
+		return NULL;
+	}
 }
 
 LevelEditor::LevelEditor() {}
 LevelEditor::~LevelEditor() {}
 
-bool LevelEditor::init()
+bool LevelEditor::init(char* filename)
 {
+
+	if (!Layer::init())
+		return false;
 	m_snapToGrid = true;
-	m_pLevel = Level::createNew("tmpname.xml");
 	MainLayer* mainL = MainLayer::create();
+	if (filename != "")
+	{
+		m_pLevel = Level::createFromFile(filename);
+		mainL = m_pLevel->getMainLayer();
+	}
+	else
+	{
+		m_pLevel = Level::createNew("tmpname.xml");
+	}
 	mainL->retain();
 	m_pLevel->setMainLayer(mainL);
-
 	m_PlayerSpawner = Sprite::create("player_spawn.png");
 	m_PlayerSpawner->retain();
 	m_PlayerSpawner->setPosition(mainL->getPlayerSpawner()->getSpawnPosition());
-
+	m_PlayerSpawner->setZOrder(1000);
+	addChild(m_PlayerSpawner);
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
 	m_currentSelected = nullptr;
@@ -42,12 +67,23 @@ bool LevelEditor::init()
 	m_visibleSize = Director::getInstance()->getVisibleSize();
 	ACTIVATELEVELEDITORUI(this);
 	m_pBackgroundSprite = nullptr;
-	if (!Layer::init())
-		return false;
+	int zOrder = -4;
+	for (Texture* tex : *mainL->getTextures())
+	{
+		tex->setZOrder(zOrder);
+		addChild(tex->getSprite());
+		++zOrder;
+	}
+	zOrder = 1;
+	for (Ground* g : *mainL->getPhysicsObjects())
+	{
+		g->setZOrder(zOrder);
+		addChild(g->getSprite());
+	}
+	
 	this->scheduleUpdate();
 	return true;
 }
-
 void LevelEditor::addTextureObjectCallback(Object* sender)
 {
 	ACTIVATEFILECHOOSERMENU(this, 0);
@@ -239,7 +275,7 @@ void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 		auto tex = Texture::create(const_cast<char*>(s.c_str()));
 		tex->retain();
 		tex->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
-		tex->getSprite()->setZOrder(-1);
+		tex->getSprite()->setZOrder(1);
 		m_pCurrentMoving = tex;
 		m_pLevel->getMainLayer()->getTextures()->push_back(tex);
 		addChild(tex->getSprite());
@@ -250,7 +286,7 @@ void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 		auto ground = Ground::create(const_cast<char*>(s.c_str()));
 		ground->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
 		ground->retain();
-		ground->getSprite()->setZOrder(-1);
+		ground->getSprite()->setZOrder(1);
 		m_pCurrentMoving = ground;
 		m_pLevel->getMainLayer()->getPhysicsObjects()->push_back(ground);
 		addChild(ground->getSprite());
