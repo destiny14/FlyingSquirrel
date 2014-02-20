@@ -135,11 +135,6 @@ void Snail::update(float dt)
 {
 
 	Moveable::update(dt, false);
-	
-
-
-	
-	
 
 	if (this->m_isAlive)
 	{

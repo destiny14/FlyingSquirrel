@@ -118,3 +118,13 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 	}
 	return m_physicObjects;
 }
+
+void MainLayer::setPlayerSpawner(PlayerSpawner* pS)
+{
+	m_playerSpawner = pS;
+}
+
+PlayerSpawner* MainLayer::getPlayerSpawner()
+{
+	return m_playerSpawner;
+}

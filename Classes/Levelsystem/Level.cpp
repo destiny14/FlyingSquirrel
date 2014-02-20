@@ -46,8 +46,11 @@ void Level::SaveLevel()
 	{
 		phyObjectsElement->InsertEndChild(createGroundNode(&doc, ground));
 	}
+	tinyxml2::XMLElement* playerSpawnerElement = doc.NewElement("PlayerSpawner");
+	playerSpawnerElement->InsertFirstChild(createPointNode(&doc, mainLayer->getPlayerSpawner()->getSpawnPosition()));
 	mainLayerElement->InsertFirstChild(texturesElement);
 	mainLayerElement->InsertEndChild(phyObjectsElement);
+	mainLayerElement->InsertEndChild(playerSpawnerElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 	doc.SaveFile(getName());
@@ -103,6 +106,19 @@ Level* Level::loadLevel(char* filename)
 			ground->setGround(child->BoolAttribute("isGround"));
 			mainlayer->getPhysicsObjects()->push_front(ground);
 		}
+	}
+	tinyxml2::XMLElement* playerSpawnerElement = mainLayerElement->FirstChildElement("PlayerSpawner");
+	if (playerSpawnerElement != nullptr)
+	{
+		tinyxml2::XMLElement* playerSpawnerPosElement = playerSpawnerElement->FirstChildElement("Point");
+		Point p = Point(playerSpawnerPosElement->FloatAttribute("x"), playerSpawnerPosElement->FloatAttribute("y"));
+		PlayerSpawner* ps = new PlayerSpawner(p);
+		mainlayer->setPlayerSpawner(ps);
+	}
+	else
+	{
+		PlayerSpawner* playerSpawner = new PlayerSpawner(Point(1200, 500));
+		mainlayer->setPlayerSpawner(playerSpawner);
 	}
 	mainlayer->init();
 	return l;

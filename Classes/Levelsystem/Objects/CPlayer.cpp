@@ -350,7 +350,7 @@ void Player::update(float dt)
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
-	if (m_movement & EMovement::Left)
+	if (m_movement & EMovement::Left && !m_shooted)
 	{
 		m_direction.x = -1.0f;
 
@@ -366,7 +366,7 @@ void Player::update(float dt)
 	///////////////////////////////
 	// Vorwärts Gehen - Bewegung //
 	///////////////////////////////
-	if (m_movement & EMovement::Right)
+	if (m_movement & EMovement::Right && !m_shooted)
 	{
 		m_direction.x += 1.0f;
 
