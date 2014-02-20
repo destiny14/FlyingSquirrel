@@ -9,7 +9,7 @@ Ground* Ground::create(char* filename)
 	if (tex)
 	{
 		ground->setTexture(tex);
-		ground->setCollider();
+		ground->setCollider(tex->getSprite()->getBoundingBox().size.width, tex->getSprite()->getBoundingBox().size.height - 50);
 		ground->setGround(true);
 		ground->autorelease();
 		return ground;

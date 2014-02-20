@@ -19,6 +19,8 @@ MainLayer* MainLayer::create()
 	MainLayer* mainLayer = new MainLayer();
 	if (mainLayer)
 	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		mainLayer->setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 		mainLayer->setName("mainLayer");
 		mainLayer->autorelease();
 		mainLayer->retain();
@@ -38,6 +40,8 @@ bool MainLayer::init()
 		return false;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 	//############################################################
 	//## Init Input                                             ##
 	//############################################################
@@ -49,7 +53,7 @@ bool MainLayer::init()
 	//## Init Player                                            ##
 	//############################################################
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
-	m_pPlayer->setPosition(visibleSize.width * 0.5f - 50, 600);
+	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
 	this->addChild(m_pPlayer->getSprite(), 1);
 	//############################################################
 	//## Init Camera                                            ##
@@ -60,6 +64,7 @@ bool MainLayer::init()
 	//############################################################
 	//## Init Level                                             ##
 	//############################################################
+
 	for (Texture* t : *getTextures())
 	{
 		addChild(t->getSprite());
