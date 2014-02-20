@@ -10,18 +10,19 @@ Snail::Snail()
 Snail::~Snail()
 {
 }
-
+//----------Create-----------//
 Snail* Snail::create( MainLayer* layer)
 {
 	Snail* snail = new Snail();
 
 
 	Texture* tex = Texture::create("snail.png");
+	snail->m_pPlayer = layer->getPlayer();
 
 	if (tex)
 	{
 		snail->setTexture(tex);
-		snail->setCollider(200.0f, 120.0f);
+		snail->setCollider(250.0f, 120.0f);
 		snail->setParent(layer);
 
 		snail->init();
@@ -31,7 +32,7 @@ Snail* Snail::create( MainLayer* layer)
 
 	return nullptr;	
 }
-
+//----------Init mit animationen etc---------//
 bool Snail::init()
 {
 	m_isAlive = true;
@@ -51,7 +52,7 @@ bool Snail::init()
 		frames.pushBack(m_pFrame);
 	}
 
-	m_pCrouchCycleFrames = Animation::createWithSpriteFrames(frames, 0.0025f);
+	m_pCrouchCycleFrames = Animation::createWithSpriteFrames(frames, 0.015f);
 	m_pCrouchCycleFrames->retain();
 	frames.clear();
 
@@ -64,15 +65,6 @@ bool Snail::init()
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
-
-	m_pPunch_1Frames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pPunch1Action = Animate::create(m_pPunch_1Frames);
-
-	m_pPunch_1Frames->retain();
-	frames.clear();
-
-	//-----Punch_2-----//		//--Tag_1--//
-
 	for (int i = 0; i < 85; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Punch_2(%i).png", i);
@@ -80,27 +72,14 @@ bool Snail::init()
 		frames.pushBack(m_pFrame);
 	}
 
-	m_pPunch_2Frames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pPunch2Action = Animate::create(m_pPunch_2Frames);
+	m_pPunch_1Frames = Animation::createWithSpriteFrames(frames, 0.02f);
+	m_pPunch1Action = Animate::create(m_pPunch_1Frames);
 
-	m_pPunch_2Frames->retain();
+	m_pPunch_1Frames->retain();
 	frames.clear();
+
 
 	//-----Death-----//			//--Tag_2--//
-
-	for (int i = 0; i < 58; i++)
-	{
-		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
-		frames.pushBack(m_pFrame);
-	}
-
-	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.002f);
-
-	m_pDeathFrames->retain();
-	frames.clear();
-
-	//-----Hit-----//		//--Tag_3--//
 
 	for (int i = 0; i < 25; i++)
 	{
@@ -109,28 +88,45 @@ bool Snail::init()
 		frames.pushBack(m_pFrame);
 	}
 
-	m_pHitFrames = Animation::createWithSpriteFrames(frames, 0.002f);
+	for (int i = 0; i < 58; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
 
-	m_pHitFrames->retain();
+
+	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pDeathAction = Animate::create(m_pDeathFrames);
+
+	m_pDeathFrames->retain();
 	frames.clear();
 
 
 	return true;
 }
-
+//----------Collider setzen----------//
 void Snail::setCollider(float width, float height)
 {
-	//Sprite* sprite = getSprite();
-	//Rect boundingBox = sprite->getBoundingBox();
+	Sprite* sprite = getSprite();
+	Rect boundingBox = sprite->getBoundingBox();
 
-	m_pcollider = Collider::create(width, height);
-	this->addComponent(m_pcollider);
+	PlayerCollider* collider = PlayerCollider::create(width, height);
+	this->addComponent(collider);
 }
-
+//----------Collider abfragen---------//
+PlayerCollider* Snail::getPlayerColliderComponent()
+{
+	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
+}
+//----------GameLoop-----------//
 void Snail::update(float dt)
 {
 
-	Moveable::update(dt, false);
+	this->getPlayerColliderComponent()->update(dt);
+	this->setAffectedByGravity(false);
+	Moveable::update(dt, true);
+	this->CheckForCollisions();
 
 	if (this->m_isAlive)
 	{
@@ -142,22 +138,16 @@ void Snail::update(float dt)
 		else
 		{
 			this->moodWalk(dt);
+
 		}
 
-		if (m_pcollider != nullptr)
-		{
-			m_pcollider->update(dt);
-		}
 	}
 	else if (!(this->m_isAlive))
 	{
 		this->moodDie(dt);
 	}
-
 }
-
-
-//TODO
+//----------Laufen mit animation----------//
 void Snail::moodWalk(float dt)
 {
 
@@ -187,46 +177,61 @@ void Snail::moodWalk(float dt)
 	{
 		m_moveDirection.x = 0.0f;
 		m_timer = 3;
-		debugAttack = true;
+		m_isAlive = false;
 	}
 
 	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
 
 }
-
-//TODO
+//----------Attack (TODO wenn attack + collider = hit player)----------//
 void Snail::moodAttack(float dt)
 {
-	this->removeAllComponents();
-	this->setCollider(290.0f, 120.0f);
 
-	//if (!this->getSprite()->getActionByTag(1))
-	//{
-	//	this->getSprite()->stopAllActions();
-	//	m_pPunchAction = RepeatForever::create(Sequence::create(m_pPunch1Action, m_pPunch2Action, nullptr));
-	//	//m_pPunchAction = RepeatForever::create(Sequence::create((Animate::create(m_pPunch_1Frames)), (Animate::create(m_pPunch_2Frames))));
-	//	//m_pPunsh1Action = Repeat::create(Animate::create(m_pPunch_1Frames), 1);
-	//	//m_pPunsh1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
-	//	m_pPunchAction->setTag(1);
-	//	this->getSprite()->runAction(m_pPunchAction);
-	//}
+	if (!this->getSprite()->getActionByTag(1))
+	{
+		this->getSprite()->stopAllActions();
+		m_pPunch1Action = Repeat::create(Animate::create(m_pPunch_1Frames), 1);
+		m_pPunch1Action->setTag(1);
+		this->getSprite()->runAction(m_pPunch1Action);
+	}
 
 }
-
-//TODO
+//---------Sterben (TODO Snail Löschen)----------//
 void Snail::moodDie(float dt)
 {
-	//animation sterben
-}
+	if (!this->getSprite()->getActionByTag(2))
+	{
+		this->getSprite()->stopAllActions();
+		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+		m_pDeathAction->setTag(2);
+		this->getSprite()->runAction(m_pDeathAction);
+	}
 
-//TODO
+}
+//----------Kann Enemy angreifen? ----------//
 bool Snail::canAttack()
 {
-	//TODO attackrange <= distanz zum spieler
-	if (debugAttack)
+	playerPosX = m_pPlayer->getPositionX();
+	snailPosX = this->getPositionX();
+
+	if (abs(attackRange) >= abs(playerPosX - snailPosX))
 	{
-		return true;
+		if (playerPosX > snailPosX)
+		{
+			this->getSprite()->setScaleX(-1.0f);
+			return true;
+		}
+		if (playerPosX < snailPosX)
+		{
+			this->getSprite()->setScaleX(1.0f);
+			return true;
+		}
 	}
 	return false;
+}
+//----------Collision TODO all!----------//
+void Snail::CheckForCollisions()
+{
+	
 }
 
