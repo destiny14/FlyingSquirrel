@@ -14,6 +14,8 @@ bool IntroScene::init()
 	if (!Layer::init())
 		return false;
 
+	
+
 	m_timeElapsed = 0;
 	m_page = 0;
 	m_timeToElapse = 3;
@@ -31,6 +33,7 @@ bool IntroScene::init()
 void IntroScene::update(float dt)
 {
 	m_timeElapsed += dt;
+	
 	if (m_timeElapsed >= m_timeToElapse)
 	{
 		m_timeElapsed = 0;
