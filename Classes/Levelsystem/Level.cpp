@@ -102,6 +102,8 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Rect colRect = Rect(0, 0, sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
 			ground->getColliderComponent()->setCollisionRectangle(colRect);
 			ground->setGround(child->BoolAttribute("isGround"));
+			ground->getTexture()->getSprite()->setVisible(child->BoolAttribute("visibility"));
+			ground->setWall(child->BoolAttribute("wall"));
 			mainlayer->getPhysicsObjects()->push_front(ground);
 		}
 	}
@@ -124,6 +126,7 @@ tinyxml2::XMLElement* Level::createGroundNode(tinyxml2::XMLDocument* doc, Ground
 {
 	tinyxml2::XMLElement* element = doc->NewElement("Ground");
 	element->SetAttribute("visibility", ground->getSprite()->isVisible());
+	element->SetAttribute("wall", ground->getWall());
 	element->SetAttribute("filename", ground->getTexture()->getFilename());
 	element->SetAttribute("isGround", ground->getGround());
 	tinyxml2::XMLElement* pointElement = createPointNode(doc, ground->getPosition());
