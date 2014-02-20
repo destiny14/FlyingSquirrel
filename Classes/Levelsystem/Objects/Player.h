@@ -38,6 +38,7 @@ public:
 
 	int getHealth();
 	int getNuts();
+	int setNuts(int nuts);
 	bool m_isDead;
 
 	void hit();
@@ -88,6 +89,9 @@ private:
 	Animation* m_pLandingFrames;
 	Animation* m_pDeathFrames;
 	Animation* m_pShootFrames;
+	Animation* m_pFallStartFrames;
+	Animation* m_pFallFrames;
+	Animation* m_pFallToFlyFrames;
 
 	Action* m_pStandAction;
 	Action* m_pRunAction;
@@ -97,6 +101,9 @@ private:
 	Action* m_pLandingAction;
 	Action* m_pDeathAction;
 	Action* m_pShootAction;
+	Action* m_pFallStartAction;
+	Action* m_pFallAction;
+	Action* m_pFallToFlyAction;
 
 	Vector<SpriteFrame*> frames;
 	String* filename;
