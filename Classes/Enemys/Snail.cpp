@@ -66,11 +66,12 @@ bool Snail::init()
 	}
 
 	m_pPunch_1Frames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pPunch1Action = Animate::create(m_pPunch_1Frames);
 
 	m_pPunch_1Frames->retain();
 	frames.clear();
 
-	//-----Punch_2-----//		//--Tag_2--//
+	//-----Punch_2-----//		//--Tag_1--//
 
 	for (int i = 0; i < 85; i++)
 	{
@@ -80,12 +81,12 @@ bool Snail::init()
 	}
 
 	m_pPunch_2Frames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pPunsh2Action = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
-	m_pPunsh2Action->setTag(2);
+	m_pPunch2Action = Animate::create(m_pPunch_2Frames);
+
 	m_pPunch_2Frames->retain();
 	frames.clear();
 
-	//-----Death-----//			//--Tag_3--//
+	//-----Death-----//			//--Tag_2--//
 
 	for (int i = 0; i < 58; i++)
 	{
@@ -95,12 +96,11 @@ bool Snail::init()
 	}
 
 	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pDeathAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
-	m_pDeathAction->setTag(3);
+
 	m_pDeathFrames->retain();
 	frames.clear();
 
-	//-----Hit-----//		//--Tag_4--//
+	//-----Hit-----//		//--Tag_3--//
 
 	for (int i = 0; i < 25; i++)
 	{
@@ -110,8 +110,7 @@ bool Snail::init()
 	}
 
 	m_pHitFrames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pHitAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
-	m_pHitAction->setTag(4);
+
 	m_pHitFrames->retain();
 	frames.clear();
 
@@ -188,7 +187,7 @@ void Snail::moodWalk(float dt)
 	{
 		m_moveDirection.x = 0.0f;
 		m_timer = 3;
-		//debugAttack = true;
+		debugAttack = true;
 	}
 
 	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
@@ -198,16 +197,20 @@ void Snail::moodWalk(float dt)
 //TODO
 void Snail::moodAttack(float dt)
 {
-	
-	this->setCollider(357.0f, 120.0f);
+	this->removeAllComponents();
+	this->setCollider(290.0f, 120.0f);
 
-	if (!this->getSprite()->getActionByTag(1))
-	{
-		this->getSprite()->stopAllActions();
-		m_pPunsh1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
-		m_pPunsh1Action->setTag(1);
-		this->getSprite()->runAction(m_pCrouchAction);
-	}
+	//if (!this->getSprite()->getActionByTag(1))
+	//{
+	//	this->getSprite()->stopAllActions();
+	//	m_pPunchAction = RepeatForever::create(Sequence::create(m_pPunch1Action, m_pPunch2Action, nullptr));
+	//	//m_pPunchAction = RepeatForever::create(Sequence::create((Animate::create(m_pPunch_1Frames)), (Animate::create(m_pPunch_2Frames))));
+	//	//m_pPunsh1Action = Repeat::create(Animate::create(m_pPunch_1Frames), 1);
+	//	//m_pPunsh1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
+	//	m_pPunchAction->setTag(1);
+	//	this->getSprite()->runAction(m_pPunchAction);
+	//}
+
 }
 
 //TODO
