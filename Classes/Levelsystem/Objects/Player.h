@@ -38,7 +38,7 @@ public:
 
 	int getHealth();
 	int getNuts();
-	int setNuts(int nuts);
+	void setNuts(int nuts);
 	bool m_isDead;
 
 	void hit();

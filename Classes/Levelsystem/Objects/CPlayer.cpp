@@ -561,7 +561,7 @@ int Player::getNuts()
 	return m_nuts;
 }
 
-int Player::setNuts(int nuts)
+void Player::setNuts(int nuts)
 {
 	m_nuts = nuts;
 }
