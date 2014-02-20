@@ -47,6 +47,8 @@ bool Player::init()
 
 	m_counterDeath = 0;
 	m_counterToShoot = 0;
+	m_counterToFall = 0;
+	m_counterToRescueFly = 0;
 
 	m_sawyerRunFrame = 0;
 	m_movement = None;
@@ -64,6 +66,9 @@ bool Player::init()
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
+
+	cs_flight = false;
+	cs_run = false;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -188,7 +193,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pFallFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pFallFrames = Animation::createWithSpriteFrames(frames, 0.03f);
 	m_pFallFrames->retain();
 	frames.clear();
 	///////////////////////////
@@ -344,7 +349,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Landen - Bewegung //
 	///////////////////////
-	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump)
+	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump || this->getGrounded() && m_readyToFall)
 	{
 		this->getSprite()->stopAllActions();
 		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
@@ -353,6 +358,8 @@ void Player::update(float dt)
 		m_jump = false;
 		m_doubleJump = false;
 		m_readyToFly = false;
+		m_readyToFall = false;
+		m_rescueFly = false;
 		m_isFlying = false;
 	}
 	/////////////////////////////
@@ -371,7 +378,7 @@ void Player::update(float dt)
 	{
 		m_readyToFly = true;
 	}
-	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly)
+	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly || cs_flight)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -400,10 +407,18 @@ void Player::update(float dt)
 		}
 		this->getSprite()->setScaleX(-1.0f);
 	}
+	////////////////////////
+	// Cutscene - Trigger //
+	////////////////////////
+	if (cs_flight && this->getGrounded())
+	{
+		cs_flight = false;
+		cs_run = true;
+	}
 	///////////////////////////////
 	// Vorwärts Gehen - Bewegung //
 	///////////////////////////////
-	if (m_movement & EMovement::Right && !m_shooted)
+	if (m_movement & EMovement::Right && !m_shooted || cs_run)
 	{
 		m_direction.x += 1.0f;
 
@@ -419,16 +434,64 @@ void Player::update(float dt)
 	///////////////////////
 	// Fallen - Bewegung //
 	///////////////////////
-	if (!this->getGrounded() && !m_jump)
+	if (!this->getGrounded() && !m_jump && !m_readyToFall)
 	{
-		if (!m_readyToFall)
+		if (!this->getSprite()->getActionByTag(8))
 		{
 			this->getSprite()->stopAllActions();
 			m_pFallStartAction = Repeat::create(Animate::create(m_pFallStartFrames), 1);
 			m_pFallStartAction->setTag(8);
 			this->getSprite()->runAction(m_pFallStartAction);
-			m_readyToFall = true;
 		}
+		if (m_counterToFall == 4)
+		{
+			m_readyToFall = true;
+			m_counterToFall = 0;
+		}
+		else
+		{
+			m_counterToFall++;
+		}
+	}
+	else if (!this->getSprite()->getActionByTag(9) && !this->getGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
+	{
+		m_readyToFall = true;
+		this->getSprite()->stopAllActions();
+		m_pFallAction = RepeatForever::create(Animate::create(m_pFallFrames));
+		m_pFallAction->setTag(9);
+		this->getSprite()->runAction(m_pFallAction);
+	}
+	else if (m_pJump->isPressed() && !this->getGrounded() && m_readyToFall && !m_rescueFly)
+	{
+		if (!this->getSprite()->getActionByTag(10))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFallToFlyAction = Repeat::create(Animate::create(m_pFallToFlyFrames), 1);
+			m_pFallToFlyAction->setTag(10);
+			this->getSprite()->runAction(m_pFallToFlyAction);
+		}
+		if (m_counterToRescueFly == 6)
+		{
+			m_rescueFly = true;
+			m_counterToRescueFly = 0;
+		}
+		else
+		{
+			m_counterToRescueFly++;
+		}
+	}
+	else if (m_pJump->isPressed() && !this->getGrounded() && m_rescueFly)
+	{
+		if (!this->getSprite()->getActionByTag(3))
+		{
+			this->getSprite()->stopAllActions();
+			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
+			m_pFlightAction->setTag(3);
+			this->getSprite()->runAction(m_pFlightAction);
+		}
+
+		m_isFlying = true;
+		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
 	}
 
 	m_direction.x *= m_speed;

@@ -42,6 +42,8 @@ public:
 	bool m_isDead;
 
 	void hit();
+	bool cs_flight;
+	bool cs_run;
 
 private:
 	void CheckForCollisions();
@@ -51,6 +53,8 @@ private:
 
 	int m_counterDeath;
 	int m_counterToShoot;
+	int m_counterToFall;
+	int m_counterToRescueFly;
 
 	Point m_direction;
 	float m_speed;
@@ -58,7 +62,7 @@ private:
 	bool m_doubleJump;
 	bool m_readyToFly;
 	bool m_isFlying;
-	bool m_rescueFly; //not used, added for free-fall
+	bool m_rescueFly;
 	bool m_shooted;
 	bool m_readyToFall;
 	bool m_topCollision;
@@ -113,5 +117,4 @@ private:
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
 };
-
 #endif // !__PLAYER_H__
