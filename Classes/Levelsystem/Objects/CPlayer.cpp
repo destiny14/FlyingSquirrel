@@ -63,6 +63,7 @@ bool Player::init()
 	m_isDead = false;
 	m_shooted = false;
 	m_readyToFall = false;
+	m_noNuts = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
@@ -241,7 +242,7 @@ bool Player::init()
 		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
-	m_pDoubleJumpFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pDoubleJumpFrames = Animation::createWithSpriteFrames(frames, 0.008f);
 	m_pDoubleJumpFrames->retain();
 	frames.clear();
 
@@ -325,14 +326,24 @@ void Player::update(float dt)
 	/////////////////////////
 	// Schießen - Bewegung //
 	/////////////////////////
-	if (m_pShoot->wasPressed())// && this->getGrounded())
+	if (m_pShoot->wasPressed() && m_nuts > 0 && this->getGrounded())
 	{
 		this->getSprite()->stopAllActions();
 		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
 		m_pShootAction->setTag(7);
 		this->getSprite()->runAction(m_pShootAction);
 
+		m_noNuts = false;
 		m_shooted = true;
+	}
+	else if (m_pShoot->wasPressed() && !this->getSprite()->getActionByTag(11) && this->getGrounded() && !m_shooted)
+	{
+		this->getSprite()->stopAllActions();
+		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
+		m_pDontKnowDirectionAction->setTag(11);
+		this->getSprite()->runAction(m_pDontKnowDirectionAction);
+
+		m_noNuts = true;
 	}
 	/////////////////////////
 	// Schießen - Geschoss //
@@ -345,6 +356,7 @@ void Player::update(float dt)
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
 			m_shooted = false;
+			m_nuts = m_nuts - 1;
 			m_counterToShoot = 0;
 		}
 		else
@@ -368,7 +380,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
-	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7))
+	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7) && !this->getSprite()->getActionByTag(11))
 	{
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
@@ -419,6 +431,13 @@ void Player::update(float dt)
 		addVelocity(0.0f, 400.0f);
 		m_doubleJump = true;
 		m_readyToFly = false;
+		if (!this->getSprite()->getActionByTag(13))
+		{
+			this->getSprite()->stopAllActions();
+			m_pDoubleJumpAction = Repeat::create(Animate::create(m_pDoubleJumpFrames), 1);
+			m_pDoubleJumpAction->setTag(13);
+			this->getSprite()->runAction(m_pDoubleJumpAction);
+		}
 	}
 	////////////////////////
 	// Fliegen - Bewegung //

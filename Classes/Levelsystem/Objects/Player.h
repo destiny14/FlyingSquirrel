@@ -65,6 +65,7 @@ private:
 	bool m_rescueFly;
 	bool m_shooted;
 	bool m_readyToFall;
+	bool m_noNuts;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
