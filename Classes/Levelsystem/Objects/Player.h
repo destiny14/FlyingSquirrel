@@ -97,6 +97,9 @@ private:
 	Animation* m_pFallStartFrames;
 	Animation* m_pFallFrames;
 	Animation* m_pFallToFlyFrames;
+	Animation* m_pDontKnowDirectionFrames;
+	Animation* m_pJumpShootFrames;
+	Animation* m_pDoubleJumpFrames;
 
 	Action* m_pStandAction;
 	Action* m_pRunAction;
@@ -109,6 +112,9 @@ private:
 	Action* m_pFallStartAction;
 	Action* m_pFallAction;
 	Action* m_pFallToFlyAction;
+	Action* m_pDontKnowDirectionAction;
+	Action* m_pJumpShootAction;
+	Action* m_pDoubleJumpAction;
 
 	Vector<SpriteFrame*> frames;
 	String* filename;

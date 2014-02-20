@@ -208,6 +208,42 @@ bool Player::init()
 	m_pFallToFlyFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
 	m_pFallToFlyFrames->retain();
 	frames.clear();
+	/////////////////////////////////////
+	// Dont know direction - Animation // // 11
+	/////////////////////////////////////
+	for (int i = 0; i < 35; i++)
+	{
+		filename = String::createWithFormat("skeleton-Idle2%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pDontKnowDirectionFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
+	m_pDontKnowDirectionFrames->retain();
+	frames.clear();
+	////////////////////////////
+	// Jump Shoot - Animation // // 12
+	////////////////////////////
+	for (int i = 0; i < 51; i++)
+	{
+		filename = String::createWithFormat("skeleton-Jump_shot%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pJumpShootFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pJumpShootFrames->retain();
+	frames.clear();
+	/////////////////////////////
+	// Double Jump - Animation // // 13
+	/////////////////////////////
+	for (int i = 0; i < 58; i++)
+	{
+		filename = String::createWithFormat("skeleton-Double_Jump%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pDoubleJumpFrames = Animation::createWithSpriteFrames(frames, 0.025f);
+	m_pDoubleJumpFrames->retain();
+	frames.clear();
 
 	this->getSprite()->runAction(m_pStandAction);
 
@@ -316,6 +352,19 @@ void Player::update(float dt)
 			m_counterToShoot++;
 		}
 	}
+	/////////////////////////
+	// Verwirrt - Bewegung //
+	/////////////////////////
+	if (m_pForward->isPressed() && m_pBackward->isPressed())
+	{
+		if (!this->getSprite()->getActionByTag(11) && this->getGrounded())
+		{
+		this->getSprite()->stopAllActions();
+		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
+		m_pDontKnowDirectionAction->setTag(11);
+		this->getSprite()->runAction(m_pDontKnowDirectionAction);
+		}
+	}
 	///////////////////////
 	// Stehen - Bewegung //
 	///////////////////////
@@ -394,7 +443,7 @@ void Player::update(float dt)
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
-	if (m_movement & EMovement::Left && !m_shooted)
+	if (m_movement & EMovement::Left && !m_shooted && !m_pForward->isPressed())
 	{
 		m_direction.x = -1.0f;
 
@@ -418,7 +467,7 @@ void Player::update(float dt)
 	///////////////////////////////
 	// Vorwärts Gehen - Bewegung //
 	///////////////////////////////
-	if (m_movement & EMovement::Right && !m_shooted || cs_run)
+	if (m_movement & EMovement::Right && !m_shooted && !m_pBackward->isPressed() || cs_run)
 	{
 		m_direction.x += 1.0f;
 
