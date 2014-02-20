@@ -51,7 +51,7 @@ int CCommonMain::main(char** par, int parLength)
 		m_eglView.init("FlyingSquirrel", videoMode->width, videoMode->height);
 		GLFWwindow* win = glfwGetCurrentContext();
 		glfwShowWindow(win);
-		glfwSwapInterval(-60);
+		glfwSwapInterval(-1000/60);
 	}
 	else
 	{
