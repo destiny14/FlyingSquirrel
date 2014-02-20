@@ -60,6 +60,7 @@ private:
 	bool m_isFlying;
 	bool m_rescueFly; //not used, added for free-fall
 	bool m_shooted;
+	bool m_readyToFall;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
