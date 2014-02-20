@@ -49,6 +49,7 @@ bool Player::init()
 	m_counterToShoot = 0;
 	m_counterToFall = 0;
 	m_counterToRescueFly = 0;
+	m_counterToShoot = 0;
 
 	m_sawyerRunFrame = 0;
 	m_movement = None;
@@ -333,6 +334,18 @@ void Player::update(float dt)
 		m_pShootAction->setTag(7);
 		this->getSprite()->runAction(m_pShootAction);
 
+		m_countToShoot = 15;
+		m_noNuts = false;
+		m_shooted = true;
+	}
+	else if (m_pShoot->wasPressed() && m_nuts > 0 && !this->getGrounded() && m_jump)
+	{
+		this->getSprite()->stopAllActions();
+		m_pJumpShootAction = Repeat::create(Animate::create(m_pJumpShootFrames), 1);
+		m_pJumpShootAction->setTag(12);
+		this->getSprite()->runAction(m_pJumpShootAction);
+
+		m_countToShoot = 40;
 		m_noNuts = false;
 		m_shooted = true;
 	}
@@ -350,7 +363,7 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_shooted)
 	{
-		if (m_counterToShoot == 15)
+		if (m_counterToShoot == m_countToShoot)
 		{
 			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
@@ -358,6 +371,7 @@ void Player::update(float dt)
 			m_shooted = false;
 			m_nuts = m_nuts - 1;
 			m_counterToShoot = 0;
+			m_countToShoot = 0;
 		}
 		else
 		{

@@ -55,6 +55,7 @@ private:
 	int m_counterToShoot;
 	int m_counterToFall;
 	int m_counterToRescueFly;
+	int m_countToShoot;
 
 	Point m_direction;
 	float m_speed;
