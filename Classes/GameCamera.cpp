@@ -5,6 +5,8 @@ GameCamera::GameCamera(Node* _follower)
 	m_pFollow = _follower;
 	m_pFollowed = nullptr;
 	m_bounds = Rect::ZERO;
+	m_rot = 0.0f;
+	m_lsd = false;
 }
 
 GameCamera::~GameCamera()
@@ -54,6 +56,7 @@ void GameCamera::setFollower(Node* _follower)
 
 void GameCamera::update(float _dt)
 {
+	updateLSD(_dt);
 	if (m_pFollow == nullptr || m_pFollowed == nullptr) return;
 
 	Point target = clamp(m_bounds, m_pFollowed->getPosition());
@@ -67,6 +70,26 @@ void GameCamera::update(float _dt)
 	tmp = m_pFollow->getPosition().lerp(tmp, 0.6f);
 	tmp = clamp(m_camBounds, tmp);
 	m_pFollow->setPosition(tmp);
+}
+
+void GameCamera::updateLSD(float dt)
+{
+	if (m_lsd)
+	{
+		kmGLMatrixMode(KM_GL_MODELVIEW);
+		kmGLTranslatef(400.0f, 300.0f, 0.0f);
+		kmGLRotatef(45.0f * dt, 0.0f, 0.0f, 1.0f);
+		m_rot += 45.0f * dt;
+		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+	}
+	else if (m_rot != 0.0f)
+	{
+		kmGLMatrixMode(KM_GL_MODELVIEW);
+		kmGLTranslatef(400.0f, 300.0f, 0.0f);
+		kmGLRotatef(-m_rot, 0.0f, 0.0f, 1.0f);
+		m_rot = 0.0f;
+		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+	}
 }
 
 Point GameCamera::clamp(Rect _b, Point _p)

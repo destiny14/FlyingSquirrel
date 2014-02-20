@@ -30,7 +30,7 @@ public:
 	// a selector callback
     void menuCloseCallback(Object* pSender);
 
-	Player* getPlayer() { return m_moveable; }
+	Player* getPlayer() override { return m_moveable; }
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
@@ -38,7 +38,6 @@ private:
 	InputManager* m_pInput;
 	InputAction* m_pLSD;
 	Player* m_moveable;
-	GameCamera* m_pCam;
 	Ground* m_ground;
 	bool m_lsd;
 	float m_rot;

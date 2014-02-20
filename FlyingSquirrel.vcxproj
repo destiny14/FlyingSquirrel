@@ -149,7 +149,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Enemys\Snail.cpp" />
     <ClCompile Include="Classes\Enemys\Worm.cpp" />
     <ClCompile Include="Classes\GameCamera.cpp" />
-    <ClCompile Include="Classes\HelloWorldScene.cpp" />
     <ClCompile Include="Classes\InputAction.cpp" />
     <ClCompile Include="Classes\InputManager.cpp" />
     <ClCompile Include="Classes\LevelEditor.cpp" />
@@ -188,7 +187,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Enemys\Snail.h" />
     <ClInclude Include="Classes\Enemys\Worm.h" />
     <ClInclude Include="Classes\GameCamera.h" />
-    <ClInclude Include="Classes\HelloWorldScene.h" />
     <ClInclude Include="Classes\Input.h" />
     <ClInclude Include="Classes\InputAction.h" />
     <ClInclude Include="Classes\InputManager.h" />

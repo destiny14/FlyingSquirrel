@@ -23,9 +23,11 @@ public:
 
 	virtual void draw();
 
-	Player* getPlayer() { return m_pPlayer; }
+	virtual Player* getPlayer() { return m_pPlayer; }
 
 	void setPhysicsObjects(list<Ground*>* physicObjects);
+
+	void menuCloseCallback(Object* pSender);
 
 	list<Ground*>* getPhysicsObjects();
 
@@ -35,8 +37,10 @@ private:
 	PlayerSpawner* m_playerSpawner;
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
+	InputAction* m_pLSD;
 	Player* m_pPlayer;
 	list<Ground*>* m_physicObjects;
+	MouseInputAction* _test;
 };
 
 #endif // !__MAINLAYER_H__

@@ -15,7 +15,7 @@ protected:
 		
 	bool init();
 
-	void setCollider();
+	void setCollider(float width, float height);
 
 	bool canAttack();
 
@@ -40,6 +40,12 @@ public:
 
 private:
 
+	bool punch1 = true;
+
+	bool debugAttack = false;
+
+	void CheckForCollisions();
+
 	bool m_first = true;
 
 	float m_timer = 3.0;
@@ -53,8 +59,9 @@ private:
 	Collider* m_pcollider;
 
 	Action* m_pCrouchAction;
-	Action* m_pPunsh1Action;
-	Action* m_pPunsh2Action;
+	Action* m_pPunchAction;
+	Animate* m_pPunch1Action;
+	Animate* m_pPunch2Action;
 	Action* m_pDeathAction;
 	Action* m_pHitAction;
 

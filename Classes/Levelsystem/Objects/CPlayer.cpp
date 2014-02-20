@@ -265,7 +265,7 @@ void Player::update(float dt)
 		{
 			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
-			this->nuts->push_back(nut);
+			this->nuts.push_back(nut);
 			m_shooted = false;
 			m_counterToShoot = 0;
 		}
