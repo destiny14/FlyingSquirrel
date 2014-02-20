@@ -1,10 +1,11 @@
-#include "cocos2d.h"
 #include "MainLayer.h"
+
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
 #include "..\Nut.h"
 #include "..\UI.h"
+#include "..\InputManager.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -81,6 +82,7 @@ bool MainLayer::init()
 
 void MainLayer::update(float dt)
 {
+	dt = dt > (1.0f / 60.0f) ? (1.0f / 60.0f) : dt;
 	m_pPlayer->update(dt);
 	m_pInput->update();
 	m_pCam->update(dt);
@@ -91,15 +93,11 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		/*Nut* nut = new Nut(this);
-		nut->setPosition();
-		this->addChild(new Nut(this));*/
+		CollectibleNut* nut = CollectibleNut::create(this);
+		nut->setPosition(_test->getMousePosition() - this->getPosition());
+		this->addChild(nut);
 	}
 
-	/*for (Texture* t : *getTextures())
-	{
-		t->update(dt);
-	}*/
 	for (Ground* g : *getPhysicsObjects())
 	{
 		g->update(dt);

@@ -4,14 +4,28 @@
 Collectible::Collectible(MainLayer* parent) : Ground()
 {
 	m_pLayer = parent;
-	this->autorelease();
-	m_pLayer->schedule(cocos2d::SEL_SCHEDULE(&Collectible::update));
 }
 
 void Collectible::update(float _dt)
 {
 	getColliderComponent()->update(_dt);
 	collisionCheck();
+}
+
+bool Collectible::init()
+{
+	if (!Ground::init())
+		return false;
+	initCollectible();
+	setCollider();
+	m_pLayer->addChild(getTexture()->getSprite());
+	return true;
+}
+
+void Collectible::deleteCollectible()
+{
+	getSprite()->removeFromParentAndCleanup(true);
+	this->removeFromParentAndCleanup(true);
 }
 
 void Collectible::collisionCheck()
