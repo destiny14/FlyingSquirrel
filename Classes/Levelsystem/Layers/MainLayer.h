@@ -32,6 +32,7 @@ public:
 protected:
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
+	InputAction* m_pLSD;
 	Player* m_pPlayer;
 	list<Ground*>* m_physicObjects;
 	MouseInputAction* _test;
