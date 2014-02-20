@@ -93,10 +93,6 @@ void MainLayer::update(float dt)
 		this->addChild(nut);
 	}
 
-	/*for (Texture* t : *getTextures())
-	{
-		t->update(dt);
-	}*/
 	for (Ground* g : *getPhysicsObjects())
 	{
 		g->update(dt);
