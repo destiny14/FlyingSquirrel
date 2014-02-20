@@ -265,7 +265,7 @@ void Player::update(float dt)
 		{
 			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
-			this->nuts->push_back(nut);
+			this->nuts.push_back(nut);
 			m_shooted = false;
 			m_counterToShoot = 0;
 		}
@@ -350,7 +350,7 @@ void Player::update(float dt)
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
-	if (m_movement & EMovement::Left)
+	if (m_movement & EMovement::Left && !m_shooted)
 	{
 		m_direction.x = -1.0f;
 
@@ -366,7 +366,7 @@ void Player::update(float dt)
 	///////////////////////////////
 	// Vorwärts Gehen - Bewegung //
 	///////////////////////////////
-	if (m_movement & EMovement::Right)
+	if (m_movement & EMovement::Right && !m_shooted)
 	{
 		m_direction.x += 1.0f;
 

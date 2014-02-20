@@ -22,12 +22,13 @@ public:
 	virtual bool init();
 	virtual void update(float dt, bool overwriteCollisionCheck = false);
 
-	void deleteBullet();
-	list<Bullet*>* nuts;
+	void deleteBullet(Bullet* bullet);
+	list<Bullet*> nuts;
 
 protected:
 
 private:
+	list<Bullet*> nutsToDelete;
 
 };
 

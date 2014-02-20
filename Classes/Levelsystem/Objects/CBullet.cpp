@@ -61,7 +61,7 @@ void Bullet::destroy()
 {
 	if (m_bullettype == Bullettype::Nut)
 	{
-		//deleteBullet();
+		m_shooter->deleteBullet(this);
 	}
 }
 

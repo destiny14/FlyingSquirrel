@@ -1,6 +1,6 @@
 #include "UI.h"
 #include "MainMenu.h"
-#include "HelloWorldScene.h"
+#include "MainLayer.h"
 #include "CommonMain.h"
 #include "Player.h"
 
@@ -289,7 +289,7 @@ void UI::createIngameUI()
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
-		CC_CALLBACK_1(HelloWorld::menuCloseCallback, pHelloWorld));
+		CC_CALLBACK_1(MainLayer::menuCloseCallback, pHelloWorld));
 	closeItem->setScale(2.0f);
 	closeItem->setPosition(
 		visibleSize.width - closeItem->getScaleX() * closeItem->getContentSize().width * 0.5f,
