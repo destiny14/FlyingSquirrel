@@ -1,15 +1,16 @@
 #include "Collectible.h"
 #include "Player.h"
 
-Collectible::Collectible(MainLayer* parent)
+Collectible::Collectible(MainLayer* parent) : Ground()
 {
 	m_pLayer = parent;
 	this->autorelease();
-	//m_pLayer->schedule(cocos2d::SEL_SCHEDULE(Collectible::update));
+	m_pLayer->schedule(cocos2d::SEL_SCHEDULE(&Collectible::update));
 }
 
 void Collectible::update(float _dt)
 {
+	getColliderComponent()->update(_dt);
 	collisionCheck();
 }
 

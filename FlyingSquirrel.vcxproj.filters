@@ -39,9 +39,6 @@
     <ClCompile Include="Classes\CommonMain.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\HelloWorldScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\MainMenu.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\CommonMain.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\HelloWorldScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Logfile.h">

@@ -3,10 +3,10 @@
 
 #include "Collectible.h"
 
-class Nut : public Collectible
+class CollectibleNut : public Collectible
 {
 public:
-	Nut(MainLayer* layer);
+	CollectibleNut(MainLayer* layer);
 
 protected:
 	void onCollidedWithPlayer(Player* _player) override;

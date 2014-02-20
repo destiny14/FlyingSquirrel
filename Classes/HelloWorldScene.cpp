@@ -55,7 +55,7 @@ bool HelloWorld::init()
 	
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
+    if ( !MainLayer::init() )
     {
         return false;
     }
@@ -66,7 +66,6 @@ bool HelloWorld::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
-	m_pInput = new InputManager(this);
 	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_0;
 	m_pLSD = m_pInput->createKeyboardAction(&code, 1, "LSD");
 	m_ground = Ground::create("ground.png");
@@ -81,9 +80,8 @@ bool HelloWorld::init()
 	m_moveable->setPosition(visibleSize.width * 0.5f, 500.0f);
 	this->addChild(m_moveable->getSprite(), 1);
 
-	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_moveable);
-	m_pCam->setBoundingRect(Rect(-800.0f, -20000.0f, 2400.0f, 40000.0f));
+	m_pCam->setBoundingRect(Rect(-10000.0f, -20000.0f, 24000.0f, 40000.0f));
 
 	ParallaxLayer* para = ParallaxLayer::create();
 	Point paraPos = Point(2500.0f, 0.0f);
