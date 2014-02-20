@@ -22,12 +22,14 @@ public:
 
 	virtual void draw();
 
-	Player* getPlayer() { return m_pPlayer; }
+	virtual Player* getPlayer() { return m_pPlayer; }
 
 	void setPhysicsObjects(list<Ground*>* physicObjects);
 
+	void menuCloseCallback(Object* pSender);
+
 	list<Ground*>* getPhysicsObjects();
-private:
+protected:
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
 	Player* m_pPlayer;

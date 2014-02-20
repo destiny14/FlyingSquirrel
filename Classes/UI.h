@@ -24,7 +24,7 @@
 
 class Player;
 class CMainMenu;
-class HelloWorld;
+class MainLayer;
 
 USING_NS_CC;
 using namespace std;
@@ -36,7 +36,7 @@ public:
 	virtual ~UI(void);
 
 	CMainMenu* pMainMenu;
-	HelloWorld* pHelloWorld;
+	MainLayer* pHelloWorld;
 	LevelEditor* pLevelEditor;
 	int levelType;
 

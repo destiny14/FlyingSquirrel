@@ -50,7 +50,7 @@ void CMainMenu::update(float _dt)
 	{
 		t += _dt;
 		if (t >= 0.5f)
-			Director::getInstance()->replaceScene(HelloWorld::createScene());
+			Director::getInstance()->replaceScene(LevelTestScene::createScene());
 	}
 		
 	if (m_pStartGame->wasReleased())

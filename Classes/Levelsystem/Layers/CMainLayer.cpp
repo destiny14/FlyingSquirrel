@@ -4,6 +4,7 @@
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
 #include "..\Nut.h"
+#include "..\UI.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -36,19 +37,26 @@ bool MainLayer::init()
 		return false;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
+	//############################################################
+	//## Init Input                                             ##
+	//############################################################
 	m_pInput = new InputManager(this);
+	_test = m_pInput->createMouseAction("TEST", 0);
+	//############################################################
+	//## Init Player                                            ##
+	//############################################################
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(visibleSize.width * 0.5f - 50, 600);
-
-	_test = m_pInput->createMouseAction("TEST", 0);
-
+	this->addChild(m_pPlayer->getSprite(), 1);
+	//############################################################
+	//## Init Camera                                            ##
+	//############################################################
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_pPlayer);
-	m_pCam->setBoundingRect(Rect(-800.0f, -800.0f, 2400.0f, 2400.0f));
-
-	//m_pPlayer->setAffectedByGravity(false);
-	this->addChild(m_pPlayer->getSprite(), 1);
-
+	m_pCam->setBoundingRect(Rect(-10000.0f, -10000.0f, 20000.0f, 20000.0f));
+	//############################################################
+	//## Init Level                                             ##
+	//############################################################
 	for (Texture* t : *getTextures())
 	{
 		addChild(t->getSprite());
@@ -58,6 +66,9 @@ bool MainLayer::init()
 		addChild(g->getSprite());
 	}
 	this->scheduleUpdate();
+
+	ACTIVATEINGAMEUI(this);
+
 	return true;
 }
 
@@ -66,6 +77,7 @@ void MainLayer::update(float dt)
 	m_pPlayer->update(dt);
 	m_pInput->update();
 	m_pCam->update(dt);
+	UPDATEUI;
 	/*for (Texture* t : *getTextures())
 	{
 		t->update(dt);
@@ -127,4 +139,9 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 		m_physicObjects = new list<Ground*>();
 	}
 	return m_physicObjects;
+}
+
+void MainLayer::menuCloseCallback(Object* pSender)
+{
+	Director::getInstance()->end();
 }
