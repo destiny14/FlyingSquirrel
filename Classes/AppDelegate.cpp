@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "MainMenu.h"
+#include "IntroScene.h"
 #include <fstream>
 
 USING_NS_CC;
@@ -34,7 +35,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	setDesiredFPS(-1);
 
     // create a scene. it's an autorelease object
-	auto menu = CMainMenu::createMainMenuScene();
+	//auto menu = CMainMenu::createMainMenuScene();
+	auto intro = IntroScene::createScene();
 
 	std::ifstream FileTest("version");
 	if (!FileTest)
@@ -61,7 +63,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
     // run
-    director->runWithScene(menu);
+    director->runWithScene(intro);
 
     return true;
 }

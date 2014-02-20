@@ -592,7 +592,7 @@ void Player::CheckForCollisions()
 			bool hack = false;
 			Collider* c = g->getColliderComponent();
 			
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()))
+			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()) && !g->getWall())
 			{
 				if (m_topCollisionGround != nullptr)
 				{
@@ -649,7 +649,7 @@ void Player::CheckForCollisions()
 						setPositionY(getPositionY() - 0.01f);
 						getPlayerColliderComponent()->update(0.0f);
 				}
-				if (m_topCollision == false && m_topCollisionGround == nullptr)
+				if (g->getWall() == false && m_topCollision == false && m_topCollisionGround == nullptr)
 				{
 					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
 					{

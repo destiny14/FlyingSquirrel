@@ -184,15 +184,6 @@ void LevelEditor::update(float dt)
 			m_currentSelected = nullptr;
 			m_currentSelectedGround = nullptr;
 		}
-		else if (m_currentSelected != nullptr)
-		{
-			Point o = this->getPosition();
-			Point p = m_mouseInputAction->getMousePosition();
-			if (m_currentSelected->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
-			{
-				m_pCurrentMoving = m_currentSelected;
-			}
-		}
 		else if (m_currentSelectedGround != nullptr)
 		{
 			Point o = this->getPosition();
@@ -202,13 +193,22 @@ void LevelEditor::update(float dt)
 				m_pCurrentMoving = m_currentSelectedGround;
 			}
 		}
+		else if (m_currentSelected != nullptr)
+		{
+			Point o = this->getPosition();
+			Point p = m_mouseInputAction->getMousePosition();
+			if (m_currentSelected->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
+			{
+				m_pCurrentMoving = m_currentSelected;
+			}
+		}
 		else if (m_selectionMode)
 		{
 			m_currentSelected = nullptr;
 			m_currentSelectedGround = nullptr;
 			Point o = this->getPosition();
 			Point p = m_mouseInputAction->getMousePosition();
-			for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
+			/*for (Texture* tex : *m_pLevel->getMainLayer()->getTextures())
 			{ 
 				if (tex->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
 				{
@@ -225,7 +225,7 @@ void LevelEditor::update(float dt)
 					}
 					
 				}
-			}
+			}*/
 			for (Ground* ground : *m_pLevel->getMainLayer()->getPhysicsObjects())
 			{
 				if (ground->getSprite()->getBoundingBox().containsPoint(Point(p - o)))
@@ -257,7 +257,7 @@ void LevelEditor::update(float dt)
 		Point mPos = m_mouseInputAction->getMousePosition();
 		Point diff = (m_lastMousePos - mPos) * 35.0f * dt;
 		m_lastMousePos = mPos;
-
+		
 		this->setPositionX(this->getPositionX() - diff.x);
 		this->setPositionY(this->getPositionY() - diff.y);
 	}
