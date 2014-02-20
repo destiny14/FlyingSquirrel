@@ -77,6 +77,7 @@ bool MainLayer::init()
 
 void MainLayer::update(float dt)
 {
+	dt = dt > (1.0f / 60.0f) ? (1.0f / 60.0f) : dt;
 	m_pPlayer->update(dt);
 	m_pInput->update();
 	m_pCam->update(dt);
@@ -87,9 +88,9 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		/*Nut* nut = new Nut(this);
-		nut->setPosition();
-		this->addChild(new Nut(this));*/
+		CollectibleNut* nut = CollectibleNut::create(this);
+		nut->setPosition(_test->getMousePosition() - this->getPosition());
+		this->addChild(nut);
 	}
 
 	/*for (Texture* t : *getTextures())
