@@ -60,6 +60,7 @@ bool Player::init()
 	m_rescueFly = false;
 	m_isDead = false;
 	m_shooted = false;
+	m_readyToFall = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
@@ -420,12 +421,13 @@ void Player::update(float dt)
 	///////////////////////
 	if (!this->getGrounded() && !m_jump)
 	{
-		if (!this->getSprite()->getActionByTag(3))
+		if (!m_readyToFall)
 		{
 			this->getSprite()->stopAllActions();
-			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
-			m_pFlightAction->setTag(3);
-			this->getSprite()->runAction(m_pFlightAction);
+			m_pFallStartAction = Repeat::create(Animate::create(m_pFallStartFrames), 1);
+			m_pFallStartAction->setTag(8);
+			this->getSprite()->runAction(m_pFallStartAction);
+			m_readyToFall = true;
 		}
 	}
 
