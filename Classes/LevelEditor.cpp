@@ -25,6 +25,11 @@ bool LevelEditor::init()
 	MainLayer* mainL = MainLayer::create();
 	mainL->retain();
 	m_pLevel->setMainLayer(mainL);
+
+	m_PlayerSpawner = Sprite::create("player_spawn.png");
+	m_PlayerSpawner->retain();
+	m_PlayerSpawner->setPosition(mainL->getPlayerSpawner()->getSpawnPosition());
+
 	ChooseFileMenu = nullptr;
 	m_pCurrentMoving = nullptr;
 	m_currentSelected = nullptr;

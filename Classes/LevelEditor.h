@@ -37,6 +37,7 @@ public:
 
 	CREATE_FUNC(LevelEditor);
 private:
+	Sprite* m_PlayerSpawner;
 	Texture* m_currentSelected;
 	bool m_snapToGrid;
 	Level* m_pLevel;

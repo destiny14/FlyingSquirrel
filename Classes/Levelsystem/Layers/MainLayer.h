@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 #include "LevelLayer.h"
+#include "..\InputManager.h"
+#include "Objects\PlayerSpawner.h"
+//#include "../../InputManager.h"
 
 
 class Player;
@@ -32,7 +35,11 @@ public:
 	void menuCloseCallback(Object* pSender);
 
 	list<Ground*>* getPhysicsObjects();
-protected:
+
+	PlayerSpawner* getPlayerSpawner();
+	void setPlayerSpawner(PlayerSpawner* ps);
+private:
+	PlayerSpawner* m_playerSpawner;
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
 	InputAction* m_pLSD;
