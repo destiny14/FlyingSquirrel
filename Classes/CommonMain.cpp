@@ -42,7 +42,12 @@ int CCommonMain::main(char** par, int parLength)
 	
 	if (m_appFullscreen)
 	{
-		//m_eglView.initWithFullScreen("FlyingSquirrel");
+		const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+		m_eglView.init("FlyingSquirrel", videoMode->width, videoMode->height);
+		GLFWwindow* win = glfwGetCurrentContext();
+		glfwShowWindow(win);
 	}
 	else
 	{
