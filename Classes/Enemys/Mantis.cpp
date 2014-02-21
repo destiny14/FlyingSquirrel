@@ -167,7 +167,7 @@ void Mantis::update(float dt)
 	if (m_pPlayer == nullptr)
 	{
 		this->m_pPlayer = m_layer->getPlayer();
-
+		return;
 	}
 
 	//this->getPlayerColliderComponent()->update(dt);

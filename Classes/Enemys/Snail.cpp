@@ -124,6 +124,7 @@ void Snail::update(float dt)
 	if (m_pPlayer == nullptr)
 	{
 		this->m_pPlayer = m_layer->getPlayer();
+		return;
 	}
 	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
 	//this->getPlayerColliderComponent()->update(dt);

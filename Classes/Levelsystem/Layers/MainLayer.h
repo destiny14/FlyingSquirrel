@@ -50,7 +50,7 @@ private:
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
 	InputAction* m_pLSD;
-	Player* m_pPlayer;
+	Player* m_pPlayer = nullptr;
 	list<Ground*>* m_physicObjects;
 	MouseInputAction* _test;
 

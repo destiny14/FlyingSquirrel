@@ -66,7 +66,7 @@ private:
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
 
-	Player* m_pPlayer;
+	Player* m_pPlayer = nullptr;
 
 	Point playerPos;
 	Point slimePos;

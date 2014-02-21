@@ -67,7 +67,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* nut = doc.NewElement("Nut");
 					nut->SetAttribute("x", node->getPositionX());
-					nut->SetAttribute("Y", node->getPositionY());
+					nut->SetAttribute("y", node->getPositionY());
 					nutsElement->InsertEndChild(nut);
 				}
 				break;
@@ -75,7 +75,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
 					crys->SetAttribute("x", node->getPositionX());
-					crys->SetAttribute("Y", node->getPositionY());
+					crys->SetAttribute("y", node->getPositionY());
 					crysElement->InsertEndChild(crys);
 				}
 				break;
@@ -83,7 +83,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* air = doc.NewElement("Crystal");
 					air->SetAttribute("x", node->getPositionX());
-					air->SetAttribute("Y", node->getPositionY());
+					air->SetAttribute("y", node->getPositionY());
 					Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
 					air->SetAttribute("dirY", cur->getDirection().y);
 					air->SetAttribute("width", cur->getSize().width);
@@ -97,7 +97,7 @@ void Level::SaveLevel()
 					Snail* sn = dynamic_cast<Snail*>(node);
 					air->SetAttribute("timer", sn->getTimer());
 					air->SetAttribute("x", node->getPositionX());
-					air->SetAttribute("Y", node->getPositionY());
+					air->SetAttribute("y", node->getPositionY());
 					snailsElement->InsertEndChild(air);
 				}
 				break;
@@ -105,7 +105,7 @@ void Level::SaveLevel()
 				{
 					  tinyxml2::XMLElement* air = doc.NewElement("Mantis");
 					  air->SetAttribute("x", node->getPositionX());
-					  air->SetAttribute("Y", node->getPositionY());
+					  air->SetAttribute("y", node->getPositionY());
 					  mantisElement->InsertEndChild(air);
 				}
 				break;
@@ -115,7 +115,7 @@ void Level::SaveLevel()
 					  SlimeHeap* sn = dynamic_cast<SlimeHeap*>(node);
 					  air->SetAttribute("timer", sn->getTimer());
 					  air->SetAttribute("x", node->getPositionX());
-					  air->SetAttribute("Y", node->getPositionY());
+					  air->SetAttribute("y", node->getPositionY());
 					  slimeElement->InsertEndChild(air);
 				}
 				break;
@@ -199,6 +199,12 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		PlayerSpawner* ps = new PlayerSpawner(p);
 		mainlayer->setPlayerSpawner(ps);
 	}
+
+	if (!levelEditor)
+		mainlayer->init();
+	else
+		l->setName("tmpname.xml");
+
 	//################################
 	//### Nuts					   ###
 	//################################
@@ -290,11 +296,6 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			mainlayer->addChild(crys, 0);
 		}
 	}
-
-	if (!levelEditor)
-		mainlayer->init();
-	else
-		l->setName("tmpname.xml");
 	return l;
 }
 
