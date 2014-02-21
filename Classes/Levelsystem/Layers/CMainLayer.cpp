@@ -42,7 +42,7 @@ bool MainLayer::init()
 {
 	if (!LevelLayer::init())
 		return false;
-
+	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
@@ -80,14 +80,13 @@ bool MainLayer::init()
 
 	for (Texture* t : *getTextures())
 	{
-		addChild(t->getSprite());
+		addChild(t->getSprite(), 0);
 	}
 	for (Ground* g : *getPhysicsObjects())
 	{
-		addChild(g->getSprite());
+		addChild(g->getSprite(), 1);
 	}
 	this->scheduleUpdate();
-
 	ACTIVATEINGAMEUI(this);
 
 	return true;
@@ -107,9 +106,9 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		Aircurrent* air = Aircurrent::create(this, Point(0.0f, 2700.0f), Size(150.0f, 450.0f));
-		air->setPosition(_test->getMousePosition());
-		this->addChild(air);
+		//Aircurrent* air = Aircurrent::create(this, Point(0.0f, 2700.0f), Size(150.0f, 450.0f));
+		//air->setPosition(_test->getMousePosition());
+		//this->addChild(air);
 	}
 
 	for (Ground* g : *getPhysicsObjects())

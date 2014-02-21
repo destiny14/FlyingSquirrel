@@ -244,10 +244,11 @@ void StoryScene::update(float dt)
 			m_timeToElapse = 4.8;
 			++m_page;
 		}
-		else
+		else if (m_page == 15)
 		{
 			auto sc = TransitionFade::create(1.0, LevelTestScene::createScene());
 			Director::getInstance()->replaceScene(sc);
+			++m_page;
 		}
 	}
 }

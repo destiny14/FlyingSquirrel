@@ -61,7 +61,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* nut = doc.NewElement("Nut");
 					nut->SetAttribute("x", node->getPositionX());
-					nut->SetAttribute("Y", node->getPositionY());
+					nut->SetAttribute("y", node->getPositionY());
 					nutsElement->InsertEndChild(nut);
 				}
 				break;
@@ -69,7 +69,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
 					crys->SetAttribute("x", node->getPositionX());
-					crys->SetAttribute("Y", node->getPositionY());
+					crys->SetAttribute("y", node->getPositionY());
 					crysElement->InsertEndChild(crys);
 				}
 				break;
@@ -77,7 +77,7 @@ void Level::SaveLevel()
 				{
 					tinyxml2::XMLElement* air = doc.NewElement("Crystal");
 					air->SetAttribute("x", node->getPositionX());
-					air->SetAttribute("Y", node->getPositionY());
+					air->SetAttribute("y", node->getPositionY());
 					Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
 					air->SetAttribute("dirY", cur->getDirection().y);
 					air->SetAttribute("width", cur->getSize().width);
@@ -162,6 +162,13 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		PlayerSpawner* ps = new PlayerSpawner(p);
 		mainlayer->setPlayerSpawner(ps);
 	}
+
+
+	if (!levelEditor)
+		mainlayer->init();
+	else
+		l->setName("tmpname.xml");
+
 	//################################
 	//### Nuts					   ###
 	//################################
@@ -173,7 +180,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			CollectibleNut* nut = CollectibleNut::create(mainlayer);
 			nut->setPosition(pos);
-			mainlayer->addChild(nut, 0);
+			mainlayer->addChild(nut, 10);
 		}
 	}
 	//################################
@@ -203,14 +210,9 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			CollectibleCrystal* crys = CollectibleCrystal::create(mainlayer);
 			crys->setPosition(pos);
-			mainlayer->addChild(crys, 0);
+			mainlayer->addChild(crys, 10);
 		}
 	}
-
-	if (!levelEditor)
-		mainlayer->init();
-	else
-		l->setName("tmpname.xml");
 	return l;
 }
 
