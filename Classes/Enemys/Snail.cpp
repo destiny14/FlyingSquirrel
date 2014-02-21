@@ -22,7 +22,7 @@ Snail* Snail::create( MainLayer* layer)
 	if (tex)
 	{
 		snail->setTexture(tex);
-		snail->setCollider(250.0f, 120.0f);
+		snail->setCollider(350.0f, 120.0f);
 		snail->setParent(layer);
 
 		snail->init();
@@ -122,11 +122,17 @@ void Snail::setCollider(float width, float height)
 //----------GameLoop-----------//
 void Snail::update(float dt)
 {
-
+	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
 	Moveable::update(dt, false);
 	//this->CheckForCollisions();
+
+	if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=150)
+	{
+		m_isAlive = false;
+	}
 
 	if (this->m_isAlive)
 	{
@@ -142,10 +148,19 @@ void Snail::update(float dt)
 		}
 
 	}
-	else if (!(this->m_isAlive))
+	else if (!(this->m_isAlive) && !m_isDead)
 	{
 		this->moodDie(dt);
 	}
+	else
+	{
+		//DO NOTHING
+	}
+}
+
+void Snail::killIt()
+{
+	m_isAlive = false;
 }
 //----------Laufen mit animation----------//
 void Snail::moodWalk(float dt)
@@ -190,10 +205,18 @@ void Snail::moodAttack(float dt)
 	if (!this->getSprite()->getActionByTag(1))
 	{
 		this->getSprite()->stopAllActions();
-		m_pPunch1Action = Repeat::create(Animate::create(m_pPunch_1Frames), 1);
+		m_pPunch1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
 		m_pPunch1Action->setTag(1);
 		this->getSprite()->runAction(m_pPunch1Action);
+
+		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			)
+		{
+			m_pPlayer->hit();
+		}
 	}
+
 
 }
 //---------Sterben (TODO Snail Löschen)----------//
@@ -205,23 +228,24 @@ void Snail::moodDie(float dt)
 		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
 		m_pDeathAction->setTag(2);
 		this->getSprite()->runAction(m_pDeathAction);
+		m_isDead = true;
 	}
 
 }
 //----------Kann Enemy angreifen? ----------//
 bool Snail::canAttack()
 {
-	playerPosX = m_pPlayer->getPositionX();
-	snailPosX = this->getPositionX();
+	playerPos = m_pPlayer->getPosition();
+	snailPos = this->getPosition();
 
-	if (abs(attackRange) >= abs(playerPosX - snailPosX))
+	if (abs(attackRange) >= abs(ccpDistance(playerPos, snailPos)))
 	{
-		if (playerPosX > snailPosX)
+		if (playerPos.x > snailPos.x)
 		{
 			this->getSprite()->setScaleX(-1.0f);
 			return true;
 		}
-		if (playerPosX < snailPosX)
+		if (playerPos.x < snailPos.x)
 		{
 			this->getSprite()->setScaleX(1.0f);
 			return true;
