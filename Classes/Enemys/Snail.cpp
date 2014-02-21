@@ -26,7 +26,7 @@ Snail* Snail::create( MainLayer* layer)
 		snail->setParent(layer);
 
 		snail->init();
-
+		snail->setTag(TAG_SNAIL);
 		return snail;
 	}
 
@@ -188,16 +188,27 @@ void Snail::moodWalk(float dt)
 		m_timer -= dt;
 		this->getSprite()->setScaleX(-1.0f);
 	}
-	if (m_timer <= -3)
+	if (m_timer <= -m_timer)
 	{
 		m_moveDirection.x = 0.0f;
-		m_timer = 3;
+		m_timer = m_timer;
 		//m_isAlive = false;
 	}
 
 	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
 
 }
+
+float Snail::getTimer()
+{
+	return m_timer;
+}
+
+void Snail::setTimer(float seconds)
+{
+	m_timer = seconds;
+}
+
 //----------Attack (TODO wenn attack + collider = hit player)----------//
 void Snail::moodAttack(float dt)
 {
@@ -216,8 +227,6 @@ void Snail::moodAttack(float dt)
 			m_pPlayer->hit();
 		}
 	}
-
-
 }
 //---------Sterben (TODO Snail Löschen)----------//
 void Snail::moodDie(float dt)

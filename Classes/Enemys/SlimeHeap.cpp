@@ -10,6 +10,16 @@ SlimeHeap::SlimeHeap()
 SlimeHeap::~SlimeHeap()
 {
 }
+
+float SlimeHeap::getTimer()
+{
+	return m_timer;
+}
+
+void SlimeHeap::setTimer(float seconds)
+{
+	m_timer = seconds;
+}
 //----------Create-----------//
 SlimeHeap* SlimeHeap::create(MainLayer* layer)
 {
@@ -24,7 +34,7 @@ SlimeHeap* SlimeHeap::create(MainLayer* layer)
 		slimeHeap->setTexture(tex);
 		slimeHeap->setCollider(250.0f, 125.0f);
 		slimeHeap->setParent(layer);
-
+		slimeHeap->setTag(TAG_SLIMEHEAP);
 		slimeHeap->init();
 
 		return slimeHeap;
@@ -184,10 +194,10 @@ void SlimeHeap::moodWalk(float dt)
 		m_timer -= dt;
 		this->getSprite()->setScaleX(-1.0f);
 	}
-	if (m_timer <= -3)
+	if (m_timer <= -m_timer)
 	{
 		m_moveDirection.x = 0.0f;
-		m_timer = 3;
+		m_timer = m_timer;
 		//m_isAlive = false;
 	}
 

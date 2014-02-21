@@ -1,6 +1,8 @@
 #ifndef __MANTIS_H__
 #define __MANTIS_H__
 
+#define TAG_MANTIS 45678
+
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
@@ -37,6 +39,7 @@ public:
 
 private:
 
+	bool m_first = false;
 	int m_health = 10;
 	bool m_isDead = false;
 	float attackTimer = 5.0f;

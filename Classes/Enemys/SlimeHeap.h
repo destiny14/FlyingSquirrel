@@ -1,6 +1,8 @@
 #ifndef __SLIMEHEAP_H__
 #define __SLIMEHEAP_H__
 
+#define TAG_SLIMEHEAP 123456
+
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
@@ -31,6 +33,9 @@ public:
 	void update(float dt);
 	//PlayerCollider* getPlayerColliderComponent();
 	static SlimeHeap* create(MainLayer* layer);
+
+	float getTimer();
+	void setTimer(float seconds);
 
 private:
 

@@ -9,6 +9,7 @@
 #include "Shooter.h"
 #include "..\Enemys\Snail.h"
 #include "..\Enemys\SlimeHeap.h"
+#include "..\Enemys\Mantis.h"
 
 enum Bullettype
 {
@@ -40,9 +41,9 @@ private:
 	float m_direction;
 	float m_force;
 
-	Mantis* m_pMantis;
-	Snail* m_pSnail;
-	SlimeHeap* m_pSlimeHeap;
+	Mantis* m_pMantis = nullptr;
+	Snail* m_pSnail = nullptr;
+	SlimeHeap* m_pSlimeHeap = nullptr;
 };
 
 #endif // !__BULLET_H__

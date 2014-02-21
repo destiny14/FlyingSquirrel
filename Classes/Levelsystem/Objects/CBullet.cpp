@@ -88,9 +88,9 @@ void Bullet::CheckForCollisions()
 	} 
 	if (m_pMantis != nullptr)
 	{
-		if (m_pSlimeHeap->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
+		if (m_pMantis->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
 		{
-			m_pSlimeHeap->killIt();
+			m_pMantis->applyDamage();
 		}
 	}
 

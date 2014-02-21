@@ -24,7 +24,7 @@ Mantis* Mantis::create(MainLayer* layer)
 		mantis->setTexture(tex);
 		mantis->setCollider(890.0f, 580.0f);
 		mantis->setParent(layer);
-
+		mantis->setTag(TAG_MANTIS);
 		mantis->init();
 
 		return mantis;
@@ -170,7 +170,7 @@ void Mantis::update(float dt)
 	Moveable::update(dt, false);
 	//this->CheckForCollisions();
 
-	log("YDistance: %f", ((m_pPlayer->getPositionY()) - (this->getPositionY())));
+	//log("YDistance: %f", ((m_pPlayer->getPositionY()) - (this->getPositionY())));
 
 	if (m_health <= 0)
 	{
@@ -208,7 +208,12 @@ void Mantis::update(float dt)
 
 void Mantis::applyDamage()
 {
-	m_health -= 1;
+	if (m_first)
+	{
+		m_health -= 1;
+		m_first = !m_first;
+	}
+
 }
 //----------Laufen mit animation----------//
 void Mantis::moodWalk(float dt)
@@ -297,6 +302,8 @@ void Mantis::rangeAttack(float dt)
 //----------Kann Enemy angreifen? ----------//
 bool Mantis::canAttack()
 {
+
+
 	playerPos = m_pPlayer->getPosition();
 	mantisPos = this->getPosition();
 
