@@ -50,18 +50,45 @@ void Level::SaveLevel()
 	tinyxml2::XMLElement* playerSpawnerElement = doc.NewElement("PlayerSpawner");
 	playerSpawnerElement->InsertFirstChild(createPointNode(&doc, mainLayer->getPlayerSpawner()->getSpawnPosition()));
 	tinyxml2::XMLElement* nutsElement = doc.NewElement("Nuts");
+	tinyxml2::XMLElement* crysElement = doc.NewElement("Crystals");
+	tinyxml2::XMLElement* airsElement = doc.NewElement("Airs");
+
 	for (Node* node : mainLayer->getChildren())
 	{
-		if (!node->getTag() == TAG_NUT) continue;
-
-		tinyxml2::XMLElement* nut = doc.NewElement("Nut");
-		nut->SetAttribute("x", node->getPositionX());
-		nut->SetAttribute("Y", node->getPositionY());
-		nutsElement->InsertEndChild(nut);
+		switch (node->getTag())
+		{
+			case TAG_NUT:
+				tinyxml2::XMLElement* nut = doc.NewElement("Nut");
+				nut->SetAttribute("x", node->getPositionX());
+				nut->SetAttribute("Y", node->getPositionY());
+				nutsElement->InsertEndChild(nut);
+				break;
+			case TAG_CRYSTAL:
+				tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
+				crys->SetAttribute("x", node->getPositionX());
+				crys->SetAttribute("Y", node->getPositionY());
+				crysElement->InsertEndChild(crys);
+				break;
+			case TAG_AIR:
+				tinyxml2::XMLElement* air = doc.NewElement("Crystal");
+				air->SetAttribute("x", node->getPositionX());
+				air->SetAttribute("Y", node->getPositionY());
+				Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
+				air->SetAttribute("dirY", cur->getDirection().y);
+				air->SetAttribute("width", cur->getSize().width);
+				air->SetAttribute("height", cur->getSize().height);
+				airsElement->InsertEndChild(air);
+				break;
+			default:
+				break;
+		}
 	}
 	mainLayerElement->InsertFirstChild(texturesElement);
 	mainLayerElement->InsertEndChild(phyObjectsElement);
 	mainLayerElement->InsertEndChild(playerSpawnerElement);
+	mainLayerElement->InsertEndChild(nutsElement);
+	mainLayerElement->InsertEndChild(crysElement);
+	mainLayerElement->InsertEndChild(airsElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 	doc.SaveFile(getName());
