@@ -27,15 +27,18 @@ protected:
 
 public:
 
-	int attackRange_Meele = 450;
+	int attackRange_Meele = 545;
 	int attackRange_Range = 280;
 	void update(float dt);
 	bool m_isAlive = true;
 	PlayerCollider* getPlayerColliderComponent();
 	static Mantis* create(MainLayer* layer);
+	void applyDamage();
 
 private:
 
+	int m_health = 10;
+	bool m_isDead = false;
 	float attackTimer = 5.0f;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
@@ -65,8 +68,8 @@ private:
 
 	Player* m_pPlayer;
 
-	int playerPosX;
-	int mantisPosX;
+	Point playerPos;
+	Point mantisPos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;

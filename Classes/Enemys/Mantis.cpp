@@ -22,7 +22,7 @@ Mantis* Mantis::create(MainLayer* layer)
 	if (tex)
 	{
 		mantis->setTexture(tex);
-		mantis->setCollider(855.0f, 580.0f);
+		mantis->setCollider(890.0f, 580.0f);
 		mantis->setParent(layer);
 
 		mantis->init();
@@ -159,6 +159,8 @@ PlayerCollider* Mantis::getPlayerColliderComponent()
 {
 	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
 }
+
+
 //----------GameLoop-----------//
 void Mantis::update(float dt)
 {
@@ -167,6 +169,13 @@ void Mantis::update(float dt)
 	//this->setAffectedByGravity(false);
 	Moveable::update(dt, false);
 	//this->CheckForCollisions();
+
+	log("YDistance: %f", ((m_pPlayer->getPositionY()) - (this->getPositionY())));
+
+	if (m_health <= 0)
+	{
+		m_isAlive = false;
+	}
 
 	if (this->m_isAlive)
 	{
@@ -187,10 +196,19 @@ void Mantis::update(float dt)
 		}
 
 	}
-	else if (!(this->m_isAlive))
+	else if (!(this->m_isAlive) && !m_isDead)
 	{
 		this->moodDie(dt);
 	}
+	else
+	{
+		//DO NOTHING
+	}
+}
+
+void Mantis::applyDamage()
+{
+	m_health -= 1;
 }
 //----------Laufen mit animation----------//
 void Mantis::moodWalk(float dt)
@@ -204,14 +222,14 @@ void Mantis::moodWalk(float dt)
 		this->getSprite()->runAction(m_pRunAction);
 	}
 
-	if (playerPosX < mantisPosX)
+	if (playerPos.x < mantisPos.x)
 	{
 
 		m_moveDirection.x = -1.5f;
 		this->getSprite()->setScaleX(1.0f);
 
 	}
-	else if (playerPosX > mantisPosX)
+	else if (playerPos.x > mantisPos.x)
 	{
 		m_moveDirection.x = 1.5f;
 		this->getSprite()->setScaleX(-1.0f);
@@ -232,6 +250,13 @@ void Mantis::moodAttack(float dt)
 		m_pAttackAction = Repeat::create(Animate::create(m_pAttackFrames), 1);
 		m_pAttackAction->setTag(2);
 		this->getSprite()->runAction(m_pAttackAction);
+
+		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			)
+		{
+			m_pPlayer->hit();
+		}
 	}
 
 }
@@ -244,6 +269,7 @@ void Mantis::moodDie(float dt)
 		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
 		m_pDeathAction->setTag(4);
 		this->getSprite()->runAction(m_pDeathAction);
+		m_isDead = true;
 	}
 
 }
@@ -253,14 +279,14 @@ void Mantis::rangeAttack(float dt)
 	if (attackTimer <= -1.63f)
 	{ 
 		this->removeAllComponents();
-		this->setCollider(855.0f, 580.0f);
+		this->setCollider(890.0f, 580.0f);
 		this->setPosition(getTexture()->getPositionX(), getTexture()->getPositionY() - 5);
 		attackTimer = 5.0f;
 	}
 	if (!this->getSprite()->getActionByTag(3))
 	{
 		this->removeAllComponents();
-		this->setCollider(855.0f, 780.0f);
+		this->setCollider(890.0f, 780.0f);
 		this->setPosition(getTexture()->getPositionX(), getTexture()->getPositionY() + 250);
 		this->getSprite()->stopAllActions();
 		m_pRangeAttackAction = Repeat::create(Animate::create(m_pRangeAttackFrames), 1);
@@ -271,17 +297,17 @@ void Mantis::rangeAttack(float dt)
 //----------Kann Enemy angreifen? ----------//
 bool Mantis::canAttack()
 {
-	playerPosX = m_pPlayer->getPositionX();
-	mantisPosX = this->getPositionX();
+	playerPos = m_pPlayer->getPosition();
+	mantisPos = this->getPosition();
 
-	if (abs(attackRange_Meele) >= abs(playerPosX - mantisPosX))
+	if (abs(attackRange_Meele) >= ccpDistance(playerPos, mantisPos))
 	{
-		if (playerPosX > mantisPosX)
+		if (playerPos.x > mantisPos.x)
 		{
 			this->getSprite()->setScaleX(-1.0f);
 			return true;
 		}
-		if (playerPosX < mantisPosX)
+		if (playerPos.x < mantisPos.x)
 		{
 			this->getSprite()->setScaleX(1.0f);
 			return true;

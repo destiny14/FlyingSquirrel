@@ -39,6 +39,8 @@ private:
 	Bullettype m_bullettype;
 	float m_direction;
 	float m_force;
+
+	Mantis* m_pMantis;
 	Snail* m_pSnail;
 	SlimeHeap* m_pSlimeHeap;
 };

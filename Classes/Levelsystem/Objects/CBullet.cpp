@@ -11,6 +11,8 @@ Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, f
 	Texture* tex = Texture::create("nuss.png");
 	bullet->m_pSnail = parent->getSnail();
 	bullet->m_pSlimeHeap = parent->getSlimeHeap();
+	bullet->m_pMantis = parent->getMantis();
+
 	tex->retain();
 
 	bullet->setTexture(tex);
@@ -84,6 +86,13 @@ void Bullet::CheckForCollisions()
 			m_pSlimeHeap->killIt();
 		}
 	} 
+	if (m_pMantis != nullptr)
+	{
+		if (m_pSlimeHeap->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
+		{
+			m_pSlimeHeap->killIt();
+		}
+	}
 
 	list<Ground*>* physObj = this->getParent()->getPhysicsObjects();
 	list<Ground*> desObj;
