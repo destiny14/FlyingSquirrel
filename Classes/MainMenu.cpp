@@ -5,6 +5,7 @@
 #include "LevelTestScene.h"
 #include "UI.h"
 #include "LevelEditor.h"
+#include "StoryScene.h"
 
 USING_NS_CC;
 
@@ -50,7 +51,9 @@ void CMainMenu::update(float _dt)
 	{
 		t += _dt;
 		if (t >= 0.5f)
-			Director::getInstance()->replaceScene(LevelTestScene::createScene());
+		{
+			Director::getInstance()->replaceScene(StoryScene::createStoryScene());
+		}
 	}
 		
 	if (m_pStartGame->wasReleased())
@@ -61,7 +64,8 @@ void CMainMenu::startCallback(Object* sender)
 {
 	DEACTIVATEUI;
 	Size visibleSize = EGLView::getInstance()->getVisibleSize();
-	auto label = LabelTTF::create("Bin am Laden...", "fonts/Comic Book.ttf", 48);
+	visibleSize = Director::getInstance()->getVisibleSize();
+	auto label = LabelTTF::create("Lade...", "fonts/Comic Book.ttf", 48);
 	label->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	this->addChild(label);
 	loadScene = true;

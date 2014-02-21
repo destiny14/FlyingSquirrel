@@ -10,6 +10,16 @@ SlimeHeap::SlimeHeap()
 SlimeHeap::~SlimeHeap()
 {
 }
+
+float SlimeHeap::getTimer()
+{
+	return m_timer;
+}
+
+void SlimeHeap::setTimer(float seconds)
+{
+	m_timer = seconds;
+}
 //----------Create-----------//
 SlimeHeap* SlimeHeap::create(MainLayer* layer)
 {
@@ -17,14 +27,14 @@ SlimeHeap* SlimeHeap::create(MainLayer* layer)
 
 
 	Texture* tex = Texture::create("slimeHeap.png");
-	slimeHeap->m_pPlayer = layer->getPlayer();
+	slimeHeap->m_layer = layer;
 
 	if (tex)
 	{
 		slimeHeap->setTexture(tex);
-		slimeHeap->setCollider(250.0f, 120.0f);
+		slimeHeap->setCollider(250.0f, 125.0f);
 		slimeHeap->setParent(layer);
-
+		slimeHeap->setTag(TAG_SLIMEHEAP);
 		slimeHeap->init();
 
 		return slimeHeap;
@@ -45,9 +55,9 @@ bool SlimeHeap::init()
 
 	//-----Walk-----//		//--Tag_0--//
 
-	for (int i = 0; i < 90; i++)
+	for (int i = 0; i < 81; i++)
 	{
-		m_pSpriteString = String::createWithFormat("Walk%i", i);
+		m_pSpriteString = String::createWithFormat("SlimeHeap_Walk(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
@@ -61,9 +71,9 @@ bool SlimeHeap::init()
 
 	//-----Shoot-----//		//--Tag_1--//
 
-	for (int i = 0; i < 85; i++)
+	for (int i = 0; i < 32; i++)
 	{
-		m_pSpriteString = String::createWithFormat("Shoot%i", i);
+		m_pSpriteString = String::createWithFormat("SlimeHeap_Shoot(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
@@ -77,16 +87,16 @@ bool SlimeHeap::init()
 
 	//-----Death-----//			//--Tag_2--//
 
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 24; i++)
 	{
-		m_pSpriteString = String::createWithFormat("Hit%i", i);
+		m_pSpriteString = String::createWithFormat("SlimeHeap_Hit(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
-	for (int i = 0; i < 58; i++)
+	for (int i = 0; i < 45; i++)
 	{
-		m_pSpriteString = String::createWithFormat("Dead%i", i);
+		m_pSpriteString = String::createWithFormat("SlimeHeap_Dead(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
@@ -118,11 +128,22 @@ void SlimeHeap::setCollider(float width, float height)
 //----------GameLoop-----------//
 void SlimeHeap::update(float dt)
 {
+	if (m_pPlayer == nullptr)
+	{
+		this->m_pPlayer = m_layer->getPlayer();
+
+	}
 
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
 	Moveable::update(dt, false);
 	//this->CheckForCollisions();
+
+	if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 170)
+	{
+		m_isAlive = false;
+	}
 
 	if (this->m_isAlive)
 	{
@@ -134,15 +155,24 @@ void SlimeHeap::update(float dt)
 		else
 		{
 			this->moodWalk(dt);
-
 		}
 
 	}
-	else if (!(this->m_isAlive))
+	else if (!(this->m_isAlive) && !m_isDead)
 	{
 		this->moodDie(dt);
 	}
+	else
+	{
+		//DO NOTHING
+	}
 }
+
+void SlimeHeap::killIt()
+{
+	m_isAlive = false;
+}
+
 //----------Laufen mit animation----------//
 void SlimeHeap::moodWalk(float dt)
 {
@@ -169,10 +199,10 @@ void SlimeHeap::moodWalk(float dt)
 		m_timer -= dt;
 		this->getSprite()->setScaleX(-1.0f);
 	}
-	if (m_timer <= -3)
+	if (m_timer <= -m_timer)
 	{
 		m_moveDirection.x = 0.0f;
-		m_timer = 3;
+		m_timer = m_timer;
 		//m_isAlive = false;
 	}
 
@@ -186,9 +216,16 @@ void SlimeHeap::moodAttack(float dt)
 	if (!this->getSprite()->getActionByTag(1))
 	{
 		this->getSprite()->stopAllActions();
-		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
+		m_pShootAction = RepeatForever::create(Animate::create(m_pShootFrames));
 		m_pShootAction->setTag(1);
 		this->getSprite()->runAction(m_pShootAction);
+
+		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+			)
+		{
+			m_pPlayer->hit();
+		}
 	}
 
 }
@@ -201,23 +238,26 @@ void SlimeHeap::moodDie(float dt)
 		m_pDeadAction = Repeat::create(Animate::create(m_pDeadFrames), 1);
 		m_pDeadAction->setTag(2);
 		this->getSprite()->runAction(m_pDeadAction);
+		m_isDead = true;
+
+
 	}
 
 }
 //----------Kann Enemy angreifen? ----------//
 bool SlimeHeap::canAttack()
 {
-	playerPosX = m_pPlayer->getPositionX();
-	slimePosX = this->getPositionX();
+	playerPos = m_pPlayer->getPosition();
+	slimePos = this->getPosition();
 
-	if (abs(attackRange) >= abs(playerPosX - slimePosX))
+	if (abs(attackRange) >= abs(ccpDistance(playerPos, slimePos)))
 	{
-		if (playerPosX > slimePosX)
+		if (playerPos.x > slimePos.x)
 		{
 			this->getSprite()->setScaleX(-1.0f);
 			return true;
 		}
-		if (playerPosX < slimePosX)
+		if (playerPos.x < slimePos.x)
 		{
 			this->getSprite()->setScaleX(1.0f);
 			return true;
