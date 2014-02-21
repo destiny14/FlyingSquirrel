@@ -17,7 +17,7 @@ Mantis* Mantis::create(MainLayer* layer)
 
 
 	Texture* tex = Texture::create("mantis1.png");
-	m_layer = layer;
+	mantis->m_layer = layer;
 
 	if (tex)
 	{
