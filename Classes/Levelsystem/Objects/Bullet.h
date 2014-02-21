@@ -7,6 +7,8 @@
 #include "..\Components\Collider.h"
 #include "Layers\MainLayer.h"
 #include "Shooter.h"
+#include "..\Enemys\Snail.h"
+#include "..\Enemys\SlimeHeap.h"
 
 enum Bullettype
 {
@@ -37,6 +39,8 @@ private:
 	Bullettype m_bullettype;
 	float m_direction;
 	float m_force;
+	Snail* m_pSnail;
+	SlimeHeap* m_pSlimeHeap;
 };
 
 #endif // !__BULLET_H__

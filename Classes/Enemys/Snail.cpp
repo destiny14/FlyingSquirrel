@@ -96,7 +96,7 @@ bool Snail::init()
 	}
 
 
-	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.002f);
+	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.02f);
 	m_pDeathAction = Animate::create(m_pDeathFrames);
 
 	m_pDeathFrames->retain();
@@ -129,7 +129,7 @@ void Snail::update(float dt)
 	//this->CheckForCollisions();
 
 	if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=150)
+		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=170)
 	{
 		m_isAlive = false;
 	}
@@ -253,9 +253,9 @@ bool Snail::canAttack()
 	}
 	return false;
 }
-//----------Collision TODO all!----------//
-void Snail::CheckForCollisions()
-{
-	
-}
+////----------Collision TODO all!----------//
+//void Snail::CheckForCollisions()
+//{
+//	
+//}
 

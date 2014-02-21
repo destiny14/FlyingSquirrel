@@ -26,14 +26,16 @@ protected:
 
 public:
 
+	void killIt();
 	int attackRange = 180;
 	void update(float dt);
-	bool m_isAlive = true;
 	//PlayerCollider* getPlayerColliderComponent();
 	static SlimeHeap* create(MainLayer* layer);
 
 private:
 
+	bool m_isAlive = true;
+	bool m_isDead = false;
 	float m_timer = 3.0;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
@@ -60,8 +62,8 @@ private:
 
 	Player* m_pPlayer;
 
-	int playerPosX;
-	int slimePosX;
+	Point playerPos;
+	Point slimePos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;
