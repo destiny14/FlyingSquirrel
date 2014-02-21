@@ -7,6 +7,9 @@
 
 
 class Player;
+class Snail;
+class SlimeHeap;
+class Mantis;
 class GameCamera;
 class InputManager;
 class InputAction;
@@ -28,6 +31,12 @@ public:
 
 	virtual Player* getPlayer() { return m_pPlayer; }
 
+	virtual Snail* getSnail() { return m_pSnail; }
+
+	virtual SlimeHeap* getSlimeHeap() { return m_pSlimeHeap; }
+
+	virtual Mantis* getMantis() { return m_pMantis; }
+
 	void setPhysicsObjects(list<Ground*>* physicObjects);
 
 	void menuCloseCallback(Object* pSender);
@@ -44,6 +53,10 @@ private:
 	Player* m_pPlayer;
 	list<Ground*>* m_physicObjects;
 	MouseInputAction* _test;
+
+	Snail* m_pSnail = nullptr;
+	SlimeHeap* m_pSlimeHeap = nullptr;
+	Mantis* m_pMantis = nullptr;
 };
 
 #endif // !__MAINLAYER_H__

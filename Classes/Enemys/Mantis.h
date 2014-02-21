@@ -1,6 +1,8 @@
 #ifndef __MANTIS_H__
 #define __MANTIS_H__
 
+#define TAG_MANTIS 45678
+
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
@@ -9,6 +11,8 @@
 #include "Levelsystem\Layers\MainLayer.h"
 #include "Components\PlayerCollider.h"
 #include "Levelsystem\Objects\Ground.h"
+#include "..\Enemys\Mantis.h"
+
 
 class Mantis : public Shooter
 {
@@ -27,15 +31,20 @@ protected:
 
 public:
 
-	int attackRange_Meele = 450;
+	int attackRange_Meele = 545;
 	int attackRange_Range = 280;
 	void update(float dt);
 	bool m_isAlive = true;
 	PlayerCollider* getPlayerColliderComponent();
 	static Mantis* create(MainLayer* layer);
+	void applyDamage();
 
 private:
 
+	static MainLayer* m_layer;
+	bool m_first = false;
+	int m_health = 10;
+	bool m_isDead = false;
 	float attackTimer = 5.0f;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
@@ -65,8 +74,8 @@ private:
 
 	Player* m_pPlayer;
 
-	int playerPosX;
-	int mantisPosX;
+	Point playerPos;
+	Point mantisPos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;

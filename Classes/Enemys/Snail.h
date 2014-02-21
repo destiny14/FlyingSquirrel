@@ -1,6 +1,8 @@
 #ifndef __SNAIL_H__
 #define __SNAIL_H__
 
+#define TAG_SNAIL 46745
+
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
@@ -26,15 +28,22 @@ protected:
 
 public:
 
+	void killIt();
 	int attackRange = 180;
 	void update(float dt);
-	bool m_isAlive = true;
 	//PlayerCollider* getPlayerColliderComponent();
 	static Snail* create(MainLayer* layer);
 
-private:
+	float getTimer();
+	void setTimer(float seconds);
 
+
+private:
 	float m_timer = 3.0;
+
+	static MainLayer* m_layer;
+	bool m_isAlive = true;
+	bool m_isDead = false;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
@@ -62,8 +71,8 @@ private:
 
 	Player* m_pPlayer;
 
-	int playerPosX;
-	int snailPosX;
+	Point playerPos;
+	Point snailPos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;

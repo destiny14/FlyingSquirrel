@@ -10,6 +10,10 @@ Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, f
 {
 	Bullet* bullet = new Bullet();
 	Texture* tex = Texture::create("nuss.png");
+	bullet->m_pSnail = parent->getSnail();
+	bullet->m_pSlimeHeap = parent->getSlimeHeap();
+	bullet->m_pMantis = parent->getMantis();
+
 	tex->retain();
 
 	bullet->setTexture(tex);
@@ -19,7 +23,7 @@ Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, f
 	bullet->setPosition(position.x + (100.0f * direction), position.y + 25.0f);
 	bullet->setAffectedByGravity(true);
 	bullet->getSprite()->setScale(0.5f);
-
+	
 	bullet->init(shooter, direction, force);
 
 	return bullet;
@@ -71,6 +75,28 @@ void Bullet::destroy()
 
 void Bullet::CheckForCollisions()
 {
+	if (m_pSnail != nullptr)
+	{
+		if (m_pSnail->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
+		{
+			m_pSnail->killIt();
+		}
+	}
+	if (m_pSlimeHeap != nullptr)
+	{
+		if (m_pSlimeHeap->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
+		{
+			m_pSlimeHeap->killIt();
+		}
+	} 
+	if (m_pMantis != nullptr)
+	{
+		if (m_pMantis->getColliderComponent()->getCollisionRectangle().intersectsRect(this->getColliderComponent()->getCollisionRectangle()))
+		{
+			m_pMantis->applyDamage();
+		}
+	}
+
 	list<Ground*>* physObj = this->getParent()->getPhysicsObjects();
 	list<Ground*> desObj;
 	for (Ground* g : *physObj)

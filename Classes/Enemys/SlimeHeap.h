@@ -1,6 +1,8 @@
 #ifndef __SLIMEHEAP_H__
 #define __SLIMEHEAP_H__
 
+#define TAG_SLIMEHEAP 123456
+
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
@@ -26,14 +28,20 @@ protected:
 
 public:
 
+	void killIt();
 	int attackRange = 180;
 	void update(float dt);
-	bool m_isAlive = true;
 	//PlayerCollider* getPlayerColliderComponent();
 	static SlimeHeap* create(MainLayer* layer);
 
+	float getTimer();
+	void setTimer(float seconds);
+
 private:
 
+	static MainLayer* m_layer;
+	bool m_isAlive = true;
+	bool m_isDead = false;
 	float m_timer = 3.0;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
@@ -60,8 +68,8 @@ private:
 
 	Player* m_pPlayer;
 
-	int playerPosX;
-	int slimePosX;
+	Point playerPos;
+	Point slimePos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;
