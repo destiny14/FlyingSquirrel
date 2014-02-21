@@ -6,6 +6,7 @@
 #include "Objects\Aircurrent.h"
 #include "..\UI.h"
 #include "..\InputManager.h"
+#include "ParallaxLayer.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -60,10 +61,19 @@ bool MainLayer::init()
 	//############################################################
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_pPlayer);
-	m_pCam->setBoundingRect(Rect(-10000.0f, -10000.0f, 20000.0f, 20000.0f));
+	m_pCam->setBoundingRect(Rect(-2050.0f, 0.0f, 5505.0f, 4000.0f));
 	//############################################################
 	//## Init Level                                             ##
 	//############################################################
+
+	ParallaxLayer* para = ParallaxLayer::create();
+	Point paraPos = Point(0,1000);
+	//para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
+	para->addParallaxElement(Sprite::create("bk4.png"), paraPos, Point(0.3f, 0.1f), 4);
+	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
+	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
+	para->addParallaxElement(Sprite::create("bk1.png"), paraPos, Point(0.0003f, 0.0001f), 1);
+	this->addChild(para, -9999);
 
 	for (Texture* t : *getTextures())
 	{
