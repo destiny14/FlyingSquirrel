@@ -86,7 +86,7 @@ void MainLayer::update(float dt)
 	m_pPlayer->update(dt);
 	m_pInput->update();
 	m_pCam->update(dt);
-	UPDATEUI;
+	UPDATEUI(dt);
 
 	if (m_pLSD->wasPressed())
 		m_pCam->toggleLSD();

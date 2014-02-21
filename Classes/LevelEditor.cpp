@@ -278,7 +278,7 @@ void LevelEditor::update(float dt)
 			m_currentSelectedGround = nullptr;
 		}
 	}
-	UPDATEUI;
+	UPDATEUI(dt);
 }
 
 void LevelEditor::draw()
