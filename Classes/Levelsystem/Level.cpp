@@ -262,7 +262,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Snail* crys = Snail::create(mainlayer);
 			crys->setTimer(timer);
 			crys->setPosition(pos);
-			mainlayer->addChild(crys, 0);
+			mainlayer->addChild(crys->getSprite(), 0);
 		}
 	}
 	//################################
@@ -278,7 +278,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			SlimeHeap* crys = SlimeHeap::create(mainlayer);
 			crys->setTimer(timer);
 			crys->setPosition(pos);
-			mainlayer->addChild(crys, 0);
+			mainlayer->addChild(crys->getSprite(), 0);
 		}
 	}
 	//################################
@@ -293,7 +293,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			float timer = child->FloatAttribute("timer");
 			Mantis* crys = Mantis::create(mainlayer);
 			crys->setPosition(pos);
-			mainlayer->addChild(crys, 0);
+			mainlayer->addChild(crys->getSprite(), 0);
 		}
 	}
 	return l;
