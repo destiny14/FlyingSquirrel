@@ -85,7 +85,8 @@ void MainLayer::update(float dt)
 	dt = dt > (1.0f / 60.0f) ? (1.0f / 60.0f) : dt;
 	m_pPlayer->update(dt);
 	m_pInput->update();
-	m_pCam->update(dt);
+	if (m_pPlayer->getHealth() > 0.0f)
+		m_pCam->update(dt);
 	UPDATEUI;
 
 	if (m_pLSD->wasPressed())
