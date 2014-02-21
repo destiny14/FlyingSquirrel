@@ -138,6 +138,9 @@
     <ClCompile Include="Classes\Levelsystem\Objects\Crystal.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\Aircurrent.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -267,6 +270,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Crystal.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Aircurrent.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>

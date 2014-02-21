@@ -3,7 +3,7 @@
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
-#include "Objects\Crystal.h"
+#include "Objects\Aircurrent.h"
 #include "..\UI.h"
 #include "..\InputManager.h"
 
@@ -94,9 +94,9 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		CollectibleCrystal* nut = CollectibleCrystal::create(this);
-		nut->setPosition(_test->getMousePosition() - this->getPosition());
-		this->addChild(nut);
+		Aircurrent* air = Aircurrent::create(this, Point(0.0f, 2700.0f), Size(150.0f, 450.0f));
+		air->setPosition(_test->getMousePosition());
+		this->addChild(air);
 	}
 
 	for (Ground* g : *getPhysicsObjects())
