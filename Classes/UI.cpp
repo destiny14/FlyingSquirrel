@@ -236,15 +236,15 @@ void UI::createMainMenuUI()
 	m_pAnimation->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pMenu->addChild(m_pAnimation);
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
-	m_pSpriteFrame->addSpriteFramesWithFile("GUI/menu.plist");
+	m_pSpriteFrame2 = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame2->addSpriteFramesWithFile("GUI/menu.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("GUI/menu.png");
 
 	for (int i = 0; i < 56; i++)
 	{
 		filename = String::createWithFormat("skeleton-Reinfahrt%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
-		frames.pushBack(frame);
+		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame2);
 	}
 	m_pStartFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
 	m_pStartFrames->retain();
@@ -252,9 +252,9 @@ void UI::createMainMenuUI()
 
 	for (int i = 0; i < 51; i++)
 	{
-		filename = String::createWithFormat("skeleton-Idle%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
-		frames.pushBack(frame);
+		filename = String::createWithFormat("skeleton-NormalMenu%i.png", i);
+		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame2);
 	}
 	m_pIdleFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
 	m_pIdleFrames->retain();
@@ -263,8 +263,8 @@ void UI::createMainMenuUI()
 	for (int i = 0; i < 30; i++)
 	{
 		filename = String::createWithFormat("skeleton-Rausfahrt%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
-		frames.pushBack(frame);
+		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame2);
 	}
 	m_pEndFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
 	m_pEndFrames->retain();

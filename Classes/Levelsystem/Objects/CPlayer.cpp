@@ -65,17 +65,13 @@ bool Player::init()
 	m_shooted = false;
 	m_readyToFall = false;
 	m_noNuts = false;
+	m_flySound = false;
 	m_topCollision = false;
 	m_bottomColWhileTopCol = false;
 	m_topCollisionGround = nullptr;
 
 	cs_flight = false;
 	cs_run = false;
-
-	m_a_jump = false;
-	m_a_doubleJump = false;
-	m_a_isFlying = false;
-	m_a_shooted = false;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -370,6 +366,8 @@ void Player::update(float dt)
 	{
 		if (m_counterToShoot == m_countToShoot)
 		{
+			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
 			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
@@ -401,6 +399,8 @@ void Player::update(float dt)
 	///////////////////////
 	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7) && !this->getSprite()->getActionByTag(11))
 	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->stopAllEffects();
 		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
 		{
 			this->getSprite()->stopAllActions();
@@ -414,6 +414,8 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_pJump->wasPressed() && this->getGrounded())
 	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
 		addVelocity(0.0f, 600.0f);
 		setPositionY(getPositionY() + 0.01);
 		this->setGrounded(false);
@@ -441,12 +443,17 @@ void Player::update(float dt)
 		m_readyToFall = false;
 		m_rescueFly = false;
 		m_isFlying = false;
+		m_flySound = false;
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->stopAllEffects();
 	}
 	/////////////////////////////
 	// Doppelsprung - Bewegung //
 	/////////////////////////////
 	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump && m_jump)
 	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
 		addVelocity(0.0f, 400.0f);
 		m_doubleJump = true;
 		m_readyToFly = false;
@@ -464,9 +471,21 @@ void Player::update(float dt)
 	else if (m_pJump->wasReleased() && !m_isFlying && m_doubleJump)
 	{
 		m_readyToFly = true;
+		m_flySound = false;
 	}
 	else if (m_pJump->isPressed() && m_doubleJump && m_readyToFly || cs_flight)
 	{
+		if (!m_flySound)
+		{
+			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			sound->playEffect("sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
+			if (!sound->isBackgroundMusicPlaying() && !m_flySound)
+			{
+				auto sound2 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+				sound2->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+				m_flySound = true;
+			}
+		}
 		if (!this->getSprite()->getActionByTag(3))
 		{
 			this->getSprite()->stopAllActions();
@@ -481,6 +500,21 @@ void Player::update(float dt)
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
 	////////////////////////////////
+	/*if (m_pForward->isPressed() || m_pBackward->isPressed())
+	{
+		auto sound1 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound1->playEffect("sounds/sawyer/step1.wav", true, 1.0f, 0.0f, 1.0f);
+		auto sound2 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound3 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		if (!sound2->isBackgroundMusicPlaying())
+		{
+			sound1->playEffect("sounds/sawyer/step1.wav", false, 1.0f, 0.0f, 1.0f);
+		}
+		else
+		{
+			sound2->playEffect("sounds/sawyer/step2.wav", false, 1.0f, 0.0f, 1.0f);
+		}
+	}*/
 	if (m_movement & EMovement::Left && !m_shooted && !m_pForward->isPressed())
 	{
 		m_direction.x = -1.0f;
@@ -521,6 +555,9 @@ void Player::update(float dt)
 	///////////////////////
 	// Fallen - Bewegung //
 	///////////////////////
+
+	auto flySound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+
 	if (!this->getGrounded() && !m_jump && !m_readyToFall)
 	{
 		if (!this->getSprite()->getActionByTag(8))
@@ -542,6 +579,11 @@ void Player::update(float dt)
 	}
 	else if (!this->getSprite()->getActionByTag(9) && !this->getGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
 	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		if (!sound->isBackgroundMusicPlaying())
+		{
+			sound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+		}
 		m_readyToFall = true;
 		this->getSprite()->stopAllActions();
 		m_pFallAction = RepeatForever::create(Animate::create(m_pFallFrames));
@@ -552,6 +594,10 @@ void Player::update(float dt)
 	{
 		if (!this->getSprite()->getActionByTag(10))
 		{
+			if (!flySound->isBackgroundMusicPlaying())
+			{
+				flySound->playEffect("sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
+			}
 			this->getSprite()->stopAllActions();
 			m_pFallToFlyAction = Repeat::create(Animate::create(m_pFallToFlyFrames), 1);
 			m_pFallToFlyAction->setTag(10);
@@ -571,6 +617,11 @@ void Player::update(float dt)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
+			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			if (!sound->isBackgroundMusicPlaying() && !flySound->isBackgroundMusicPlaying())
+			{
+				flySound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+			}
 			this->getSprite()->stopAllActions();
 			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
 			m_pFlightAction->setTag(3);
@@ -579,59 +630,6 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
-	}
-
-	///////////
-	// AUDIO //
-	///////////
-
-	if (m_shooted && !m_a_shooted)
-	{
-		if (m_counterToShoot == m_countToShoot)
-		{
-			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
-			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
-			m_a_shooted = true;
-			m_a_jump = false;
-			m_a_doubleJump = false;
-			m_a_isFlying = false;
-		}
-	}
-	else if (m_jump && !m_a_jump)
-	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
-		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		m_a_shooted = false;
-		m_a_jump = true;
-		m_a_doubleJump = false;
-		m_a_isFlying = false;
-	}
-	else if (m_doubleJump && !m_a_doubleJump)
-	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
-		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
-		m_a_shooted = false;
-		m_a_jump = false;
-		m_a_doubleJump = true;
-		m_a_isFlying = false;
-	}
-	else if (m_isFlying && !m_a_isFlying)
-	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
-		sound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
-		m_a_shooted = false;
-		m_a_jump = false;
-		m_a_doubleJump = false;
-		m_a_isFlying = true;
-	}
-	else
-	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
-		sound->stopAllEffects();
-		m_a_shooted = false;
-		m_a_jump = false;
-		m_a_doubleJump = false;
-		m_a_isFlying = false;
 	}
 
 	m_direction.x *= m_speed;

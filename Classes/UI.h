@@ -80,9 +80,9 @@ private:
 
 	Vector<SpriteFrame*> frames;
 	String* filename;
-	SpriteFrame* frame;
+	SpriteFrame* frame2;
 
-	SpriteFrameCache* m_pSpriteFrame;
+	SpriteFrameCache* m_pSpriteFrame2;
 	SpriteBatchNode* m_pSpriteBatch;
 
 	Sprite* m_pAnimation;

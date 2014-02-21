@@ -68,6 +68,7 @@ private:
 	bool m_shooted;
 	bool m_readyToFall;
 	bool m_noNuts;
+	bool m_flySound;
 	bool m_topCollision;
 	bool m_bottomColWhileTopCol;
 	Ground* m_topCollisionGround;
@@ -125,14 +126,5 @@ private:
 
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
-
-	///////////
-	// AUDIO //
-	///////////
-
-	bool m_a_jump;
-	bool m_a_doubleJump;
-	bool m_a_isFlying;
-	bool m_a_shooted;
 };
 #endif // !__PLAYER_H__
