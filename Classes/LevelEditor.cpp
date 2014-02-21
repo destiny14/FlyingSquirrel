@@ -103,16 +103,22 @@ void LevelEditor::addNutObjectCallback(Object* sender)
 {
 	if (m_pCurrentMoving != nullptr) return;
 
-	m_pCurrentMoving = CollectibleNut::create(m_pLevel->getMainLayer());
+	CollectibleNut* nut = CollectibleNut::create(m_pLevel->getMainLayer());
+	m_pCurrentMoving = dynamic_cast<Node*>(nut);
 	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
+	nut->getTexture()->getSprite()->removeFromParentAndCleanup(false);
+	addChild(nut->getTexture()->getSprite());
 }
 
 void LevelEditor::addCrystalObjectCallback(Object* sender)
 {
 	if (m_pCurrentMoving != nullptr) return;
 
-	m_pCurrentMoving = CollectibleCrystal::create(m_pLevel->getMainLayer());
+	CollectibleCrystal* nut = CollectibleCrystal::create(m_pLevel->getMainLayer());
+	m_pCurrentMoving = dynamic_cast<Node*>(nut);
 	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
+	nut->getTexture()->getSprite()->removeFromParentAndCleanup(false);
+	addChild(nut->getTexture()->getSprite());
 }
 
 void LevelEditor::addAirObjectCallback(Object* sender)
