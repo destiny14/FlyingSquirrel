@@ -5,6 +5,9 @@
 #include "Levelsystem\Objects\Ground.h"
 #include <math.h>
 #include "MainMenu.h"
+#include "Nut.h"
+#include "Levelsystem\Objects\Crystal.h"
+#include "Levelsystem\Objects\Aircurrent.h"
 
 Scene* LevelEditor::createScene(char* filename)
 {
@@ -98,17 +101,26 @@ void LevelEditor::addGroundObjectCallback(Object* sender)
 
 void LevelEditor::addNutObjectCallback(Object* sender)
 {
+	if (m_pCurrentMoving != nullptr) return;
 
+	m_pCurrentMoving = CollectibleNut::create(m_pLevel->getMainLayer());
+	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
 }
 
 void LevelEditor::addCrystalObjectCallback(Object* sender)
 {
+	if (m_pCurrentMoving != nullptr) return;
 
+	m_pCurrentMoving = CollectibleCrystal::create(m_pLevel->getMainLayer());
+	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
 }
 
 void LevelEditor::addAirObjectCallback(Object* sender)
 {
+	if (m_pCurrentMoving != nullptr) return;
 
+	m_pCurrentMoving = Aircurrent::create(m_pLevel->getMainLayer(), Point(0.0f, 900.0f), Size(100.0f, 400.0f));
+	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
 }
 
 void LevelEditor::moveFileSelectUpCallback()
