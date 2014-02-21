@@ -113,6 +113,7 @@ void Moveable::update(float dt, bool overwriteCollisionCheck)
 void Moveable::CheckForCollisions()
 {
 	list<Ground*>* physObj = m_parent->getPhysicsObjects();
+	m_grounded = false;
 	for (Ground* g : *physObj)
 	{
 		if (g->getGround() == true)
@@ -123,10 +124,6 @@ void Moveable::CheckForCollisions()
 			{
 				// kollision
 				m_grounded = true;
-			}
-			else
-			{
-				m_grounded = false;
 			}
 		}
 	}

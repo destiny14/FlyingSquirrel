@@ -1,50 +1,71 @@
 #ifndef __LOEWENZAHN_H__
 #define __LOEWENZAHN_H__
 
+#include "cocos2d.h"
 #include "Moveable.h"
-//TODO #include player
+#include <vector>
+#include "Levelsystem\Objects\Shooter.h"
+#include "Levelsystem\Objects\Player.h"
+#include "Levelsystem\Layers\MainLayer.h"
+#include "Components\PlayerCollider.h"
+#include "Levelsystem\Objects\Ground.h"
 
-
-class Loewenzahn : public Moveable
+class Loewenzahn : public Shooter
 {
 protected:
 
 	Loewenzahn();
 	virtual ~Loewenzahn();
-
 	bool init();
-
-	void update(float dt);
-
+	void setCollider(float width, float height);
+	void CheckForCollisions();
 	bool canAttack();
-
-	void moodWalk(float dt);
-
+	void moodIdle(float dt);
 	void moodAttack(float dt);
-
 	void moodDie(float dt);
-
-	void moveActionCompleted(Node* pSender);
-
 
 public:
 
-	int mood = 1;
-
-	int timer = 0;
-
-	int attackRange = 20;
-
+	int attackRange = 1500;
+	void update(float dt);
 	bool m_isAlive = true;
-
-	Loewenzahn* create(MainLayer* layer);
-
-	CREATE_FUNC(Loewenzahn);
+	//PlayerCollider* getPlayerColliderComponent();
+	static Loewenzahn* create(MainLayer* layer);
 
 private:
 
+	float m_timer = 3.0;
+	float m_speed = 100.0f;
+	Point m_moveDirection;
 	bool m_isForward = true;
+	//PlayerCollider* m_pcollider;
 
+	Action* m_pIdleAction;
+	Action* m_pShootAction;
+	Action* m_pHitAction;
+	Action* m_pDeadAction;
+
+
+	Animation* m_pIdleFrames;
+	Animation* m_pShootFrames;
+	Animation* m_pHitFrames;
+	Animation* m_pDeadFrames;
+
+	Vector<SpriteFrame*> frames;
+	String* m_pSpriteString;
+	SpriteFrame* m_pFrame;
+
+	SpriteFrameCache* m_pSpriteFrame;
+	SpriteBatchNode* m_pSpriteBatch;
+
+	Player* m_pPlayer;
+
+	Point playerPos;
+	Point loewenzahnPos;
+
+	//bool m_topCollision;
+	//bool m_bottomColWhileTopCol;
+	//Ground* m_topCollisionGround;
 };
 
 #endif // __LOEWENZAHN_H__
