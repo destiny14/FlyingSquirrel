@@ -17,7 +17,7 @@ Mantis* Mantis::create(MainLayer* layer)
 
 
 	Texture* tex = Texture::create("mantis1.png");
-	mantis->m_pPlayer = layer->getPlayer();
+	m_layer = layer;
 
 	if (tex)
 	{
@@ -164,6 +164,11 @@ PlayerCollider* Mantis::getPlayerColliderComponent()
 //----------GameLoop-----------//
 void Mantis::update(float dt)
 {
+	if (m_pPlayer == nullptr)
+	{
+		this->m_pPlayer = m_layer->getPlayer();
+
+	}
 
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);

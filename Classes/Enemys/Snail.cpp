@@ -15,9 +15,8 @@ Snail* Snail::create( MainLayer* layer)
 {
 	Snail* snail = new Snail();
 
-
+	m_layer = layer;
 	Texture* tex = Texture::create("snail.png");
-	snail->m_pPlayer = layer->getPlayer();
 
 	if (tex)
 	{
@@ -122,6 +121,10 @@ void Snail::setCollider(float width, float height)
 //----------GameLoop-----------//
 void Snail::update(float dt)
 {
+	if (m_pPlayer == nullptr)
+	{
+		this->m_pPlayer = m_layer->getPlayer();
+	}
 	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);

@@ -39,6 +39,7 @@ public:
 
 private:
 
+	static MainLayer* m_layer;
 	bool m_isAlive = true;
 	bool m_isDead = false;
 	float m_timer = 3.0;

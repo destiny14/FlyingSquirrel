@@ -27,7 +27,7 @@ SlimeHeap* SlimeHeap::create(MainLayer* layer)
 
 
 	Texture* tex = Texture::create("slimeHeap.png");
-	slimeHeap->m_pPlayer = layer->getPlayer();
+	m_layer = layer;
 
 	if (tex)
 	{
@@ -128,6 +128,11 @@ void SlimeHeap::setCollider(float width, float height)
 //----------GameLoop-----------//
 void SlimeHeap::update(float dt)
 {
+	if (m_pPlayer == nullptr)
+	{
+		this->m_pPlayer = m_layer->getPlayer();
+
+	}
 
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
