@@ -151,30 +151,50 @@ void UI::createLevelEditorUI()
 	addGroundObject->setFontSizeObj(30);
 	addGroundObject->setPosition(80.0f, visibleSize.height - 120.0f);
 
+	MenuItemFont* addNutObject = MenuItemFont::create("add nut", CC_CALLBACK_1(LevelEditor::addNutObjectCallback, pLevelEditor));
+	addNutObject->setFontNameObj("Arial");
+	addNutObject->setFontSizeObj(30);
+	addNutObject->setPosition(80.0f, visibleSize.height - 160.0f);
+
+	MenuItemFont* addCrystalObject = MenuItemFont::create("add crystal", CC_CALLBACK_1(LevelEditor::addCrystalObjectCallback, pLevelEditor));
+	addCrystalObject->setFontNameObj("Arial");
+	addCrystalObject->setFontSizeObj(30);
+	addCrystalObject->setPosition(80.0f, visibleSize.height - 200.0f);
+
+	MenuItemFont* addAirObject = MenuItemFont::create("add aircurrent", CC_CALLBACK_1(LevelEditor::addAirObjectCallback, pLevelEditor));
+	addAirObject->setFontNameObj("Arial");
+	addAirObject->setFontSizeObj(30);
+	addAirObject->setPosition(80.0f, visibleSize.height - 240.0f);
+
 	MenuItemFont* changeLayerObject = MenuItemFont::create("mainLayer", CC_CALLBACK_0(LevelEditor::changeLayerCallback, pLevelEditor));
 	changeLayerObject->setFontNameObj("Arial");
 	changeLayerObject->setFontSizeObj(30);
-	changeLayerObject->setPosition(73.0f, visibleSize.height - 160.0f);
+	changeLayerObject->setPosition(73.0f, visibleSize.height - 280.0f);
 	changeLayerObject->setTag(111);
 
 	MenuItemFont* toggleGrid = MenuItemFont::create("snap to grid", CC_CALLBACK_0(LevelEditor::toggleGridCallback, pLevelEditor));
 	toggleGrid->setFontNameObj("Arial");
 	toggleGrid->setFontSizeObj(30);
-	toggleGrid->setPosition(80.0f, visibleSize.height - 200.0f);
+	toggleGrid->setPosition(80.0f, visibleSize.height - 320.0f);
 	toggleGrid->setTag(112);
 
 	MenuItemFont* toggleSelectionMode = MenuItemFont::create("selection", CC_CALLBACK_0(LevelEditor::toggleSelectionMode, pLevelEditor));
 	toggleSelectionMode->setFontNameObj("Arial");
 	toggleSelectionMode->setFontSizeObj(30);
-	toggleSelectionMode->setPosition(80.0f, visibleSize.height - 240.0f);
+	toggleSelectionMode->setPosition(80.0f, visibleSize.height - 360.0f);
 	toggleSelectionMode->setTag(113);
 
 	MenuItemFont* saveLevelObject = MenuItemFont::create("save level", CC_CALLBACK_0(LevelEditor::saveLevelCallback, pLevelEditor));
 	saveLevelObject->setFontNameObj("Arial");
 	saveLevelObject->setFontSizeObj(30);
-	saveLevelObject->setPosition(70.0f, visibleSize.height - 280.0f);
+	saveLevelObject->setPosition(70.0f, visibleSize.height - 400.0f);
+
+	MenuItemFont* mainMenuObject = MenuItemFont::create("Mainmenu", CC_CALLBACK_0(LevelEditor::mainMenuCallback, pLevelEditor));
+	mainMenuObject->setFontNameObj("Arial");
+	mainMenuObject->setFontSizeObj(30);
+	mainMenuObject->setPosition(70.0f, visibleSize.height - 440.0f);
 	
-	auto menu = Menu::create(addTextureObject, addGroundObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, NULL);
+	auto menu = Menu::create(addTextureObject, addGroundObject, addNutObject, addCrystalObject, addAirObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, mainMenuObject, NULL);
 	auto menuBackground = Menu::create(sidebarBackground, NULL);
 	menuBackground->setPosition(0, 0);
 	menuBackground->setZOrder(-10);
