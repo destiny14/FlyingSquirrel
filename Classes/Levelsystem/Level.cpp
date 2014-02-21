@@ -1,4 +1,8 @@
 #include "Level.h"
+#include "../Nut.h"
+#include "Objects\Crystal.h"
+#include "Objects\Aircurrent.h"
+
 Level* Level::createFromFile(const char* filename)
 {
 	tinyxml2::XMLDocument doc;
@@ -45,9 +49,52 @@ void Level::SaveLevel()
 	}
 	tinyxml2::XMLElement* playerSpawnerElement = doc.NewElement("PlayerSpawner");
 	playerSpawnerElement->InsertFirstChild(createPointNode(&doc, mainLayer->getPlayerSpawner()->getSpawnPosition()));
+	tinyxml2::XMLElement* nutsElement = doc.NewElement("Nuts");
+	tinyxml2::XMLElement* crysElement = doc.NewElement("Crystals");
+	tinyxml2::XMLElement* airsElement = doc.NewElement("Airs");
+
+	for (Node* node : mainLayer->getChildren())
+	{
+		switch (node->getTag())
+		{
+			case TAG_NUT:
+				{
+					tinyxml2::XMLElement* nut = doc.NewElement("Nut");
+					nut->SetAttribute("x", node->getPositionX());
+					nut->SetAttribute("Y", node->getPositionY());
+					nutsElement->InsertEndChild(nut);
+				}
+				break;
+			case TAG_CRYSTAL:
+				{
+					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
+					crys->SetAttribute("x", node->getPositionX());
+					crys->SetAttribute("Y", node->getPositionY());
+					crysElement->InsertEndChild(crys);
+				}
+				break;
+			case TAG_AIR:
+				{
+					tinyxml2::XMLElement* air = doc.NewElement("Crystal");
+					air->SetAttribute("x", node->getPositionX());
+					air->SetAttribute("Y", node->getPositionY());
+					Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
+					air->SetAttribute("dirY", cur->getDirection().y);
+					air->SetAttribute("width", cur->getSize().width);
+					air->SetAttribute("height", cur->getSize().height);
+					airsElement->InsertEndChild(air);
+				}
+				break;
+			default:
+				break;
+		}
+	}
 	mainLayerElement->InsertFirstChild(texturesElement);
 	mainLayerElement->InsertEndChild(phyObjectsElement);
 	mainLayerElement->InsertEndChild(playerSpawnerElement);
+	mainLayerElement->InsertEndChild(nutsElement);
+	mainLayerElement->InsertEndChild(crysElement);
+	mainLayerElement->InsertEndChild(airsElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 	doc.SaveFile(getName());
@@ -70,7 +117,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 	MainLayer* mainlayer = MainLayer::create();
 	l->setMainLayer(mainlayer);
 	tinyxml2::XMLDocument doc;
-	doc.LoadFile(filename);
+	log("%i", doc.LoadFile(filename));
 	tinyxml2::XMLElement* rootElement = doc.RootElement();
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
@@ -115,6 +162,51 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		PlayerSpawner* ps = new PlayerSpawner(p);
 		mainlayer->setPlayerSpawner(ps);
 	}
+	//################################
+	//### Nuts					   ###
+	//################################
+	tinyxml2::XMLElement* collectibleElement = mainLayerElement->FirstChildElement("Nuts");
+	if (collectibleElement != nullptr)
+	{		
+		for (tinyxml2::XMLElement* child = collectibleElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			CollectibleNut* nut = CollectibleNut::create(mainlayer);
+			nut->setPosition(pos);
+			mainlayer->addChild(nut, 0);
+		}
+	}
+	//################################
+	//### Aircurrent			   ###
+	//################################
+	tinyxml2::XMLElement* airElement = mainLayerElement->FirstChildElement("Airs");
+	if (airElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = airElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			Point dir = Point(0.0f, child->FloatAttribute("dirY"));
+			Size size = Size(child->FloatAttribute("width"), child->FloatAttribute("height"));
+			Aircurrent* air = Aircurrent::create(mainlayer, dir, size);
+			air->setPosition(pos);
+			mainlayer->addChild(air, 0);
+		}
+	}
+	//################################
+	//### Crystals				   ###
+	//################################
+	tinyxml2::XMLElement* crysElement = mainLayerElement->FirstChildElement("Crystals");
+	if (crysElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = crysElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			CollectibleCrystal* crys = CollectibleCrystal::create(mainlayer);
+			crys->setPosition(pos);
+			mainlayer->addChild(crys, 0);
+		}
+	}
+
 	if (!levelEditor)
 		mainlayer->init();
 	else

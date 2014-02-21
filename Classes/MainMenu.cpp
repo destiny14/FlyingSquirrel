@@ -42,7 +42,7 @@ void CMainMenu::initInput()
     
 void CMainMenu::update(float _dt)
 {
-	UPDATEUI;
+	UPDATEUI(_dt);
 	this->runAction(MoveBy::create(0.0f, Point(_dt * 10.0f, 0.0f)));
 	m_pInput->update();
 

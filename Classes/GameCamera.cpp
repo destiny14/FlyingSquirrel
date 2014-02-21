@@ -77,18 +77,18 @@ void GameCamera::updateLSD(float dt)
 	if (m_lsd)
 	{
 		kmGLMatrixMode(KM_GL_MODELVIEW);
-		kmGLTranslatef(400.0f, 300.0f, 0.0f);
-		kmGLRotatef(45.0f * dt, 0.0f, 0.0f, 1.0f);
+		kmGLTranslatef(800.0f, 450.0f, 0.0f);
+		kmGLRotatef(45.0f * dt, 1.0f, -1.0f, 1.0f);
 		m_rot += 45.0f * dt;
-		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+		kmGLTranslatef(-800.0f, -450.0f, 0.0f);
 	}
 	else if (m_rot != 0.0f)
 	{
 		kmGLMatrixMode(KM_GL_MODELVIEW);
-		kmGLTranslatef(400.0f, 300.0f, 0.0f);
-		kmGLRotatef(-m_rot, 0.0f, 0.0f, 1.0f);
+		kmGLTranslatef(800.0f, 450.0f, 0.0f);
+		kmGLRotatef(-m_rot, 1.0f, -1.0f, 1.0f);
 		m_rot = 0.0f;
-		kmGLTranslatef(-400.0f, -300.0f, 0.0f);
+		kmGLTranslatef(-800.0f, -450.0f, 0.0f);
 	}
 }
 

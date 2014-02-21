@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "..\Components\Collider.h"
 #include "Shooter.h"
+#include "SimpleAudioEngine.h"
 
 Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, float direction, float force)
 {
@@ -64,6 +65,8 @@ void Bullet::destroy()
 {
 	if (m_bullettype == Bullettype::Nut)
 	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Ehit.wav", false, 1.0f, 0.0f, 1.0f);
 		this->getParent()->removeChild(this->getSprite());
 		this->removeFromParent();
 		m_shooter->deleteBullet(this);
