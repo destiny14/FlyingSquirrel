@@ -1,5 +1,6 @@
 #ifndef __NUT_H__
 #define __NUT_H__
+#define TAG_NUT 6969869
 
 #include "Collectible.h"
 
