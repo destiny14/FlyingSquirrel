@@ -41,7 +41,7 @@ public:
 
 private:
 
-	static MainLayer* m_layer;
+	MainLayer* m_layer;
 	bool m_first = false;
 	int m_health = 10;
 	bool m_isDead = false;
