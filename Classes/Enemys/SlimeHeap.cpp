@@ -27,7 +27,7 @@ SlimeHeap* SlimeHeap::create(MainLayer* layer)
 
 
 	Texture* tex = Texture::create("slimeHeap.png");
-	m_layer = layer;
+	slimeHeap->m_layer = layer;
 
 	if (tex)
 	{

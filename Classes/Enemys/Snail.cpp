@@ -15,7 +15,7 @@ Snail* Snail::create( MainLayer* layer)
 {
 	Snail* snail = new Snail();
 
-	m_layer = layer;
+	snail->m_layer = layer;
 	Texture* tex = Texture::create("snail.png");
 
 	if (tex)

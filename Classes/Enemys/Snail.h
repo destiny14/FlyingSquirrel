@@ -41,7 +41,7 @@ public:
 private:
 	float m_timer = 3.0;
 
-	static MainLayer* m_layer;
+	MainLayer* m_layer;
 	bool m_isAlive = true;
 	bool m_isDead = false;
 	float m_speed = 100.0f;
