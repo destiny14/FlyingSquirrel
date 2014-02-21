@@ -3,7 +3,7 @@
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
-#include "..\Nut.h"
+#include "Objects\Crystal.h"
 #include "..\UI.h"
 #include "..\InputManager.h"
 
@@ -93,7 +93,7 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		CollectibleNut* nut = CollectibleNut::create(this);
+		CollectibleCrystal* nut = CollectibleCrystal::create(this);
 		nut->setPosition(_test->getMousePosition() - this->getPosition());
 		this->addChild(nut);
 	}

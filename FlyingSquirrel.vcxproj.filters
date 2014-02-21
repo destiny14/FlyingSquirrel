@@ -135,6 +135,9 @@
     <ClCompile Include="Classes\StoryScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\Crystal.cpp">
+      <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="Classes\StoryScene.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\Crystal.h">
+      <Filter>Classes\Levelsystem\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
