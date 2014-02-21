@@ -3,7 +3,7 @@
 #include "Objects\Player.h"
 #include "..\GameCamera.h"
 #include "..\CommonMain.h"
-#include "..\Nut.h"
+#include "Objects\Aircurrent.h"
 #include "..\UI.h"
 #include "..\InputManager.h"
 
@@ -85,6 +85,7 @@ void MainLayer::update(float dt)
 	dt = dt > (1.0f / 60.0f) ? (1.0f / 60.0f) : dt;
 	m_pPlayer->update(dt);
 	m_pInput->update();
+	if (m_pPlayer->getHealth() > 0.0f)
 	m_pCam->update(dt);
 	UPDATEUI(dt);
 
@@ -93,9 +94,9 @@ void MainLayer::update(float dt)
 
 	if (_test->wasPressed())
 	{
-		CollectibleNut* nut = CollectibleNut::create(this);
-		nut->setPosition(_test->getMousePosition() - this->getPosition());
-		this->addChild(nut);
+		Aircurrent* air = Aircurrent::create(this, Point(0.0f, 2700.0f), Size(150.0f, 450.0f));
+		air->setPosition(_test->getMousePosition());
+		this->addChild(air);
 	}
 
 	for (Ground* g : *getPhysicsObjects())
