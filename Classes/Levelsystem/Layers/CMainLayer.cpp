@@ -7,6 +7,9 @@
 #include "..\UI.h"
 #include "..\InputManager.h"
 #include "ParallaxLayer.h"
+#include "..\Enemys\Mantis.h"
+#include "..\Enemys\SlimeHeap.h"
+#include "..\Enemys\Snail.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {

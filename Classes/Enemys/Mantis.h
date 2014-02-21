@@ -11,6 +11,8 @@
 #include "Levelsystem\Layers\MainLayer.h"
 #include "Components\PlayerCollider.h"
 #include "Levelsystem\Objects\Ground.h"
+#include "..\Enemys\Mantis.h"
+
 
 class Mantis : public Shooter
 {
