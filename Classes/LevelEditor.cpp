@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "Levelsystem\Objects\Ground.h"
 #include <math.h>
+#include "MainMenu.h"
 
 Scene* LevelEditor::createScene(char* filename)
 {
@@ -93,6 +94,21 @@ void LevelEditor::addTextureObjectCallback(Object* sender)
 void LevelEditor::addGroundObjectCallback(Object* sender)
 {
 	ACTIVATEFILECHOOSERMENU(this, 1);
+}
+
+void LevelEditor::addNutObjectCallback(Object* sender)
+{
+
+}
+
+void LevelEditor::addCrystalObjectCallback(Object* sender)
+{
+
+}
+
+void LevelEditor::addAirObjectCallback(Object* sender)
+{
+
 }
 
 void LevelEditor::moveFileSelectUpCallback()
@@ -317,4 +333,9 @@ void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 void LevelEditor::saveLevelCallback()
 {
 	m_pLevel->SaveLevel();
+}
+
+void LevelEditor::mainMenuCallback()
+{
+	Director::getInstance()->replaceScene(CMainMenu::createMainMenuScene());
 }

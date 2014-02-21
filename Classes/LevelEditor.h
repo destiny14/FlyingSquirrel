@@ -28,6 +28,9 @@ public:
 
 	void addTextureObjectCallback(Object* sender);
 	void addGroundObjectCallback(Object* sender);
+	void addNutObjectCallback(Object* sender);
+	void addCrystalObjectCallback(Object* sender);
+	void addAirObjectCallback(Object* sender);
 	void chooseFileCallback(Object* sender, string file, int levelType);
 	void moveFileSelectUpCallback();
 	void moveFileSelectDownCallback();
@@ -35,6 +38,7 @@ public:
 	void saveLevelCallback();
 	void toggleGridCallback();
 	void toggleSelectionMode();
+	void mainMenuCallback();
 
 	static LevelEditor* create(char* filename);
 private:

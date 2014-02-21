@@ -20,6 +20,7 @@ CollectibleNut* CollectibleNut::create(MainLayer* layer)
 void CollectibleNut::initCollectible()
 {
 	setTexture(Texture::create("nuss.png"));
+	setTag(TAG_NUT);
 }
 
 void CollectibleNut::onCollidedWithPlayer(Player* _player)
