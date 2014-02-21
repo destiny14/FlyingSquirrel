@@ -8,6 +8,7 @@
 UI::UI()
 {
 	active = false;
+	m_mainMenuActive = false;
 
 	m_pUINode = Node::create();
 	m_pUINode->retain();
@@ -50,10 +51,13 @@ void UI::setUINode(Node* _pNode, int _menu)
 	m_pUINode->removeAllChildrenWithCleanup(false);
 	m_pUINode->addChild(m_pCommon);
 
+	m_mainMenuActive = false;
+
 	switch (_menu)
 	{
 		case UI_MAINMENU:
 			createMainMenuUI();
+			m_mainMenuActive = true;
 			m_pUINode->addChild(m_pMenu);
 			break;
 
@@ -223,23 +227,69 @@ void UI::createMainMenuUI()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
+	m_timeElapsed = 1;
+	m_timeElapsedAll = 0;
+	m_animations = 0;
+	m_timeToElapse = 1;
+
+	m_pAnimation = Sprite::create();
+	m_pAnimation->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	m_pMenu->addChild(m_pAnimation);
+
+	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame->addSpriteFramesWithFile("GUI/menu.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("GUI/menu.png");
+
+	for (int i = 0; i < 56; i++)
+	{
+		filename = String::createWithFormat("skeleton-Reinfahrt%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pStartFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
+	m_pStartFrames->retain();
+	frames.clear();
+
+	for (int i = 0; i < 51; i++)
+	{
+		filename = String::createWithFormat("skeleton-Idle%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pIdleFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
+	m_pIdleFrames->retain();
+	frames.clear();
+
+	for (int i = 0; i < 30; i++)
+	{
+		filename = String::createWithFormat("skeleton-Rausfahrt%i.png", i);
+		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frames.pushBack(frame);
+	}
+	m_pEndFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
+	m_pEndFrames->retain();
+	frames.clear();
+
 	auto startItem = MenuItemFont::create("Spiel starten", CC_CALLBACK_1(CMainMenu::startCallback, pMainMenu));
 	startItem->setScale(2.0f);
 	startItem->setPosition(Point(
 		visibleSize.width * 0.5f,
-		visibleSize.height * 0.6f));
+		visibleSize.height * 0.625f));
+	startItem->setOpacity(0);
 
 	auto levelEditor = MenuItemFont::create("Level Editor", CC_CALLBACK_1(CMainMenu::levelEditorCallback, pMainMenu));
 	levelEditor->setScale(2.0f);
 	levelEditor->setPosition(Point(
 		visibleSize.width * 0.5f,
-		visibleSize.height * 0.5f));
+		visibleSize.height * 0.45f));
+	levelEditor->setOpacity(0);
 
 	auto closeItem = MenuItemFont::create("Spiel verlassen", CC_CALLBACK_1(CMainMenu::exitCallback , pMainMenu));
 	closeItem->setScale(2.0f);
 	closeItem->setPosition(Point(
 		visibleSize.width * 0.5f,
-		visibleSize.height * 0.4f));
+		visibleSize.height * 0.275f));
+	closeItem->setOpacity(0);
 
 	auto menu = Menu::create(startItem, closeItem, levelEditor, NULL);
 	menu->setPosition(0.0f, 0.0f);
@@ -329,8 +379,49 @@ void UI::createIngameUI()
 	m_pIngame->addChild(m_pGameOver, 9999);
 }
 
-void UI::update()
+void UI::update(float dt)
 {
+	if (m_mainMenuActive)
+	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		m_timeElapsed += dt;
+		m_timeElapsedAll += dt;
+
+		if (m_animations == 2)
+		{
+			m_pAnimation->setPositionX(m_pAnimation->getPositionX() - 16.75f);
+		}
+
+		if (m_timeElapsed >= m_timeToElapse)
+		{
+			m_timeElapsed = 0;
+			if (m_animations == 0)
+			{
+				m_timeElapsed = -2;
+				m_animations++;
+			}
+			else if (m_animations == 1)
+			{
+				m_timeElapsed = 0.2;
+				m_pAnimation->stopAllActions();
+				m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
+				m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
+				m_pStartAction->setTag(0);
+				m_pAnimation->runAction(m_pStartAction);
+				m_animations++;
+			}
+			else if (m_animations == 2)
+			{
+				m_pAnimation->stopAllActions();
+				m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
+				m_pIdleAction->setTag(1);
+				m_pAnimation->runAction(m_pIdleAction);
+				m_animations++;
+			}
+
+		}
+	}
+
 	if (!active) return;
 
 	Point origin = m_pUINode->getParent()->getPosition();
