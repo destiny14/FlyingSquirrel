@@ -58,26 +58,32 @@ void Level::SaveLevel()
 		switch (node->getTag())
 		{
 			case TAG_NUT:
-				tinyxml2::XMLElement* nut = doc.NewElement("Nut");
-				nut->SetAttribute("x", node->getPositionX());
-				nut->SetAttribute("Y", node->getPositionY());
-				nutsElement->InsertEndChild(nut);
+				{
+					tinyxml2::XMLElement* nut = doc.NewElement("Nut");
+					nut->SetAttribute("x", node->getPositionX());
+					nut->SetAttribute("Y", node->getPositionY());
+					nutsElement->InsertEndChild(nut);
+				}
 				break;
 			case TAG_CRYSTAL:
-				tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
-				crys->SetAttribute("x", node->getPositionX());
-				crys->SetAttribute("Y", node->getPositionY());
-				crysElement->InsertEndChild(crys);
+				{
+					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
+					crys->SetAttribute("x", node->getPositionX());
+					crys->SetAttribute("Y", node->getPositionY());
+					crysElement->InsertEndChild(crys);
+				}
 				break;
 			case TAG_AIR:
-				tinyxml2::XMLElement* air = doc.NewElement("Crystal");
-				air->SetAttribute("x", node->getPositionX());
-				air->SetAttribute("Y", node->getPositionY());
-				Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
-				air->SetAttribute("dirY", cur->getDirection().y);
-				air->SetAttribute("width", cur->getSize().width);
-				air->SetAttribute("height", cur->getSize().height);
-				airsElement->InsertEndChild(air);
+				{
+					tinyxml2::XMLElement* air = doc.NewElement("Crystal");
+					air->SetAttribute("x", node->getPositionX());
+					air->SetAttribute("Y", node->getPositionY());
+					Aircurrent* cur = dynamic_cast<Aircurrent*>(node);
+					air->SetAttribute("dirY", cur->getDirection().y);
+					air->SetAttribute("width", cur->getSize().width);
+					air->SetAttribute("height", cur->getSize().height);
+					airsElement->InsertEndChild(air);
+				}
 				break;
 			default:
 				break;
