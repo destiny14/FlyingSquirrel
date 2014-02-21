@@ -22,6 +22,7 @@ CollectibleCrystal* CollectibleCrystal::create(MainLayer* layer)
 void CollectibleCrystal::initCollectible()
 {
 	setTexture(Texture::create("crystal.png"));
+	setTag(TAG_CRYSTAL);
 }
 
 void CollectibleCrystal::onCollidedWithPlayer(Player* player)

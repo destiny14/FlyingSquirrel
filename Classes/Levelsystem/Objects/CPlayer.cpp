@@ -43,7 +43,7 @@ bool Player::init()
 	Shooter* shooter = Shooter::create(this->getTexture()->getFilename(), this->getParent());
 
 	m_health = 3;
-	m_nuts = 0;
+	m_nuts = 5;
 
 	m_counterDeath = 0;
 	m_counterToShoot = 0;
@@ -71,6 +71,11 @@ bool Player::init()
 
 	cs_flight = false;
 	cs_run = false;
+
+	m_a_jump = false;
+	m_a_doubleJump = false;
+	m_a_isFlying = false;
+	m_a_shooted = false;
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
@@ -574,6 +579,59 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
+	}
+
+	///////////
+	// AUDIO //
+	///////////
+
+	if (m_shooted && !m_a_shooted)
+	{
+		if (m_counterToShoot == m_countToShoot)
+		{
+			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
+			m_a_shooted = true;
+			m_a_jump = false;
+			m_a_doubleJump = false;
+			m_a_isFlying = false;
+		}
+	}
+	else if (m_jump && !m_a_jump)
+	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
+		m_a_shooted = false;
+		m_a_jump = true;
+		m_a_doubleJump = false;
+		m_a_isFlying = false;
+	}
+	else if (m_doubleJump && !m_a_doubleJump)
+	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
+		m_a_shooted = false;
+		m_a_jump = false;
+		m_a_doubleJump = true;
+		m_a_isFlying = false;
+	}
+	else if (m_isFlying && !m_a_isFlying)
+	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+		m_a_shooted = false;
+		m_a_jump = false;
+		m_a_doubleJump = false;
+		m_a_isFlying = true;
+	}
+	else
+	{
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		sound->stopAllEffects();
+		m_a_shooted = false;
+		m_a_jump = false;
+		m_a_doubleJump = false;
+		m_a_isFlying = false;
 	}
 
 	m_direction.x *= m_speed;

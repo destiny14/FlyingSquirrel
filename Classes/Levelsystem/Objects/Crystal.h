@@ -1,6 +1,8 @@
 #ifndef __CRYSTAL_H__
 #define __CRYSTAL_H__
 
+#define TAG_CRYSTAL 75669873
+
 #include "../../Collectible.h"
 
 class CollectibleCrystal : public Collectible

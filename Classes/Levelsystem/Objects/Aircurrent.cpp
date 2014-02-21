@@ -18,6 +18,7 @@ Aircurrent* Aircurrent::create(MainLayer* _layer, Point _dir, Size _size)
 		ret->addComponent(Collider::create(_size.width, _size.height));
 		ret->m_dir = _dir;
 		ret->m_pLayer = _layer;
+		ret->setTag(TAG_AIR);
 		return ret;
 	}
 

@@ -9,7 +9,7 @@
 
 #define ACTIVATEUI(A, B) UI::Get()->setUINode(A, B)
 #define DEACTIVATEUI UI::Get()->setUINode(nullptr, UI_NONE)
-#define UPDATEUI UI::Get()->update()
+#define UPDATEUI(A) UI::Get()->update(A)
 
 #define ACTIVATEBASEUI(A) ACTIVATEUI(A, UI_NONE);
 #define ACTIVATEMAINMENUUI(A) UI::Get()->pMainMenu = A; ACTIVATEUI(A, UI_MAINMENU);
@@ -41,7 +41,7 @@ public:
 	int levelType;
 
 	void setUINode(Node* _pNode, int _menu);
-	void update();
+	void update(float dt);
 	void nullCallback();
 private:
 	Node* m_pUINode;
@@ -69,6 +69,30 @@ private:
 	void createMainMenuUI();
 	void createIngameUI();
 	void createMuniLabel();
+
+	Animation* m_pStartFrames;
+	Animation* m_pIdleFrames;
+	Animation* m_pEndFrames;
+
+	Action* m_pStartAction;
+	Action* m_pIdleAction;
+	Action* m_pEndAction;
+
+	Vector<SpriteFrame*> frames;
+	String* filename;
+	SpriteFrame* frame;
+
+	SpriteFrameCache* m_pSpriteFrame;
+	SpriteBatchNode* m_pSpriteBatch;
+
+	Sprite* m_pAnimation;
+
+	bool m_mainMenuActive;
+
+	float m_timeElapsed;
+	float m_timeElapsedAll;
+	float m_timeToElapse;
+	int m_animations;
 };
 
 #endif//__UI_H__

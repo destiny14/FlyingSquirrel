@@ -9,6 +9,7 @@
 #include "Input.h"
 #include "Shooter.h"
 #include "Bullet.h"
+#include "SimpleAudioEngine.h"
 
 enum EMovement
 {
@@ -124,5 +125,14 @@ private:
 
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
+
+	///////////
+	// AUDIO //
+	///////////
+
+	bool m_a_jump;
+	bool m_a_doubleJump;
+	bool m_a_isFlying;
+	bool m_a_shooted;
 };
 #endif // !__PLAYER_H__
