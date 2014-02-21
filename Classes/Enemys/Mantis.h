@@ -32,7 +32,7 @@ protected:
 public:
 
 	int attackRange_Meele = 545;
-	int attackRange_Range = 280;
+	int attackRange_Range = 2000;
 	void update(float dt);
 	bool m_isAlive = true;
 	PlayerCollider* getPlayerColliderComponent();
