@@ -39,7 +39,7 @@ bool MainLayer::init()
 {
 	if (!LevelLayer::init())
 		return false;
-
+	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
@@ -84,7 +84,6 @@ bool MainLayer::init()
 		addChild(g->getSprite(), 1);
 	}
 	this->scheduleUpdate();
-
 	ACTIVATEINGAMEUI(this);
 
 	return true;
