@@ -306,6 +306,7 @@ void UI::createIngameUI()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Point::ZERO);
 	m_pIngame->addChild(menu, 1);
+	m_pIngame->addChild(m_pGameOver, 9999);
 }
 
 void UI::update()
