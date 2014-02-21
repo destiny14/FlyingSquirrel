@@ -3,6 +3,7 @@
 #include "MainLayer.h"
 #include "CommonMain.h"
 #include "Player.h"
+#include "Levelsystem\Objects\Crystal.h"
 
 UI::UI()
 {
@@ -250,7 +251,7 @@ void UI::createIngameUI()
 		m_pIngame->addChild(m_pPlayerLife[i], 2);
 	}
 
-	lastCrystal = 1;
+	lastCrystal = CollectibleCrystal::getCrystalCount();
 	m_pCrystals = new Sprite*[4];
 	for (int i = 0; i < 4; ++i)
 	{
@@ -305,6 +306,7 @@ void UI::createIngameUI()
 	auto menu = Menu::create(closeItem, NULL);
 	menu->setPosition(Point::ZERO);
 	m_pIngame->addChild(menu, 1);
+	m_pIngame->addChild(m_pGameOver, 9999);
 }
 
 void UI::update()
@@ -321,9 +323,9 @@ void UI::update()
 			m_pPlayerLife[i]->setVisible((lastLife - 1) == i);
 	}
 
-	if ((m_pPlayer != nullptr) && (lastCrystal != 1))
+	if ((m_pPlayer != nullptr) && (lastCrystal != CollectibleCrystal::getCrystalCount()))
 	{
-		lastCrystal = 1;
+		lastCrystal = CollectibleCrystal::getCrystalCount();
 		m_crystal->setVisible(lastCrystal > 0);
 		for (int i = 0; i < 4; ++i)
 			m_pCrystals[i]->setVisible((lastCrystal - 1) == i);

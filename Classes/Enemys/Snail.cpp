@@ -108,25 +108,25 @@ bool Snail::init()
 //----------Collider setzen----------//
 void Snail::setCollider(float width, float height)
 {
-	Sprite* sprite = getSprite();
-	Rect boundingBox = sprite->getBoundingBox();
+	//Sprite* sprite = getSprite();
+	//Rect boundingBox = sprite->getBoundingBox();
 
-	PlayerCollider* collider = PlayerCollider::create(width, height);
+	Collider* collider = Collider::create(width, height);
 	this->addComponent(collider);
 }
 //----------Collider abfragen---------//
-PlayerCollider* Snail::getPlayerColliderComponent()
-{
-	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
-}
+//PlayerCollider* Snail::getPlayerColliderComponent()
+//{
+//	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
+//}
 //----------GameLoop-----------//
 void Snail::update(float dt)
 {
 
-	this->getPlayerColliderComponent()->update(dt);
-	this->setAffectedByGravity(false);
-	Moveable::update(dt, true);
-	this->CheckForCollisions();
+	//this->getPlayerColliderComponent()->update(dt);
+	//this->setAffectedByGravity(false);
+	Moveable::update(dt, false);
+	//this->CheckForCollisions();
 
 	if (this->m_isAlive)
 	{
@@ -177,7 +177,7 @@ void Snail::moodWalk(float dt)
 	{
 		m_moveDirection.x = 0.0f;
 		m_timer = 3;
-		m_isAlive = false;
+		//m_isAlive = false;
 	}
 
 	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);

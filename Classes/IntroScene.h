@@ -17,9 +17,23 @@ public:
 	CREATE_FUNC(IntroScene);
 private:
 	Sprite* m_saeLogo;
+	Sprite* m_pCocosLogo;
+	Sprite* m_pBlack;
 	float m_timeElapsed;
 	float m_timeToElapse;
 	int m_page;
+
+	Sprite* m_pIntro;
+
+	Animation* m_pIntroFrames;
+	Action* m_pIntroAction;
+
+	Vector<SpriteFrame*> frames;
+	String* filename;
+	SpriteFrame* frame;
+
+	SpriteFrameCache* m_pSpriteFrame;
+	SpriteBatchNode* m_pSpriteBatch;
 };
 
 #endif // !__INTROSCENE_H__

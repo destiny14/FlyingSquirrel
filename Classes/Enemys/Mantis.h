@@ -68,9 +68,9 @@ private:
 	int playerPosX;
 	int mantisPosX;
 
-	bool m_topCollision;
-	bool m_bottomColWhileTopCol;
-	Ground* m_topCollisionGround;
+	//bool m_topCollision;
+	//bool m_bottomColWhileTopCol;
+	//Ground* m_topCollisionGround;
 };
 
 #endif // __MANTIS_H__

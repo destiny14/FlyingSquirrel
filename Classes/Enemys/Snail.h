@@ -29,7 +29,7 @@ public:
 	int attackRange = 180;
 	void update(float dt);
 	bool m_isAlive = true;
-	PlayerCollider* getPlayerColliderComponent();
+	//PlayerCollider* getPlayerColliderComponent();
 	static Snail* create(MainLayer* layer);
 
 private:
@@ -38,7 +38,7 @@ private:
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
-	PlayerCollider* m_pcollider;
+	//PlayerCollider* m_pcollider;
 
 	Action* m_pCrouchAction;
 	Action* m_pPunchAction;
@@ -65,9 +65,9 @@ private:
 	int playerPosX;
 	int snailPosX;
 
-	bool m_topCollision;
-	bool m_bottomColWhileTopCol;
-	Ground* m_topCollisionGround;
+	//bool m_topCollision;
+	//bool m_bottomColWhileTopCol;
+	//Ground* m_topCollisionGround;
 };
 
 #endif // __SNAIL_H__
