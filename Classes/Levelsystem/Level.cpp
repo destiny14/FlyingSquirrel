@@ -263,6 +263,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
 		}
 	}
 	//################################
@@ -279,6 +280,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
 		}
 	}
 	//################################
@@ -294,6 +296,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Mantis* crys = Mantis::create(mainlayer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
 		}
 	}
 	return l;
