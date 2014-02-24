@@ -126,9 +126,6 @@
     <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Collectible.cpp" />
-    <ClCompile Include="Classes\Levelsystem\Objects\PlayerSpawner.cpp" />
-    <ClCompile Include="Classes\Nut.cpp" />
     <ClCompile Include="Classes\IntroScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -140,6 +137,15 @@
     </ClCompile>
     <ClCompile Include="Classes\Levelsystem\Objects\Aircurrent.cpp">
       <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Collectible.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Nut.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Levelsystem\Objects\PlayerSpawner.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +182,6 @@
     <ClInclude Include="Classes\TestLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Input.h" />
-    <ClInclude Include="Classes\InputAction.h" />
-    <ClInclude Include="Classes\InputManager.h" />
     <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
       <Filter>Classes\Levelsystem</Filter>
     </ClInclude>
@@ -260,9 +263,6 @@
     <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
       <Filter>Classes\Levelsystem\Layers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Collectible.h" />
-    <ClInclude Include="Classes\Levelsystem\Objects\PlayerSpawner.h" />
-    <ClInclude Include="Classes\Nut.h" />
     <ClInclude Include="Classes\IntroScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -274,6 +274,24 @@
     </ClInclude>
     <ClInclude Include="Classes\Levelsystem\Objects\Aircurrent.h">
       <Filter>Classes\Levelsystem\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Collectible.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Input.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputAction.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Nut.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Levelsystem\Objects\PlayerSpawner.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
