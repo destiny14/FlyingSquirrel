@@ -1,5 +1,5 @@
 #include "Nut.h"
-#include "Levelsystem\Objects\Player.h"
+#include "Player.h"
 
 CollectibleNut::CollectibleNut(MainLayer* layer) : Collectible(layer)
 {}

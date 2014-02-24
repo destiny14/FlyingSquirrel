@@ -2,7 +2,7 @@
 #define __GROUND_H__
 
 #include "cocos2d.h"
-#include "..\Components\Collider.h"
+#include "Collider.h"
 #include "Texture.h"
 
 USING_NS_CC;

@@ -2,9 +2,9 @@
 #define __LEVEL_H__
 
 #include "cocos2d.h"
-#include "Objects\Texture.h"
-#include "Objects\PlayerSpawner.h"
-#include "Layers\Layers.h"
+#include "Texture.h"
+#include "PlayerSpawner.h"
+#include "Layers.h"
 #include "tinyxml2\tinyxml2.h"
 
 using namespace std;

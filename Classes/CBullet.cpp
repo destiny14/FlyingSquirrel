@@ -2,7 +2,7 @@
 #include "Moveable.h"
 #include "LevelLayer.h"
 #include "Bullet.h"
-#include "..\Components\Collider.h"
+#include "Collider.h"
 #include "Shooter.h"
 #include "SimpleAudioEngine.h"
 

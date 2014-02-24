@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "LevelLayer.h"
-#include "Objects\PlayerSpawner.h"
+#include "PlayerSpawner.h"
 
 
 class Player;

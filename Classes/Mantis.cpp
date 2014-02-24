@@ -1,5 +1,5 @@
 #include "Mantis.h"
-#include "Levelsystem\Objects\Player.h"
+#include "Player.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;

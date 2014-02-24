@@ -2,9 +2,9 @@
 #define _STORYSCENE_H_
 
 #include "cocos2d.h"
-#include "Levelsystem\ParallaxLayer.h"
+#include "ParallaxLayer.h"
 #include "GameCamera.h"
-#include "Levelsystem\Objects\Player.h"
+#include "Player.h"
 
 USING_NS_CC;
 

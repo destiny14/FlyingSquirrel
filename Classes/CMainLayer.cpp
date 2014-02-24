@@ -1,15 +1,15 @@
 #include "MainLayer.h"
 
-#include "Objects\Player.h"
-#include "..\GameCamera.h"
-#include "..\CommonMain.h"
-#include "Objects\Aircurrent.h"
-#include "..\UI.h"
-#include "..\InputManager.h"
+#include "Player.h"
+#include "GameCamera.h"
+#include "CommonMain.h"
+#include "Aircurrent.h"
+#include "UI.h"
+#include "InputManager.h"
 #include "ParallaxLayer.h"
-#include "..\Enemys\Mantis.h"
-#include "..\Enemys\SlimeHeap.h"
-#include "..\Enemys\Snail.h"
+#include "Mantis.h"
+#include "SlimeHeap.h"
+#include "Snail.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {

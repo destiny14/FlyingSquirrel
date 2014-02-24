@@ -4,11 +4,11 @@
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
-#include "Levelsystem\Objects\Shooter.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Levelsystem\Layers\MainLayer.h"
-#include "Components\PlayerCollider.h"
-#include "Levelsystem\Objects\Ground.h"
+#include "Shooter.h"
+#include "Player.h"
+#include "MainLayer.h"
+#include "PlayerCollider.h"
+#include "Ground.h"
 
 class Loewenzahn : public Shooter
 {

@@ -4,12 +4,12 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
-#include "..\Components\Collider.h"
-#include "Layers\MainLayer.h"
+#include "Collider.h"
+#include "MainLayer.h"
 #include "Shooter.h"
-#include "..\Enemys\Snail.h"
-#include "..\Enemys\SlimeHeap.h"
-#include "..\Enemys\Mantis.h"
+#include "Snail.h"
+#include "SlimeHeap.h"
+#include "Mantis.h"
 
 enum Bullettype
 {

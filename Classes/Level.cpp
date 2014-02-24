@@ -1,10 +1,10 @@
 #include "Level.h"
 #include "../Nut.h"
-#include "Objects\Crystal.h"
-#include "Objects\Aircurrent.h"
-#include "Enemys\Snail.h"
-#include "Enemys\SlimeHeap.h"
-#include "Enemys\Mantis.h"
+#include "Crystal.h"
+#include "Aircurrent.h"
+#include "Snail.h"
+#include "SlimeHeap.h"
+#include "Mantis.h"
 
 Level* Level::createFromFile(const char* filename)
 {

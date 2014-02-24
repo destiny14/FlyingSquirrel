@@ -2,7 +2,7 @@
 #include "Moveable.h"
 #include "LevelLayer.h"
 #include "Player.h"
-#include "..\Components\Collider.h"
+#include "Collider.h"
 
 Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager)
 {

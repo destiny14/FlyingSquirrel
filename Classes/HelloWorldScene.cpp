@@ -5,14 +5,14 @@
 #include "Ground.h"
 #include "Texture.h"
 #include "Moveable.h"
-#include "Levelsystem\Level.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Components\Collider.h"
+#include "Level.h"
+#include "Player.h"
+#include "Collider.h"
 #include <list>
 #include <iostream>
 #include <queue>
 #include "UI.h"
-#include "Levelsystem\ParallaxLayer.h"
+#include "ParallaxLayer.h"
 
 USING_NS_CC;
 

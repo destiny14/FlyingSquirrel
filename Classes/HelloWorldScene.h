@@ -6,9 +6,9 @@
 #include "Moveable.h"
 #include <queue>
 #include "cocos2d.h"
-#include "Levelsystem\LevelLayer.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Levelsystem\Layers\MainLayer.h"
+#include "LevelLayer.h"
+#include "Player.h"
+#include "MainLayer.h"
 #include "GameCamera.h"
 
 class HelloWorld : public MainLayer

@@ -1,23 +1,23 @@
-#ifndef __SLIMEHEAP_H__
-#define __SLIMEHEAP_H__
+#ifndef __SNAIL_H__
+#define __SNAIL_H__
 
-#define TAG_SLIMEHEAP 123456
+#define TAG_SNAIL 46745
 
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
-#include "Levelsystem\Objects\Shooter.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Levelsystem\Layers\MainLayer.h"
-#include "Components\PlayerCollider.h"
-#include "Levelsystem\Objects\Ground.h"
+#include "Shooter.h"
+#include "Player.h"
+#include "MainLayer.h"
+#include "PlayerCollider.h"
+#include "Ground.h"
 
-class SlimeHeap : public Shooter
+class Snail : public Shooter
 {
 protected:
 
-	SlimeHeap();
-	virtual ~SlimeHeap();
+	Snail();
+	virtual ~Snail();
 	bool init();
 	void setCollider(float width, float height);
 	void CheckForCollisions();
@@ -32,32 +32,35 @@ public:
 	int attackRange = 180;
 	void update(float dt);
 	//PlayerCollider* getPlayerColliderComponent();
-	static SlimeHeap* create(MainLayer* layer);
+	static Snail* create(MainLayer* layer);
 
 	float getTimer();
 	void setTimer(float seconds);
 
+
 private:
+	float m_timer = 3.0;
 
 	MainLayer* m_layer;
 	bool m_isAlive = true;
 	bool m_isDead = false;
-	float m_timer = 3.0;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
 	//PlayerCollider* m_pcollider;
 
-	Action* m_pWalkAction;
-	Action* m_pShootAction;
+	Action* m_pCrouchAction;
+	Action* m_pPunchAction;
+	Action* m_pPunch1Action;
+	Action* m_pPunch2Action;
+	Action* m_pDeathAction;
 	Action* m_pHitAction;
-	Action* m_pDeadAction;
 
-
-	Animation* m_pWalkFrames;
-	Animation* m_pShootFrames;
-	Animation* m_pDeadFrames;
-
+	Animation* m_pCrouchCycleFrames;
+	Animation* m_pPunch_1Frames;
+	Animation* m_pPunch_2Frames;
+	Animation* m_pDeathFrames;
+	Animation* m_pHitFrames;
 
 	Vector<SpriteFrame*> frames;
 	String* m_pSpriteString;
@@ -69,11 +72,11 @@ private:
 	Player* m_pPlayer = nullptr;
 
 	Point playerPos;
-	Point slimePos;
+	Point snailPos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;
 	//Ground* m_topCollisionGround;
 };
 
-#endif // __SLIMEHEAP_H__
+#endif // __SNAIL_H__

@@ -1,118 +1,111 @@
-#include "SlimeHeap.h"
-#include "Levelsystem\Objects\Player.h"
+#include "Snail.h"
+#include "Player.h"
 
 USING_NS_CC;
 
-SlimeHeap::SlimeHeap()
+Snail::Snail()
 {
 }
 
-SlimeHeap::~SlimeHeap()
+Snail::~Snail()
 {
-}
-
-float SlimeHeap::getTimer()
-{
-	return m_timer;
-}
-
-void SlimeHeap::setTimer(float seconds)
-{
-	m_timer = seconds;
 }
 //----------Create-----------//
-SlimeHeap* SlimeHeap::create(MainLayer* layer)
+Snail* Snail::create( MainLayer* layer)
 {
-	SlimeHeap* slimeHeap = new SlimeHeap();
+	Snail* snail = new Snail();
 
-
-	Texture* tex = Texture::create("slimeHeap.png");
-	slimeHeap->m_layer = layer;
+	snail->m_layer = layer;
+	Texture* tex = Texture::create("snail.png");
 
 	if (tex)
 	{
-		slimeHeap->setTexture(tex);
-		slimeHeap->setCollider(250.0f, 125.0f);
-		slimeHeap->setParent(layer);
-		slimeHeap->setTag(TAG_SLIMEHEAP);
-		slimeHeap->init();
+		snail->setTexture(tex);
+		snail->setCollider(350.0f, 120.0f);
+		snail->setParent(layer);
 
-		return slimeHeap;
+		snail->init();
+		snail->setTag(TAG_SNAIL);
+		return snail;
 	}
 
-	return nullptr;
+	return nullptr;	
 }
 //----------Init mit animationen etc---------//
-bool SlimeHeap::init()
+bool Snail::init()
 {
 	m_isAlive = true;
 
 	//-----Animationen-----//
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
-	m_pSpriteFrame->addSpriteFramesWithFile("slimeHeap.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("slimeHeap.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("snail.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("snail.png");
 
-	//-----Walk-----//		//--Tag_0--//
+	//-----Crouch_Cycle-----//		//--Tag_0--//
 
-	for (int i = 0; i < 81; i++)
+	for (int i = 0; i < 90; i++)
 	{
-		m_pSpriteString = String::createWithFormat("SlimeHeap_Walk(%i).png", i);
+		m_pSpriteString = String::createWithFormat("Snail_Crouchcycle(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
-	m_pWalkFrames = Animation::createWithSpriteFrames(frames, 0.015f);
-	m_pWalkFrames->retain();
+	m_pCrouchCycleFrames = Animation::createWithSpriteFrames(frames, 0.015f);
+	m_pCrouchCycleFrames->retain();
 	frames.clear();
 
 
+	//-----Punsh_1-----//		//--Tag_1--//
 
-
-	//-----Shoot-----//		//--Tag_1--//
-
-	for (int i = 0; i < 32; i++)
+	for (int i = 0; i < 85; i++)
 	{
-		m_pSpriteString = String::createWithFormat("SlimeHeap_Shoot(%i).png", i);
+		m_pSpriteString = String::createWithFormat("Snail_Punch_1(%i).png", i);
+		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+	for (int i = 0; i < 85; i++)
+	{
+		m_pSpriteString = String::createWithFormat("Snail_Punch_2(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
-	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.02f);
-	m_pShootAction = Animate::create(m_pShootFrames);
+	m_pPunch_1Frames = Animation::createWithSpriteFrames(frames, 0.02f);
+	m_pPunch1Action = Animate::create(m_pPunch_1Frames);
 
-	m_pShootFrames->retain();
+	m_pPunch_1Frames->retain();
 	frames.clear();
 
 
 	//-----Death-----//			//--Tag_2--//
 
-	for (int i = 0; i < 24; i++)
+	for (int i = 0; i < 25; i++)
 	{
-		m_pSpriteString = String::createWithFormat("SlimeHeap_Hit(%i).png", i);
+		m_pSpriteString = String::createWithFormat("Snail_Hit(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
-	for (int i = 0; i < 45; i++)
+	for (int i = 0; i < 58; i++)
 	{
-		m_pSpriteString = String::createWithFormat("SlimeHeap_Dead(%i).png", i);
+		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
 
-	m_pDeadFrames = Animation::createWithSpriteFrames(frames, 0.002f);
-	m_pDeadAction = Animate::create(m_pDeadFrames);
+	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.02f);
+	m_pDeathAction = Animate::create(m_pDeathFrames);
 
-	m_pDeadFrames->retain();
+	m_pDeathFrames->retain();
 	frames.clear();
 
 
 	return true;
 }
 //----------Collider setzen----------//
-void SlimeHeap::setCollider(float width, float height)
+void Snail::setCollider(float width, float height)
 {
 	//Sprite* sprite = getSprite();
 	//Rect boundingBox = sprite->getBoundingBox();
@@ -121,26 +114,26 @@ void SlimeHeap::setCollider(float width, float height)
 	this->addComponent(collider);
 }
 //----------Collider abfragen---------//
-//PlayerCollider* SlimeHeap::getPlayerColliderComponent()
+//PlayerCollider* Snail::getPlayerColliderComponent()
 //{
 //	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
 //}
 //----------GameLoop-----------//
-void SlimeHeap::update(float dt)
+void Snail::update(float dt)
 {
 	if (m_pPlayer == nullptr)
 	{
 		this->m_pPlayer = m_layer->getPlayer();
 		return;
 	}
-
+	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
 	Moveable::update(dt, false);
 	//this->CheckForCollisions();
 
 	if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 170)
+		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=170)
 	{
 		m_isAlive = false;
 	}
@@ -155,6 +148,7 @@ void SlimeHeap::update(float dt)
 		else
 		{
 			this->moodWalk(dt);
+
 		}
 
 	}
@@ -168,23 +162,22 @@ void SlimeHeap::update(float dt)
 	}
 }
 
-void SlimeHeap::killIt()
+void Snail::killIt()
 {
 	m_isAlive = false;
 }
-
 //----------Laufen mit animation----------//
-void SlimeHeap::moodWalk(float dt)
+void Snail::moodWalk(float dt)
 {
 
 	if (!this->getSprite()->getActionByTag(0))
 	{
 		this->getSprite()->stopAllActions();
-		m_pWalkAction = RepeatForever::create(Animate::create(m_pWalkFrames));
-		m_pWalkAction->setTag(0);
-		this->getSprite()->runAction(m_pWalkAction);
+		m_pCrouchAction = RepeatForever::create(Animate::create(m_pCrouchCycleFrames));
+		m_pCrouchAction->setTag(0);
+		this->getSprite()->runAction(m_pCrouchAction);
 	}
-
+	
 	if (m_timer >= 0)
 	{
 
@@ -209,16 +202,27 @@ void SlimeHeap::moodWalk(float dt)
 	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
 
 }
+
+float Snail::getTimer()
+{
+	return m_timer;
+}
+
+void Snail::setTimer(float seconds)
+{
+	m_timer = seconds;
+}
+
 //----------Attack (TODO wenn attack + collider = hit player)----------//
-void SlimeHeap::moodAttack(float dt)
+void Snail::moodAttack(float dt)
 {
 
 	if (!this->getSprite()->getActionByTag(1))
 	{
 		this->getSprite()->stopAllActions();
-		m_pShootAction = RepeatForever::create(Animate::create(m_pShootFrames));
-		m_pShootAction->setTag(1);
-		this->getSprite()->runAction(m_pShootAction);
+		m_pPunch1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
+		m_pPunch1Action->setTag(1);
+		this->getSprite()->runAction(m_pPunch1Action);
 
 		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
 			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
@@ -227,37 +231,34 @@ void SlimeHeap::moodAttack(float dt)
 			m_pPlayer->hit();
 		}
 	}
-
 }
-//---------Sterben (TODO SlimeHeap Löschen)----------//
-void SlimeHeap::moodDie(float dt)
+//---------Sterben (TODO Snail Löschen)----------//
+void Snail::moodDie(float dt)
 {
 	if (!this->getSprite()->getActionByTag(2))
 	{
 		this->getSprite()->stopAllActions();
-		m_pDeadAction = Repeat::create(Animate::create(m_pDeadFrames), 1);
-		m_pDeadAction->setTag(2);
-		this->getSprite()->runAction(m_pDeadAction);
+		m_pDeathAction = Repeat::create(Animate::create(m_pDeathFrames), 1);
+		m_pDeathAction->setTag(2);
+		this->getSprite()->runAction(m_pDeathAction);
 		m_isDead = true;
-
-
 	}
 
 }
 //----------Kann Enemy angreifen? ----------//
-bool SlimeHeap::canAttack()
+bool Snail::canAttack()
 {
 	playerPos = m_pPlayer->getPosition();
-	slimePos = this->getPosition();
+	snailPos = this->getPosition();
 
-	if (abs(attackRange) >= abs(ccpDistance(playerPos, slimePos)))
+	if (abs(attackRange) >= abs(ccpDistance(playerPos, snailPos)))
 	{
-		if (playerPos.x > slimePos.x)
+		if (playerPos.x > snailPos.x)
 		{
 			this->getSprite()->setScaleX(-1.0f);
 			return true;
 		}
-		if (playerPos.x < slimePos.x)
+		if (playerPos.x < snailPos.x)
 		{
 			this->getSprite()->setScaleX(1.0f);
 			return true;
@@ -265,9 +266,9 @@ bool SlimeHeap::canAttack()
 	}
 	return false;
 }
-//----------Collision TODO all!----------//
-//void SlimeHeap::CheckForCollisions()
+////----------Collision TODO all!----------//
+//void Snail::CheckForCollisions()
 //{
-//
+//	
 //}
 
