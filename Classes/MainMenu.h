@@ -22,6 +22,9 @@ private:
 	InputAction* m_pStartGame;
 	InputAction* m_pToggleUI;
 	InputAction* m_pReloadUI;
+
+	Sprite* m_pBackgroundSprite;
+
 	bool loadScene;
 	float t;
 

@@ -64,7 +64,7 @@ bool MainLayer::init()
 	//############################################################
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_pPlayer);
-	m_pCam->setBoundingRect(Rect(-2050.0f, 0.0f, 5505.0f, 4000.0f));
+	m_pCam->setBoundingRect(Rect(-2050.0f, -100.0f, 5505.0f, 6000.0f));
 	//############################################################
 	//## Init Level                                             ##
 	//############################################################

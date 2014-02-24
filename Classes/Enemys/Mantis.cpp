@@ -1,5 +1,6 @@
 #include "Mantis.h"
 #include "Levelsystem\Objects\Player.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -226,7 +227,11 @@ void Mantis::moodWalk(float dt)
 {
 	if (abs(attackRange_Range) >= ccpDistance(playerPos, mantisPos))
 	{
-
+		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		if (!sound->isBackgroundMusicPlaying())
+		{
+			sound->playBackgroundMusic("sounds/music/b02.wav", true);
+		}
 		if (!this->getSprite()->getActionByTag(1))
 		{
 			this->getSprite()->stopAllActions();
