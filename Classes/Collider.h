@@ -2,31 +2,50 @@
 #define __COLLIDER_H__
 
 #include "cocos2d.h"
+#include <list>
 
-USING_NS_CC;
-
-
-class Collider : public Component
+enum ColliderType
 {
-public:
-	Collider();
-	Collider(float x, float y);
-	virtual ~Collider();
-
-	virtual bool init();
-
-	virtual void onEnter();
-	virtual void onExit();
-
-	virtual void update(float dt);
-	virtual bool serialize(void* r);
-
-	void setCollisionRectangle(Rect collisionRectangle);
-	Rect getCollisionRectangle();
-
-	static Collider* create(float w, float h);
-private:
-	Rect m_collisionRectangle;
+	AABB,
+	COMPOUND,
+	CIRCLE
 };
 
-#endif // !__COLLIDER_H__
+class PhysicsObject;
+
+class Collider {
+public:
+	virtual void update() = 0;
+	virtual ColliderType getColliderType() = 0;
+	void setPhysicsObject(PhysicsObject* _obj) { m_obj = _obj; }
+	PhysicsObject* getPhysicsObject() { return m_obj; }
+	void setTag(int _tag) { m_tag = _tag; }
+	int getTag() { return m_tag; }
+private:
+	int m_tag = -1;
+	PhysicsObject* m_obj = nullptr;
+};
+
+class CompoundCollider : public Collider
+{
+public:
+	virtual void update() override;
+	virtual ColliderType getColliderType() override { return ColliderType::COMPOUND; }
+	void addCollider(Collider* _col);
+	void remCollider(Collider* _col);
+	std::list<Collider*>* getColliders();
+private:
+	std::list<Collider*> m_list;
+};
+
+class AABBCollider : public Collider
+{
+public:
+	virtual void update() override;
+	virtual ColliderType getColliderType() override { return ColliderType::AABB; }
+	void setBoundingRect(cocos2d::Rect _bounds) { m_bounds = _bounds; }
+	cocos2d::Rect getBoundingRect() { return m_bounds; }
+private:
+	cocos2d::Rect m_bounds;
+};
+#endif

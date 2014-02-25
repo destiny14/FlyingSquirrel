@@ -129,12 +129,6 @@
     <ClCompile Include="Classes\PlayerSpawner.cpp">
       <Filter>Classes\Level\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\CCollider.cpp">
-      <Filter>Classes\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\CPlayerCollider.cpp">
-      <Filter>Classes\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\Crystal.cpp">
       <Filter>Classes\Level\Objects</Filter>
     </ClCompile>
@@ -143,6 +137,18 @@
     </ClCompile>
     <ClCompile Include="Classes\LevelEditor.cpp">
       <Filter>Classes\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CompoundCollider.cpp">
+      <Filter>Classes\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\PhysicsObject.cpp">
+      <Filter>Classes\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\AABBCollider.cpp">
+      <Filter>Classes\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\PhysicsEngine.cpp">
+      <Filter>Classes\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +278,6 @@
     <ClInclude Include="Classes\Texture.h">
       <Filter>Classes\Level\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Collider.h">
-      <Filter>Classes\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\FirstVegetationLayer.h">
       <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
@@ -287,11 +290,20 @@
     <ClInclude Include="Classes\LevelLayer.h">
       <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\PlayerCollider.h">
-      <Filter>Classes\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Shooter.h">
       <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Collider.h">
+      <Filter>Classes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\PhysicsObject.h">
+      <Filter>Classes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\PhysicsEngine.h">
+      <Filter>Classes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Physic.h">
+      <Filter>Classes\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
