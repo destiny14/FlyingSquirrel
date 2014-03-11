@@ -58,7 +58,8 @@ bool MainLayer::init()
 	//############################################################
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
-	this->addChild(m_pPlayer->getSprite(), 1);
+	m_pPlayer->getSprite()->setZOrder(2000);
+	this->addChild(m_pPlayer->getSprite(), 20);
 	//############################################################
 	//## Init Camera                                            ##
 	//############################################################

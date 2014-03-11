@@ -45,6 +45,10 @@ bool IntroScene::init()
 	m_pSpriteFrame->addSpriteFramesWithFile("intro.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("intro.png");
 
+	m_pInput = new InputManager(this);
+	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_ESCAPE;
+	m_pSkip = m_pInput->createKeyboardAction(&code, 1, "skip");
+
 	for (int i = 0; i < 60; i++)
 	{
 		filename = String::createWithFormat("Intro%i.png", i);
@@ -63,6 +67,19 @@ bool IntroScene::init()
 void IntroScene::update(float dt)
 {
 	m_timeElapsed += dt;
+	m_pInput->update();
+	if (m_pSkip->isPressed())
+	{
+		glClearColor(0, 0, 0, 255);
+
+		auto menu = CMainMenu::createMainMenuScene();
+		Director::getInstance()->replaceScene(menu);
+		Director::getInstance()->setDepthTest(true);
+		/*
+		TransitionFade* fade = TransitionFade::create(1, menu);
+		Director::getInstance()->replaceScene(fade);
+		*/
+	}
 	if (m_timeElapsed >= m_timeToElapse)
 	{
 		m_timeElapsed = 0;

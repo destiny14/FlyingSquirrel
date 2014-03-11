@@ -2,6 +2,7 @@
 #define __INTROSCENE_H__
 
 #include "cocos2d.h"
+#include "InputManager.h"
 
 USING_NS_CC;
 
@@ -22,6 +23,9 @@ private:
 	float m_timeElapsed;
 	float m_timeToElapse;
 	int m_page;
+
+	InputManager* m_pInput;
+	InputAction* m_pSkip;
 
 	Sprite* m_pIntro;
 
