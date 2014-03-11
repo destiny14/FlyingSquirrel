@@ -23,17 +23,17 @@ bool CMainMenu::init()
 	if (!Layer::init())
         return false;
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+
 	loadScene = false;
 	t = 0.0f;
-
-	m_pBackgroundSprite = Sprite::create("baum.png");
-	m_pBackgroundSprite->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f,
-		Director::getInstance()->getVisibleSize().height * 0.5f);
 
 	initInput();
 	ACTIVATEMAINMENUUI(this);
 
-	this->addChild(m_pBackgroundSprite, -10);
+	m_pBackgroundSprite = Sprite::create("baum.png");
+	m_pBackgroundSprite->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	addChild(m_pBackgroundSprite);
 	this->scheduleUpdate();
 
 	return true;
@@ -56,7 +56,8 @@ void CMainMenu::update(float _dt)
 		t += _dt;
 		if (t >= 0.5f)
 		{
-			Director::getInstance()->replaceScene(StoryScene::createStoryScene());
+			Director::getInstance()->replaceScene(LevelTestScene::createScene());
+			//Director::getInstance()->replaceScene(StoryScene::createStoryScene());
 		}
 	}
 		
