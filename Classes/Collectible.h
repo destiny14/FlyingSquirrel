@@ -1,8 +1,8 @@
 #ifndef __COLLECTIBLE_H__
 #define __COLLECTIBLE_H__
 
-#include "Levelsystem\Objects\Ground.h"
-#include "Levelsystem\Layers\MainLayer.h"
+#include "Ground.h"
+#include "MainLayer.h"
 
 class Player;
 

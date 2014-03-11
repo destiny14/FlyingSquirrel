@@ -3,7 +3,7 @@
 #include "MainLayer.h"
 #include "CommonMain.h"
 #include "Player.h"
-#include "Levelsystem\Objects\Crystal.h"
+#include "Crystal.h"
 
 UI::UI()
 {

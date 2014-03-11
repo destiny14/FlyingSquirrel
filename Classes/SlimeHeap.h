@@ -1,55 +1,63 @@
-#ifndef __LOEWENZAHN_H__
-#define __LOEWENZAHN_H__
+#ifndef __SLIMEHEAP_H__
+#define __SLIMEHEAP_H__
+
+#define TAG_SLIMEHEAP 123456
 
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
-#include "Levelsystem\Objects\Shooter.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Levelsystem\Layers\MainLayer.h"
-#include "Components\PlayerCollider.h"
-#include "Levelsystem\Objects\Ground.h"
+#include "Shooter.h"
+#include "Player.h"
+#include "MainLayer.h"
+#include "PlayerCollider.h"
+#include "Ground.h"
 
-class Loewenzahn : public Shooter
+class SlimeHeap : public Shooter
 {
 protected:
 
-	Loewenzahn();
-	virtual ~Loewenzahn();
+	SlimeHeap();
+	virtual ~SlimeHeap();
 	bool init();
 	void setCollider(float width, float height);
 	void CheckForCollisions();
 	bool canAttack();
-	void moodIdle(float dt);
+	void moodWalk(float dt);
 	void moodAttack(float dt);
 	void moodDie(float dt);
 
 public:
 
-	int attackRange = 1500;
+	void killIt();
+	int attackRange = 180;
 	void update(float dt);
-	bool m_isAlive = true;
 	//PlayerCollider* getPlayerColliderComponent();
-	static Loewenzahn* create(MainLayer* layer);
+	static SlimeHeap* create(MainLayer* layer);
+
+	float getTimer();
+	void setTimer(float seconds);
 
 private:
 
+	MainLayer* m_layer;
+	bool m_isAlive = true;
+	bool m_isDead = false;
 	float m_timer = 3.0;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
 	//PlayerCollider* m_pcollider;
 
-	Action* m_pIdleAction;
+	Action* m_pWalkAction;
 	Action* m_pShootAction;
 	Action* m_pHitAction;
 	Action* m_pDeadAction;
 
 
-	Animation* m_pIdleFrames;
+	Animation* m_pWalkFrames;
 	Animation* m_pShootFrames;
-	Animation* m_pHitFrames;
 	Animation* m_pDeadFrames;
+
 
 	Vector<SpriteFrame*> frames;
 	String* m_pSpriteString;
@@ -58,14 +66,14 @@ private:
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
 
-	Player* m_pPlayer;
+	Player* m_pPlayer = nullptr;
 
 	Point playerPos;
-	Point loewenzahnPos;
+	Point slimePos;
 
 	//bool m_topCollision;
 	//bool m_bottomColWhileTopCol;
 	//Ground* m_topCollisionGround;
 };
 
-#endif // __LOEWENZAHN_H__
+#endif // __SLIMEHEAP_H__

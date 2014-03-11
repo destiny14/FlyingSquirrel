@@ -10,20 +10,20 @@
     <Filter Include="resource">
       <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Levelsystem">
-      <UniqueIdentifier>{a144a653-4252-4cc3-98aa-f47437e560ce}</UniqueIdentifier>
+    <Filter Include="Classes\Level">
+      <UniqueIdentifier>{993d88e8-8e1e-4cf8-98c3-b3213242945d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Levelsystem\Layers">
-      <UniqueIdentifier>{2bcfc6c7-7f40-4682-9e47-cbf61027dadf}</UniqueIdentifier>
+    <Filter Include="Classes\Level\Enemy">
+      <UniqueIdentifier>{d887cd3c-fde1-4b7a-9540-06d8aa2fec53}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Levelsystem\Objects">
-      <UniqueIdentifier>{7427cf51-1941-47f8-a18f-043edb1ef3ae}</UniqueIdentifier>
+    <Filter Include="Classes\Level\Layer">
+      <UniqueIdentifier>{765be216-9128-4720-b999-2feacd6bd53b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Components">
-      <UniqueIdentifier>{a43edabe-1630-4cff-940e-d4c4fa558fb3}</UniqueIdentifier>
+    <Filter Include="Classes\Level\Objects">
+      <UniqueIdentifier>{963c78ba-dde1-40a0-abf8-24686d8ea8ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Enemys">
-      <UniqueIdentifier>{75327be8-77d7-4c12-9c96-ed2a18d986c8}</UniqueIdentifier>
+    <Filter Include="Classes\Physics">
+      <UniqueIdentifier>{3aea1e60-867b-4eeb-bec4-e67feda8b995}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,47 +33,20 @@
     <ClCompile Include="WinStringHelp.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\CommandLineParameter.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\CommonMain.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\MainMenu.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Classes\CLogfile.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Level.cpp">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\TestLayer.cpp">
+    <ClCompile Include="Classes\CommandLineParameter.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CGround.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
+    <ClCompile Include="Classes\CommonMain.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CTexture.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\Ground.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CMoveable.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\CLevelLayer.cpp">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CPlayer.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Layers\CMainLayer.cpp">
-      <Filter>Classes\Levelsystem\Layers</Filter>
+    <ClCompile Include="Classes\GameCamera.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Classes\InputAction.cpp">
       <Filter>Classes</Filter>
@@ -81,65 +54,95 @@
     <ClCompile Include="Classes\InputManager.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\UI.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Components\CCollider.cpp">
-      <Filter>Classes\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Components\CPlayerCollider.cpp">
-      <Filter>Classes\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\Snail.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\Mantis.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\Loewenzahn.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\Worm.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\BadPolle.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Enemys\SlimeHeap.cpp">
-      <Filter>Classes\Enemys</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\LevelTestScene.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\LevelEditor.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\ParallaxLayer.cpp">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\GameCamera.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CBullet.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\CShooter.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Collectible.cpp" />
-    <ClCompile Include="Classes\Levelsystem\Objects\PlayerSpawner.cpp" />
-    <ClCompile Include="Classes\Nut.cpp" />
     <ClCompile Include="Classes\IntroScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\MainMenu.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Classes\StoryScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\Crystal.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
+    <ClCompile Include="Classes\UI.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Levelsystem\Objects\Aircurrent.cpp">
-      <Filter>Classes\Levelsystem\Objects</Filter>
+    <ClCompile Include="Classes\BadPolle.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Worm.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Snail.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\SlimeHeap.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Mantis.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Loewenzahn.cpp">
+      <Filter>Classes\Level\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\TestLayer.cpp">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\ParallaxLayer.cpp">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\LevelTestScene.cpp">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CMainLayer.cpp">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CLevelLayer.cpp">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Aircurrent.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CBullet.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CGround.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CMoveable.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Collectible.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CPlayer.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CShooter.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CTexture.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Nut.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\PlayerSpawner.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CCollider.cpp">
+      <Filter>Classes\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\CPlayerCollider.cpp">
+      <Filter>Classes\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Crystal.cpp">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Level.cpp">
+      <Filter>Classes\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\LevelEditor.cpp">
+      <Filter>Classes\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,10 +152,40 @@
     <ClInclude Include="WinStringHelp.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Input.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputAction.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\AppDelegate.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BaseScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
     <ClInclude Include="Classes\CommandLineParameter.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\CommonMain.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\GameCamera.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Input.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputAction.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\InputManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\IntroScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Logfile.h">
@@ -164,116 +197,101 @@
     <ClInclude Include="Classes\Singleton.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\AppDelegate.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\BaseScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Level.h">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\TestLayer.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Input.h" />
-    <ClInclude Include="Classes\InputAction.h" />
-    <ClInclude Include="Classes\InputManager.h" />
-    <ClInclude Include="Classes\Levelsystem\LevelLayer.h">
-      <Filter>Classes\Levelsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\FirstVegetationLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\GroundLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\SecondVegetationLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Texture.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Moveable.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Player.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Input.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\InputAction.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\InputManager.h">
+    <ClInclude Include="Classes\StoryScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="Classes\UI.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Components\Collider.h">
-      <Filter>Classes\Components</Filter>
+    <ClInclude Include="Classes\BadPolle.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Components\PlayerCollider.h">
-      <Filter>Classes\Components</Filter>
+    <ClInclude Include="Classes\Worm.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\Layers.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
+    <ClInclude Include="Classes\Snail.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\Snail.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\SlimeHeap.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\Mantis.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\Mantis.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\Loewenzahn.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\Loewenzahn.h">
+      <Filter>Classes\Level\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\Worm.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\TestLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\BadPolle.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\SecondVegetationLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Enemys\SlimeHeap.h">
-      <Filter>Classes\Enemys</Filter>
+    <ClInclude Include="Classes\ParallaxLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
     <ClInclude Include="Classes\LevelTestScene.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Level\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\GroundLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\MainLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Layers.h">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Aircurrent.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Bullet.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Collectible.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Crystal.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Ground.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Moveable.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Nut.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Player.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\PlayerSpawner.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Texture.h">
+      <Filter>Classes\Level\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Collider.h">
+      <Filter>Classes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\FirstVegetationLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Level.h">
+      <Filter>Classes\Level</Filter>
     </ClInclude>
     <ClInclude Include="Classes\LevelEditor.h">
-      <Filter>Classes</Filter>
+      <Filter>Classes\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\ParallaxLayer.h">
-      <Filter>Classes\Levelsystem</Filter>
+    <ClInclude Include="Classes\LevelLayer.h">
+      <Filter>Classes\Level\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\GameCamera.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="Classes\PlayerCollider.h">
+      <Filter>Classes\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Bullet.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Shooter.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Layers\MainLayer.h">
-      <Filter>Classes\Levelsystem\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Collectible.h" />
-    <ClInclude Include="Classes\Levelsystem\Objects\PlayerSpawner.h" />
-    <ClInclude Include="Classes\Nut.h" />
-    <ClInclude Include="Classes\IntroScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\StoryScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Crystal.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Levelsystem\Objects\Aircurrent.h">
-      <Filter>Classes\Levelsystem\Objects</Filter>
+    <ClInclude Include="Classes\Shooter.h">
+      <Filter>Classes\Level\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

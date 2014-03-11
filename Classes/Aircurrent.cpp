@@ -1,6 +1,6 @@
 #include "Aircurrent.h"
-#include "../Layers/MainLayer.h"
-#include "../Components/PlayerCollider.h"
+#include "MainLayer.h"
+#include "PlayerCollider.h"
 #include "Player.h"
 
 Aircurrent::Aircurrent()

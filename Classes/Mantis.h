@@ -6,12 +6,12 @@
 #include "cocos2d.h"
 #include "Moveable.h"
 #include <vector>
-#include "Levelsystem\Objects\Shooter.h"
-#include "Levelsystem\Objects\Player.h"
-#include "Levelsystem\Layers\MainLayer.h"
-#include "Components\PlayerCollider.h"
-#include "Levelsystem\Objects\Ground.h"
-#include "..\Enemys\Mantis.h"
+#include "Shooter.h"
+#include "Player.h"
+#include "MainLayer.h"
+#include "PlayerCollider.h"
+#include "Ground.h"
+#include "Mantis.h"
 
 
 class Mantis : public Shooter
@@ -32,7 +32,7 @@ protected:
 public:
 
 	int attackRange_Meele = 545;
-	int attackRange_Range = 280;
+	int attackRange_Range = 2000;
 	void update(float dt);
 	bool m_isAlive = true;
 	PlayerCollider* getPlayerColliderComponent();
@@ -72,7 +72,7 @@ private:
 	SpriteFrameCache* m_pSpriteFrame;
 	SpriteBatchNode* m_pSpriteBatch;
 
-	Player* m_pPlayer;
+	Player* m_pPlayer = nullptr;
 
 	Point playerPos;
 	Point mantisPos;

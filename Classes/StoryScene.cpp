@@ -159,7 +159,6 @@ bool StoryScene::init()
 	m_timeToElapse = 6;
 	m_page = 1;
 	this->scheduleUpdate();
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/B01.wav", true);
 	return true;
 }
 
@@ -183,7 +182,6 @@ void StoryScene::update(float dt)
 		}
 		else if (m_page == 8)
 		{
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/i.wav", true);
 			auto inAction = FadeIn::create(1);
 			m_oldWiseSprite->runAction(inAction);
 			m_timeToElapse = 2;

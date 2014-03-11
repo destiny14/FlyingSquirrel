@@ -1,13 +1,13 @@
 #include "LevelEditor.h"
 #include "UI.h"
-#include "Levelsystem\Objects\Texture.h"
+#include "Texture.h"
 #include "InputManager.h"
-#include "Levelsystem\Objects\Ground.h"
+#include "Ground.h"
 #include <math.h>
 #include "MainMenu.h"
 #include "Nut.h"
-#include "Levelsystem\Objects\Crystal.h"
-#include "Levelsystem\Objects\Aircurrent.h"
+#include "Crystal.h"
+#include "Aircurrent.h"
 
 Scene* LevelEditor::createScene(char* filename)
 {

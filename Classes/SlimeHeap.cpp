@@ -1,5 +1,5 @@
 #include "SlimeHeap.h"
-#include "Levelsystem\Objects\Player.h"
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -131,7 +131,7 @@ void SlimeHeap::update(float dt)
 	if (m_pPlayer == nullptr)
 	{
 		this->m_pPlayer = m_layer->getPlayer();
-
+		return;
 	}
 
 	//this->getPlayerColliderComponent()->update(dt);

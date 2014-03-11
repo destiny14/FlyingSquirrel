@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "LevelLayer.h"
-#include "Objects\PlayerSpawner.h"
+#include "PlayerSpawner.h"
 
 
 class Player;
@@ -50,7 +50,7 @@ private:
 	GameCamera* m_pCam;
 	InputManager* m_pInput;
 	InputAction* m_pLSD;
-	Player* m_pPlayer;
+	Player* m_pPlayer = nullptr;
 	list<Ground*>* m_physicObjects;
 	MouseInputAction* _test;
 

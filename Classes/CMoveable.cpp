@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "Moveable.h"
 #include "LevelLayer.h"
-#include "..\Components\Collider.h"
+#include "Collider.h"
 #include "Bullet.h"
 #include <list>
 

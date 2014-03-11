@@ -2,8 +2,8 @@
 #define __LEVELTESTSCENE_H__
 
 #include "cocos2d.h"
-#include "Levelsystem\Layers\MainLayer.h"
-#include "Levelsystem\Level.h"
+#include "MainLayer.h"
+#include "Level.h"
 
 class LevelTestScene : public cocos2d::Layer
 {

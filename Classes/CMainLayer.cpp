@@ -1,15 +1,15 @@
 #include "MainLayer.h"
 
-#include "Objects\Player.h"
-#include "..\GameCamera.h"
-#include "..\CommonMain.h"
-#include "Objects\Aircurrent.h"
-#include "..\UI.h"
-#include "..\InputManager.h"
+#include "Player.h"
+#include "GameCamera.h"
+#include "CommonMain.h"
+#include "Aircurrent.h"
+#include "UI.h"
+#include "InputManager.h"
 #include "ParallaxLayer.h"
-#include "..\Enemys\Mantis.h"
-#include "..\Enemys\SlimeHeap.h"
-#include "..\Enemys\Snail.h"
+#include "Mantis.h"
+#include "SlimeHeap.h"
+#include "Snail.h"
 
 MainLayer::MainLayer() : LevelLayer()
 {
@@ -58,13 +58,14 @@ bool MainLayer::init()
 	//############################################################
 	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
-	this->addChild(m_pPlayer->getSprite(), 1);
+	m_pPlayer->getSprite()->setZOrder(2000);
+	this->addChild(m_pPlayer->getSprite(), 20);
 	//############################################################
 	//## Init Camera                                            ##
 	//############################################################
 	m_pCam = new GameCamera(this);
 	m_pCam->setFollowTarget(m_pPlayer);
-	m_pCam->setBoundingRect(Rect(-2050.0f, 0.0f, 5505.0f, 4000.0f));
+	m_pCam->setBoundingRect(Rect(-2050.0f, -100.0f, 5505.0f, 6000.0f));
 	//############################################################
 	//## Init Level                                             ##
 	//############################################################

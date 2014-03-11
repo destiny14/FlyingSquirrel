@@ -1,7 +1,10 @@
 #include "Level.h"
 #include "../Nut.h"
-#include "Objects\Crystal.h"
-#include "Objects\Aircurrent.h"
+#include "Crystal.h"
+#include "Aircurrent.h"
+#include "Snail.h"
+#include "SlimeHeap.h"
+#include "Mantis.h"
 
 Level* Level::createFromFile(const char* filename)
 {
@@ -52,6 +55,9 @@ void Level::SaveLevel()
 	tinyxml2::XMLElement* nutsElement = doc.NewElement("Nuts");
 	tinyxml2::XMLElement* crysElement = doc.NewElement("Crystals");
 	tinyxml2::XMLElement* airsElement = doc.NewElement("Airs");
+	tinyxml2::XMLElement* snailsElement = doc.NewElement("Snails");
+	tinyxml2::XMLElement* slimeElement = doc.NewElement("Slimes");
+	tinyxml2::XMLElement* mantisElement = doc.NewElement("Mantis");
 
 	for (Node* node : mainLayer->getChildren())
 	{
@@ -85,6 +91,34 @@ void Level::SaveLevel()
 					airsElement->InsertEndChild(air);
 				}
 				break;
+			case TAG_SNAIL:
+				{
+					tinyxml2::XMLElement* air = doc.NewElement("Snail");
+					Snail* sn = dynamic_cast<Snail*>(node);
+					air->SetAttribute("timer", sn->getTimer());
+					air->SetAttribute("x", node->getPositionX());
+					air->SetAttribute("y", node->getPositionY());
+					snailsElement->InsertEndChild(air);
+				}
+				break;
+			case TAG_MANTIS:
+				{
+					  tinyxml2::XMLElement* air = doc.NewElement("Mantis");
+					  air->SetAttribute("x", node->getPositionX());
+					  air->SetAttribute("y", node->getPositionY());
+					  mantisElement->InsertEndChild(air);
+				}
+				break;
+			case TAG_SLIMEHEAP:
+				{
+					  tinyxml2::XMLElement* air = doc.NewElement("Slime");
+					  SlimeHeap* sn = dynamic_cast<SlimeHeap*>(node);
+					  air->SetAttribute("timer", sn->getTimer());
+					  air->SetAttribute("x", node->getPositionX());
+					  air->SetAttribute("y", node->getPositionY());
+					  slimeElement->InsertEndChild(air);
+				}
+				break;
 			default:
 				break;
 		}
@@ -95,6 +129,9 @@ void Level::SaveLevel()
 	mainLayerElement->InsertEndChild(nutsElement);
 	mainLayerElement->InsertEndChild(crysElement);
 	mainLayerElement->InsertEndChild(airsElement);
+	mainLayerElement->InsertEndChild(snailsElement);
+	mainLayerElement->InsertEndChild(mantisElement);
+	mainLayerElement->InsertEndChild(slimeElement);
 	baseElement->InsertEndChild(mainLayerElement);
 	doc.InsertFirstChild(baseElement);
 	doc.SaveFile(getName());
@@ -163,7 +200,6 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		mainlayer->setPlayerSpawner(ps);
 	}
 
-
 	if (!levelEditor)
 		mainlayer->init();
 	else
@@ -180,7 +216,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			CollectibleNut* nut = CollectibleNut::create(mainlayer);
 			nut->setPosition(pos);
-			mainlayer->addChild(nut, 10);
+			mainlayer->addChild(nut, 0);
 		}
 	}
 	//################################
@@ -210,7 +246,57 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			CollectibleCrystal* crys = CollectibleCrystal::create(mainlayer);
 			crys->setPosition(pos);
-			mainlayer->addChild(crys, 10);
+			mainlayer->addChild(crys, 0);
+		}
+	}
+	//################################
+	//### Snails				   ###
+	//################################
+	tinyxml2::XMLElement* snailsElement = mainLayerElement->FirstChildElement("Snails");
+	if (snailsElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = snailsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			float timer = child->FloatAttribute("timer");
+			Snail* crys = Snail::create(mainlayer);
+			crys->setTimer(timer);
+			crys->setPosition(pos);
+			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
+		}
+	}
+	//################################
+	//### Slimes				   ###
+	//################################
+	tinyxml2::XMLElement* slimeElement = mainLayerElement->FirstChildElement("Slimes");
+	if (slimeElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = slimeElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			float timer = child->FloatAttribute("timer");
+			SlimeHeap* crys = SlimeHeap::create(mainlayer);
+			crys->setTimer(timer);
+			crys->setPosition(pos);
+			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
+		}
+	}
+	//################################
+	//### Mantis				   ###
+	//################################
+	tinyxml2::XMLElement* mantisElement = mainLayerElement->FirstChildElement("Mantis");
+	if (mantisElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = mantisElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			float timer = child->FloatAttribute("timer");
+			Mantis* crys = Mantis::create(mainlayer);
+			crys->setPosition(pos);
+			mainlayer->addChild(crys->getSprite(), 0);
+			mainlayer->addChild(crys, 0);
 		}
 	}
 	return l;
