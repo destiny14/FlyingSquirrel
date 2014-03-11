@@ -9,17 +9,15 @@
 #include "Shooter.h"
 #include "Player.h"
 #include "MainLayer.h"
-#include "PlayerCollider.h"
 #include "Ground.h"
 
 class Snail : public Shooter
 {
 protected:
 
-	Snail();
+	Snail(PhysicsEngine* _pEn);
 	virtual ~Snail();
 	bool init();
-	void setCollider(float width, float height);
 	void CheckForCollisions();
 	bool canAttack();
 	void moodWalk(float dt);
@@ -31,8 +29,7 @@ public:
 	void killIt();
 	int attackRange = 180;
 	void update(float dt);
-	//PlayerCollider* getPlayerColliderComponent();
-	static Snail* create(MainLayer* layer);
+	static Snail* create(PhysicsEngine* _pEn, MainLayer* layer);
 
 	float getTimer();
 	void setTimer(float seconds);
@@ -47,7 +44,6 @@ private:
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
-	//PlayerCollider* m_pcollider;
 
 	Action* m_pCrouchAction;
 	Action* m_pPunchAction;

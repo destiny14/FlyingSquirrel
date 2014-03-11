@@ -1,12 +1,13 @@
 #include "cocos2d.h"
 #include "Moveable.h"
 #include "LevelLayer.h"
+#include "MainLayer.h"
 #include "Player.h"
 #include "Collider.h"
 
-Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager)
+Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, InputManager* pManager)
 {
-	Player* player = new Player();
+	Player* player = new Player(_pEn);
 
 	EventKeyboard::KeyCode keysForward[] = { EventKeyboard::KeyCode::KEY_D, EventKeyboard::KeyCode::KEY_RIGHT_ARROW };
 	EventKeyboard::KeyCode keysBackward[] = { EventKeyboard::KeyCode::KEY_A, EventKeyboard::KeyCode::KEY_LEFT_ARROW };
@@ -23,9 +24,8 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	if (tex)
 	{
 		player->setTexture(tex);
-		player->setCollider();
+		player->setSize(160.0f, 250.0f);
 		player->setParent(parent);
-		player->setGround(false);
 
 		player->init();
 
@@ -34,13 +34,13 @@ Player* Player::create(char* filename, MainLayer* parent, InputManager* pManager
 	return nullptr;
 }
 
-Player::Player() {}
+Player::Player(PhysicsEngine* _pEn) : Shooter(_pEn) {}
 
 Player::~Player() {}
 
 bool Player::init()
 {
-	Shooter* shooter = Shooter::create(this->getTexture()->getFilename(), this->getParent());
+	Shooter* shooter = Shooter::create(this->getPhysicsEngine(), this->getTexture()->getFilename(), this->getParentLayer());
 
 	m_health = 3;
 	m_nuts = 5;
@@ -253,20 +253,6 @@ bool Player::init()
 	return true;
 }
 
-void Player::setCollider()
-{
-	Sprite* sprite = getSprite();
-	Rect boundingBox = sprite->getBoundingBox();
-
-	PlayerCollider* collider = PlayerCollider::create(160.0f, 250.0f);
-	this->addComponent(collider);
-}
-
-PlayerCollider* Player::getPlayerColliderComponent()
-{
-	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
-}
-
 void Player::update(float dt)
 {
 	if (m_pForward->wasPressed())
@@ -288,24 +274,23 @@ void Player::update(float dt)
 		m_movement = None;
 		return;
 	}
-	PlayerCollider* p = getPlayerColliderComponent();
-	if (p != nullptr)
-		p->update(dt);
-	Shooter::update(dt, true);
+
+	Shooter::update(dt);
 	
 	m_direction.x = 0.0f;
-	setVelocityX(0.0f);
+	velocity.x = 0.0f;
 
 	////////////////////////////////
 	// Tod - Bewegung - SPIELENDE //
 	////////////////////////////////
 	if (m_health > 0)
 	{
-		CheckForCollisions();
+		
 	}
 	else if (m_health <= 0 && !m_isDead)
 	{
-		addVelocity((-750.0f * this->getScaleX()), -300.0f);
+		velocity.x += -750.0f * this->getScaleX();
+		velocity.y += -300.0f;
 		if (m_counterDeath == 0)
 		{
 			this->getSprite()->stopAllActions();
@@ -322,13 +307,13 @@ void Player::update(float dt)
 	}
 	else if (m_health <= 0 && m_isDead)
 	{
-		addVelocity(0.0f, -500.0f);
+		velocity.y += -500.0f;
 		return;
 	}
 	/////////////////////////
 	// Schießen - Bewegung //
 	/////////////////////////
-	if (m_pShoot->wasPressed() && m_nuts > 0 && this->getGrounded())
+	if (m_pShoot->wasPressed() && m_nuts > 0 && this->isGrounded())
 	{
 		this->getSprite()->stopAllActions();
 		m_pShootAction = Repeat::create(Animate::create(m_pShootFrames), 1);
@@ -339,7 +324,7 @@ void Player::update(float dt)
 		m_noNuts = false;
 		m_shooted = true;
 	}
-	else if (m_pShoot->wasPressed() && m_nuts > 0 && !this->getGrounded() && m_jump)
+	else if (m_pShoot->wasPressed() && m_nuts > 0 && !this->isGrounded() && m_jump)
 	{
 		this->getSprite()->stopAllActions();
 		m_pJumpShootAction = Repeat::create(Animate::create(m_pJumpShootFrames), 1);
@@ -350,7 +335,7 @@ void Player::update(float dt)
 		m_noNuts = false;
 		m_shooted = true;
 	}
-	else if (m_pShoot->wasPressed() && !this->getSprite()->getActionByTag(11) && this->getGrounded() && !m_shooted)
+	else if (m_pShoot->wasPressed() && !this->getSprite()->getActionByTag(11) && this->isGrounded() && !m_shooted)
 	{
 		this->getSprite()->stopAllActions();
 		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
@@ -368,7 +353,7 @@ void Player::update(float dt)
 		{
 			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
-			Bullet* nut = Bullet::createNut(this, this->getParent(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+			Bullet* nut = Bullet::createNut(this, this->getParentLayer(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
 			m_shooted = false;
@@ -386,7 +371,7 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_pForward->isPressed() && m_pBackward->isPressed())
 	{
-		if (!this->getSprite()->getActionByTag(11) && this->getGrounded())
+		if (!this->getSprite()->getActionByTag(11) && this->isGrounded())
 		{
 		this->getSprite()->stopAllActions();
 		m_pDontKnowDirectionAction = Repeat::create(Animate::create(m_pDontKnowDirectionFrames), 1);
@@ -401,7 +386,7 @@ void Player::update(float dt)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->stopAllEffects();
-		if (!this->getSprite()->getActionByTag(0) && this->getGrounded())
+		if (!this->getSprite()->getActionByTag(0) && this->isGrounded())
 		{
 			this->getSprite()->stopAllActions();
 			m_pStandAction = RepeatForever::create(Animate::create(m_pStandFrames));
@@ -412,13 +397,13 @@ void Player::update(float dt)
 	/////////////////////////
 	// Springen - Bewegung //
 	/////////////////////////
-	if (m_pJump->wasPressed() && this->getGrounded())
+	if (m_pJump->wasPressed() && this->isGrounded())
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		addVelocity(0.0f, 600.0f);
-		setPositionY(getPositionY() + 0.01);
-		this->setGrounded(false);
+		velocity.y += 600.0f;
+		//setPositionY(getPositionY() + 0.01);
+		//this->setGrounded(false);
 		m_jump = true;
 		if (!this->getSprite()->getActionByTag(2))
 		{
@@ -431,7 +416,7 @@ void Player::update(float dt)
 	///////////////////////
 	// Landen - Bewegung //
 	///////////////////////
-	else if (m_pJump->wasReleased() && m_isFlying || this->getGrounded() && m_jump || this->getGrounded() && m_readyToFall)
+	else if (m_pJump->wasReleased() && m_isFlying || this->isGrounded() && m_jump || this->isGrounded() && m_readyToFall)
 	{
 		this->getSprite()->stopAllActions();
 		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
@@ -450,11 +435,11 @@ void Player::update(float dt)
 	/////////////////////////////
 	// Doppelsprung - Bewegung //
 	/////////////////////////////
-	else if (m_pJump->wasPressed() && !(this->getGrounded()) && !m_doubleJump && m_jump)
+	else if (m_pJump->wasPressed() && !(this->isGrounded()) && !m_doubleJump && m_jump)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
-		addVelocity(0.0f, 400.0f);
+		velocity.y += 400.0f;
 		m_doubleJump = true;
 		m_readyToFly = false;
 		if (!this->getSprite()->getActionByTag(13))
@@ -495,7 +480,8 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
+		velocity.x += 400.0f * this->getSprite()->getScaleX();
+		velocity.y += 2.0f;
 	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
@@ -519,7 +505,7 @@ void Player::update(float dt)
 	{
 		m_direction.x = -1.0f;
 
-		if (!this->getSprite()->getActionByTag(1) && this->getGrounded())
+		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
 			this->getSprite()->stopAllActions();
 			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
@@ -531,7 +517,7 @@ void Player::update(float dt)
 	////////////////////////
 	// Cutscene - Trigger //
 	////////////////////////
-	if (cs_flight && this->getGrounded())
+	if (cs_flight && this->isGrounded())
 	{
 		cs_flight = false;
 		cs_run = true;
@@ -543,7 +529,7 @@ void Player::update(float dt)
 	{
 		m_direction.x += 1.0f;
 
-		if (!this->getSprite()->getActionByTag(1) && this->getGrounded())
+		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
 			this->getSprite()->stopAllActions();
 			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
@@ -558,7 +544,7 @@ void Player::update(float dt)
 
 	auto flySound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 
-	if (!this->getGrounded() && !m_jump && !m_readyToFall)
+	if (!this->isGrounded() && !m_jump && !m_readyToFall)
 	{
 		if (!this->getSprite()->getActionByTag(8))
 		{
@@ -577,7 +563,7 @@ void Player::update(float dt)
 			m_counterToFall++;
 		}
 	}
-	else if (!this->getSprite()->getActionByTag(9) && !this->getGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
+	else if (!this->getSprite()->getActionByTag(9) && !this->isGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		if (!sound->isBackgroundMusicPlaying())
@@ -590,7 +576,7 @@ void Player::update(float dt)
 		m_pFallAction->setTag(9);
 		this->getSprite()->runAction(m_pFallAction);
 	}
-	else if (m_pJump->isPressed() && !this->getGrounded() && m_readyToFall && !m_rescueFly)
+	else if (m_pJump->isPressed() && !this->isGrounded() && m_readyToFall && !m_rescueFly)
 	{
 		if (!this->getSprite()->getActionByTag(10))
 		{
@@ -613,7 +599,7 @@ void Player::update(float dt)
 			m_counterToRescueFly++;
 		}
 	}
-	else if (m_pJump->isPressed() && !this->getGrounded() && m_rescueFly)
+	else if (m_pJump->isPressed() && !this->isGrounded() && m_rescueFly)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
@@ -629,117 +615,118 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		addVelocity((400.0f * this->getSprite()->getScaleX()), 2.0f);
+		velocity.x += 400.0f * this->getSprite()->getScaleX();
+		velocity.y += 2.0f;
 	}
 
 	m_direction.x *= m_speed;
 	this->setPosition(this->getPosition() + m_direction);
 }
-
-void Player::CheckForCollisions()
-{
-	bool collided = false;
-	setGrounded(false);
-	list<Ground*>* physObj = getParent()->getPhysicsObjects();
-	for (Ground* g : *physObj)
-	{
-		if (g->getGround() == true)
-		{			
-			bool hack = false;
-			Collider* c = g->getColliderComponent();
-			
-			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()) && !g->getWall())
-			{
-				if (m_topCollisionGround != nullptr)
-				{
-					m_topCollisionGround == nullptr;
-				}
-				else
-				{
-					if (m_bottomColWhileTopCol == false)
-					{
-						m_topCollision = true;
-						m_topCollisionGround = g;
-					}
-				}
-				collided = true;
-			}
-			else
-			{
-				Collider* topc = nullptr;
-				if (m_topCollisionGround != nullptr)
-					topc = m_topCollisionGround->getColliderComponent();
-				
-				if (m_topCollision == false && m_topCollisionGround == nullptr)
-				{
-					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
-					{
-						collided = true;
-						hack = true;
-						// kollision (boden)
-						setGrounded(true);
-						setPositionY(getPositionY() + 0.01f);
-						getPlayerColliderComponent()->update(0.0f);
-
-					}
-				}
-				else if (m_topCollision && c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
-				{
-					collided = true;
-					m_bottomColWhileTopCol = true;
-				}
-				if (m_bottomColWhileTopCol == true)
-				{
-					if (topc != nullptr)
-					{
-						if (!topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
-						{
-							m_bottomColWhileTopCol = false;
-							m_topCollision = false;
-							collided = true;
-						}
-					}
-				}
-				if (hack)
-				{
-						setPositionY(getPositionY() - 0.01f);
-						getPlayerColliderComponent()->update(0.0f);
-				}
-				if (g->getWall() == false && m_topCollision == false && m_topCollisionGround == nullptr)
-				{
-					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
-					{
-						setPositionX(getPositionX() + 0.01f);
-						getPlayerColliderComponent()->update(0.0f);
-						collided = true;
-					}
-					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
-					{
-						//Collision right wand
-						setPositionX(getPositionX() - 0.01f);
-						getPlayerColliderComponent()->update(0.0f);
-						collided = true;
-					}
-				}
-				if (topc != nullptr)
-				{
-					if (topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()) &&
-						topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
-					{
-						m_topCollision = true;
-						collided = true;
-					}
-				}
-			}
-		}
-		if (!collided)
-		{
-			m_bottomColWhileTopCol = false;
-			m_topCollision = false;
-			m_topCollisionGround = nullptr;
-		}
-	}
-}
+//
+//void Player::CheckForCollisions()
+//{
+//	bool collided = false;
+//	setGrounded(false);
+//	list<Ground*>* physObj = getParent()->getPhysicsObjects();
+//	for (Ground* g : *physObj)
+//	{
+//		if (g->getGround() == true)
+//		{			
+//			bool hack = false;
+//			Collider* c = g->getColliderComponent();
+//			
+//			if (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getTopCollider()) && !g->getWall())
+//			{
+//				if (m_topCollisionGround != nullptr)
+//				{
+//					m_topCollisionGround == nullptr;
+//				}
+//				else
+//				{
+//					if (m_bottomColWhileTopCol == false)
+//					{
+//						m_topCollision = true;
+//						m_topCollisionGround = g;
+//					}
+//				}
+//				collided = true;
+//			}
+//			else
+//			{
+//				Collider* topc = nullptr;
+//				if (m_topCollisionGround != nullptr)
+//					topc = m_topCollisionGround->getColliderComponent();
+//				
+//				if (m_topCollision == false && m_topCollisionGround == nullptr)
+//				{
+//					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+//					{
+//						collided = true;
+//						hack = true;
+//						// kollision (boden)
+//						setGrounded(true);
+//						setPositionY(getPositionY() + 0.01f);
+//						getPlayerColliderComponent()->update(0.0f);
+//
+//					}
+//				}
+//				else if (m_topCollision && c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+//				{
+//					collided = true;
+//					m_bottomColWhileTopCol = true;
+//				}
+//				if (m_bottomColWhileTopCol == true)
+//				{
+//					if (topc != nullptr)
+//					{
+//						if (!topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getBottomCollider()))
+//						{
+//							m_bottomColWhileTopCol = false;
+//							m_topCollision = false;
+//							collided = true;
+//						}
+//					}
+//				}
+//				if (hack)
+//				{
+//						setPositionY(getPositionY() - 0.01f);
+//						getPlayerColliderComponent()->update(0.0f);
+//				}
+//				if (g->getWall() == false && m_topCollision == false && m_topCollisionGround == nullptr)
+//				{
+//					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()))
+//					{
+//						setPositionX(getPositionX() + 0.01f);
+//						getPlayerColliderComponent()->update(0.0f);
+//						collided = true;
+//					}
+//					while (c->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+//					{
+//						//Collision right wand
+//						setPositionX(getPositionX() - 0.01f);
+//						getPlayerColliderComponent()->update(0.0f);
+//						collided = true;
+//					}
+//				}
+//				if (topc != nullptr)
+//				{
+//					if (topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getLeftCollider()) &&
+//						topc->getCollisionRectangle().intersectsRect(getPlayerColliderComponent()->getRightCollider()))
+//					{
+//						m_topCollision = true;
+//						collided = true;
+//					}
+//				}
+//			}
+//		}
+//		if (!collided)
+//		{
+//			m_bottomColWhileTopCol = false;
+//			m_topCollision = false;
+//			m_topCollisionGround = nullptr;
+//		}
+//	}
+//}
 
 void Player::hit()
 {

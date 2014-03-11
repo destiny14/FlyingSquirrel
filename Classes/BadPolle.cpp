@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-BadPolle::BadPolle()
+BadPolle::BadPolle(PhysicsEngine* _pEn) : Moveable(_pEn)
 {
 }
 
@@ -10,9 +10,9 @@ BadPolle::~BadPolle()
 {
 }
 
-BadPolle* BadPolle::create(MainLayer* layer)
+BadPolle* BadPolle::create(PhysicsEngine* _pEn, MainLayer* layer)
 {
-	BadPolle* badPolle = new BadPolle();
+	BadPolle* badPolle = new BadPolle(_pEn);
 
 
 	Texture* m_ptex = Texture::create("badPolle.png");
@@ -20,8 +20,8 @@ BadPolle* BadPolle::create(MainLayer* layer)
 	if (m_ptex)
 	{
 		badPolle->setTexture(m_ptex);
-		badPolle->setCollider();
-		badPolle->setParent(layer);
+		badPolle->setSizeToTexture();
+		badPolle->setParentLayer(layer);
 
 		badPolle->init();
 

@@ -3,8 +3,8 @@
 
 void AABBCollider::update()
 {
-	PhysicsObject* obj = getPhysicsObject();
-	if (obj == nullptr) return;
+	//PhysicsObject* obj = getPhysicsObject();
+	//if (obj == nullptr) return;
 
-	m_bounds.origin = obj->getPosition();
+	//m_bounds.origin = obj->getPosition();
 }

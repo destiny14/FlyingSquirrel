@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "LevelLayer.h"
 #include "PlayerSpawner.h"
-
+#include "Physic.h"
 
 class Player;
 class Snail;
@@ -45,6 +45,8 @@ public:
 
 	PlayerSpawner* getPlayerSpawner();
 	void setPlayerSpawner(PlayerSpawner* ps);
+
+	PhysicsEngine* physic;
 private:
 	PlayerSpawner* m_playerSpawner;
 	GameCamera* m_pCam;

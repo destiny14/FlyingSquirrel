@@ -9,7 +9,7 @@ class Worm : public Moveable
 {
 protected:
 
-	Worm();
+	Worm(PhysicsEngine* _pEn);
 	virtual ~Worm();
 
 	bool init();
@@ -38,8 +38,6 @@ public:
 	bool m_isAlive = true;
 
 	Worm* create(MainLayer* layer);
-
-	CREATE_FUNC(Worm);
 
 private:
 

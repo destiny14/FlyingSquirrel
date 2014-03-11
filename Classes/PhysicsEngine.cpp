@@ -67,7 +67,11 @@ bool PhysicsEngine::isCollision(CompoundCollider* _c1, Collider* _c2)
 
 bool PhysicsEngine::isCollision(AABBCollider* _c1, AABBCollider* _c2)
 {
-	return _c1->getBoundingRect().intersectsRect(_c2->getBoundingRect());
+	Rect a = _c1->getBoundingRect();
+	a.origin += _c1->getPhysicsObject()->getPosition();
+	Rect b = _c2->getBoundingRect();
+	b.origin += _c2->getPhysicsObject()->getPosition();
+	return a.intersectsRect(b);
 }
 
 bool PhysicsEngine::isCollision(CompoundCollider* _c1, AABBCollider* _c2)

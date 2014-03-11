@@ -3,7 +3,7 @@
 
 USING_NS_CC;
 
-Loewenzahn::Loewenzahn()
+Loewenzahn::Loewenzahn(PhysicsEngine* _pEn) : Shooter(_pEn)
 {
 }
 
@@ -11,9 +11,9 @@ Loewenzahn::~Loewenzahn()
 {
 }
 //----------Create-----------//
-Loewenzahn* Loewenzahn::create(MainLayer* layer)
+Loewenzahn* Loewenzahn::create(PhysicsEngine* _pEn, MainLayer* layer)
 {
-	Loewenzahn* loewenzahn = new Loewenzahn();
+	Loewenzahn* loewenzahn = new Loewenzahn(_pEn);
 
 
 	Texture* tex = Texture::create("loewenzahn.png");
@@ -107,8 +107,8 @@ void Loewenzahn::setCollider(float width, float height)
 	//Sprite* sprite = getSprite();
 	//Rect boundingBox = sprite->getBoundingBox();
 
-	Collider* collider = Collider::create(width, height);
-	this->addComponent(collider);
+	/*Collider* collider = Collider::create(width, height);
+	this->addComponent(collider);*/
 }
 //----------Collider abfragen---------//
 //PlayerCollider* Loewenzahn::getPlayerColliderComponent()
@@ -121,7 +121,7 @@ void Loewenzahn::update(float dt)
 
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
-	Moveable::update(dt, false);
+	Moveable::update(dt);
 	//this->CheckForCollisions();
 
 	if (this->m_isAlive)

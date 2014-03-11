@@ -4,7 +4,6 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
-#include "PlayerCollider.h"
 #include "MainLayer.h"
 #include <list>
 
@@ -14,13 +13,13 @@ class Shooter : public Moveable
 {
 public:
 
-	static Shooter* Shooter::create(char* filename, MainLayer* parent);
+	static Shooter* Shooter::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent);
 
-	Shooter();
+	Shooter(PhysicsEngine* _pEn);
 	~Shooter();
 
 	virtual bool init();
-	virtual void update(float dt, bool overwriteCollisionCheck = false);
+	virtual void update(float dt);
 
 	void deleteBullet(Bullet* bullet);
 	void killBullet(Bullet* bullet);

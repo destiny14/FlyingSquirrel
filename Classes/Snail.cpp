@@ -3,7 +3,7 @@
 
 USING_NS_CC;
 
-Snail::Snail()
+Snail::Snail(PhysicsEngine* _pEn) : Shooter(_pEn)
 {
 }
 
@@ -11,9 +11,9 @@ Snail::~Snail()
 {
 }
 //----------Create-----------//
-Snail* Snail::create( MainLayer* layer)
+Snail* Snail::create(PhysicsEngine* _pEn, MainLayer* layer)
 {
-	Snail* snail = new Snail();
+	Snail* snail = new Snail(_pEn);
 
 	snail->m_layer = layer;
 	Texture* tex = Texture::create("snail.png");
@@ -21,8 +21,8 @@ Snail* Snail::create( MainLayer* layer)
 	if (tex)
 	{
 		snail->setTexture(tex);
-		snail->setCollider(350.0f, 120.0f);
-		snail->setParent(layer);
+		snail->setSize(350.0f, 120.0f);
+		snail->setParentLayer(layer);
 
 		snail->init();
 		snail->setTag(TAG_SNAIL);
@@ -104,20 +104,7 @@ bool Snail::init()
 
 	return true;
 }
-//----------Collider setzen----------//
-void Snail::setCollider(float width, float height)
-{
-	//Sprite* sprite = getSprite();
-	//Rect boundingBox = sprite->getBoundingBox();
 
-	Collider* collider = Collider::create(width, height);
-	this->addComponent(collider);
-}
-//----------Collider abfragen---------//
-//PlayerCollider* Snail::getPlayerColliderComponent()
-//{
-//	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
-//}
 //----------GameLoop-----------//
 void Snail::update(float dt)
 {
@@ -129,37 +116,37 @@ void Snail::update(float dt)
 	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
-	Moveable::update(dt, false);
+	Moveable::update(dt);
 	//this->CheckForCollisions();
 
-	if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-		&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=170)
-	{
-		m_isAlive = false;
-	}
+	//if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
+	//	&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=170)
+	//{
+	//	m_isAlive = false;
+	//}
 
-	if (this->m_isAlive)
-	{
+	//if (this->m_isAlive)
+	//{
 
-		if (canAttack())
-		{
-			this->moodAttack(dt);
-		}
-		else
-		{
-			this->moodWalk(dt);
+	//	if (canAttack())
+	//	{
+	//		this->moodAttack(dt);
+	//	}
+	//	else
+	//	{
+	//		this->moodWalk(dt);
 
-		}
+	//	}
 
-	}
-	else if (!(this->m_isAlive) && !m_isDead)
-	{
-		this->moodDie(dt);
-	}
-	else
-	{
-		//DO NOTHING
-	}
+	//}
+	//else if (!(this->m_isAlive) && !m_isDead)
+	//{
+	//	this->moodDie(dt);
+	//}
+	//else
+	//{
+	//	//DO NOTHING
+	//}
 }
 
 void Snail::killIt()
@@ -217,7 +204,7 @@ void Snail::setTimer(float seconds)
 void Snail::moodAttack(float dt)
 {
 
-	if (!this->getSprite()->getActionByTag(1))
+	/*if (!this->getSprite()->getActionByTag(1))
 	{
 		this->getSprite()->stopAllActions();
 		m_pPunch1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
@@ -230,7 +217,7 @@ void Snail::moodAttack(float dt)
 		{
 			m_pPlayer->hit();
 		}
-	}
+	}*/
 }
 //---------Sterben (TODO Snail Löschen)----------//
 void Snail::moodDie(float dt)

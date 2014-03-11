@@ -1,8 +1,9 @@
 #include "Worm.h"
+#include "MainLayer.h"
 
 USING_NS_CC;
 
-Worm::Worm()
+Worm::Worm(PhysicsEngine* _pEn) : Moveable(_pEn)
 {
 }
 
@@ -12,7 +13,7 @@ Worm::~Worm()
 
 Worm* Worm::create(MainLayer* layer)
 {
-	Worm* worm = new Worm();
+	Worm* worm = new Worm(layer->physic);
 
 
 	Texture* m_ptex = Texture::create("worm.png");
@@ -20,8 +21,8 @@ Worm* Worm::create(MainLayer* layer)
 	if (m_ptex)
 	{
 		worm->setTexture(m_ptex);
-		worm->setCollider();
-		worm->setParent(layer);
+		worm->setSizeToTexture();
+		worm->setParentLayer(layer);
 
 		worm->init();
 

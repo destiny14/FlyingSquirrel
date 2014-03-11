@@ -1,130 +1,62 @@
-#include "cocos2d.h"
 #include "Moveable.h"
-#include "LevelLayer.h"
-#include "Collider.h"
-#include "Bullet.h"
-#include <list>
+#include "MainLayer.h"
 
 USING_NS_CC;
 using namespace std;
 
-Moveable* Moveable::create(char* filename, MainLayer* parent)
-{
-	Moveable* mov = new Moveable();
-	Texture* tex = Texture::create(filename);
-	if (tex)
-	{
-		mov->setTexture(tex);
-		mov->setCollider();
-		mov->setParent(parent);
-		mov->setGround(false);
-		return mov;
-	}
-	return nullptr;
-}
-
-Moveable::Moveable()
+Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 {
 	m_grounded = false;
-	m_gravity = -600.0f;
+	m_gravity = -19.62f;
+
+	//Create Colliders
+	up = new AABBCollider();
+	up->setPhysicsObject(this);
+	bot = new AABBCollider();
+	bot->setPhysicsObject(this);
+	left = new AABBCollider();
+	left->setPhysicsObject(this);
+	right = new AABBCollider();
+	right->setPhysicsObject(this);
+	collider = new CompoundCollider();
+	collider->setPhysicsObject(this);
+
+	//Build compound Collider
+	collider->addCollider(up);
+	collider->addCollider(bot);
+	collider->addCollider(left);
+	collider->addCollider(right);
 }
 
 Moveable::~Moveable()
 {
-
 }
 
-void Moveable::updateCollider() 
+void Moveable::update(float dt)
 {
-	/*Rect oldCollider = getCollider();
-	setCollider(oldCollider.size.width, oldCollider.size.height);*/
-}
-
-void Moveable::setParent(MainLayer* parent)
-{
-	m_parent = parent;
-}
-
-MainLayer* Moveable::getParent()
-{
-	return m_parent;
-}
-
-void Moveable::setAffectedByGravity(bool affectedByGravity)
-{
-	m_affectedByGravity = affectedByGravity;
-}
-
-bool Moveable::getAffectedByGrafity()
-{
-	return m_affectedByGravity;
-}
-
-bool Moveable::getGrounded()
-{
-	return m_grounded;
-}
-
-void Moveable::setGrounded(bool g)
-{
-	m_grounded = g;
-}
-
-void Moveable::addVelocity(float _x, float _y)
-{
-	m_velocity.x += _x;
-	m_velocity.y += _y;
-}
-
-void Moveable::setVelocityX(float _x)
-{
-	m_velocity.x = _x;
-}
-
-float Moveable::getVelocityX()
-{
-	return m_velocity.x;
-}
-
-void Moveable::update(float dt, bool overwriteCollisionCheck)
-{
-	Point pos = getPosition();
-	pos += m_velocity * dt;
-	setPosition(pos);
-	updateCollider();
-	if (!overwriteCollisionCheck)
-		CheckForCollisions();
-
-	if (m_affectedByGravity)
+	if (!isGrounded())
 	{
-		if (!m_grounded)
-		{
-			m_velocity.y += m_gravity * dt;
-		}
-		else
-		{
-			if(m_velocity.y < 0.0f) m_velocity.y = 0.0f;
-		}
+		velocity.y += m_gravity * dt;
 	}
 
-	Node::update(dt);
+	Ground::update(dt);
 }
 
-void Moveable::CheckForCollisions()
+bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
 {
-	list<Ground*>* physObj = m_parent->getPhysicsObjects();
-	m_grounded = false;
-	for (Ground* g : *physObj)
+	if (myColliderTag == bot->getTag())
 	{
-		if (g->getGround() == true)
-		{
-			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
-			Collider* c2 = getColliderComponent();
-			if (c->getCollisionRectangle().intersectsRect(getColliderComponent()->getCollisionRectangle()))
-			{
-				// kollision
-				m_grounded = true;
-			}
-		}
+		m_grounded = true;
+		return true;
 	}
+}
+
+void Moveable::setSize(float _w, float _h)
+{
+	//up->setBoundingRect();
+}
+
+void Moveable::setSizeToTexture()
+{
+	setSize(getTexture()->getBoundingBox().size.width, getTexture()->getBoundingBox().size.height);
 }

@@ -9,17 +9,15 @@
 #include "Shooter.h"
 #include "Player.h"
 #include "MainLayer.h"
-#include "PlayerCollider.h"
 #include "Ground.h"
 
 class SlimeHeap : public Shooter
 {
 protected:
 
-	SlimeHeap();
+	SlimeHeap(PhysicsEngine* _pEn);
 	virtual ~SlimeHeap();
 	bool init();
-	void setCollider(float width, float height);
 	void CheckForCollisions();
 	bool canAttack();
 	void moodWalk(float dt);
@@ -32,7 +30,7 @@ public:
 	int attackRange = 180;
 	void update(float dt);
 	//PlayerCollider* getPlayerColliderComponent();
-	static SlimeHeap* create(MainLayer* layer);
+	static SlimeHeap* create(PhysicsEngine* _pEn, MainLayer* layer);
 
 	float getTimer();
 	void setTimer(float seconds);
