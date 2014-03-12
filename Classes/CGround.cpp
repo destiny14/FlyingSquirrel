@@ -8,6 +8,7 @@ Ground* Ground::create(PhysicsEngine* _pEn, char* filename)
 	Texture* tex = Texture::create(filename);
 	if (tex)
 	{
+		tex->retain();
 		ground->setTexture(tex);
 		ground->autorelease();
 		return ground;

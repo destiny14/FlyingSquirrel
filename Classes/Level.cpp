@@ -159,6 +159,10 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
 	tinyxml2::XMLElement* phyObjectsElement = mainLayerElement->FirstChildElement("PhysicsObjects");
+	
+	//################################
+	//### Textures				   ###
+	//################################
 	if (texturesElement != nullptr)
 	{
 		for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
@@ -173,6 +177,10 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			mainlayer->getTextures()->push_back(tex);
 		}
 	}
+
+	//################################
+	//### Grounds				   ###
+	//################################
 	if (phyObjectsElement != nullptr)
 	{
 		for (tinyxml2::XMLElement* child = phyObjectsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
@@ -186,9 +194,14 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Rect colRect = Rect(0, 0, sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
 			dynamic_cast<AABBCollider*>(ground->getCollider())->setBoundingRect(colRect);
 			ground->getTexture()->getSprite()->setVisible(child->BoolAttribute("visibility"));
+			ground->retain();
 			mainlayer->getPhysicsObjects()->push_front(ground);
 		}
 	}
+
+	//################################
+	//### PlayerSpawner			   ###
+	//################################
 	tinyxml2::XMLElement* playerSpawnerElement = mainLayerElement->FirstChildElement("PlayerSpawner");
 	if (playerSpawnerElement != nullptr)
 	{

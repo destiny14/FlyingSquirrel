@@ -114,8 +114,9 @@ void MainLayer::update(float dt)
 
 	for (Ground* g : *getPhysicsObjects())
 	{
-		//g->update(dt);
+		g->update(dt);
 	}
+
 }
 
 void MainLayer::draw()
@@ -132,6 +133,7 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 	if (m_physicObjects == nullptr)
 	{
 		m_physicObjects = new list<Ground*>();
+		
 	}
 	return m_physicObjects;
 }
