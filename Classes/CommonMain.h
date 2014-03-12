@@ -20,6 +20,7 @@ public:
 	int getWindowHeight();
 	bool getAppDebug();
 	char* getEditFilename();
+	bool getSkipMenu();
 
 private:
 	void printHelp();
@@ -28,6 +29,7 @@ private:
 	bool m_appDebug;
 	bool m_appFullscreen;
 	char* m_editFilename;
+	bool m_skipMenu;
 
 	AppDelegate m_app;
 	EGLView m_eglView;

@@ -108,6 +108,7 @@ bool SlimeHeap::init()
 	m_pDeadFrames->retain();
 	frames.clear();
 
+	scheduleUpdate();
 
 	return true;
 }
@@ -132,27 +133,27 @@ void SlimeHeap::update(float dt)
 	//	m_isAlive = false;
 	//}
 
-	//if (this->m_isAlive)
-	//{
+	if (this->m_isAlive)
+	{
 
-	//	if (canAttack())
-	//	{
-	//		this->moodAttack(dt);
-	//	}
-	//	else
-	//	{
-	//		this->moodWalk(dt);
-	//	}
+		if (canAttack())
+		{
+			this->moodAttack(dt);
+		}
+		else
+		{
+			this->moodWalk(dt);
+		}
 
-	//}
-	//else if (!(this->m_isAlive) && !m_isDead)
-	//{
-	//	this->moodDie(dt);
-	//}
-	//else
-	//{
-	//	//DO NOTHING
-	//}
+	}
+	else if (!(this->m_isAlive) && !m_isDead)
+	{
+		this->moodDie(dt);
+	}
+	else
+	{
+		//DO NOTHING
+	}
 }
 
 void SlimeHeap::killIt()

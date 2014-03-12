@@ -77,11 +77,11 @@ bool MainLayer::init()
 	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
 	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
 	para->addParallaxElement(Sprite::create("bk1.png"), paraPos, Point(0.0003f, 0.0001f), 1);
-	this->addChild(para, -9999);
+	//this->addChild(para, -9999);
 
 	for (Texture* t : *getTextures())
 	{
-		addChild(t->getSprite(), 0);
+		//addChild(t->getSprite(), 0);
 	}
 	for (Ground* g : *getPhysicsObjects())
 	{
@@ -121,6 +121,35 @@ void MainLayer::update(float dt)
 
 void MainLayer::draw()
 {
+	if (g_pCommonMain->getAppDebug())
+	{
+		/*DrawPrimitives::drawRect(Point(
+			
+			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x,
+			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y),
+			Point(
+			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.width,
+			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.height));*/
+/*		DrawPrimitives::drawRect(Point(
+			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x,
+			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y),
+			Point(
+			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.width,
+			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.height));
+		DrawPrimitives::drawRect(Point(
+			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x,
+			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y),
+			Point(
+			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.width,
+			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.height));
+
+		DrawPrimitives::drawRect(Point(
+			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x,
+			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y),
+			Point(
+			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.width,
+			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.height));
+	*/}
 }
 
 void MainLayer::setPhysicsObjects(list<Ground*>* physicObjects)

@@ -10,6 +10,7 @@ int CCommonMain::main(char** par, int parLength)
 	m_appFullscreen = pCommand->isParameterActive("-fullscreen") || pCommand->isParameterActive("-f");
 	m_windowWidth = pCommand->getParameterInt("-w", pCommand->getParameterInt("-width", 1200));
 	m_windowHeight = pCommand->getParameterInt("-h", pCommand->getParameterInt("-height", 675));
+	m_skipMenu = pCommand->isParameterActive("-skip");
 	int dFPS = pCommand->getParameterInt("-fps", 60);
 
 	char* tmp = pCommand->getParameterCharArr("-l", "h");
@@ -89,4 +90,9 @@ int CCommonMain::getWindowWidth()
 bool CCommonMain::getAppDebug()
 {
 	return m_appDebug;
+}
+
+bool CCommonMain::getSkipMenu()
+{
+	return m_skipMenu;
 }

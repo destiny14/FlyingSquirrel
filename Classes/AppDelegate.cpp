@@ -1,6 +1,8 @@
 #include "AppDelegate.h"
 #include "MainMenu.h"
 #include "IntroScene.h"
+#include "CommonMain.h"
+#include "LevelTestScene.h"
 #include <fstream>
 
 USING_NS_CC;
@@ -63,7 +65,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
     // run
-    director->runWithScene(intro);
+	if (g_pCommonMain->getSkipMenu())
+	{
+		director->runWithScene(LevelTestScene::createScene());
+	}
+	else
+	{
+		director->runWithScene(intro);
+	}
 
     return true;
 }
