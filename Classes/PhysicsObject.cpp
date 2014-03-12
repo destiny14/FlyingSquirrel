@@ -1,6 +1,12 @@
 #include "PhysicsObject.h"
 #include "PhysicsEngine.h"
 
+PhysicsObject::PhysicsObject(PhysicsEngine* _engine)
+{
+	m_pEngine = _engine;
+	m_pEngine->addPhysicsObject(this);
+}
+
 void PhysicsObject::update(float _dt)
 {
 	Node::update(_dt);
@@ -20,7 +26,7 @@ void PhysicsObject::update(float _dt)
 		bool collision = false;
 		int checks = 0;
 		do {
-			setPosition(move);
+			setPosition(p + move);
 			collision = m_pEngine->checkForBlockingCollision(this);
 			checks++;
 			move = desiredMove - (move / MAX_INTERPOLATIONCHECKS) * checks;		

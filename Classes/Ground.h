@@ -19,6 +19,8 @@ public:
 	void setTexture(Texture* texture);
 	Texture* getTexture();
 
+	void setColliderBounds(float width, float height);
+
 	virtual void update(float _dt) override { PhysicsObject::update(_dt); if(m_texture->getPosition() != getPosition()) m_texture->setPosition(getPosition()); }
 	virtual Collider* getCollider() override { return m_pCol; }
 	virtual int getTag() override { return TAG_GROUND; }

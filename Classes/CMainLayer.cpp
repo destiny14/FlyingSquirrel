@@ -59,6 +59,7 @@ bool MainLayer::init()
 	//############################################################
 	m_pPlayer= Player::create(physic, "sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
+	//m_pPlayer->getSprite()->setVisible(false);
 	this->addChild(m_pPlayer->getSprite(), 1);
 	//############################################################
 	//## Init Camera                                            ##
@@ -114,6 +115,7 @@ void MainLayer::update(float dt)
 
 	for (Ground* g : *getPhysicsObjects())
 	{
+		g->setColliderBounds(g->getSprite()->getBoundingBox().size.width, g->getSprite()->getBoundingBox().size.height);
 		g->update(dt);
 	}
 
@@ -123,6 +125,30 @@ void MainLayer::draw()
 {
 	if (g_pCommonMain->getAppDebug())
 	{
+		CompoundCollider* c = (CompoundCollider*)m_pPlayer->getCollider();
+		std::list<Collider*>* colList = c->getColliders();
+		for (Collider* c : *colList)
+		{
+			AABBCollider* tmp = (AABBCollider*) c;
+			DrawPrimitives::drawRect(Point(
+				tmp->getBoundingRect().origin.x,
+				tmp->getBoundingRect().origin.y),
+				Point(
+				tmp->getBoundingRect().origin.x + tmp->getBoundingRect().size.width,
+				tmp->getBoundingRect().origin.y + tmp->getBoundingRect().size.height));
+		}
+
+		for (Ground* g : *getPhysicsObjects())
+		{
+			AABBCollider* tmp = (AABBCollider*) g->getCollider();
+			DrawPrimitives::drawRect(Point(
+				tmp->getBoundingRect().origin.x,
+				tmp->getBoundingRect().origin.y),
+				Point(
+				tmp->getBoundingRect().origin.x + tmp->getBoundingRect().size.width,
+				tmp->getBoundingRect().origin.y + tmp->getBoundingRect().size.height));
+		}
+
 		/*DrawPrimitives::drawRect(Point(
 			
 			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x,

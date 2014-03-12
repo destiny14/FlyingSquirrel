@@ -19,7 +19,7 @@ class PhysicsEngine;
 class PhysicsObject : public Node
 {
 public:
-	PhysicsObject(PhysicsEngine* _engine) { m_pEngine = _engine; }
+	PhysicsObject(PhysicsEngine* _engine);
 	virtual Collider* getCollider() = 0;
 	virtual void update(float _dt) override;
 	//Gibt zurueck, ob die Collision bei Bewegung ignoriert werden sollte, d.h. nicht blockt
