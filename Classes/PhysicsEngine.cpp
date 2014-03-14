@@ -23,9 +23,12 @@ void PhysicsEngine::draw()
 
 bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 {
+	_obj->getCollider()->update();
 	for (PhysicsObject* o : m_list)
 	{
 		if (o == _obj) continue;
+
+		o->getCollider()->update();
 
 		if (isCollision(_obj->getCollider(), o->getCollider()))
 		{

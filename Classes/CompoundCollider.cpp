@@ -19,6 +19,7 @@ void CompoundCollider::update()
 {
 	for (Collider* col : m_list)
 	{
+		col->setPhysicsObject(getPhysicsObject());
 		col->update();
 	}
 }

@@ -191,8 +191,8 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 			ground->setPosition(p);
 			tinyxml2::XMLElement* sizeElement = child->FirstChildElement("ColliderSize");
-			Rect colRect = Rect(ground->getSprite()->getPositionX(), ground->getSprite()->getPositionY(), sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
-			dynamic_cast<AABBCollider*>(ground->getCollider())->setBoundingRect(colRect);
+			//Rect colRect = Rect(ground->getSprite()->getPositionX(), ground->getSprite()->getPositionY(), sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
+			//dynamic_cast<AABBCollider*>(ground->getCollider())->setBoundingRect(colRect);
 			ground->getTexture()->getSprite()->setVisible(child->BoolAttribute("visibility"));
 			ground->retain();
 			
