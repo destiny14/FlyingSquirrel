@@ -140,6 +140,7 @@ void MainLayer::draw()
 
 		for (Ground* g : *getPhysicsObjects())
 		{
+			
 			AABBCollider* tmp = (AABBCollider*) g->getCollider();
 			DrawPrimitives::drawRect(Point(
 				tmp->getBoundingRect().origin.x,

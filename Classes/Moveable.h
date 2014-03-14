@@ -22,6 +22,7 @@ public:
 
 	// bestimmt, ob sich das Objekt auf dem Boden befindet
 	bool isGrounded() { return m_grounded; }
+	void setGrounded(bool);
 
 	void setParentLayer(MainLayer* parent) { m_parent = parent; }
 	MainLayer* getParentLayer() { return m_parent; }

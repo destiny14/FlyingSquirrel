@@ -7,7 +7,7 @@ using namespace std;
 Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 {
 	m_grounded = false;
-	m_gravity = -19.62f;
+	m_gravity = -500.0f;
 
 	//Create Colliders
 	up = new AABBCollider();
@@ -32,22 +32,35 @@ Moveable::~Moveable()
 {
 }
 
+void Moveable::setGrounded(bool grounded)
+{
+	m_grounded = grounded;
+}
+
 void Moveable::update(float dt)
 {
 	if (!isGrounded())
 	{
 		velocity.y += m_gravity * dt;
 	}
+	//log("vel: %f", velocity.y);
+	//log("grounded: %i", isGrounded());
 
 	Ground::update(dt);
 }
 
 bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
 {
+	log("myColliderTag: %i", myColliderTag);
+	log("botTag: %i", myColliderTag);
 	if (myColliderTag == bot->getTag())
 	{
 		m_grounded = true;
 		return true;
+	}
+	else
+	{
+		m_grounded = false;
 	}
 }
 

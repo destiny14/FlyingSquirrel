@@ -398,9 +398,10 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_pJump->wasPressed() && this->isGrounded())
 	{
+		setGrounded(false);
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y += 600.0f;
+		velocity.y += 700.0f;
 		//setPositionY(getPositionY() + 0.01);
 		//this->setGrounded(false);
 		m_jump = true;
