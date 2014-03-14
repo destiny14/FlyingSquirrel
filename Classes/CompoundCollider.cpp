@@ -22,3 +22,11 @@ void CompoundCollider::update()
 		col->update();
 	}
 }
+
+void CompoundCollider::debugDraw()
+{
+	for (Collider* col : m_list)
+	{
+		col->debugDraw();
+	}
+}

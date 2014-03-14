@@ -1,4 +1,5 @@
 #include "PhysicsEngine.h"
+#include "CommonMain.h"
 
 void PhysicsEngine::addPhysicsObject(PhysicsObject* _obj)
 {
@@ -8,6 +9,16 @@ void PhysicsEngine::addPhysicsObject(PhysicsObject* _obj)
 void PhysicsEngine::removePhysicsObject(PhysicsObject* _obj)
 {
 	m_list.remove(_obj);
+}
+
+void PhysicsEngine::draw()
+{
+	if (!g_pCommonMain->getAppDebug()) return;
+
+	for (PhysicsObject* o : m_list)
+	{
+		o->getCollider()->debugDraw();
+	}
 }
 
 bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)

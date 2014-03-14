@@ -123,60 +123,7 @@ void MainLayer::update(float dt)
 
 void MainLayer::draw()
 {
-	if (g_pCommonMain->getAppDebug())
-	{
-		CompoundCollider* c = (CompoundCollider*)m_pPlayer->getCollider();
-		std::list<Collider*>* colList = c->getColliders();
-		for (Collider* c : *colList)
-		{
-			AABBCollider* tmp = (AABBCollider*) c;
-			DrawPrimitives::drawRect(Point(
-				tmp->getBoundingRect().origin.x,
-				tmp->getBoundingRect().origin.y),
-				Point(
-				tmp->getBoundingRect().origin.x + tmp->getBoundingRect().size.width,
-				tmp->getBoundingRect().origin.y + tmp->getBoundingRect().size.height));
-		}
-
-		for (Ground* g : *getPhysicsObjects())
-		{
-			
-			AABBCollider* tmp = (AABBCollider*) g->getCollider();
-			DrawPrimitives::drawRect(Point(
-				tmp->getBoundingRect().origin.x,
-				tmp->getBoundingRect().origin.y),
-				Point(
-				tmp->getBoundingRect().origin.x + tmp->getBoundingRect().size.width,
-				tmp->getBoundingRect().origin.y + tmp->getBoundingRect().size.height));
-		}
-
-		/*DrawPrimitives::drawRect(Point(
-			
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.height));*/
-/*		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.height));
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.height));
-
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.height));
-	*/}
+	physic->draw();
 }
 
 void MainLayer::setPhysicsObjects(list<Ground*>* physicObjects)

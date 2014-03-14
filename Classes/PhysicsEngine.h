@@ -11,6 +11,8 @@ public:
 	bool checkForBlockingCollision(PhysicsObject* _obj);
 	void addPhysicsObject(PhysicsObject* _obj);
 	void removePhysicsObject(PhysicsObject* _obj);
+
+	void draw();
 private:
 	std::list<PhysicsObject*> m_list;
 

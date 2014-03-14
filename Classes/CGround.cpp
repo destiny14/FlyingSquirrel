@@ -44,7 +44,8 @@ Sprite* Ground::getSprite()
 void Ground::setTexture(Texture* texture)
 {
 	m_texture = texture;
-	m_pCol->setBoundingRect(Rect(0, 0,
+	m_pCol->setBoundingRect(Rect(-0.5f * getSprite()->getBoundingBox().size.width,
+		-0.5f * getSprite()->getBoundingBox().size.height,
 		getSprite()->getBoundingBox().size.width,
 		getSprite()->getBoundingBox().size.height));
 	m_texture->retain();
