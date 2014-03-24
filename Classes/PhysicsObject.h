@@ -26,6 +26,8 @@ public:
 	virtual bool onCollision(PhysicsObject* _other, int myColliderTag) { return false; }
 	virtual int getTag() = 0;
 
+	virtual void removeFromParentAndCleanup(bool _b) override;
+
 	PhysicsEngine* getPhysicsEngine() { return m_pEngine; }
 
 	Point velocity = Point::ZERO;

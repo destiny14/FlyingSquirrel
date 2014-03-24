@@ -14,6 +14,8 @@ public:
 
 	virtual bool onCollision(PhysicsObject* _other, int myColliderTag) override;
 	virtual int getTag() override { return TAG_COLLECTIBLE; }
+
+	virtual void update(float _dt) override;
 protected:
 	void deleteCollectible();
 	virtual void initCollectible() = 0;
@@ -21,6 +23,7 @@ protected:
 private:
 	MainLayer* m_pLayer;
 	void collisionCheck();
+	bool m_toDel = false;
 };
 
 #endif

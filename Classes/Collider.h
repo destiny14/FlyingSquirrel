@@ -17,7 +17,7 @@ class Collider {
 public:
 	virtual void update() = 0;
 	virtual ColliderType getColliderType() = 0;
-	void setPhysicsObject(PhysicsObject* _obj) { m_obj = _obj; }
+	virtual void setPhysicsObject(PhysicsObject* _obj) { m_obj = _obj; }
 	PhysicsObject* getPhysicsObject() { return m_obj; }
 	void setTag(int _tag) { m_tag = _tag; }
 	int getTag() { return m_tag; }
@@ -33,6 +33,7 @@ class CompoundCollider : public Collider
 public:
 	virtual void update() override;
 	virtual ColliderType getColliderType() override { return ColliderType::COMPOUND; }
+	virtual void setPhysicsObject(PhysicsObject* _obj) override;
 	void addCollider(Collider* _col);
 	void remCollider(Collider* _col);
 	std::list<Collider*>* getColliders();

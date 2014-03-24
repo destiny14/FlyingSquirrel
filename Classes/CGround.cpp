@@ -44,18 +44,13 @@ Sprite* Ground::getSprite()
 void Ground::setTexture(Texture* texture)
 {
 	m_texture = texture;
-	m_pCol->setBoundingRect(Rect(-0.5f * getSprite()->getBoundingBox().size.width,
-		-0.5f * getSprite()->getBoundingBox().size.height,
-		getSprite()->getBoundingBox().size.width,
-		getSprite()->getBoundingBox().size.height));
+	setColliderBounds(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
 	m_texture->retain();
 }
 
 void Ground::setColliderBounds(float width, float height)
 {
-	m_pCol->setBoundingRect(Rect(getSprite()->getPositionX() - width * 0.5, getSprite()->getPositionY() - height * 0.5,
-		width,
-		height));
+	m_pCol->setBoundingRect(Rect(0.0f, 0.0f, width, height));
 }
 
 // getTexture()

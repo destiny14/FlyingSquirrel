@@ -41,3 +41,9 @@ void PhysicsObject::update(float _dt)
 		tmpDt -= tmp;
 	}
 }
+
+void PhysicsObject::removeFromParentAndCleanup(bool _b)
+{
+	Node::removeFromParentAndCleanup(_b);
+	m_pEngine->removePhysicsObject(this);
+}

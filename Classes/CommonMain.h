@@ -15,7 +15,7 @@ class CCommonMain : public TSingleton<CCommonMain>
 {
 public:
 	int main(char**, int);
-	char* getAppVersion() { return "0.0.1"; }
+	char* getAppVersion() { return "0.9.0"; }
 	int getWindowWidth();
 	int getWindowHeight();
 	bool getAppDebug();

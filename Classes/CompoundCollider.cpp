@@ -19,8 +19,16 @@ void CompoundCollider::update()
 {
 	for (Collider* col : m_list)
 	{
-		col->setPhysicsObject(getPhysicsObject());
 		col->update();
+	}
+}
+
+void CompoundCollider::setPhysicsObject(PhysicsObject* _obj)
+{
+	Collider::setPhysicsObject(_obj);
+	for (Collider* col : m_list)
+	{
+		col->setPhysicsObject(_obj);
 	}
 }
 
