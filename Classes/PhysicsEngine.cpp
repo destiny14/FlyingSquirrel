@@ -83,9 +83,9 @@ bool PhysicsEngine::isCollision(CompoundCollider* _c1, Collider* _c2)
 bool PhysicsEngine::isCollision(AABBCollider* _c1, AABBCollider* _c2)
 {
 	Rect a = _c1->getBoundingRect();
-	a.origin += _c1->getPhysicsObject()->getPosition() - Point(a.size.width, a.size.height) * 0.5f;
+	a.origin += _c1->getPhysicsObject()->getPosition() - Point(_c1->getPhysicsObject()->size.width, _c1->getPhysicsObject()->size.height) * 0.5f;
 	Rect b = _c2->getBoundingRect();
-	b.origin += _c2->getPhysicsObject()->getPosition() - Point(b.size.width, b.size.height) * 0.5f;
+	b.origin += _c2->getPhysicsObject()->getPosition() - Point(_c2->getPhysicsObject()->size.width, _c2->getPhysicsObject()->size.height) * 0.5f;
 	return a.intersectsRect(b);
 }
 

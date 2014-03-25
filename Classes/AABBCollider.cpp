@@ -15,8 +15,8 @@ void AABBCollider::debugDraw()
 	if (obj == nullptr) return;
 
 	Rect rect = getBoundingRect();
-	rect.origin += obj->getPosition() - Point(rect.size.width, rect.size.height) * 0.5f;;
+	rect.origin += obj->getPosition() - Point(obj->size.width, obj->size.height) * 0.5f;
 
 	DrawPrimitives::drawRect(rect.origin,
-		Point(rect.origin.x + rect.size.width, rect.origin.y + rect.size.width));
+		Point(rect.origin.x + rect.size.width, rect.origin.y + rect.size.height));
 }

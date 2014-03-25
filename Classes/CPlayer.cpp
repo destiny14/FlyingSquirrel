@@ -619,9 +619,6 @@ void Player::update(float dt)
 		velocity.y += 2.0f;
 	}
 
-
-	setSize(160.0f, 250.0f);
-
 	m_direction.x *= m_speed;
 	this->setPosition(this->getPosition() + m_direction);
 }

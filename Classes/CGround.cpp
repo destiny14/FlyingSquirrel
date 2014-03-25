@@ -50,6 +50,7 @@ void Ground::setTexture(Texture* texture)
 
 void Ground::setColliderBounds(float width, float height)
 {
+	size = Size(width, height);
 	m_pCol->setBoundingRect(Rect(0.0f, 0.0f, width, height));
 }
 

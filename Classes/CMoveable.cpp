@@ -67,10 +67,11 @@ bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
 
 void Moveable::setSize(float _w, float _h)
 {
-	up->setBoundingRect(Rect(0, _h * 0.8f, _w, _h * 0.2f));
-	bot->setBoundingRect(Rect(0, 0, _w, _h * 0.2f));
-	left->setBoundingRect(Rect(0, 0, _w * 0.5f, _h));
-	right->setBoundingRect(Rect(_w * 0.5f, 0, _w * 0.5f, _h));
+	size = Size(_w, _h);
+	up->setBoundingRect(Rect(		0,			_h * 0.8f,	_w,			_h * 0.2f	));
+	bot->setBoundingRect(Rect(		0,			0,			_w,			_h * 0.2f	));
+	left->setBoundingRect(Rect(		0,			0,			_w * 0.5f,	_h			));
+	right->setBoundingRect(Rect(	_w * 0.5f,	0,			_w * 0.5f,	_h			));
 }
 
 void Moveable::setSizeToTexture()

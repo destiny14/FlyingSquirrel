@@ -30,6 +30,7 @@ public:
 
 	PhysicsEngine* getPhysicsEngine() { return m_pEngine; }
 
+	Size size = Size(0.0f, 0.0f);
 	Point velocity = Point::ZERO;
 private:
 	PhysicsEngine* m_pEngine = nullptr;
