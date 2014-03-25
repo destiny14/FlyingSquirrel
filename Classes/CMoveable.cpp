@@ -45,7 +45,7 @@ void Moveable::update(float dt)
 	}
 	else if (velocity.y < 0.0f)
 	{
-		velocity.y = 0.0f;
+		velocity.y = -0.05f;
 	}
 
 	m_grounded = false;

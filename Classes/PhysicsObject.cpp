@@ -33,7 +33,7 @@ void PhysicsObject::update(float _dt)
 			++checks;
 		} while (col = m_pEngine->checkForBlockingCollision(this) && checks < MAX_INTERPOLATIONCHECKS);
 
-		if (col && checks < MAX_INTERPOLATIONCHECKS)
+		if (col)
 		{
 			setPosition(oldPosition);
 		}
