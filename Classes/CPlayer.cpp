@@ -398,10 +398,10 @@ void Player::update(float dt)
 	/////////////////////////
 	if (m_pJump->wasPressed() && this->isGrounded())
 	{
-		setGrounded(false);
+		//setGrounded(false);
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y += 700.0f;
+		velocity.y = 100.0f;
 		//setPositionY(getPositionY() + 0.01);
 		//this->setGrounded(false);
 		m_jump = true;
@@ -439,7 +439,7 @@ void Player::update(float dt)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y += 400.0f;
+		velocity.y += 40.0f;
 		m_doubleJump = true;
 		m_readyToFly = false;
 		if (!this->getSprite()->getActionByTag(13))
@@ -480,8 +480,8 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		velocity.x += 400.0f * this->getSprite()->getScaleX();
-		velocity.y += 2.0f;
+		velocity.x = 100.0f * this->getSprite()->getScaleX();
+		velocity.y = 20.0f;
 	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
@@ -503,7 +503,7 @@ void Player::update(float dt)
 	}*/
 	if (m_movement & EMovement::Left && !m_shooted && !m_pForward->isPressed())
 	{
-		m_direction.x = -1.0f;
+		velocity.x = -100.0f;
 
 		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
@@ -527,7 +527,7 @@ void Player::update(float dt)
 	///////////////////////////////
 	if (m_movement & EMovement::Right && !m_shooted && !m_pBackward->isPressed() || cs_run)
 	{
-		m_direction.x += 1.0f;
+		velocity.x = 100.0f;
 
 		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
@@ -615,12 +615,12 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		velocity.x += 400.0f * this->getSprite()->getScaleX();
-		velocity.y += 2.0f;
+		velocity.x = 200.0f * this->getSprite()->getScaleX();
+		velocity.y = 20.0f;
 	}
 
-	m_direction.x *= m_speed;
-	this->setPosition(this->getPosition() + m_direction);
+	//velocity.x *= m_speed;
+	//this->setPosition(this->getPosition() + m_direction);
 }
 //
 //void Player::CheckForCollisions()

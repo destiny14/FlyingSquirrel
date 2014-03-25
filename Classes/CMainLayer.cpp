@@ -25,7 +25,6 @@ MainLayer* MainLayer::create()
 	{
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		mainLayer->physic = new PhysicsEngine();
-		mainLayer->setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 		mainLayer->setName("mainLayer");
 		mainLayer->autorelease();
 		mainLayer->retain();
@@ -46,7 +45,7 @@ bool MainLayer::init()
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
+	//setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 	//############################################################
 	//## Init Input                                             ##
 	//############################################################
