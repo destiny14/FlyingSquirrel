@@ -30,6 +30,7 @@ void PhysicsObject::update(float _dt)
 			setPosition(oldPosition + move);
 
 			move = desiredMove * (1.0f - (checks / MAX_INTERPOLATIONCHECKS));
+			//Discard minimal changes in velocity
 			if (col && move.x <= 1.0f && move.x >= -1.0f) move.x = 0.0f;
 			if (col && move.y <= 1.0f && move.y >= -1.0f) move.y = 0.0f;
 
