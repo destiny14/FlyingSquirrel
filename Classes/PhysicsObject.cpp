@@ -18,27 +18,26 @@ void PhysicsObject::update(float _dt)
 	while (tmpDt > 0.0f)
 	{
 		float tmp = tmpDt > MAX_MOVEINTERVALL ? MAX_MOVEINTERVALL : tmpDt;
+		tmpDt -= tmp;
 
-		const Point p = getPosition();
+		const Point oldPosition = getPosition();
 		const Point desiredMove = velocity * tmp;
 		Point move = desiredMove;
 
-		bool collision = false;
+		bool col = false;
 		int checks = 0;
 		do {
-			setPosition(p + move);
-			collision = m_pEngine->checkForBlockingCollision(this);
-			checks++;
-			move = desiredMove - (move / MAX_INTERPOLATIONCHECKS) * checks;		
-		} while (!collision && checks < MAX_INTERPOLATIONCHECKS);
+			setPosition(oldPosition + move);
 
-		if (collision)
+			move = desiredMove * (1.0f - (checks / MAX_INTERPOLATIONCHECKS));
+			++checks;
+		} while (col = m_pEngine->checkForBlockingCollision(this) && checks < MAX_INTERPOLATIONCHECKS);
+
+		if (col && checks < MAX_INTERPOLATIONCHECKS)
 		{
-			setPosition(p);
-			break;
+			setPosition(oldPosition);
 		}
 
-		tmpDt -= tmp;
 	}
 }
 

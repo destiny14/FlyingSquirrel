@@ -4,8 +4,8 @@
 #include "cocos2d.h"
 #include "Collider.h"
 
-#define MAX_INTERPOLATIONCHECKS 10
-#define MAX_MOVEINTERVALL 0.3f
+#define MAX_INTERPOLATIONCHECKS 50.0f
+#define MAX_MOVEINTERVALL 0.15f
 
 #define TAG_GROUND 0x000
 #define TAG_PLAYER 0x001
