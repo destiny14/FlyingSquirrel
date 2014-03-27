@@ -31,6 +31,7 @@ public:
 	void update(float dt);
 	//PlayerCollider* getPlayerColliderComponent();
 	static SlimeHeap* create(PhysicsEngine* _pEn, MainLayer* layer);
+	virtual bool onCollision(PhysicsObject* _other, int myColliderTag);
 
 	float getTimer();
 	void setTimer(float seconds);

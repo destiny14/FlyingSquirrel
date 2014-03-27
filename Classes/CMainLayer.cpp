@@ -77,7 +77,7 @@ bool MainLayer::init()
 	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
 	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
 	para->addParallaxElement(Sprite::create("bk1.png"), paraPos, Point(0.0003f, 0.0001f), 1);
-	this->addChild(para, -9999);
+	//this->addChild(para, -9999);
 
 	for (Texture* t : *getTextures())
 	{

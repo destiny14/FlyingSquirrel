@@ -51,7 +51,12 @@ void Shooter::update(float dt)
 	}
 	if (!this->nutsToDelete.empty())
 	{
-		bool deleteItr = false;
+		for (Bullet* b : nutsToDelete)
+		{
+			nuts.remove(b);
+		}
+		nutsToDelete.clear();
+		/*bool deleteItr = false;
 		for (list<Bullet*>::iterator itr = nuts.begin(); itr != nuts.end();)
 		{
 			for (list<Bullet*>::iterator itr2 = nutsToDelete.begin(); itr2 != nutsToDelete.end();)
@@ -75,10 +80,11 @@ void Shooter::update(float dt)
 			{
 				++itr;
 			}
-		}
+		}*/
 	}
 }
 void Shooter::deleteBullet(Bullet* bullet)
 {
 	nutsToDelete.push_back(bullet);
+	
 }

@@ -190,6 +190,19 @@ void Snail::moodWalk(float dt)
 
 }
 
+bool Snail::onCollision(PhysicsObject* _other, int _myColliderTag)
+{
+	Moveable::onCollision(_other, _myColliderTag);
+	if (_other->getTag() == TAG_BULLET)
+	{
+		Bullet* b = dynamic_cast<Bullet*>(_other);
+		b->destroy();
+		killIt();
+		return true;
+	}
+	return false;
+}
+
 float Snail::getTimer()
 {
 	return m_timer;

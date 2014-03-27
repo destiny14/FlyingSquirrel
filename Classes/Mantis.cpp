@@ -198,6 +198,19 @@ void Mantis::update(float dt)
 	}
 }
 
+bool Mantis::onCollision(PhysicsObject* _other, int _myColliderTag)
+{
+	Moveable::onCollision(_other, _myColliderTag);
+	if (_other->getTag() == TAG_BULLET)
+	{
+		Bullet* b = dynamic_cast<Bullet*>(_other);
+		b->destroy();
+		applyDamage();
+		return true;
+	}
+	return false;
+}
+
 void Mantis::applyDamage()
 {
 	if (m_first)

@@ -30,7 +30,7 @@ public:
 	int attackRange = 180;
 	void update(float dt);
 	static Snail* create(PhysicsEngine* _pEn, MainLayer* layer);
-
+	virtual bool onCollision(PhysicsObject* _other, int _myCollisionTag);
 	float getTimer();
 	void setTimer(float seconds);
 

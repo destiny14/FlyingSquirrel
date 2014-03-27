@@ -10,19 +10,18 @@ Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, f
 {
 	Bullet* bullet = new Bullet(shooter->getPhysicsEngine());
 	Texture* tex = Texture::create("nuss.png");
-	bullet->m_pSnail = parent->getSnail();
+	/*bullet->m_pSnail = parent->getSnail();
 	bullet->m_pSlimeHeap = parent->getSlimeHeap();
-	bullet->m_pMantis = parent->getMantis();
+	bullet->m_pMantis = parent->getMantis();*/
 
 	tex->retain();
 
 	bullet->setTexture(tex);
-	bullet->setCollider();
 	bullet->setParent(parent);
+	bullet->setSize(50, 59);
 	bullet->setPosition(position.x + (100.0f * direction), position.y + 25.0f);
 	bullet->setAffectedByGravity(true);
 	bullet->getSprite()->setScale(0.5f);
-	
 	bullet->init(shooter, direction, force);
 
 	return bullet;
@@ -50,6 +49,12 @@ void Bullet::update(float dt)
 	this->getSprite()->setRotation(this->getSprite()->getRotation() + (m_force * m_direction));
 }
 
+bool Bullet::onCollision(PhysicsObject* _other, int _myColliderTag)
+{
+	//g_pLogfile->fLog(L_DEBUG, "other tag: %i<br/>", _other->getTag());
+	return false;
+}
+
 void Bullet::setCollider()
 {
 	Sprite* sprite = getSprite();
@@ -66,7 +71,7 @@ void Bullet::destroy()
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Ehit.wav", false, 1.0f, 0.0f, 1.0f);
 		this->getParent()->removeChild(this->getSprite());
-		this->removeFromParent();
+		this->removeFromParentAndCleanup(true);
 		m_shooter->deleteBullet(this);
 	}
 }

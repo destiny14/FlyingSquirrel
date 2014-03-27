@@ -35,6 +35,7 @@ public:
 	bool m_isAlive = true;
 	static Mantis* create(PhysicsEngine* _pEn, MainLayer* layer);
 	void applyDamage();
+	virtual bool onCollision(PhysicsObject* _other, int _myColliderTag);
 
 private:
 

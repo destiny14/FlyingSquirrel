@@ -70,8 +70,8 @@ void Moveable::setSize(float _w, float _h)
 	size = Size(_w, _h);
 	up->setBoundingRect(Rect(		0,			_h * 0.8f,	_w,			_h * 0.2f - 20	));
 	bot->setBoundingRect(Rect(		0,			10,			_w,			_h * 0.2f - 20	));
-	left->setBoundingRect(Rect(		0,			10,			_w * 0.5f,	_h -20			));
-	right->setBoundingRect(Rect(	_w * 0.5f,	10,			_w * 0.5f,	_h - 20			));
+	left->setBoundingRect(Rect(		0,			20,			_w * 0.5f,	_h -20			));
+	right->setBoundingRect(Rect(	_w * 0.5f,	20,			_w * 0.5f,	_h - 20			));
 }
 
 void Moveable::setSizeToTexture()

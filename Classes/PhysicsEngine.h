@@ -15,7 +15,7 @@ public:
 	void draw();
 private:
 	std::list<PhysicsObject*> m_list;
-
+	std::list<PhysicsObject*> m_objectsToRemove;
 	bool isCollision(Collider* _c1, Collider* _c2);
 	bool isCollision(AABBCollider* _c1, Collider* _c2);
 	bool isCollision(CompoundCollider* _c1, Collider* _c2);

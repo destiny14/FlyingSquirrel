@@ -36,7 +36,6 @@ SlimeHeap* SlimeHeap::create(PhysicsEngine* _pEn, MainLayer* layer)
 		slimeHeap->setParentLayer(layer);
 		slimeHeap->setTag(TAG_SLIMEHEAP);
 		slimeHeap->init();
-
 		return slimeHeap;
 	}
 
@@ -159,6 +158,19 @@ void SlimeHeap::update(float dt)
 void SlimeHeap::killIt()
 {
 	m_isAlive = false;
+}
+
+bool SlimeHeap::onCollision(PhysicsObject* _other, int _myColliderTag)
+{
+	Moveable::onCollision(_other, _myColliderTag);
+	if (_other->getTag() == TAG_BULLET)
+	{
+		Bullet* b = dynamic_cast<Bullet*>(_other);
+		b->destroy();
+		killIt();
+		return true;
+	}
+	return false;
 }
 
 //----------Laufen mit animation----------//

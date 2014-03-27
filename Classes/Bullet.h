@@ -28,12 +28,13 @@ public:
 
 	virtual bool init(Shooter* shooter, float direction, float force);
 	virtual void update(float dt);
-
+	virtual bool onCollision(PhysicsObject* other, int myColliderTag) override;
+	virtual int getTag() override { return TAG_BULLET; }
+	void destroy();
 protected:
 
 private:
 	void setCollider();
-	void destroy();
 
 	Shooter* m_shooter;
 	Bullettype m_bullettype;

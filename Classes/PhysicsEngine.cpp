@@ -8,7 +8,8 @@ void PhysicsEngine::addPhysicsObject(PhysicsObject* _obj)
 
 void PhysicsEngine::removePhysicsObject(PhysicsObject* _obj)
 {
-	m_list.remove(_obj);
+	m_objectsToRemove.push_back(_obj);
+	//m_list.remove(_obj);
 }
 
 void PhysicsEngine::draw()
@@ -36,6 +37,14 @@ bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 			if (_obj->onCollision(o, _obj->getCollider()->getTag()))
 				return true;
 		}
+	}
+	if (!m_objectsToRemove.empty())
+	{
+		for (PhysicsObject* o : m_objectsToRemove)
+		{
+			m_list.remove(o);
+		}
+		m_objectsToRemove.clear();
 	}
 
 	return false;
