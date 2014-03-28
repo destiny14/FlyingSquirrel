@@ -19,7 +19,7 @@ Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 	right = new AABBCollider();
 	right->setTag(3);
 	collider = new CompoundCollider();
-	m_topHitGround = false;
+	m_topHitGround = nullptr;
 	//Build compound Collider
 	collider->addCollider(up);
 	collider->addCollider(bot);
@@ -47,45 +47,60 @@ void Moveable::update(float dt)
 	{
 		velocity.y = -1.0f;
 	}
-	/*if (!getPhysicsEngine()->checkForBlockingCollision(this))*/
-	m_topHitGround = false;
+	
+	bool botAfterTop = m_botAfterTop;
+	m_botAfterTop = false;
+	
 	m_grounded = false;
 	Ground::update(dt);
+
+	if (botAfterTop && !m_botAfterTop)
+	{
+		m_topHitGround = nullptr;
+	}
 }
 
 bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
 {
 	if (_other->getTag() != TAG_GROUND) return false;
 
-	if (myColliderTag == bot->getTag())
+	if (myColliderTag == up->getTag())
 	{
-		if (!m_topHitGround)
-		{
-			m_grounded = true;
-			return true;
-		}
-	}
-	else if (myColliderTag == up->getTag())
-	{
-		m_topHitGround = true;
+		m_botAfterTop = false;
+		m_topHitGround = _other;
 	}
 	else if (myColliderTag == left->getTag())
 	{
-		if (m_topHitGround)
-			m_topHitGround = true;
+		m_botAfterTop = false;
+		m_topHitGround = _other;
 	}
 	else if (myColliderTag == right->getTag())
 	{
-		if (m_topHitGround)
-			m_topHitGround = true;
+		m_botAfterTop = false;
+		m_topHitGround = _other;
 	}
+	else if (myColliderTag == bot->getTag())
+	{
+		if (m_topHitGround == nullptr || m_topHitGround != _other)
+		{
+			m_topHitGround = nullptr;
+			m_botAfterTop = false;
+			m_grounded = true;
+			return true;
+		}
+		else
+		{
+			m_botAfterTop = true;
+		}
+	}
+
 	return false;
 }
 void Moveable::setSize(float _w, float _h)
 {
 	size = Size(_w, _h);
-	up->setBoundingRect(Rect(		0,			_h - 5,	_w,			5	));
-	bot->setBoundingRect(Rect(		0,			10,			_w,			5	));
+	up->setBoundingRect(Rect(		10,			_h - 5,		_w - 20,	5				));
+	bot->setBoundingRect(Rect(		10,			10,			_w - 20,	5				));
 	left->setBoundingRect(Rect(		0,			10,			_w * 0.5f,	_h -10			));
 	right->setBoundingRect(Rect(	_w * 0.5f,	10,			_w * 0.5f,	_h -10  		));
 }

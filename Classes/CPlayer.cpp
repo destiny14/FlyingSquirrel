@@ -276,6 +276,9 @@ void Player::update(float dt)
 
 	Shooter::update(dt);
 	
+	if (getPosition().y < 0.0f)
+		m_health = 0;
+
 	m_direction.x = 0.0f;
 	velocity.x = 0.0f;
 

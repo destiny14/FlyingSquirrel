@@ -34,8 +34,8 @@ public:
 	void setSize(float _w, float _h);
 	void setSizeToTexture();
 private:
-	bool m_topHitGround;
-	
+	PhysicsObject* m_topHitGround;
+	bool m_botAfterTop;
 
 	bool m_affectedByGravity;
 	bool m_grounded;
