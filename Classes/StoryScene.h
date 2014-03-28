@@ -23,6 +23,8 @@ private:
 	Animation* m_pFlightFrames;
 	Animation* m_pJumpFrames;
 
+	InputManager* m_pInput;
+	InputAction* m_pSkip;
 
 	Action* m_pStandAction;
 	Action* m_pFlightAction;

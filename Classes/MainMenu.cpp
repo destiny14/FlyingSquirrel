@@ -56,8 +56,8 @@ void CMainMenu::update(float _dt)
 		t += _dt;
 		if (t >= 0.5f)
 		{
-			Director::getInstance()->replaceScene(LevelTestScene::createScene());
-			//Director::getInstance()->replaceScene(StoryScene::createStoryScene());
+			//Director::getInstance()->replaceScene(LevelTestScene::createScene());
+			Director::getInstance()->replaceScene(StoryScene::createStoryScene());
 		}
 	}
 		
