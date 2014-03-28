@@ -9,6 +9,7 @@ void PhysicsEngine::addPhysicsObject(PhysicsObject* _obj)
 void PhysicsEngine::removePhysicsObject(PhysicsObject* _obj)
 {
 	m_objectsToRemove.push_back(_obj);
+	_obj->flagForDeletion();
 	//m_list.remove(_obj);
 }
 
@@ -28,10 +29,7 @@ bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 	for (PhysicsObject* o : m_list)
 	{
 		if (o == _obj) continue;
-
-		if (!o) continue;
-
-		if (!o->getCollider()) continue;
+		if (o->isFlaggedForDeletion()) continue;
 
 		o->getCollider()->update();
 
@@ -45,6 +43,7 @@ bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 			}
 		}
 	}
+
 	if (!m_objectsToRemove.empty())
 	{
 		for (PhysicsObject* o : m_objectsToRemove)
