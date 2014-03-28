@@ -23,18 +23,18 @@ class Bullet : public Moveable
 public:
 	static Bullet* createNut(Shooter* shooter, MainLayer* parent, Point position, float direction, float force);
 
-	Bullet();
+	Bullet(PhysicsEngine* _pEn);
 	~Bullet();
 
 	virtual bool init(Shooter* shooter, float direction, float force);
 	virtual void update(float dt);
-
+	virtual bool onCollision(PhysicsObject* other, int myColliderTag) override;
+	virtual int getTag() override { return TAG_BULLET; }
+	void destroy();
 protected:
 
 private:
 	void setCollider();
-	void destroy();
-	void CheckForCollisions();
 
 	Shooter* m_shooter;
 	Bullettype m_bullettype;

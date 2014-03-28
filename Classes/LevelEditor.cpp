@@ -125,7 +125,7 @@ void LevelEditor::addAirObjectCallback(Object* sender)
 {
 	if (m_pCurrentMoving != nullptr) return;
 
-	m_pCurrentMoving = Aircurrent::create(m_pLevel->getMainLayer(), Point(0.0f, 900.0f), Size(100.0f, 400.0f));
+	m_pCurrentMoving = Aircurrent::create(m_pLevel->getMainLayer()->physic, m_pLevel->getMainLayer(), Point(0.0f, 900.0f), Size(100.0f, 400.0f));
 	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
 }
 
@@ -336,7 +336,7 @@ void LevelEditor::chooseFileCallback(Object* sender, string s, int levelType)
 	else
 	{
 		log("%s", "ground created");
-		auto ground = Ground::create(const_cast<char*>(s.c_str()));
+		auto ground = Ground::create(m_pLevel->getMainLayer()->physic, const_cast<char*>(s.c_str()));
 		ground->setPosition(m_mouseInputAction->getMousePosition().x, m_mouseInputAction->getMousePosition().y);
 		ground->retain();
 		ground->getSprite()->setZOrder(1);

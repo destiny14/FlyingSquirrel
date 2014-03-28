@@ -2,42 +2,31 @@
 #define __GROUND_H__
 
 #include "cocos2d.h"
-#include "Collider.h"
+#include "Physic.h"
 #include "Texture.h"
 
 USING_NS_CC;
 
-class Ground : public Node
+class Ground : public PhysicsObject
 {
 public:
-	static Ground* create(char* filename);
+	static Ground* create(PhysicsEngine* _pEn, char* filename);
 
-	Ground();
+	Ground(PhysicsEngine* _pEn);
 	~Ground();
 
-	void setCollider();
-	void setCollider(float width, float height);
-	Collider* getColliderComponent();
-
-	// use setPosition(float, float) instead, it's faster
-	void setPosition(const Point& pos) override;
-	void setPosition(float x, float y) override;
-
 	Sprite* getSprite();
-
 	void setTexture(Texture* texture);
 	Texture* getTexture();
 
-	void setGround(bool);
-	bool getGround();
+	void setColliderBounds(float width, float height);
 
-	void setWall(bool _w) { m_isWall = _w; }
-	bool getWall() { return m_isWall; }
+	virtual void update(float _dt) override { PhysicsObject::update(_dt); if(m_texture->getPosition() != getPosition()) m_texture->setPosition(getPosition()); }
+	virtual Collider* getCollider() override { return m_pCol; }
+	virtual int getTag() override { return TAG_GROUND; }
 private:
 	Texture* m_texture;
-	Rect m_collisionRectangle;
-	bool m_isGround;
-	bool m_isWall;
+	AABBCollider* m_pCol;
 };
 
 #endif // !__GROUND_H__

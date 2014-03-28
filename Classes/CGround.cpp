@@ -2,15 +2,14 @@
 
 USING_NS_CC;
 
-Ground* Ground::create(char* filename)
+Ground* Ground::create(PhysicsEngine* _pEn, char* filename)
 {
-	Ground* ground = new Ground();
+	Ground* ground = new Ground(_pEn);
 	Texture* tex = Texture::create(filename);
 	if (tex)
 	{
+		tex->retain();
 		ground->setTexture(tex);
-		ground->setCollider(tex->getSprite()->getBoundingBox().size.width, tex->getSprite()->getBoundingBox().size.height - 50);
-		ground->setGround(true);
 		ground->autorelease();
 		return ground;
 	}
@@ -20,51 +19,18 @@ Ground* Ground::create(char* filename)
 // Ground (Texture*)
 // 
 // erstellt eine neue Ground-Box mit der uebergebenen Textur
-Ground::Ground()
+Ground::Ground(PhysicsEngine* _pEn) : PhysicsObject(_pEn)
 {
 	m_texture = nullptr;
+	m_pCol = new AABBCollider();
+	m_pCol->setPhysicsObject(this);
 }
 
 Ground::~Ground()
 {
+	delete m_pCol;
 	if (m_texture != nullptr)
 		m_texture->release();
-}
-
-void Ground::setCollider()
-{
-	setCollider(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
-}
-
-void Ground::setCollider(float width, float height)
-{
-	if (height < 10)
-		height = 10;
-	Collider* collider = Collider::create(width, height);
-	this->addComponent(collider);
-}
-
-Collider* Ground::getColliderComponent()
-{
-	return dynamic_cast<Collider*>(this->getComponent("collider"));
-}
-
-void Ground::setPosition(const Point& pos)
-{
-	Node::setPosition(pos);
-	m_texture->setPosition(pos);
-	Collider* col = getColliderComponent();
-	if (col != nullptr)
-		col->update(0.0f);
-}
-
-void Ground::setPosition(float x, float y)
-{
-	Node::setPosition(x, y);
-	m_texture->setPosition(x, y);
-	Collider* col = getColliderComponent();
-	if (col != nullptr)
-		col->update(0.0f);
 }
 
 Sprite* Ground::getSprite()
@@ -78,7 +44,14 @@ Sprite* Ground::getSprite()
 void Ground::setTexture(Texture* texture)
 {
 	m_texture = texture;
+	//setColliderBounds(getSprite()->getBoundingBox().size.width, getSprite()->getBoundingBox().size.height);
 	m_texture->retain();
+}
+
+void Ground::setColliderBounds(float width, float height)
+{
+	size = Size(width, height);
+	m_pCol->setBoundingRect(Rect(0.0f, 0.0f, width, height));
 }
 
 // getTexture()
@@ -87,14 +60,4 @@ void Ground::setTexture(Texture* texture)
 Texture* Ground::getTexture()
 {
 	return m_texture;
-}
-
-void Ground::setGround(bool ground)
-{
-	m_isGround = true;
-}
-
-bool Ground::getGround()
-{
-	return m_isGround;
 }

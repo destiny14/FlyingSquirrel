@@ -1,15 +1,10 @@
 #include "Collectible.h"
 #include "Player.h"
+#include "MainLayer.h"
 
-Collectible::Collectible(MainLayer* parent) : Ground()
+Collectible::Collectible(MainLayer* parent) : Ground(parent->physic)
 {
 	m_pLayer = parent;
-}
-
-void Collectible::update(float _dt)
-{
-	getColliderComponent()->update(_dt);
-	collisionCheck();
 }
 
 bool Collectible::init()
@@ -17,25 +12,32 @@ bool Collectible::init()
 	if (!Ground::init())
 		return false;
 	initCollectible();
-	setCollider();
 	m_pLayer->addChild(getTexture()->getSprite());
+	scheduleUpdate();
 	return true;
+}
+
+void Collectible::update(float _dt)
+{
+	Ground::update(_dt);
+
+	if (m_toDel)
+	{
+		getSprite()->removeFromParentAndCleanup(true);
+		this->removeFromParentAndCleanup(true);
+	}
 }
 
 void Collectible::deleteCollectible()
 {
-	getSprite()->removeFromParentAndCleanup(true);
-	this->removeFromParentAndCleanup(true);
+	m_toDel = true;
 }
 
-void Collectible::collisionCheck()
+bool Collectible::onCollision(PhysicsObject* _other, int myColliderTag)
 {
-	Player* player = m_pLayer->getPlayer();
-	Collider* myCol = getColliderComponent();
-	PlayerCollider* plCol = player->getPlayerColliderComponent();
+	if (m_toDel) return false;
+	if (_other->getTag() != TAG_PLAYER) return false;
 
-	if (myCol->getCollisionRectangle().intersectsRect(plCol->getBottomCollider())
-		|| myCol->getCollisionRectangle().intersectsRect(plCol->getLeftCollider())
-		|| myCol->getCollisionRectangle().intersectsRect(plCol->getRightCollider()))
-		onCollidedWithPlayer(player);
+	onCollidedWithPlayer(dynamic_cast<Player*>(_other));
+	return false;
 }

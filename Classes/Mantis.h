@@ -9,7 +9,6 @@
 #include "Shooter.h"
 #include "Player.h"
 #include "MainLayer.h"
-#include "PlayerCollider.h"
 #include "Ground.h"
 #include "Mantis.h"
 
@@ -18,10 +17,9 @@ class Mantis : public Shooter
 {
 protected:
 
-	Mantis();
+	Mantis(PhysicsEngine* _pEn);
 	virtual ~Mantis();
 	bool init();
-	void setCollider(float width, float height);
 	void CheckForCollisions();
 	bool canAttack();
 	void moodWalk(float dt);
@@ -35,9 +33,9 @@ public:
 	int attackRange_Range = 2000;
 	void update(float dt);
 	bool m_isAlive = true;
-	PlayerCollider* getPlayerColliderComponent();
-	static Mantis* create(MainLayer* layer);
+	static Mantis* create(PhysicsEngine* _pEn, MainLayer* layer);
 	void applyDamage();
+	virtual bool onCollision(PhysicsObject* _other, int _myColliderTag);
 
 private:
 
@@ -49,7 +47,6 @@ private:
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
-	PlayerCollider* m_pcollider;
 
 	Action* m_pIdleAction;
 	Action* m_pRunAction;

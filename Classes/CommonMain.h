@@ -15,11 +15,12 @@ class CCommonMain : public TSingleton<CCommonMain>
 {
 public:
 	int main(char**, int);
-	char* getAppVersion() { return "0.0.1"; }
+	char* getAppVersion() { return "0.9.0"; }
 	int getWindowWidth();
 	int getWindowHeight();
 	bool getAppDebug();
 	char* getEditFilename();
+	bool getSkipMenu();
 
 private:
 	void printHelp();
@@ -28,6 +29,7 @@ private:
 	bool m_appDebug;
 	bool m_appFullscreen;
 	char* m_editFilename;
+	bool m_skipMenu;
 
 	AppDelegate m_app;
 	EGLView m_eglView;

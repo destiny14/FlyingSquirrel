@@ -1,130 +1,113 @@
-#include "cocos2d.h"
 #include "Moveable.h"
-#include "LevelLayer.h"
-#include "Collider.h"
-#include "Bullet.h"
-#include <list>
+#include "MainLayer.h"
 
 USING_NS_CC;
 using namespace std;
 
-Moveable* Moveable::create(char* filename, MainLayer* parent)
-{
-	Moveable* mov = new Moveable();
-	Texture* tex = Texture::create(filename);
-	if (tex)
-	{
-		mov->setTexture(tex);
-		mov->setCollider();
-		mov->setParent(parent);
-		mov->setGround(false);
-		return mov;
-	}
-	return nullptr;
-}
-
-Moveable::Moveable()
+Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 {
 	m_grounded = false;
-	m_gravity = -600.0f;
+	m_gravity = -500.0f;
+
+	//Create Colliders
+	up = new AABBCollider();
+	up->setTag(0);
+	bot = new AABBCollider();
+	bot->setTag(1);
+	left = new AABBCollider();
+	left->setTag(2);
+	right = new AABBCollider();
+	right->setTag(3);
+	collider = new CompoundCollider();
+	m_topHitGround = nullptr;
+	//Build compound Collider
+	collider->addCollider(up);
+	collider->addCollider(bot);
+	collider->addCollider(left);
+	collider->addCollider(right);
+	collider->setPhysicsObject(this);
 }
 
 Moveable::~Moveable()
 {
-
 }
 
-void Moveable::updateCollider() 
+void Moveable::setGrounded(bool grounded)
 {
-	/*Rect oldCollider = getCollider();
-	setCollider(oldCollider.size.width, oldCollider.size.height);*/
+	m_grounded = grounded;
 }
 
-void Moveable::setParent(MainLayer* parent)
+void Moveable::update(float dt)
 {
-	m_parent = parent;
-}
-
-MainLayer* Moveable::getParent()
-{
-	return m_parent;
-}
-
-void Moveable::setAffectedByGravity(bool affectedByGravity)
-{
-	m_affectedByGravity = affectedByGravity;
-}
-
-bool Moveable::getAffectedByGrafity()
-{
-	return m_affectedByGravity;
-}
-
-bool Moveable::getGrounded()
-{
-	return m_grounded;
-}
-
-void Moveable::setGrounded(bool g)
-{
-	m_grounded = g;
-}
-
-void Moveable::addVelocity(float _x, float _y)
-{
-	m_velocity.x += _x;
-	m_velocity.y += _y;
-}
-
-void Moveable::setVelocityX(float _x)
-{
-	m_velocity.x = _x;
-}
-
-float Moveable::getVelocityX()
-{
-	return m_velocity.x;
-}
-
-void Moveable::update(float dt, bool overwriteCollisionCheck)
-{
-	Point pos = getPosition();
-	pos += m_velocity * dt;
-	setPosition(pos);
-	updateCollider();
-	if (!overwriteCollisionCheck)
-		CheckForCollisions();
-
-	if (m_affectedByGravity)
+	if (!isGrounded())
 	{
-		if (!m_grounded)
+		velocity.y += m_gravity * dt;
+	}
+	else if (velocity.y <= 0.0f)
+	{
+		velocity.y = -1.0f;
+	}
+	
+	bool botAfterTop = m_botAfterTop;
+	m_botAfterTop = false;
+	
+	m_grounded = false;
+	Ground::update(dt);
+
+	if (botAfterTop && !m_botAfterTop)
+	{
+		m_topHitGround = nullptr;
+	}
+}
+
+bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
+{
+	if (_other->getTag() != TAG_GROUND) return false;
+
+	if (myColliderTag == up->getTag())
+	{
+		m_botAfterTop = false;
+		m_topHitGround = _other;
+	}
+	else if (myColliderTag == left->getTag())
+	{
+		m_botAfterTop = false;
+		m_topHitGround = _other;
+	}
+	else if (myColliderTag == right->getTag())
+	{
+		m_botAfterTop = false;
+		m_topHitGround = _other;
+	}
+	else if (myColliderTag == bot->getTag())
+	{
+		if (m_topHitGround == nullptr || m_topHitGround != _other)
 		{
-			m_velocity.y += m_gravity * dt;
+			m_topHitGround = nullptr;
+			m_botAfterTop = false;
+			m_grounded = true;
+			return true;
 		}
 		else
 		{
-			if(m_velocity.y < 0.0f) m_velocity.y = 0.0f;
+			m_botAfterTop = true;
 		}
 	}
 
-	Node::update(dt);
+	return false;
+}
+void Moveable::setSize(float _w, float _h)
+{
+	size = Size(_w, _h);
+	up->setBoundingRect(Rect(		10,			_h - 5,		_w - 20,	5				));
+	bot->setBoundingRect(Rect(		10,			10,			_w - 20,	5				));
+	left->setBoundingRect(Rect(		0,			10,			_w * 0.5f,	_h -10			));
+	right->setBoundingRect(Rect(	_w * 0.5f,	10,			_w * 0.5f,	_h -10  		));
 }
 
-void Moveable::CheckForCollisions()
+void Moveable::setSizeToTexture()
 {
-	list<Ground*>* physObj = m_parent->getPhysicsObjects();
-	m_grounded = false;
-	for (Ground* g : *physObj)
-	{
-		if (g->getGround() == true)
-		{
-			Collider* c = dynamic_cast<Collider*>(g->getComponent("collider"));
-			Collider* c2 = getColliderComponent();
-			if (c->getCollisionRectangle().intersectsRect(getColliderComponent()->getCollisionRectangle()))
-			{
-				// kollision
-				m_grounded = true;
-			}
-		}
-	}
+	if (getTexture() == nullptr) return;
+
+	setSize(getTexture()->getBoundingBox().size.width, getTexture()->getBoundingBox().size.height);
 }

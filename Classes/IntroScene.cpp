@@ -14,7 +14,7 @@ bool IntroScene::init()
 	if (!Layer::init())
 		return false;
 
-	glClearColor(255, 255, 255, 255);
+	//glClearColor(255, 255, 255, 255);
 
 	m_timeElapsed = 5;
 	m_page = 0;

@@ -2,16 +2,20 @@
 #define __COLLECTIBLE_H__
 
 #include "Ground.h"
-#include "MainLayer.h"
 
 class Player;
+class MainLayer;
 
 class Collectible : public Ground
 {
 public:
 	Collectible(MainLayer* parent);
-	void update(float dt) override;
 	bool init() override;
+
+	virtual bool onCollision(PhysicsObject* _other, int myColliderTag) override;
+	virtual int getTag() override { return TAG_COLLECTIBLE; }
+
+	virtual void update(float _dt) override;
 protected:
 	void deleteCollectible();
 	virtual void initCollectible() = 0;
@@ -19,6 +23,7 @@ protected:
 private:
 	MainLayer* m_pLayer;
 	void collisionCheck();
+	bool m_toDel = false;
 };
 
 #endif

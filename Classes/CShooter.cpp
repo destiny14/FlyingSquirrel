@@ -10,17 +10,15 @@
 USING_NS_CC;
 using namespace std;
 
-Shooter* Shooter::create(char* filename, MainLayer* parent)
+Shooter* Shooter::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent)
 {
-	Shooter* shooter = new Shooter();
+	Shooter* shooter = new Shooter(_pEn);
 	Texture* tex = Texture::create(filename);
 
 	if (tex)
 	{
 		shooter->setTexture(tex);
-		shooter->setCollider();
 		shooter->setParent(parent);
-		shooter->setGround(false);
 
 		shooter->init();
 
@@ -32,7 +30,7 @@ Shooter* Shooter::create(char* filename, MainLayer* parent)
 	}
 }
 
-Shooter::Shooter() {}
+Shooter::Shooter(PhysicsEngine* _pEn) : Moveable(_pEn) {}
 Shooter::~Shooter() {}
 
 bool Shooter::init()
@@ -40,9 +38,9 @@ bool Shooter::init()
 	return true;
 }
 
-void Shooter::update(float dt, bool overwriteCollisionCheck)
+void Shooter::update(float dt)
 {
-	Moveable::update(dt, overwriteCollisionCheck);
+	Moveable::update(dt);
 
 	if (!this->nuts.empty())
 	{
@@ -53,7 +51,12 @@ void Shooter::update(float dt, bool overwriteCollisionCheck)
 	}
 	if (!this->nutsToDelete.empty())
 	{
-		bool deleteItr = false;
+		for (Bullet* b : nutsToDelete)
+		{
+			nuts.remove(b);
+		}
+		nutsToDelete.clear();
+		/*bool deleteItr = false;
 		for (list<Bullet*>::iterator itr = nuts.begin(); itr != nuts.end();)
 		{
 			for (list<Bullet*>::iterator itr2 = nutsToDelete.begin(); itr2 != nutsToDelete.end();)
@@ -77,10 +80,11 @@ void Shooter::update(float dt, bool overwriteCollisionCheck)
 			{
 				++itr;
 			}
-		}
+		}*/
 	}
 }
 void Shooter::deleteBullet(Bullet* bullet)
 {
 	nutsToDelete.push_back(bullet);
+	
 }

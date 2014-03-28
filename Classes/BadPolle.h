@@ -9,7 +9,7 @@ class BadPolle : public Moveable
 {
 protected:
 
-	BadPolle();
+	BadPolle(PhysicsEngine* _pEn);
 	virtual ~BadPolle();
 	
 	bool init();
@@ -39,7 +39,7 @@ public:
 
 	BadPolle* create(MainLayer* layer);
 
-	CREATE_FUNC(BadPolle);
+	static BadPolle* BadPolle::create(PhysicsEngine* _pEn, MainLayer* layer);
 
 private:
 

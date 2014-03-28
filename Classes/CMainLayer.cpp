@@ -24,7 +24,7 @@ MainLayer* MainLayer::create()
 	if (mainLayer)
 	{
 		Size visibleSize = Director::getInstance()->getVisibleSize();
-		mainLayer->setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
+		mainLayer->physic = new PhysicsEngine();
 		mainLayer->setName("mainLayer");
 		mainLayer->autorelease();
 		mainLayer->retain();
@@ -45,7 +45,7 @@ bool MainLayer::init()
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
+	//setPlayerSpawner(new PlayerSpawner(Point(visibleSize.width * 0.5f, 600)));
 	//############################################################
 	//## Init Input                                             ##
 	//############################################################
@@ -56,10 +56,10 @@ bool MainLayer::init()
 	//############################################################
 	//## Init Player                                            ##
 	//############################################################
-	m_pPlayer= Player::create("sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_pPlayer= Player::create(physic, "sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
-	m_pPlayer->getSprite()->setZOrder(2000);
-	this->addChild(m_pPlayer->getSprite(), 20);
+	//m_pPlayer->getSprite()->setVisible(false);
+	this->addChild(m_pPlayer->getSprite(), 1);
 	//############################################################
 	//## Init Camera                                            ##
 	//############################################################
@@ -71,8 +71,8 @@ bool MainLayer::init()
 	//############################################################
 
 	ParallaxLayer* para = ParallaxLayer::create();
-	Point paraPos = Point(0,1000);
-	//para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
+	Point paraPos = Point(0,-200);
+	para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
 	para->addParallaxElement(Sprite::create("bk4.png"), paraPos, Point(0.3f, 0.1f), 4);
 	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
 	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
@@ -81,7 +81,7 @@ bool MainLayer::init()
 
 	for (Texture* t : *getTextures())
 	{
-		addChild(t->getSprite(), 0);
+		//addChild(t->getSprite(), 0);
 	}
 	for (Ground* g : *getPhysicsObjects())
 	{
@@ -114,40 +114,15 @@ void MainLayer::update(float dt)
 
 	for (Ground* g : *getPhysicsObjects())
 	{
+		g->setColliderBounds(g->getSprite()->getBoundingBox().size.width, g->getSprite()->getBoundingBox().size.height);
 		g->update(dt);
 	}
+
 }
 
 void MainLayer::draw()
 {
-	if (g_pCommonMain->getAppDebug())
-	{
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getBottomCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getBottomCollider().size.height));
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y),
-			Point(									
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getTopCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getTopCollider().size.height));
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getLeftCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getLeftCollider().size.height));
-
-		DrawPrimitives::drawRect(Point(
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x,
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y),
-			Point(
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.x + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.width,
-			m_pPlayer->getPlayerColliderComponent()->getRightCollider().origin.y + m_pPlayer->getPlayerColliderComponent()->getRightCollider().size.height));
-	}
+	physic->draw();
 }
 
 void MainLayer::setPhysicsObjects(list<Ground*>* physicObjects)
@@ -160,6 +135,7 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 	if (m_physicObjects == nullptr)
 	{
 		m_physicObjects = new list<Ground*>();
+		
 	}
 	return m_physicObjects;
 }

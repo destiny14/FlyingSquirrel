@@ -159,6 +159,10 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 	tinyxml2::XMLElement* mainLayerElement = rootElement->FirstChildElement("MainLayer");
 	tinyxml2::XMLElement* texturesElement = mainLayerElement->FirstChildElement("Textures");
 	tinyxml2::XMLElement* phyObjectsElement = mainLayerElement->FirstChildElement("PhysicsObjects");
+	
+	//################################
+	//### Textures				   ###
+	//################################
 	if (texturesElement != nullptr)
 	{
 		for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
@@ -173,24 +177,32 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			mainlayer->getTextures()->push_back(tex);
 		}
 	}
+
+	//################################
+	//### Grounds				   ###
+	//################################
 	if (phyObjectsElement != nullptr)
 	{
 		for (tinyxml2::XMLElement* child = phyObjectsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 		{
 			char* filename = const_cast<char*>(child->Attribute("filename"));
-			Ground* ground = Ground::create(filename);
+			Ground* ground = Ground::create(mainlayer->physic, filename);
 			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 			ground->setPosition(p);
 			tinyxml2::XMLElement* sizeElement = child->FirstChildElement("ColliderSize");
-			Rect colRect = Rect(0, 0, sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
-			ground->getColliderComponent()->setCollisionRectangle(colRect);
-			ground->setGround(child->BoolAttribute("isGround"));
+
+			ground->setColliderBounds(sizeElement->FloatAttribute("width"), sizeElement->FloatAttribute("height"));
 			ground->getTexture()->getSprite()->setVisible(child->BoolAttribute("visibility"));
-			ground->setWall(child->BoolAttribute("wall"));
+			ground->retain();
+			
 			mainlayer->getPhysicsObjects()->push_front(ground);
 		}
 	}
+
+	//################################
+	//### PlayerSpawner			   ###
+	//################################
 	tinyxml2::XMLElement* playerSpawnerElement = mainLayerElement->FirstChildElement("PlayerSpawner");
 	if (playerSpawnerElement != nullptr)
 	{
@@ -230,7 +242,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			Point dir = Point(0.0f, child->FloatAttribute("dirY"));
 			Size size = Size(child->FloatAttribute("width"), child->FloatAttribute("height"));
-			Aircurrent* air = Aircurrent::create(mainlayer, dir, size);
+			Aircurrent* air = Aircurrent::create(mainlayer->physic, mainlayer, dir, size);
 			air->setPosition(pos);
 			mainlayer->addChild(air, 0);
 		}
@@ -259,7 +271,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		{
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			float timer = child->FloatAttribute("timer");
-			Snail* crys = Snail::create(mainlayer);
+			Snail* crys = Snail::create(mainlayer->physic, mainlayer);
 			crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
@@ -276,7 +288,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		{
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			float timer = child->FloatAttribute("timer");
-			SlimeHeap* crys = SlimeHeap::create(mainlayer);
+			SlimeHeap* crys = SlimeHeap::create(mainlayer->physic, mainlayer);
 			crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
@@ -293,7 +305,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		{
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			float timer = child->FloatAttribute("timer");
-			Mantis* crys = Mantis::create(mainlayer);
+			Mantis* crys = Mantis::create(mainlayer->physic, mainlayer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
 			mainlayer->addChild(crys, 0);
@@ -306,14 +318,12 @@ tinyxml2::XMLElement* Level::createGroundNode(tinyxml2::XMLDocument* doc, Ground
 {
 	tinyxml2::XMLElement* element = doc->NewElement("Ground");
 	element->SetAttribute("visibility", ground->getSprite()->isVisible());
-	element->SetAttribute("wall", ground->getWall());
 	element->SetAttribute("filename", ground->getTexture()->getFilename());
-	element->SetAttribute("isGround", ground->getGround());
 	tinyxml2::XMLElement* pointElement = createPointNode(doc, ground->getPosition());
 	element->InsertEndChild(pointElement);
 	tinyxml2::XMLElement* sizeElement = doc->NewElement("ColliderSize");
-	sizeElement->SetAttribute("width", ground->getColliderComponent()->getCollisionRectangle().size.width);
-	sizeElement->SetAttribute("height", ground->getColliderComponent()->getCollisionRectangle().size.height);
+	sizeElement->SetAttribute("width", dynamic_cast<AABBCollider*>(ground->getCollider())->getBoundingRect().size.width);
+	sizeElement->SetAttribute("height", dynamic_cast<AABBCollider*>(ground->getCollider())->getBoundingRect().size.height);
 	element->InsertEndChild(sizeElement);
 	return element;
 }

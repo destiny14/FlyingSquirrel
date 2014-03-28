@@ -7,14 +7,13 @@
 #include "Shooter.h"
 #include "Player.h"
 #include "MainLayer.h"
-#include "PlayerCollider.h"
 #include "Ground.h"
 
 class Loewenzahn : public Shooter
 {
 protected:
 
-	Loewenzahn();
+	Loewenzahn(PhysicsEngine* _pEn);
 	virtual ~Loewenzahn();
 	bool init();
 	void setCollider(float width, float height);
@@ -30,7 +29,7 @@ public:
 	void update(float dt);
 	bool m_isAlive = true;
 	//PlayerCollider* getPlayerColliderComponent();
-	static Loewenzahn* create(MainLayer* layer);
+	static Loewenzahn* create(PhysicsEngine* _pEn, MainLayer* layer);
 
 private:
 

@@ -4,7 +4,6 @@
 #include "cocos2d.h"
 #include "Ground.h"
 #include "Moveable.h"
-#include "PlayerCollider.h"
 #include "MainLayer.h"
 #include "Input.h"
 #include "Shooter.h"
@@ -22,20 +21,13 @@ enum EMovement
 class Player : public Shooter
 {
 public:
-	static Player* create(char* filename, MainLayer* parent, InputManager* pManager);
+	static Player* create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, InputManager* pManager);
 
-	Player();
+	Player(PhysicsEngine* _pEn);
 	~Player();
 
 	virtual bool init();
 	virtual void update(float dt);
-
-	// setCollider()
-	//
-	// setzt die Kollider entsprechend der gesetzten Texur
-	void setCollider();
-
-	PlayerCollider* getPlayerColliderComponent();
 
 	int getHealth();
 	int getNuts();
@@ -46,9 +38,8 @@ public:
 	bool cs_flight;
 	bool cs_run;
 
+	virtual int getTag() override { return TAG_PLAYER; }
 private:
-	void CheckForCollisions();
-
 	int m_health;
 	int m_nuts;
 

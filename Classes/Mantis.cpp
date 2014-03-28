@@ -4,7 +4,7 @@
 
 USING_NS_CC;
 
-Mantis::Mantis()
+Mantis::Mantis(PhysicsEngine* _pEn) : Shooter(_pEn)
 {
 }
 
@@ -12,9 +12,9 @@ Mantis::~Mantis()
 {
 }
 //----------Create-----------//
-Mantis* Mantis::create(MainLayer* layer)
+Mantis* Mantis::create(PhysicsEngine* _pEn, MainLayer* layer)
 {
-	Mantis* mantis = new Mantis();
+	Mantis* mantis = new Mantis(_pEn);
 
 
 	Texture* tex = Texture::create("mantis1.png");
@@ -23,8 +23,8 @@ Mantis* Mantis::create(MainLayer* layer)
 	if (tex)
 	{
 		mantis->setTexture(tex);
-		mantis->setCollider(890.0f, 580.0f);
-		mantis->setParent(layer);
+		mantis->setSize(890.0f, 580.0f);
+		mantis->setParentLayer(layer);
 		mantis->setTag(TAG_MANTIS);
 		mantis->init();
 
@@ -146,21 +146,6 @@ bool Mantis::init()
 
 	return true;
 }
-//----------Collider setzen----------//
-void Mantis::setCollider(float width, float height)
-{
-	//Sprite* sprite = getSprite();
-	//Rect boundingBox = sprite->getBoundingBox();
-
-	Collider* collider = Collider::create(width, height);
-	this->addComponent(collider);
-}
-//----------Collider abfragen---------//
-PlayerCollider* Mantis::getPlayerColliderComponent()
-{
-	return dynamic_cast<PlayerCollider*>(this->getComponent("playerCollider"));
-}
-
 
 //----------GameLoop-----------//
 void Mantis::update(float dt)
@@ -173,7 +158,7 @@ void Mantis::update(float dt)
 
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
-	Moveable::update(dt, false);
+	Moveable::update(dt);
 	//this->CheckForCollisions();
 	playerPos = m_pPlayer->getPosition();
 	mantisPos = this->getPosition();
@@ -211,6 +196,19 @@ void Mantis::update(float dt)
 	{
 		//DO NOTHING
 	}
+}
+
+bool Mantis::onCollision(PhysicsObject* _other, int _myColliderTag)
+{
+	Moveable::onCollision(_other, _myColliderTag);
+	if (_other->getTag() == TAG_BULLET)
+	{
+		Bullet* b = dynamic_cast<Bullet*>(_other);
+		b->destroy();
+		applyDamage();
+		return true;
+	}
+	return false;
 }
 
 void Mantis::applyDamage()
@@ -261,21 +259,20 @@ void Mantis::moodWalk(float dt)
 void Mantis::moodAttack(float dt)
 {
 
-	if (!this->getSprite()->getActionByTag(2) && attackTimer)
+	/*if (!this->getSprite()->getActionByTag(2) && attackTimer)
 	{
 		attackTimer = 5.0f;
 		this->getSprite()->stopAllActions();
 		m_pAttackAction = Repeat::create(Animate::create(m_pAttackFrames), 1);
 		m_pAttackAction->setTag(2);
 		this->getSprite()->runAction(m_pAttackAction);
-
 		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
 			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
 			)
 		{
 			m_pPlayer->hit();
 		}
-	}
+	}*/
 
 }
 //---------Sterben (TODO Mantis Löschen)----------//
@@ -297,14 +294,14 @@ void Mantis::rangeAttack(float dt)
 	if (attackTimer <= -1.63f)
 	{ 
 		this->removeAllComponents();
-		this->setCollider(890.0f, 580.0f);
+		this->setSize(890.0f, 580.0f);
 		this->setPosition(getTexture()->getPositionX(), getTexture()->getPositionY() - 5);
 		attackTimer = 5.0f;
 	}
 	if (!this->getSprite()->getActionByTag(3))
 	{
 		this->removeAllComponents();
-		this->setCollider(890.0f, 780.0f);
+		this->setSize(890.0f, 780.0f);
 		this->setPosition(getTexture()->getPositionX(), getTexture()->getPositionY() + 250);
 		this->getSprite()->stopAllActions();
 		m_pRangeAttackAction = Repeat::create(Animate::create(m_pRangeAttackFrames), 1);

@@ -2,53 +2,50 @@
 #define __MOVEABLE_H__
 
 #include "cocos2d.h"
-#include "LevelLayer.h"
 #include "Ground.h"
-#include "MainLayer.h"
 #include <list>
 
 USING_NS_CC;
 
+class MainLayer;
+
 class Moveable : public Ground
 {
 public:
-	// static create (char*)
-	//
-	// erstellt ein neues Objekt vom Typ Moveable
-	static Moveable* create(char* filename, MainLayer* parent);
 
-	Moveable();
+	Moveable(PhysicsEngine* _pEn);
 	~Moveable();
 
-	void updateCollider();
-	void addVelocity(float _x, float _y);
-	void setVelocityX(float _x);
-	float getVelocityX();
-
-	// setAffectedByGravity(bool)
-	//
 	// bestimmt, ob das Objekt von Gravitation beeinflusst wird
-	void setAffectedByGravity(bool affectedByGravity);
-	bool getAffectedByGrafity();
+	void setAffectedByGravity(bool affectedByGravity) { m_affectedByGravity = affectedByGravity; }
+	bool getAffectedByGrafity() { return m_affectedByGravity; }
 
-	// getGrounded()
-	//
 	// bestimmt, ob sich das Objekt auf dem Boden befindet
-	bool getGrounded();
-
-	void setParent(MainLayer* parent);
-	MainLayer* getParent();
-
-	virtual void update(float dt, bool overwriteCollisionCheck = false);
-protected:
+	bool isGrounded() { return m_grounded; }
 	void setGrounded(bool);
+
+	void setParentLayer(MainLayer* parent) { m_parent = parent; }
+	MainLayer* getParentLayer() { return m_parent; }
+
+	virtual void update(float dt) override;
+	virtual Collider* getCollider() override { return collider; }
+	virtual bool onCollision(PhysicsObject* _other, int myColliderTag) override;
+
+	void setSize(float _w, float _h);
+	void setSizeToTexture();
 private:
-	void CheckForCollisions();
+	PhysicsObject* m_topHitGround;
+	bool m_botAfterTop;
+
 	bool m_affectedByGravity;
 	bool m_grounded;
-	MainLayer* m_parent;
 	float m_gravity;
-	Point m_velocity;
+	MainLayer* m_parent;
+	CompoundCollider* collider;
+	AABBCollider* up;
+	AABBCollider* bot;
+	AABBCollider* left;
+	AABBCollider* right;
 };
 
 #endif // !__MOVEABLE_H__

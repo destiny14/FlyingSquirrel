@@ -135,11 +135,11 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Classes\AABBCollider.cpp" />
     <ClCompile Include="Classes\Aircurrent.cpp" />
     <ClCompile Include="Classes\AppDelegate.cpp" />
     <ClCompile Include="Classes\BadPolle.cpp" />
     <ClCompile Include="Classes\CBullet.cpp" />
-    <ClCompile Include="Classes\CCollider.cpp" />
     <ClCompile Include="Classes\CGround.cpp" />
     <ClCompile Include="Classes\CLevelLayer.cpp" />
     <ClCompile Include="Classes\CLogfile.cpp" />
@@ -148,8 +148,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Collectible.cpp" />
     <ClCompile Include="Classes\CommandLineParameter.cpp" />
     <ClCompile Include="Classes\CommonMain.cpp" />
+    <ClCompile Include="Classes\CompoundCollider.cpp" />
     <ClCompile Include="Classes\CPlayer.cpp" />
-    <ClCompile Include="Classes\CPlayerCollider.cpp" />
     <ClCompile Include="Classes\Crystal.cpp" />
     <ClCompile Include="Classes\CShooter.cpp" />
     <ClCompile Include="Classes\CTexture.cpp" />
@@ -165,6 +165,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="Classes\Mantis.cpp" />
     <ClCompile Include="Classes\Nut.cpp" />
     <ClCompile Include="Classes\ParallaxLayer.cpp" />
+    <ClCompile Include="Classes\PhysicsEngine.cpp" />
+    <ClCompile Include="Classes\PhysicsObject.cpp" />
     <ClCompile Include="Classes\PlayerSpawner.cpp" />
     <ClCompile Include="Classes\SlimeHeap.cpp" />
     <ClCompile Include="Classes\Snail.cpp" />
@@ -207,8 +209,10 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="Classes\Moveable.h" />
     <ClInclude Include="Classes\Nut.h" />
     <ClInclude Include="Classes\ParallaxLayer.h" />
+    <ClInclude Include="Classes\Physic.h" />
+    <ClInclude Include="Classes\PhysicsEngine.h" />
+    <ClInclude Include="Classes\PhysicsObject.h" />
     <ClInclude Include="Classes\Player.h" />
-    <ClInclude Include="Classes\PlayerCollider.h" />
     <ClInclude Include="Classes\PlayerSpawner.h" />
     <ClInclude Include="Classes\SecondVegetationLayer.h" />
     <ClInclude Include="Classes\Shooter.h" />

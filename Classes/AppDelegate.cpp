@@ -1,6 +1,8 @@
 #include "AppDelegate.h"
 #include "MainMenu.h"
 #include "IntroScene.h"
+#include "CommonMain.h"
+#include "LevelTestScene.h"
 #include <fstream>
 
 USING_NS_CC;
@@ -27,7 +29,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto eglView = EGLView::getInstance();
 
     director->setOpenGLView(eglView);
-	eglView->setDesignResolutionSize(1600.0f, 900.0f, ResolutionPolicy::EXACT_FIT);
+	eglView->setDesignResolutionSize(1920.0f, 1080.0f, ResolutionPolicy::EXACT_FIT);
 
     // turn on display FPS
     director->setDisplayStats(false);
@@ -63,7 +65,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 
     // run
-    director->runWithScene(intro);
+	if (g_pCommonMain->getSkipMenu())
+	{
+		director->runWithScene(LevelTestScene::createScene());
+	}
+	else
+	{
+		director->runWithScene(intro);
+	}
 
     return true;
 }
