@@ -29,6 +29,10 @@ bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 	{
 		if (o == _obj) continue;
 
+		if (!o) continue;
+
+		if (!o->getCollider()) continue;
+
 		o->getCollider()->update();
 
 		if (isCollision(_obj->getCollider(), o->getCollider()))
