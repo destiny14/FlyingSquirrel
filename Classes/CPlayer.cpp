@@ -24,7 +24,7 @@ Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, I
 	if (tex)
 	{
 		player->setTexture(tex);
-		player->setSize(160.0f, 250.0f);
+		player->setSize(80.0f, 125.0f);
 		player->setParent(parent);
 		player->init();
 
