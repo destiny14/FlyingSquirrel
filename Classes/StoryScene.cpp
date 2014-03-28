@@ -158,6 +158,11 @@ bool StoryScene::init()
 	m_timeElapsed = 0;
 	m_timeToElapse = 6;
 	m_page = 1;
+	
+	m_pInput = new InputManager(this);
+	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_ESCAPE;
+	m_pSkip = m_pInput->createKeyboardAction(&code, 1, "skip");
+	
 	this->scheduleUpdate();
 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/B01.wav", true);
@@ -169,6 +174,11 @@ void StoryScene::update(float dt)
 {
 	m_pCam->update(dt);
 	m_timeElapsed += dt;
+	m_pInput->update();
+	if (m_pSkip->isPressed())
+	{
+		Director::getInstance()->replaceScene(LevelTestScene::createScene());
+	}
 	if (m_timeElapsed >= m_timeToElapse)
 	{
 		m_timeElapsed = 0;

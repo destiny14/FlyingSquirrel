@@ -37,6 +37,8 @@ bool Bullet::init(Shooter* shooter, float direction, float force)
 	m_direction = direction;
 	m_force = force;
 
+	velocity.x = direction * force * 33.3f;
+
 	m_bullettype = Nut;
 
 	return true;
@@ -45,7 +47,7 @@ bool Bullet::init(Shooter* shooter, float direction, float force)
 void Bullet::update(float dt)
 {
 	Moveable::update(dt);
-	this->setPositionX(this->getPosition().x + (m_force * m_direction));
+	//this->setPositionX(this->getPosition().x + (m_force * m_direction));
 	this->getSprite()->setRotation(this->getSprite()->getRotation() + (m_force * m_direction));
 }
 

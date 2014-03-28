@@ -35,8 +35,12 @@ public:
 
 	Size size = Size(0.0f, 0.0f);
 	Point velocity = Point::ZERO;
+
+	bool isFlaggedForDeletion() { return flaggedForDeletion; }
+	void flagForDeletion() { flaggedForDeletion = true; }
 private:
 	PhysicsEngine* m_pEngine = nullptr;
+	bool flaggedForDeletion = false;
 };
 
 #endif
