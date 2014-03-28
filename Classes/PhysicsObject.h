@@ -25,6 +25,8 @@ public:
 	virtual void update(float _dt) override;
 	//Gibt zurueck, ob die Collision bei Bewegung ignoriert werden sollte, d.h. nicht blockt
 	virtual bool onCollision(PhysicsObject* _other, int myColliderTag) { return false; }
+	virtual void onCollisionExit(PhysicsObject* _other, int myColliderTag) {}
+	
 	virtual int getTag() = 0;
 
 	virtual void removeFromParentAndCleanup(bool _b) override;

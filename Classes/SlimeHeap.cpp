@@ -151,7 +151,7 @@ void SlimeHeap::update(float dt)
 	}
 	else
 	{
-		//DO NOTHING
+		removeFromParentAndCleanup(true); // gegner entfernen
 	}
 }
 

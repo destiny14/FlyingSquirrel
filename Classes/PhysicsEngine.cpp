@@ -18,7 +18,7 @@ void PhysicsEngine::draw()
 
 	for (PhysicsObject* o : m_list)
 	{
-		o->getCollider()->debugDraw();
+		//o->getCollider()->debugDraw();
 	}
 }
 
@@ -33,9 +33,12 @@ bool PhysicsEngine::checkForBlockingCollision(PhysicsObject* _obj)
 
 		if (isCollision(_obj->getCollider(), o->getCollider()))
 		{
+			
 			o->onCollision(_obj, o->getCollider()->getTag());
 			if (_obj->onCollision(o, _obj->getCollider()->getTag()))
+			{
 				return true;
+			}
 		}
 	}
 	if (!m_objectsToRemove.empty())

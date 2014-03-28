@@ -39,7 +39,6 @@ public:
 	bool cs_run;
 
 	virtual int getTag() override { return TAG_PLAYER; }
-
 private:
 	int m_health;
 	int m_nuts;
