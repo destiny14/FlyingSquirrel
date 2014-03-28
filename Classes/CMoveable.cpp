@@ -19,7 +19,7 @@ Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 	right = new AABBCollider();
 	right->setTag(3);
 	collider = new CompoundCollider();
-
+	m_topHitGround = false;
 	//Build compound Collider
 	collider->addCollider(up);
 	collider->addCollider(bot);
@@ -47,7 +47,8 @@ void Moveable::update(float dt)
 	{
 		velocity.y = -1.0f;
 	}
-
+	/*if (!getPhysicsEngine()->checkForBlockingCollision(this))*/
+	m_topHitGround = false;
 	m_grounded = false;
 	Ground::update(dt);
 }
@@ -58,20 +59,35 @@ bool Moveable::onCollision(PhysicsObject* _other, int myColliderTag)
 
 	if (myColliderTag == bot->getTag())
 	{
-		m_grounded = true;
-		return true;
+		if (!m_topHitGround)
+		{
+			m_grounded = true;
+			return true;
+		}
 	}
-
+	else if (myColliderTag == up->getTag())
+	{
+		m_topHitGround = true;
+	}
+	else if (myColliderTag == left->getTag())
+	{
+		if (m_topHitGround)
+			m_topHitGround = true;
+	}
+	else if (myColliderTag == right->getTag())
+	{
+		if (m_topHitGround)
+			m_topHitGround = true;
+	}
 	return false;
 }
-
 void Moveable::setSize(float _w, float _h)
 {
 	size = Size(_w, _h);
-	up->setBoundingRect(Rect(		0,			_h * 0.8f,	_w,			_h * 0.2f - 20	));
-	bot->setBoundingRect(Rect(		0,			10,			_w,			_h * 0.2f - 20	));
-	left->setBoundingRect(Rect(		0,			20,			_w * 0.5f,	_h -20			));
-	right->setBoundingRect(Rect(	_w * 0.5f,	20,			_w * 0.5f,	_h - 20			));
+	up->setBoundingRect(Rect(		0,			_h - 5,	_w,			5	));
+	bot->setBoundingRect(Rect(		0,			10,			_w,			5	));
+	left->setBoundingRect(Rect(		0,			10,			_w * 0.5f,	_h -10			));
+	right->setBoundingRect(Rect(	_w * 0.5f,	10,			_w * 0.5f,	_h -10  		));
 }
 
 void Moveable::setSizeToTexture()
