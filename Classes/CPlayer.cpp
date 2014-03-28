@@ -26,6 +26,7 @@ Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, I
 		player->setTexture(tex);
 		player->setSize(160.0f, 250.0f);
 		player->setParent(parent);
+		player->setTag(101010);
 		player->init();
 
 		return player;
@@ -36,7 +37,6 @@ Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, I
 Player::Player(PhysicsEngine* _pEn) : Shooter(_pEn) {}
 
 Player::~Player() {}
-
 bool Player::init()
 {
 	Shooter* shooter = Shooter::create(this->getPhysicsEngine(), this->getTexture()->getFilename(), this->getParentLayer());
@@ -352,7 +352,7 @@ void Player::update(float dt)
 		{
 			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
-			Bullet* nut = Bullet::createNut(this, this->getParentLayer(), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
+			Bullet* nut = Bullet::createNut(this, dynamic_cast<MainLayer*>(getParent()), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
 			m_shooted = false;
@@ -401,7 +401,7 @@ void Player::update(float dt)
 		//setGrounded(false);
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y = 100.0f;
+		velocity.y = 600.0f;
 		//setPositionY(getPositionY() + 0.01);
 		//this->setGrounded(false);
 		m_jump = true;
@@ -439,7 +439,7 @@ void Player::update(float dt)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y += 40.0f;
+		velocity.y += 300.0f;
 		m_doubleJump = true;
 		m_readyToFly = false;
 		if (!this->getSprite()->getActionByTag(13))
@@ -503,7 +503,7 @@ void Player::update(float dt)
 	}*/
 	if (m_movement & EMovement::Left && !m_shooted && !m_pForward->isPressed())
 	{
-		velocity.x = -100.0f;
+		velocity.x = -500.0f;
 
 		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
@@ -527,7 +527,7 @@ void Player::update(float dt)
 	///////////////////////////////
 	if (m_movement & EMovement::Right && !m_shooted && !m_pBackward->isPressed() || cs_run)
 	{
-		velocity.x = 100.0f;
+		velocity.x = 500.0f;
 
 		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
 		{
