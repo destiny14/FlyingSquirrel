@@ -421,10 +421,13 @@ void Player::update(float dt)
 	///////////////////////
 	else if (m_pJump->wasReleased() && m_isFlying || this->isGrounded() && m_jump || this->isGrounded() && m_readyToFall)
 	{
-		this->getSprite()->stopAllActions();
-		m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
-		m_pLandingAction->setTag(4);
-		this->getSprite()->runAction(m_pLandingAction);
+		if (!this->getSprite()->getActionByTag(4))
+		{
+			this->getSprite()->stopAllActions();
+			m_pLandingAction = Repeat::create(Animate::create(m_pLandingFrames), 1);
+			m_pLandingAction->setTag(4);
+			this->getSprite()->runAction(m_pLandingAction);
+		}
 		m_jump = false;
 		m_doubleJump = false;
 		m_readyToFly = false;
@@ -484,7 +487,7 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		velocity.x = 100.0f * this->getSprite()->getScaleX();
-		velocity.y = 20.0f;
+		velocity.y = 75.0f;
 	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
@@ -508,7 +511,7 @@ void Player::update(float dt)
 	{
 		velocity.x = -500.0f;
 
-		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
+		if (!this->getSprite()->getActionByTag(1) && !m_jump)
 		{
 			this->getSprite()->stopAllActions();
 			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
@@ -532,7 +535,7 @@ void Player::update(float dt)
 	{
 		velocity.x = 500.0f;
 
-		if (!this->getSprite()->getActionByTag(1) && this->isGrounded())
+		if (!this->getSprite()->getActionByTag(1) && !m_jump)
 		{
 			this->getSprite()->stopAllActions();
 			m_pRunAction = RepeatForever::create(Animate::create(m_pRunFrames));
@@ -551,10 +554,10 @@ void Player::update(float dt)
 	{
 		if (!this->getSprite()->getActionByTag(8))
 		{
-			this->getSprite()->stopAllActions();
+			/*this->getSprite()->stopAllActions();
 			m_pFallStartAction = Repeat::create(Animate::create(m_pFallStartFrames), 1);
 			m_pFallStartAction->setTag(8);
-			this->getSprite()->runAction(m_pFallStartAction);
+			this->getSprite()->runAction(m_pFallStartAction);*/
 		}
 		if (m_counterToFall == 4)
 		{
@@ -619,7 +622,7 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		velocity.x = 200.0f * this->getSprite()->getScaleX();
-		velocity.y = 20.0f;
+		velocity.y = -20.0f;
 	}
 
 	//velocity.x *= m_speed;

@@ -59,7 +59,7 @@ bool MainLayer::init()
 	m_pPlayer= Player::create(physic, "sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
 	//m_pPlayer->getSprite()->setVisible(false);
-	this->addChild(m_pPlayer->getSprite(), 1);
+	this->addChild(m_pPlayer->getSprite(), 5);
 	//############################################################
 	//## Init Camera                                            ##
 	//############################################################
@@ -71,8 +71,8 @@ bool MainLayer::init()
 	//############################################################
 
 	ParallaxLayer* para = ParallaxLayer::create();
-	Point paraPos = Point(0,-200);
-	para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
+	Point paraPos = Point(0, 0);
+	//para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
 	para->addParallaxElement(Sprite::create("bk4.png"), paraPos, Point(0.3f, 0.1f), 4);
 	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
 	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
@@ -81,7 +81,7 @@ bool MainLayer::init()
 
 	for (Texture* t : *getTextures())
 	{
-		//addChild(t->getSprite(), 0);
+		addChild(t->getSprite(), 0);
 	}
 	for (Ground* g : *getPhysicsObjects())
 	{
