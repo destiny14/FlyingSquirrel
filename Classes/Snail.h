@@ -36,14 +36,17 @@ public:
 
 
 private:
-	float m_timer = 3.0;
 
 	MainLayer* m_layer;
 	bool m_isAlive = true;
 	bool m_isDead = false;
+	float m_timer = 3.0;
+	float m_tmpTimer;
 	float m_speed = 100.0f;
 	Point m_moveDirection;
 	bool m_isForward = true;
+	bool m_canAttack = true;
+	float m_attackTimer = 1.0f;
 
 	Action* m_pCrouchAction;
 	Action* m_pPunchAction;
