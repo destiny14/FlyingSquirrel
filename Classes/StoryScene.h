@@ -49,6 +49,8 @@ private:
 	Sprite* m_pSawyer;
 	Player* m_pPlayer;
 
+	LabelTTF* m_pLoading;
+
 	float m_timeElapsed;
 	float m_timeToElapse;
 	int m_page;

@@ -212,25 +212,43 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 		mainlayer->setPlayerSpawner(ps);
 	}
 
-	if (!levelEditor)
-		mainlayer->init();
-	else
-		l->setName("tmpname.xml");
-
 	//################################
 	//### Nuts					   ###
 	//################################
 	tinyxml2::XMLElement* collectibleElement = mainLayerElement->FirstChildElement("Nuts");
 	if (collectibleElement != nullptr)
-	{		
+	{
 		for (tinyxml2::XMLElement* child = collectibleElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 		{
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			CollectibleNut* nut = CollectibleNut::create(mainlayer);
 			nut->setPosition(pos);
-			mainlayer->addChild(nut, 0);
+			nut->retain();
+			mainlayer->getNuts()->push_front(nut);
 		}
 	}
+
+	//################################
+	//### Crystals				   ###
+	//################################
+	tinyxml2::XMLElement* crysElement = mainLayerElement->FirstChildElement("Crystals");
+	if (crysElement != nullptr)
+	{
+		for (tinyxml2::XMLElement* child = crysElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		{
+			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
+			CollectibleCrystal* crys = CollectibleCrystal::create(mainlayer);
+			crys->setPosition(pos);
+			mainlayer->getCrystals()->push_front(crys);
+		}
+	}
+
+	if (!levelEditor)
+		mainlayer->init();
+	else
+		l->setName("tmpname.xml");
+
+	
 	//################################
 	//### Aircurrent			   ###
 	//################################
@@ -247,20 +265,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			mainlayer->addChild(air, 0);
 		}
 	}
-	//################################
-	//### Crystals				   ###
-	//################################
-	tinyxml2::XMLElement* crysElement = mainLayerElement->FirstChildElement("Crystals");
-	if (crysElement != nullptr)
-	{
-		for (tinyxml2::XMLElement* child = crysElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
-		{
-			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
-			CollectibleCrystal* crys = CollectibleCrystal::create(mainlayer);
-			crys->setPosition(pos);
-			mainlayer->addChild(crys, 0);
-		}
-	}
+	
 	//################################
 	//### Snails				   ###
 	//################################

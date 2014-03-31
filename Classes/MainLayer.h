@@ -5,6 +5,8 @@
 #include "LevelLayer.h"
 #include "PlayerSpawner.h"
 #include "Physic.h"
+#include "Nut.h"
+#include "Crystal.h"
 
 class Player;
 class Snail;
@@ -43,6 +45,10 @@ public:
 
 	list<Ground*>* getPhysicsObjects();
 
+	list<CollectibleNut*>* getNuts();
+
+	list<CollectibleCrystal*>* getCrystals();
+
 	PlayerSpawner* getPlayerSpawner();
 	void setPlayerSpawner(PlayerSpawner* ps);
 
@@ -54,6 +60,10 @@ private:
 	InputAction* m_pLSD;
 	Player* m_pPlayer = nullptr;
 	list<Ground*>* m_physicObjects;
+	list<CollectibleNut*>* m_nuts;
+	list<CollectibleCrystal*>* m_crystals;
+
+
 	MouseInputAction* _test;
 
 	Snail* m_pSnail = nullptr;

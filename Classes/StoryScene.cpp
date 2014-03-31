@@ -16,6 +16,8 @@ bool StoryScene::init()
 	{
 		return false;
 	}
+	Size visibleSize = EGLView::getInstance()->getVisibleSize();
+	visibleSize = Director::getInstance()->getVisibleSize();
 	m_parallaxLayer = ParallaxLayer::create();
 	m_pCam = new GameCamera(this);
 	m_pSprites = new Sprite*[8];
@@ -90,7 +92,7 @@ bool StoryScene::init()
 
 	m_pSawyer = Sprite::create("sawyer.png");
 	m_pSawyer->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f - 1400,
-		Director::getInstance()->getVisibleSize().height * 0.5f + 100);
+		Director::getInstance()->getVisibleSize().height * 0.5f + 50);
 	m_pSawyer->setZOrder(6);
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
@@ -166,7 +168,6 @@ bool StoryScene::init()
 	this->scheduleUpdate();
 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/B01.wav", true);
-
 	return true;
 }
 

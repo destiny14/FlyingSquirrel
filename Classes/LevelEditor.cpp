@@ -82,9 +82,22 @@ bool LevelEditor::init(char* filename)
 	zOrder = 1;
 	for (Ground* g : *mainL->getPhysicsObjects())
 	{
-		g->setZOrder(zOrder);
-		addChild(g->getSprite());
+		addChild(g->getSprite(), 10);
 	}
+	for (CollectibleNut* n : *mainL->getNuts())
+	{
+		
+		n->getSprite()->removeFromParentAndCleanup(false);
+		n->getSprite()->setZOrder(100);
+		addChild(n->getSprite(), 110);
+	}
+	for (CollectibleCrystal* c : *mainL->getCrystals())
+	{
+		c->getSprite()->setZOrder(100);
+		c->getTexture()->getSprite()->removeFromParentAndCleanup(false);
+		addChild(c->getTexture()->getSprite(), 11);
+	}
+
 	
 	this->scheduleUpdate();
 	return true;
@@ -191,6 +204,10 @@ void LevelEditor::update(float dt)
 {
 	m_pInput->update();
 	Point p = m_mouseInputAction->getMousePosition();
+	for (Ground* g : *m_pLevel->getMainLayer()->getPhysicsObjects())
+	{
+		g->update(dt);
+	}
 	if (m_pCurrentMoving != nullptr)
 	{
 		

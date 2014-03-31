@@ -14,6 +14,8 @@
 MainLayer::MainLayer() : LevelLayer()
 {
 	m_physicObjects = nullptr;
+	m_crystals = nullptr;
+	m_nuts = nullptr;
 }
 
 MainLayer::~MainLayer() {}
@@ -78,7 +80,16 @@ bool MainLayer::init()
 	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
 	para->addParallaxElement(Sprite::create("bk1.png"), paraPos, Point(0.0003f, 0.0001f), 1);
 	this->addChild(para, -9999);
-
+	for (CollectibleNut* n : *getNuts())
+	{
+		n->getSprite()->setZOrder(100);
+		addChild(n, 5);
+	}
+	for (CollectibleCrystal* c : *getCrystals())
+	{
+		c->getSprite()->setZOrder(100);
+		addChild(c, 5);
+	}
 	for (Texture* t : *getTextures())
 	{
 		addChild(t->getSprite(), 0);
@@ -87,6 +98,7 @@ bool MainLayer::init()
 	{
 		addChild(g->getSprite(), 1);
 	}
+	
 	this->scheduleUpdate();
 	ACTIVATEINGAMEUI(this);
 
@@ -138,6 +150,22 @@ list<Ground*>* MainLayer::getPhysicsObjects()
 		
 	}
 	return m_physicObjects;
+}
+
+list<CollectibleNut*>* MainLayer::getNuts()
+{
+	if (!m_nuts)
+		m_nuts = new list<CollectibleNut*>();
+
+	return m_nuts;
+}
+
+list<CollectibleCrystal*>* MainLayer::getCrystals()
+{
+	if (!m_crystals)
+		m_crystals = new list<CollectibleCrystal*>();
+
+	return m_crystals;
 }
 
 void MainLayer::setPlayerSpawner(PlayerSpawner* pS)
