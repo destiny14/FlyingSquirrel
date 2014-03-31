@@ -86,7 +86,6 @@ bool LevelEditor::init(char* filename)
 	}
 	for (CollectibleNut* n : *mainL->getNuts())
 	{
-		
 		n->getSprite()->removeFromParentAndCleanup(false);
 		n->getSprite()->setZOrder(100);
 		addChild(n->getSprite(), 110);
@@ -205,6 +204,14 @@ void LevelEditor::update(float dt)
 	m_pInput->update();
 	Point p = m_mouseInputAction->getMousePosition();
 	for (Ground* g : *m_pLevel->getMainLayer()->getPhysicsObjects())
+	{
+		g->update(dt);
+	}
+	for (CollectibleNut* g : *m_pLevel->getMainLayer()->getNuts())
+	{
+		g->update(dt);
+	}
+	for (CollectibleCrystal* g : *m_pLevel->getMainLayer()->getCrystals())
 	{
 		g->update(dt);
 	}

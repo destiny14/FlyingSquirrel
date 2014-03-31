@@ -13,6 +13,7 @@
 
 MainLayer::MainLayer() : LevelLayer()
 {
+	m_playerSpawner = nullptr;
 	m_physicObjects = nullptr;
 	m_crystals = nullptr;
 	m_nuts = nullptr;
