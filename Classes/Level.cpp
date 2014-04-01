@@ -59,18 +59,26 @@ void Level::SaveLevel()
 	tinyxml2::XMLElement* slimeElement = doc.NewElement("Slimes");
 	tinyxml2::XMLElement* mantisElement = doc.NewElement("Mantis");
 
+	for (CollectibleNut* c : *mainLayer->getNuts())
+	{
+		tinyxml2::XMLElement* nut = doc.NewElement("Nut");
+		nut->SetAttribute("x", c->getPositionX());
+		nut->SetAttribute("y", c->getPositionY());
+		nutsElement->InsertEndChild(nut);
+	}
+
 	for (Node* node : mainLayer->getChildren())
 	{
 		switch (node->getTag())
 		{
-			case TAG_NUT:
+			/*case TAG_NUT:
 				{
 					tinyxml2::XMLElement* nut = doc.NewElement("Nut");
 					nut->SetAttribute("x", node->getPositionX());
 					nut->SetAttribute("y", node->getPositionY());
 					nutsElement->InsertEndChild(nut);
 				}
-				break;
+				break;*/
 			case TAG_CRYSTAL:
 				{
 					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");

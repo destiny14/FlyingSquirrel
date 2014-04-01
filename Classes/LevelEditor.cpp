@@ -117,7 +117,7 @@ void LevelEditor::addNutObjectCallback(Object* sender)
 
 	CollectibleNut* nut = CollectibleNut::create(m_pLevel->getMainLayer());
 	m_pCurrentMoving = dynamic_cast<Node*>(nut);
-	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
+	m_pLevel->getMainLayer()->getNuts()->push_front(dynamic_cast<CollectibleNut*>(m_pCurrentMoving));
 	nut->getTexture()->getSprite()->removeFromParentAndCleanup(false);
 	addChild(nut->getTexture()->getSprite());
 }
