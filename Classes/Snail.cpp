@@ -5,6 +5,8 @@ USING_NS_CC;
 
 Snail::Snail(PhysicsEngine* _pEn) : Shooter(_pEn)
 {
+	m_moveDirection.x = 1.0f;
+	m_tmpTimer = 3.0f;
 }
 
 Snail::~Snail()
@@ -159,7 +161,7 @@ void Snail::killIt()
 //----------Laufen mit animation----------//
 void Snail::moodWalk(float dt)
 {
-
+	m_timer -= dt;
 	if (!this->getSprite()->getActionByTag(0))
 	{
 		this->getSprite()->stopAllActions();
@@ -168,58 +170,38 @@ void Snail::moodWalk(float dt)
 		this->getSprite()->runAction(m_pCrouchAction);
 	}
 	
-	if (m_timer >= 0)
+	if (m_timer < 0)
 	{
-
-		m_moveDirection.x = -1.0f;
-		//this->velocity = Point(100.0f, 0.0f);
-		m_timer -= dt;
-		this->getSprite()->setScaleX(1.0f);
-
-	}
-	else if (m_timer < 0)
-	{
-		m_moveDirection.x = 1.0f;
-		//this->velocity = Point(-100.0f, 0.0f);
-		m_timer -= dt;
-		this->getSprite()->setScaleX(-1.0f);
-	}
-	if (m_timer <= -m_tmpTimer)
-	{
-		//this->velocity = Point(0.0f, 0.0f);
+		m_moveDirection.x *= -1.0f;
 		m_timer = m_tmpTimer;
-		//m_isAlive = false;
+		velocity.x = m_moveDirection.x * m_speed;
+		this->getSprite()->setScaleX(-m_moveDirection.x);
 	}
 
-	this->setPositionX(this->getPositionX() + m_moveDirection.x);
+	//this->setPositionX(this->getPositionX() + m_moveDirection.x);
 
 }
 
 bool Snail::onCollision(PhysicsObject* _other, int _myColliderTag)
 {
-	Moveable::onCollision(_other, _myColliderTag);
 	if (_other->getTag() == TAG_BULLET)
 	{
 		Bullet* b = dynamic_cast<Bullet*>(_other);
 		b->destroy();
 		killIt();
-		return true;
 	}
 
-	if (_other->getTag() == TAG_PLAYER && ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50)
+	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->velocity.y < 0.0f)
 	{
 		killIt();
-		return true;
 	}
-
-	if (_other->getTag() == TAG_PLAYER && !(((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50) && m_canAttack)
+	else if (_other->getTag() == TAG_PLAYER && m_canAttack)
 	{
 		m_pPlayer->hit();
 		m_canAttack = false;
-		return true;
 	}
 
-	return false;
+	return Moveable::onCollision(_other, _myColliderTag);
 }
 
 float Snail::getTimer()

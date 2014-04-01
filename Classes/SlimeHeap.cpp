@@ -5,6 +5,7 @@ USING_NS_CC;
 
 SlimeHeap::SlimeHeap(PhysicsEngine* _pEn) : Shooter(_pEn)
 {
+	m_tmpTimer = 3.0f;
 }
 
 SlimeHeap::~SlimeHeap()
@@ -167,29 +168,24 @@ void SlimeHeap::killIt()
 
 bool SlimeHeap::onCollision(PhysicsObject* _other, int _myColliderTag)
 {
-	Moveable::onCollision(_other, _myColliderTag);
 	if (_other->getTag() == TAG_BULLET)
 	{
 		Bullet* b = dynamic_cast<Bullet*>(_other);
 		b->destroy();
 		killIt();
-		return true;
 	}
 
-	if (_other->getTag() == TAG_PLAYER && ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50)
+	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->velocity.y < 0.0f)
 	{
 		killIt();
-		return true;
 	}
-
-	if (_other->getTag() == TAG_PLAYER && !(((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50) && m_canAttack)
+	else if (_other->getTag() == TAG_PLAYER && m_canAttack)
 	{
 		m_pPlayer->hit();
 		m_canAttack = false;
-		return true;
 	}
 
-	return false;
+	return Moveable::onCollision(_other, _myColliderTag);
 }
 
 //----------Laufen mit animation----------//
@@ -231,7 +227,7 @@ void SlimeHeap::moodWalk(float dt)
 		//m_isAlive = false;
 	}
 
-	this->setPositionX(this->getPositionX() + m_moveDirection.x);
+	//this->setPositionX(this->getPositionX() + m_moveDirection.x);
 }
 //----------Attack (TODO wenn attack + collider = hit player)----------//
 void SlimeHeap::moodAttack(float dt)
