@@ -92,9 +92,9 @@ bool LevelEditor::init(char* filename)
 	}
 	for (CollectibleCrystal* c : *mainL->getCrystals())
 	{
-		c->getSprite()->setZOrder(100);
 		c->getTexture()->getSprite()->removeFromParentAndCleanup(false);
-		addChild(c->getTexture()->getSprite(), 11);
+		c->getSprite()->setZOrder(100);
+		addChild(c->getSprite(), 11);
 	}
 
 	
@@ -117,7 +117,7 @@ void LevelEditor::addNutObjectCallback(Object* sender)
 
 	CollectibleNut* nut = CollectibleNut::create(m_pLevel->getMainLayer());
 	m_pCurrentMoving = dynamic_cast<Node*>(nut);
-	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
+	m_pLevel->getMainLayer()->getNuts()->push_front(dynamic_cast<CollectibleNut*>(m_pCurrentMoving));
 	nut->getTexture()->getSprite()->removeFromParentAndCleanup(false);
 	addChild(nut->getTexture()->getSprite());
 }
@@ -128,7 +128,7 @@ void LevelEditor::addCrystalObjectCallback(Object* sender)
 
 	CollectibleCrystal* nut = CollectibleCrystal::create(m_pLevel->getMainLayer());
 	m_pCurrentMoving = dynamic_cast<Node*>(nut);
-	m_pLevel->getMainLayer()->addChild(m_pCurrentMoving, 0);
+	m_pLevel->getMainLayer()->getCrystals()->push_front(dynamic_cast<CollectibleCrystal*>(m_pCurrentMoving));
 	nut->getTexture()->getSprite()->removeFromParentAndCleanup(false);
 	addChild(nut->getTexture()->getSprite());
 }
