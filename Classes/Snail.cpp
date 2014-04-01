@@ -23,7 +23,7 @@ Snail* Snail::create(PhysicsEngine* _pEn, MainLayer* layer)
 	if (tex)
 	{
 		snail->setTexture(tex);
-		snail->setSize(250.0f, 120.0f);
+		snail->setSize(124.0f, 73.0f);
 		snail->setParentLayer(layer);
 		snail->setTag(TAG_SNAIL);
 		snail->init();
@@ -45,7 +45,7 @@ bool Snail::init()
 
 	//-----Crouch_Cycle-----//		//--Tag_0--//
 
-	for (int i = 0; i < 90; i++)
+	for (int i = 1; i < 90; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Crouchcycle(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
@@ -59,13 +59,13 @@ bool Snail::init()
 
 	//-----Punsh_1-----//		//--Tag_1--//
 
-	for (int i = 0; i < 85; i++)
+	for (int i = 1; i < 85; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Punch_1(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
-	for (int i = 0; i < 85; i++)
+	for (int i = 1; i < 85; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Punch_2(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
@@ -81,14 +81,14 @@ bool Snail::init()
 
 	//-----Death-----//			//--Tag_2--//
 
-	for (int i = 0; i < 25; i++)
+	for (int i = 1; i < 25; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Hit(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
-	for (int i = 0; i < 58; i++)
+	for (int i = 1; i < 58; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
@@ -148,10 +148,7 @@ void Snail::update(float dt)
 	{
 		this->moodDie(dt);
 	}
-	else
-	{
-		removeFromParentAndCleanup(true); // gegner entfernen
-	}
+
 }
 
 void Snail::killIt()
@@ -246,7 +243,10 @@ void Snail::moodDie(float dt)
 		m_pDeathAction->setTag(2);
 		this->getSprite()->runAction(m_pDeathAction);
 		m_isDead = true;
+		removeFromParentAndCleanup(true); // gegner entfernen
+		
 	}
+
 
 }
 //----------Kann Enemy angreifen? ----------//
