@@ -95,7 +95,7 @@ bool SlimeHeap::init()
 		frames.pushBack(m_pFrame);
 	}
 
-	for (int i = 0; i < 45; i++)
+	for (int i = 0; i < 35; i++)
 	{
 		m_pSpriteString = String::createWithFormat("SlimeHeap_Dead(%i).png", i);
 		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
