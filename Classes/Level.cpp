@@ -66,6 +66,14 @@ void Level::SaveLevel()
 		nut->SetAttribute("y", c->getPositionY());
 		nutsElement->InsertEndChild(nut);
 	}
+	for (CollectibleCrystal* c : *mainLayer->getCrystals())
+	{
+		tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
+		crys->SetAttribute("x", c->getPositionX());
+		crys->SetAttribute("y", c->getPositionY());
+		crysElement->InsertEndChild(crys);
+	}
+
 
 	for (Node* node : mainLayer->getChildren())
 	{
@@ -79,14 +87,14 @@ void Level::SaveLevel()
 					nutsElement->InsertEndChild(nut);
 				}
 				break;*/
-			case TAG_CRYSTAL:
+			/*case TAG_CRYSTAL:
 				{
 					tinyxml2::XMLElement* crys = doc.NewElement("Crystal");
 					crys->SetAttribute("x", node->getPositionX());
 					crys->SetAttribute("y", node->getPositionY());
 					crysElement->InsertEndChild(crys);
 				}
-				break;
+				break;*/
 			case TAG_AIR:
 				{
 					tinyxml2::XMLElement* air = doc.NewElement("Crystal");
