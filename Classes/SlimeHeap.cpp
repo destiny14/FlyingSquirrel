@@ -34,7 +34,7 @@ SlimeHeap* SlimeHeap::create(PhysicsEngine* _pEn, MainLayer* layer)
 	if (tex)
 	{
 		slimeHeap->setTexture(tex);
-		slimeHeap->setSize(250.0f, 125.0f);
+		slimeHeap->setSize(130.0f, 58.0f);
 		slimeHeap->setParentLayer(layer);
 		slimeHeap->setTag(TAG_SLIMEHEAP);
 		slimeHeap->init();
@@ -51,8 +51,8 @@ bool SlimeHeap::init()
 	//-----Animationen-----//
 
 	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
-	m_pSpriteFrame->addSpriteFramesWithFile("slimeHeap.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("slimeHeap.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("slimeheap.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("slimeheap.png");
 
 	//-----Walk-----//		//--Tag_0--//
 
