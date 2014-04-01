@@ -23,9 +23,8 @@ Snail* Snail::create(PhysicsEngine* _pEn, MainLayer* layer)
 		snail->setTexture(tex);
 		snail->setSize(350.0f, 120.0f);
 		snail->setParentLayer(layer);
-
-		snail->init();
 		snail->setTag(TAG_SNAIL);
+		snail->init();
 		return snail;
 	}
 
@@ -101,6 +100,7 @@ bool Snail::init()
 	m_pDeathFrames->retain();
 	frames.clear();
 
+	scheduleUpdate();
 
 	return true;
 }
@@ -113,40 +113,43 @@ void Snail::update(float dt)
 		this->m_pPlayer = m_layer->getPlayer();
 		return;
 	}
-	//log("Ydistance: %f", ((m_pPlayer->getPositionY())-(this->getPositionY())));
+
 	//this->getPlayerColliderComponent()->update(dt);
 	//this->setAffectedByGravity(false);
 	Moveable::update(dt);
 	//this->CheckForCollisions();
 
 	//if (m_pPlayer->getPlayerColliderComponent()->getBottomCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-	//	&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >=170)
+	//	&& ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 170)
 	//{
 	//	m_isAlive = false;
 	//}
+	if (this->getAffectedByGrafity() == false)
+	{
+		this->setAffectedByGravity(true);
+	}
 
-	//if (this->m_isAlive)
-	//{
+	if (this->m_isAlive)
+	{
 
-	//	if (canAttack())
-	//	{
-	//		this->moodAttack(dt);
-	//	}
-	//	else
-	//	{
-	//		this->moodWalk(dt);
+		if (canAttack())
+		{
+			this->moodAttack(dt);
+		}
+		else
+		{
+			this->moodWalk(dt);
+		}
 
-	//	}
-
-	//}
-	//else if (!(this->m_isAlive) && !m_isDead)
-	//{
-	//	this->moodDie(dt);
-	//}
-	//else
-	//{
-	//	//DO NOTHING
-	//}
+	}
+	else if (!(this->m_isAlive) && !m_isDead)
+	{
+		this->moodDie(dt);
+	}
+	else
+	{
+		removeFromParentAndCleanup(true); // gegner entfernen
+	}
 }
 
 void Snail::killIt()
@@ -169,6 +172,7 @@ void Snail::moodWalk(float dt)
 	{
 
 		m_moveDirection.x = -1.0f;
+		//this->velocity = Point(100.0f, 0.0f);
 		m_timer -= dt;
 		this->getSprite()->setScaleX(1.0f);
 
@@ -176,17 +180,18 @@ void Snail::moodWalk(float dt)
 	else if (m_timer < 0)
 	{
 		m_moveDirection.x = 1.0f;
+		//this->velocity = Point(-100.0f, 0.0f);
 		m_timer -= dt;
 		this->getSprite()->setScaleX(-1.0f);
 	}
-	if (m_timer <= -m_timer)
+	if (m_timer <= -m_tmpTimer)
 	{
-		m_moveDirection.x = 0.0f;
-		m_timer = m_timer;
+		//this->velocity = Point(0.0f, 0.0f);
+		m_timer = m_tmpTimer;
 		//m_isAlive = false;
 	}
 
-	this->setPosition(getTexture()->getPosition() + m_moveDirection * dt * m_speed);
+	this->setPositionX(this->getPositionX() + m_moveDirection.x);
 
 }
 
@@ -200,6 +205,20 @@ bool Snail::onCollision(PhysicsObject* _other, int _myColliderTag)
 		killIt();
 		return true;
 	}
+
+	if (_other->getTag() == TAG_PLAYER && ((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50)
+	{
+		killIt();
+		return true;
+	}
+
+	if (_other->getTag() == TAG_PLAYER && !(((m_pPlayer->getPositionY()) - (this->getPositionY())) >= 50) && m_canAttack)
+	{
+		m_pPlayer->hit();
+		m_canAttack = false;
+		return true;
+	}
+
 	return false;
 }
 
@@ -211,26 +230,29 @@ float Snail::getTimer()
 void Snail::setTimer(float seconds)
 {
 	m_timer = seconds;
+	m_tmpTimer = seconds;
 }
 
 //----------Attack (TODO wenn attack + collider = hit player)----------//
 void Snail::moodAttack(float dt)
 {
 
-	/*if (!this->getSprite()->getActionByTag(1))
+	if (!this->getSprite()->getActionByTag(1))
 	{
 		this->getSprite()->stopAllActions();
 		m_pPunch1Action = RepeatForever::create(Animate::create(m_pPunch_1Frames));
 		m_pPunch1Action->setTag(1);
 		this->getSprite()->runAction(m_pPunch1Action);
-
-		if (m_pPlayer->getPlayerColliderComponent()->getLeftCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-			|| m_pPlayer->getPlayerColliderComponent()->getRightCollider().intersectsRect(this->getColliderComponent()->getCollisionRectangle())
-			)
+	}
+	if (!m_canAttack)
+	{
+		m_attackTimer -= dt;
+		if (m_attackTimer <= 0)
 		{
-			m_pPlayer->hit();
+			m_canAttack = true;
+			m_attackTimer = 1.0f;
 		}
-	}*/
+	}
 }
 //---------Sterben (TODO Snail Löschen)----------//
 void Snail::moodDie(float dt)
