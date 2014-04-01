@@ -41,6 +41,8 @@ private:
 	bool m_grounded;
 	float m_gravity;
 	MainLayer* m_parent;
+
+protected:
 	CompoundCollider* collider;
 	AABBCollider* up;
 	AABBCollider* bot;

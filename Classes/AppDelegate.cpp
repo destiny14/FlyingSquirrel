@@ -67,6 +67,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // run
 	if (g_pCommonMain->getSkipMenu())
 	{
+		glClearColor(0, 0, 0, 255);
 		director->runWithScene(LevelTestScene::createScene());
 	}
 	else

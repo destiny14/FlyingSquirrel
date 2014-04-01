@@ -277,7 +277,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			float timer = child->FloatAttribute("timer");
 			Snail* crys = Snail::create(mainlayer->physic, mainlayer);
-			crys->setTimer(timer);
+			if(timer > 0.0f) crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
 			mainlayer->addChild(crys, 0);
@@ -294,7 +294,7 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 			Point pos = Point(child->FloatAttribute("x"), child->FloatAttribute("y"));
 			float timer = child->FloatAttribute("timer");
 			SlimeHeap* crys = SlimeHeap::create(mainlayer->physic, mainlayer);
-			crys->setTimer(timer);
+			if (timer > 0.0f) crys->setTimer(timer);
 			crys->setPosition(pos);
 			mainlayer->addChild(crys->getSprite(), 0);
 			mainlayer->addChild(crys, 0);
