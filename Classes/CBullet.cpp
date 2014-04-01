@@ -70,7 +70,7 @@ void Bullet::destroy()
 {
 	if (m_bullettype == Bullettype::Nut)
 	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound->playEffect("sounds/sawyer/Ehit.wav", false, 1.0f, 0.0f, 1.0f);
 		this->getParent()->removeChild(this->getSprite());
 		this->removeFromParentAndCleanup(true);

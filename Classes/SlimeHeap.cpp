@@ -50,7 +50,7 @@ bool SlimeHeap::init()
 
 	//-----Animationen-----//
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("slimeheap.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("slimeheap.png");
 
@@ -59,7 +59,7 @@ bool SlimeHeap::init()
 	for (int i = 0; i < 81; i++)
 	{
 		m_pSpriteString = String::createWithFormat("SlimeHeap_Walk(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -75,7 +75,7 @@ bool SlimeHeap::init()
 	for (int i = 0; i < 32; i++)
 	{
 		m_pSpriteString = String::createWithFormat("SlimeHeap_Shoot(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -91,14 +91,14 @@ bool SlimeHeap::init()
 	for (int i = 0; i < 24; i++)
 	{
 		m_pSpriteString = String::createWithFormat("SlimeHeap_Hit(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
 	for (int i = 0; i < 35; i++)
 	{
 		m_pSpriteString = String::createWithFormat("SlimeHeap_Dead(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -280,7 +280,7 @@ bool SlimeHeap::canAttack()
 	playerPos = m_pPlayer->getPosition();
 	slimePos = this->getPosition();
 
-	if (abs(attackRange) >= abs(ccpDistance(playerPos, slimePos)))
+	if (abs(attackRange) >= abs((playerPos.getDistance(slimePos))))
 	{
 		if (playerPos.x > slimePos.x)
 		{

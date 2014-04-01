@@ -41,7 +41,7 @@ bool IntroScene::init()
 	m_pIntro->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pIntro->setScale(2);
 	addChild(m_pIntro);
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("intro.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("intro.png");
 
@@ -52,7 +52,7 @@ bool IntroScene::init()
 	for (int i = 0; i < 60; i++)
 	{
 		filename = String::createWithFormat("Intro%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pIntroFrames = Animation::createWithSpriteFrames(frames, 0.0325f);

@@ -33,12 +33,6 @@ public:
 
 	virtual Player* getPlayer() { return m_pPlayer; }
 
-	virtual Snail* getSnail() { return m_pSnail; }
-
-	virtual SlimeHeap* getSlimeHeap() { return m_pSlimeHeap; }
-
-	virtual Mantis* getMantis() { return m_pMantis; }
-
 	void setPhysicsObjects(list<Ground*>* physicObjects);
 
 	void menuCloseCallback(Object* pSender);

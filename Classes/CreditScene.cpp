@@ -26,14 +26,14 @@ bool CreditScene::init() {
 	Vector<SpriteFrame*> frames;
 	auto mantis = Sprite::create("mantis.png");
 
-	auto m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	auto m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("mantis2.plist");
 	auto m_pSpriteBatch = SpriteBatchNode::create("mantis2.png");
 	
 	for (int i = 0; i < 35; i++)
 	{
 		auto m_pSpriteString = String::createWithFormat("Mantis_Run(%i).png", i);
-		auto m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		auto m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 

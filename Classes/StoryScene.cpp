@@ -95,7 +95,7 @@ bool StoryScene::init()
 		Director::getInstance()->getVisibleSize().height * 0.5f + 50);
 	m_pSawyer->setZOrder(6);
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
 
@@ -105,7 +105,7 @@ bool StoryScene::init()
 	for (int i = 0; i < 31; i++)
 	{
 		filename = String::createWithFormat("skeleton-Stand%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pStandFrames = Animation::createWithSpriteFrames(frames, 0.065f);
@@ -120,7 +120,7 @@ bool StoryScene::init()
 	for (int i = 0; i < 43; i++)
 	{
 		filename = String::createWithFormat("skeleton-Jump%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.01f);
@@ -133,7 +133,7 @@ bool StoryScene::init()
 	for (int i = 0; i < 21; i++)
 	{
 		filename = String::createWithFormat("skeleton-Flug%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.035f);
@@ -167,7 +167,7 @@ bool StoryScene::init()
 	
 	this->scheduleUpdate();
 
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/B01.wav", true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/music/B01.wav", true);
 	return true;
 }
 
@@ -197,7 +197,7 @@ void StoryScene::update(float dt)
 		else if (m_page == 8)
 		{
 
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("sounds/music/i.wav", true);
+			CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/music/i.wav", true);
 			auto inAction = FadeIn::create(1);
 			m_oldWiseSprite->runAction(inAction);
 			m_timeToElapse = 2;
@@ -258,7 +258,7 @@ void StoryScene::update(float dt)
 			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));
 			m_pFlightAction->setTag(3);
 			m_pSawyer->runAction(m_pFlightAction);
-			m_timeToElapse = 4.8;
+			m_timeToElapse = 4.8f;
 			++m_page;
 		}
 		else if (m_page == 15)
