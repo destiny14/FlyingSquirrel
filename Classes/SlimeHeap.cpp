@@ -175,7 +175,7 @@ bool SlimeHeap::onCollision(PhysicsObject* _other, int _myColliderTag)
 		killIt();
 	}
 
-	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->velocity.y < 0.0f)
+	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->getCollider()->getTag() == bot->getTag() && _other->velocity.y < 2.0f)
 	{
 		killIt();
 	}

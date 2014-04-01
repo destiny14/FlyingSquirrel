@@ -23,7 +23,7 @@ Snail* Snail::create(PhysicsEngine* _pEn, MainLayer* layer)
 	if (tex)
 	{
 		snail->setTexture(tex);
-		snail->setSize(350.0f, 120.0f);
+		snail->setSize(250.0f, 120.0f);
 		snail->setParentLayer(layer);
 		snail->setTag(TAG_SNAIL);
 		snail->init();
@@ -191,7 +191,7 @@ bool Snail::onCollision(PhysicsObject* _other, int _myColliderTag)
 		killIt();
 	}
 
-	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->velocity.y < 0.0f)
+	if (_other->getTag() == TAG_PLAYER && _myColliderTag == up->getTag() && _other->getCollider()->getTag() == bot->getTag() && _other->velocity.y < 2.0f)
 	{
 		killIt();
 	}
