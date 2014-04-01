@@ -150,6 +150,9 @@
     <ClCompile Include="Classes\PhysicsEngine.cpp">
       <Filter>Classes\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\CreditScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="Classes\Physic.h">
       <Filter>Classes\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\CreditScene.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

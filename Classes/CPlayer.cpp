@@ -4,6 +4,7 @@
 #include "MainLayer.h"
 #include "Player.h"
 #include "Collider.h"
+#include "CreditScene.h"
 
 Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, InputManager* pManager)
 {
@@ -303,15 +304,12 @@ void Player::update(float dt)
 		if (m_counterDeath == 23)
 		{
 			m_isDead = true;
+			Director::getInstance()->replaceScene(CreditScene::createScene());
 		}
 		m_counterDeath++;
 		return;
 	}
-	else if (m_health <= 0 && m_isDead)
-	{
-		velocity.y += -500.0f;
-		return;
-	}
+	if (m_health <= 0) return;
 	/////////////////////////
 	// Schießen - Bewegung //
 	/////////////////////////
