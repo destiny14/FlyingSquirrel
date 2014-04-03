@@ -39,7 +39,7 @@ bool Loewenzahn::init()
 
 	//-----Animationen-----//
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("loewenzahn.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("loewenzahn.png");
 
@@ -48,7 +48,7 @@ bool Loewenzahn::init()
 	for (int i = 0; i < 40; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Idle%i", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -64,7 +64,7 @@ bool Loewenzahn::init()
 	for (int i = 0; i < 51; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Shoot%i", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -80,14 +80,14 @@ bool Loewenzahn::init()
 	for (int i = 0; i < 10; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Hit%i", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
 	for (int i = 0; i < 20; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Dead%i", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -188,7 +188,7 @@ bool Loewenzahn::canAttack()
 	playerPos = m_pPlayer->getPosition();
 	loewenzahnPos = this->getPosition();
 
-	if (abs(attackRange) >= (ccpDistance(playerPos, loewenzahnPos)))
+	if (abs(attackRange) >= (playerPos.getDistance(loewenzahnPos)))
 	{
 		if (playerPos.x > loewenzahnPos.x)
 		{

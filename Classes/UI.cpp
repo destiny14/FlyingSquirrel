@@ -125,11 +125,10 @@ void UI::createLevelEditorFilePopup()
 	auto scrollMenu = Menu::create(scrollBackground, scrollDownObject, scrollUpObject,  NULL);
 	scrollMenu->retain();
 	scrollMenu->setPosition(0, 0);
-	scrollMenu->setZOrder(-10);
 	menu->retain();
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
-	m_pLevelEditor->addChild(scrollMenu);
+	m_pLevelEditor->addChild(scrollMenu, -10);
 	pLevelEditor->ChooseFileMenu = menu;
 	pLevelEditor->ChooseFileNavMenu = scrollMenu;
 }
@@ -201,10 +200,9 @@ void UI::createLevelEditorUI()
 	auto menu = Menu::create(addTextureObject, addGroundObject, addNutObject, addCrystalObject, addAirObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, mainMenuObject, NULL);
 	auto menuBackground = Menu::create(sidebarBackground, NULL);
 	menuBackground->setPosition(0, 0);
-	menuBackground->setZOrder(-10);
 	menu->setPosition(0, 0);
 	m_pLevelEditor->addChild(menu);
-	m_pLevelEditor->addChild(menuBackground);
+	m_pLevelEditor->addChild(menuBackground, -10);
 	pLevelEditor->MainMenu = menu;
 }
 
@@ -236,14 +234,14 @@ void UI::createMainMenuUI()
 	m_pAnimation->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pMenu->addChild(m_pAnimation);
 
-	m_pSpriteFrame2 = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame2 = SpriteFrameCache::getInstance();
 	m_pSpriteFrame2->addSpriteFramesWithFile("GUI/menu.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("GUI/menu.png");
 
 	for (int i = 0; i < 56; i++)
 	{
 		filename = String::createWithFormat("skeleton-Reinfahrt%i.png", i);
-		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame2 = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame2);
 	}
 	m_pStartFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
@@ -253,7 +251,7 @@ void UI::createMainMenuUI()
 	for (int i = 0; i < 51; i++)
 	{
 		filename = String::createWithFormat("skeleton-NormalMenu%i.png", i);
-		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame2 = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame2);
 	}
 	m_pIdleFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
@@ -263,7 +261,7 @@ void UI::createMainMenuUI()
 	for (int i = 0; i < 30; i++)
 	{
 		filename = String::createWithFormat("skeleton-Rausfahrt%i.png", i);
-		frame2 = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame2 = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame2);
 	}
 	m_pEndFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
@@ -402,7 +400,7 @@ void UI::update(float dt)
 			}
 			else if (m_animations == 1)
 			{
-				m_timeElapsed = 0.2;
+				m_timeElapsed = 0.2f;
 				m_pAnimation->stopAllActions();
 				m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
 				m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);

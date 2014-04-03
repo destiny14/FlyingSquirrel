@@ -4,6 +4,7 @@
 #include "MainLayer.h"
 #include "Player.h"
 #include "Collider.h"
+#include "CreditScene.h"
 
 Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, InputManager* pManager)
 {
@@ -72,7 +73,7 @@ bool Player::init()
 	cs_flight = false;
 	cs_run = false;
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
 
@@ -82,7 +83,7 @@ bool Player::init()
 	for (int i = 0; i < 31; i++)
 	{
 		filename = String::createWithFormat("skeleton-Stand%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pStandFrames = Animation::createWithSpriteFrames(frames, 0.065f);
@@ -96,7 +97,7 @@ bool Player::init()
 	for (int i = 0; i < 31; i++)
 	{
 		filename = String::createWithFormat("skeleton-Run%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pRunFrames = Animation::createWithSpriteFrames(frames, 0.0275f);
@@ -108,7 +109,7 @@ bool Player::init()
 	for (int i = 0; i < 43; i++)
 	{
 		filename = String::createWithFormat("skeleton-Jump%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pJumpFrames = Animation::createWithSpriteFrames(frames, 0.01f);
@@ -120,7 +121,7 @@ bool Player::init()
 	for (int i = 0; i < 21; i++)
 	{
 		filename = String::createWithFormat("skeleton-Flug%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pFlightFrames = Animation::createWithSpriteFrames(frames, 0.035f);
@@ -132,7 +133,7 @@ bool Player::init()
 	for (int i = 42; i < 69; i++)
 	{
 		filename = String::createWithFormat("skeleton-Jump%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pLandingFrames = Animation::createWithSpriteFrames(frames, 0.015f);
@@ -144,7 +145,7 @@ bool Player::init()
 	for (int i = 0; i < 9; i++)
 	{
 		filename = String::createWithFormat("skeleton-Hit%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pHitFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -156,7 +157,7 @@ bool Player::init()
 	for (int i = 0; i < 24; i++)
 	{
 		filename = String::createWithFormat("skeleton-Dead%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pDeathFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -168,7 +169,7 @@ bool Player::init()
 	for (int i = 0; i < 22; i++)
 	{
 		filename = String::createWithFormat("skeleton-Shot%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pShootFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -180,7 +181,7 @@ bool Player::init()
 	for (int i = 0; i < 4; i++)
 	{
 		filename = String::createWithFormat("skeleton-Fall_Einleitung%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pFallStartFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -192,7 +193,7 @@ bool Player::init()
 	for (int i = 0; i < 6; i++)
 	{
 		filename = String::createWithFormat("skeleton-Fall%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pFallFrames = Animation::createWithSpriteFrames(frames, 0.03f);
@@ -204,7 +205,7 @@ bool Player::init()
 	for (int i = 0; i < 6; i++)
 	{
 		filename = String::createWithFormat("skeleton-Flug_Einleitung%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pFallToFlyFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -216,7 +217,7 @@ bool Player::init()
 	for (int i = 0; i < 35; i++)
 	{
 		filename = String::createWithFormat("skeleton-Idle2%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pDontKnowDirectionFrames = Animation::createWithSpriteFrames(frames, 0.0325f);
@@ -228,7 +229,7 @@ bool Player::init()
 	for (int i = 0; i < 51; i++)
 	{
 		filename = String::createWithFormat("skeleton-Jump_shot%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pJumpShootFrames = Animation::createWithSpriteFrames(frames, 0.025f);
@@ -240,7 +241,7 @@ bool Player::init()
 	for (int i = 0; i < 58; i++)
 	{
 		filename = String::createWithFormat("skeleton-Double_Jump%i.png", i);
-		frame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(filename->getCString());
+		frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(filename->getCString());
 		frames.pushBack(frame);
 	}
 	m_pDoubleJumpFrames = Animation::createWithSpriteFrames(frames, 0.008f);
@@ -303,15 +304,12 @@ void Player::update(float dt)
 		if (m_counterDeath == 23)
 		{
 			m_isDead = true;
+			Director::getInstance()->replaceScene(CreditScene::createScene());
 		}
 		m_counterDeath++;
 		return;
 	}
-	else if (m_health <= 0 && m_isDead)
-	{
-		velocity.y += -500.0f;
-		return;
-	}
+	if (m_health <= 0) return;
 	/////////////////////////
 	// Schießen - Bewegung //
 	/////////////////////////
@@ -353,7 +351,7 @@ void Player::update(float dt)
 	{
 		if (m_counterToShoot == m_countToShoot)
 		{
-			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
 			Bullet* nut = Bullet::createNut(this, dynamic_cast<MainLayer*>(getParent()), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
@@ -386,7 +384,7 @@ void Player::update(float dt)
 	///////////////////////
 	if (!m_pShoot->wasPressed() && !m_pForward->isPressed() && !m_pBackward->isPressed() && !m_pJump->isPressed() && !this->getSprite()->getActionByTag(4) && !this->getSprite()->getActionByTag(7) && !this->getSprite()->getActionByTag(11))
 	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound->stopAllEffects();
 		if (!this->getSprite()->getActionByTag(0) && this->isGrounded())
 		{
@@ -402,7 +400,7 @@ void Player::update(float dt)
 	if (m_pJump->wasPressed() && this->isGrounded())
 	{
 		//setGrounded(false);
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
 		velocity.y = 550.0f;
 		//setPositionY(getPositionY() + 0.01);
@@ -435,7 +433,7 @@ void Player::update(float dt)
 		m_rescueFly = false;
 		m_isFlying = false;
 		m_flySound = false;
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound->stopAllEffects();
 	}
 	/////////////////////////////
@@ -443,7 +441,7 @@ void Player::update(float dt)
 	/////////////////////////////
 	else if (m_pJump->wasPressed() && !(this->isGrounded()) && !m_doubleJump && m_jump)
 	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
 		velocity.y += 250.0f;
 		m_doubleJump = true;
@@ -468,11 +466,11 @@ void Player::update(float dt)
 	{
 		if (!m_flySound)
 		{
-			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 			sound->playEffect("sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
 			if (!sound->isBackgroundMusicPlaying() && !m_flySound)
 			{
-				auto sound2 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+				auto sound2 = CocosDenshion::SimpleAudioEngine::getInstance();
 				sound2->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
 				m_flySound = true;
 			}
@@ -494,10 +492,10 @@ void Player::update(float dt)
 	////////////////////////////////
 	/*if (m_pForward->isPressed() || m_pBackward->isPressed())
 	{
-		auto sound1 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound1 = CocosDenshion::SimpleAudioEngine::getInstance();
 		sound1->playEffect("sounds/sawyer/step1.wav", true, 1.0f, 0.0f, 1.0f);
-		auto sound2 = CocosDenshion::SimpleAudioEngine::sharedEngine();
-		auto sound3 = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound2 = CocosDenshion::SimpleAudioEngine::getInstance();
+		auto sound3 = CocosDenshion::SimpleAudioEngine::getInstance();
 		if (!sound2->isBackgroundMusicPlaying())
 		{
 			sound1->playEffect("sounds/sawyer/step1.wav", false, 1.0f, 0.0f, 1.0f);
@@ -548,7 +546,7 @@ void Player::update(float dt)
 	// Fallen - Bewegung //
 	///////////////////////
 
-	auto flySound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+	auto flySound = CocosDenshion::SimpleAudioEngine::getInstance();
 
 	if (!this->isGrounded() && !m_jump && !m_readyToFall)
 	{
@@ -571,7 +569,7 @@ void Player::update(float dt)
 	}
 	else if (!this->getSprite()->getActionByTag(9) && !this->isGrounded() && !m_jump && m_readyToFall && !m_pJump->isPressed())
 	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		if (!sound->isBackgroundMusicPlaying())
 		{
 			sound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
@@ -609,7 +607,7 @@ void Player::update(float dt)
 	{
 		if (!this->getSprite()->getActionByTag(3))
 		{
-			auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 			if (!sound->isBackgroundMusicPlaying() && !flySound->isBackgroundMusicPlaying())
 			{
 				flySound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);

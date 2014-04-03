@@ -39,7 +39,7 @@ bool Snail::init()
 
 	//-----Animationen-----//
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("snail.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("snail.png");
 
@@ -48,7 +48,7 @@ bool Snail::init()
 	for (int i = 1; i < 90; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Crouchcycle(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -62,13 +62,13 @@ bool Snail::init()
 	for (int i = 1; i < 85; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Punch_1(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 	for (int i = 1; i < 85; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Punch_2(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -84,14 +84,14 @@ bool Snail::init()
 	for (int i = 1; i < 25; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Hit(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
 	for (int i = 1; i < 58; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Snail_Death(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 

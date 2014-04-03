@@ -40,7 +40,7 @@ bool Mantis::init()
 
 	//-----Animationen-----//
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("mantis2.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("mantis2.png");
 
@@ -49,7 +49,7 @@ bool Mantis::init()
 	for (int i = 0; i < 35; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Idle(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -63,7 +63,7 @@ bool Mantis::init()
 	for (int i = 0; i < 35; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Run(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -78,7 +78,7 @@ bool Mantis::init()
 	for (int i = 0; i < 60; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_RangeAttack(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -88,7 +88,7 @@ bool Mantis::init()
 	frames.clear();
 
 
-	m_pSpriteFrame = SpriteFrameCache::sharedSpriteFrameCache();
+	m_pSpriteFrame = SpriteFrameCache::getInstance();
 	m_pSpriteFrame->addSpriteFramesWithFile("mantis1.plist");
 	m_pSpriteBatch = SpriteBatchNode::create("mantis1.png");
 
@@ -97,7 +97,7 @@ bool Mantis::init()
 	for (int i = 0; i < 30; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Attack(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -114,13 +114,13 @@ bool Mantis::init()
 	for (int i = 0; i < 10; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Hit(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 	for (int i = 0; i < 40; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Dead(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -135,7 +135,7 @@ bool Mantis::init()
 	for (int i = 0; i < 10; i++)
 	{
 		m_pSpriteString = String::createWithFormat("Mantis_Hit(%i).png", i);
-		m_pFrame = SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_pSpriteString->getCString());
+		m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
 		frames.pushBack(m_pFrame);
 	}
 
@@ -223,9 +223,9 @@ void Mantis::applyDamage()
 //----------Laufen mit animation----------//
 void Mantis::moodWalk(float dt)
 {
-	if (abs(attackRange_Range) >= ccpDistance(playerPos, mantisPos))
+	if (abs(attackRange_Range) >= playerPos.getDistance(mantisPos))
 	{
-		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
+		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		if (!sound->isBackgroundMusicPlaying())
 		{
 			sound->playBackgroundMusic("sounds/music/b02.wav", true);
@@ -312,11 +312,7 @@ void Mantis::rangeAttack(float dt)
 //----------Kann Enemy angreifen? ----------//
 bool Mantis::canAttack()
 {
-
-
-
-
-	if (abs(attackRange_Meele) >= ccpDistance(playerPos, mantisPos))
+	if (abs(attackRange_Meele) >= playerPos.getDistance(mantisPos))
 	{
 		if (playerPos.x > mantisPos.x)
 		{
