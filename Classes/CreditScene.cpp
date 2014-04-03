@@ -86,8 +86,10 @@ bool CreditScene::init() {
 	content.push_front(Sprite::create("Resources/pictures/generic/credits2.png"));
 	content.push_front(LabelTTF::create("Vladimir Obuchoff", font, 50.0f));
 	content.push_front(LabelTTF::create("Ruth Erdeljan", font, 50.0f));
-	content.push_front(LabelTTF::create("Reserved", font, 50.0f));
-	content.push_front(LabelTTF::create("Reserved", font, 50.0f));
+	content.push_front(LabelTTF::create("Ruth Bittlinsky", font, 50.0f));
+	content.push_front(LabelTTF::create("", font, 50.0f));
+	content.push_front(LabelTTF::create("Audio", font, 75.0f));
+	content.push_front(LabelTTF::create("Bastian Hoffman", font, 50.0f));
 	content.push_front(LabelTTF::create("", font, 50.0f));
 	content.push_front(LabelTTF::create("Coder", font, 75.0f));
 	content.push_front(LabelTTF::create("Marco Stambor", font, 50.0f));
