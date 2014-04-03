@@ -404,7 +404,7 @@ void Player::update(float dt)
 		//setGrounded(false);
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y = 500.0f;
+		velocity.y = 550.0f;
 		//setPositionY(getPositionY() + 0.01);
 		//this->setGrounded(false);
 		m_jump = true;
@@ -445,7 +445,7 @@ void Player::update(float dt)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::sharedEngine();
 		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
-		velocity.y += 200.0f;
+		velocity.y += 250.0f;
 		m_doubleJump = true;
 		m_readyToFly = false;
 		if (!this->getSprite()->getActionByTag(13))
@@ -487,7 +487,7 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		velocity.x = 100.0f * this->getSprite()->getScaleX();
-		velocity.y = 75.0f;
+		//velocity.y = 0f;
 	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
@@ -621,8 +621,8 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		velocity.x = 200.0f * this->getSprite()->getScaleX();
-		velocity.y = -20.0f;
+		velocity.x = 500.0f * this->getSprite()->getScaleX();
+		velocity.y = -75.0f;
 	}
 
 	//velocity.x *= m_speed;

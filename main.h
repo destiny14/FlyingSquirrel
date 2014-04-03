@@ -7,7 +7,7 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "CommonMain.h"
+#include "Classes\CommonMain.h"
 #include "WinStringHelp.h"
 
 // C RunTime Header Files

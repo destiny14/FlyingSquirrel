@@ -7,7 +7,7 @@ using namespace std;
 Moveable::Moveable(PhysicsEngine* _pEn) : Ground(_pEn)
 {
 	m_grounded = false;
-	m_gravity = -500.0f;
+	m_gravity = -600.0f;
 
 	//Create Colliders
 	up = new AABBCollider();

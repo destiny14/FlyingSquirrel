@@ -1,5 +1,5 @@
 #include "Level.h"
-#include "../Nut.h"
+#include "Nut.h"
 #include "Crystal.h"
 #include "Aircurrent.h"
 #include "Snail.h"
