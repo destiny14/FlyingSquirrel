@@ -59,7 +59,7 @@ bool MainLayer::init()
 	//############################################################
 	//## Init Player                                            ##
 	//############################################################
-	m_pPlayer= Player::create(physic, "sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
+	m_pPlayer= Player::create(physic, "Resources/animations/sawyer.png", dynamic_cast<MainLayer*>(this), m_pInput);
 	m_pPlayer->setPosition(getPlayerSpawner()->getSpawnPosition());
 	//m_pPlayer->getSprite()->setVisible(false);
 	this->addChild(m_pPlayer->getSprite(), 5);
@@ -76,10 +76,10 @@ bool MainLayer::init()
 	ParallaxLayer* para = ParallaxLayer::create();
 	Point paraPos = Point(0, 0);
 	//para->addParallaxElement(Sprite::create("bk5.png"), paraPos, Point(1,1), 5);
-	para->addParallaxElement(Sprite::create("bk4.png"), paraPos, Point(0.3f, 0.1f), 4);
-	para->addParallaxElement(Sprite::create("bk3.png"), paraPos, Point(0.1f, 0.07f), 3);
-	para->addParallaxElement(Sprite::create("bk2.png"), paraPos, Point(0.08f, 0.007f), 2);
-	para->addParallaxElement(Sprite::create("bk1.png"), paraPos, Point(0.0003f, 0.0001f), 1);
+	para->addParallaxElement(Sprite::create("Resources/pictures/backgrounds/para1.png"), paraPos, Point(0.3f, 0.1f), 4);
+	para->addParallaxElement(Sprite::create("Resources/pictures/backgrounds/para2.png"), paraPos, Point(0.1f, 0.07f), 3);
+	para->addParallaxElement(Sprite::create("Resources/pictures/backgrounds/para3.png"), paraPos, Point(0.08f, 0.007f), 2);
+	para->addParallaxElement(Sprite::create("Resources/pictures/backgrounds/para4.png"), paraPos, Point(0.0003f, 0.0001f), 1);
 	this->addChild(para, -9999);
 	for (CollectibleNut* n : *getNuts())
 	{

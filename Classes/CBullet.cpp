@@ -9,7 +9,7 @@
 Bullet* Bullet::createNut(Shooter* shooter, MainLayer* parent, Point position, float direction, float force)
 {
 	Bullet* bullet = new Bullet(shooter->getPhysicsEngine());
-	Texture* tex = Texture::create("nuss.png");
+	Texture* tex = Texture::create("Resources/pictures/generic/nuss.png");
 	/*bullet->m_pSnail = parent->getSnail();
 	bullet->m_pSlimeHeap = parent->getSlimeHeap();
 	bullet->m_pMantis = parent->getMantis();*/
@@ -71,7 +71,7 @@ void Bullet::destroy()
 	if (m_bullettype == Bullettype::Nut)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
-		sound->playEffect("sounds/sawyer/Ehit.wav", false, 1.0f, 0.0f, 1.0f);
+		sound->playEffect("Resources/sounds/sawyer/Ehit.wav", false, 1.0f, 0.0f, 1.0f);
 		this->getParent()->removeChild(this->getSprite());
 		this->removeFromParentAndCleanup(true);
 		m_shooter->deleteBullet(this);

@@ -183,8 +183,9 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 	{
 		for (tinyxml2::XMLElement* child = texturesElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 		{
-			char* filename = const_cast<char*>(child->Attribute("filename"));
-			Texture* tex = Texture::create(filename);
+			std::string filename = std::string("Resources/pictures/tiles/");
+			filename.append(const_cast<char*>(child->Attribute("filename")));
+			Texture* tex = Texture::create(const_cast<char*>(filename.c_str()));
 			tex->retain();
 			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
@@ -201,8 +202,9 @@ Level* Level::loadLevel(char* filename, bool levelEditor)
 	{
 		for (tinyxml2::XMLElement* child = phyObjectsElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
 		{
-			char* filename = const_cast<char*>(child->Attribute("filename"));
-			Ground* ground = Ground::create(mainlayer->physic, filename);
+			std::string filename = std::string("Resources/pictures/tiles/");
+			filename.append(const_cast<char*>(child->Attribute("filename")));
+			Ground* ground = Ground::create(mainlayer->physic, const_cast<char*>(filename.c_str()));
 			tinyxml2::XMLElement* pointElement = child->FirstChildElement("Point");
 			Point p = Point(pointElement->FloatAttribute("x"), pointElement->FloatAttribute("y"));
 			ground->setPosition(p);

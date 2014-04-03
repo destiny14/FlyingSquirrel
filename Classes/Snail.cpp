@@ -18,7 +18,7 @@ Snail* Snail::create(PhysicsEngine* _pEn, MainLayer* layer)
 	Snail* snail = new Snail(_pEn);
 
 	snail->m_layer = layer;
-	Texture* tex = Texture::create("snail.png");
+	Texture* tex = Texture::create("Resources/animations/snail.png");
 
 	if (tex)
 	{
@@ -40,8 +40,8 @@ bool Snail::init()
 	//-----Animationen-----//
 
 	m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("snail.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("snail.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/snail.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/snail.png");
 
 	//-----Crouch_Cycle-----//		//--Tag_0--//
 

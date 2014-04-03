@@ -23,7 +23,7 @@ bool StoryScene::init()
 	m_pSprites = new Sprite*[8];
 	for (int i = 0; i < 8; ++i)
 	{
-		std::string str = std::string("par");
+		std::string str = std::string("Resources/pictures/story/par");
 		str.append(std::to_string(i + 1));
 		str.append(".png");
 
@@ -37,27 +37,27 @@ bool StoryScene::init()
 	}
 	m_pSprites[0]->setOpacity(255);
 	
-	m_oldWiseSprite = Sprite::create("raum_weiser.png");
+	m_oldWiseSprite = Sprite::create("Resources/pictures/story/raum_weiser.png");
 	m_oldWiseSprite->setPosition(20 + Director::getInstance()->getVisibleSize().width * 0.5f,
 		Director::getInstance()->getVisibleSize().height * 0.5f + 50);
 	m_oldWiseSprite->setOpacity(0);
 	m_oldWiseSprite->retain();
 
-	m_oldWiseTextbox1 = Sprite::create("wise_textbox.png");
+	m_oldWiseTextbox1 = Sprite::create("Resources/pictures/story/wise_textbox.png");
 	m_oldWiseTextbox1->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f,
 		Director::getInstance()->getVisibleSize().height * 0.5f);
 	m_oldWiseTextbox1->setOpacity(0);
 	m_oldWiseTextbox1->retain();
 	m_oldWiseTextbox1->setZOrder(4);
 
-	m_oldWiseTextbox2 = Sprite::create("wise_textbox2.png");
+	m_oldWiseTextbox2 = Sprite::create("Resources/pictures/story/wise_textbox2.png");
 	m_oldWiseTextbox2->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f,
 		Director::getInstance()->getVisibleSize().height * 0.5f);
 	m_oldWiseTextbox2->setOpacity(0);
 	m_oldWiseTextbox2->retain();
 	m_oldWiseTextbox2->setZOrder(4);
 
-	m_platform = Sprite::create("flightlevel/platformkomplett.png");
+	m_platform = Sprite::create("Resources/pictures/story/platformkomplett.png");
 	m_platform->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f - 1500,
 		Director::getInstance()->getVisibleSize().height * 0.5f + 0.3f);
 	m_platform->retain();
@@ -80,24 +80,24 @@ bool StoryScene::init()
 		Director::getInstance()->getVisibleSize().height * 0.5f);
 	addChild(m_test);*/
 	
-	m_parallaxLayer->addParallaxElement(Sprite::create("flbg1.png"), paraPos, Point(0.3f, 0.1f), 5);
-	m_parallaxLayer->addParallaxElement(Sprite::create("flbg2.png"), paraPos, Point(0.03f, 0.01f), 4);
-	m_parallaxLayer->addParallaxElement(Sprite::create("flbg3.png"), paraPos, Point(0.003f, 0.001f), 3);
-	m_parallaxLayer->addParallaxElement(Sprite::create("flbg4.png"), Point(1000.0f, 600.0f), Point(0.0003f, 0.0001f), 2);
-	m_parallaxLayer->addParallaxElement(Sprite::create("flbg5.png"), paraPos /*Point(1000.0f, 800.0f)*/, Point(0.00003f, 0.00001f), 1);
+	m_parallaxLayer->addParallaxElement(Sprite::create("Resources/pictures/story/flbg1.png"), paraPos, Point(0.3f, 0.1f), 5);
+	m_parallaxLayer->addParallaxElement(Sprite::create("Resources/pictures/story/flbg2.png"), paraPos, Point(0.03f, 0.01f), 4);
+	m_parallaxLayer->addParallaxElement(Sprite::create("Resources/pictures/story/flbg3.png"), paraPos, Point(0.003f, 0.001f), 3);
+	m_parallaxLayer->addParallaxElement(Sprite::create("Resources/pictures/story/flbg4.png"), Point(1000.0f, 600.0f), Point(0.0003f, 0.0001f), 2);
+	m_parallaxLayer->addParallaxElement(Sprite::create("Resources/pictures/story/flbg5.png"), paraPos /*Point(1000.0f, 800.0f)*/, Point(0.00003f, 0.00001f), 1);
 	
 	m_parallaxLayer->setOpacity(0);
 	//m_parallaxLayer->setScale(2.0f);
 	this->addChild(m_parallaxLayer, -9999);
 
-	m_pSawyer = Sprite::create("sawyer.png");
+	m_pSawyer = Sprite::create("Resources/animations/sawyer.png");
 	m_pSawyer->setPosition(Director::getInstance()->getVisibleSize().width * 0.5f - 1400,
 		Director::getInstance()->getVisibleSize().height * 0.5f + 50);
 	m_pSawyer->setZOrder(6);
 
 	m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/sawyer.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/sawyer.png");
 
 	////////////////////////
 	// Stehen - Animation // // 0
@@ -167,7 +167,7 @@ bool StoryScene::init()
 	
 	this->scheduleUpdate();
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/music/B01.wav", true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("Resources/sounds/music/B01.wav", true);
 	return true;
 }
 
@@ -197,7 +197,7 @@ void StoryScene::update(float dt)
 		else if (m_page == 8)
 		{
 
-			CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("sounds/music/i.wav", true);
+			CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("/Resources/sounds/music/i.wav", true);
 			auto inAction = FadeIn::create(1);
 			m_oldWiseSprite->runAction(inAction);
 			m_timeToElapse = 2;

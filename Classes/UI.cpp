@@ -88,8 +88,6 @@ void UI::createLevelEditorFilePopup()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	
-	
-
 	MenuItemFont* addTextureObject = MenuItemFont::create("choose file", CC_CALLBACK_0(UI::nullCallback, this));
 	addTextureObject->setFontNameObj("Segoe UI");
 	addTextureObject->setFontSizeObj(34);
@@ -105,14 +103,14 @@ void UI::createLevelEditorFilePopup()
 	scrollDownObject->setFontSizeObj(34);
 	scrollDownObject->setPosition(visibleSize.width - 50, 30);
 
-	MenuItemImage* scrollBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
+	MenuItemImage* scrollBackground = MenuItemImage::create("Resources/pictures/generic/ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
 	scrollBackground->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	scrollBackground->setScale(400, visibleSize.height);
 
 	int paddingTop = 60;
 	Vector<MenuItem*> lMenuItems;
 	lMenuItems.pushBack(addTextureObject);
-	for (string s : getAllFilesInFolder(""))
+	for (string s : getAllFilesInFolder("Resources/pictures/tiles"))
 	{
 		MenuItemFont* menuItem = MenuItemFont::create(s, CC_CALLBACK_1(LevelEditor::chooseFileCallback, pLevelEditor, s, levelType));
 		menuItem->setFontNameObj("Segoe UI");
@@ -140,7 +138,7 @@ void UI::createLevelEditorUI()
 	labelMenuTitle->setPosition(35.0f, visibleSize.height - 40.0f);
 	m_pLevelEditor->addChild(labelMenuTitle);
 
-	MenuItemImage* sidebarBackground = MenuItemImage::create("ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
+	MenuItemImage* sidebarBackground = MenuItemImage::create("Resources/pictures/generic/ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
 	sidebarBackground->setPosition(100.0f, visibleSize.height * 0.5f);
 	sidebarBackground->setScale(200, visibleSize.height);
 	
@@ -235,8 +233,8 @@ void UI::createMainMenuUI()
 	m_pMenu->addChild(m_pAnimation);
 
 	m_pSpriteFrame2 = SpriteFrameCache::getInstance();
-	m_pSpriteFrame2->addSpriteFramesWithFile("GUI/menu.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("GUI/menu.png");
+	m_pSpriteFrame2->addSpriteFramesWithFile("Resources/animations/menu.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/menu.png");
 
 	for (int i = 0; i < 56; i++)
 	{
@@ -307,7 +305,7 @@ void UI::createIngameUI()
 
 	for (int i = 0; i < 3; ++i)
 	{
-		std::string str = std::string("GUI/life");
+		std::string str = std::string("Resources/GUI/life");
 		str.append(std::to_string(i+1));
 		str.append(".png");
 
@@ -323,7 +321,7 @@ void UI::createIngameUI()
 	m_pCrystals = new Sprite*[4];
 	for (int i = 0; i < 4; ++i)
 	{
-		std::string str = std::string("GUI/");
+		std::string str = std::string("Resources/GUI/");
 		str.append(std::to_string(i+1));
 		str.append(".png");
 
@@ -335,22 +333,22 @@ void UI::createIngameUI()
 		m_pIngame->addChild(m_pCrystals[i], 2);
 	}
 
-	m_polle = Sprite::create("GUI/holybell.png");
+	m_polle = Sprite::create("Resources/GUI/holybell.png");
 	m_polle->setPosition(270.0f, 66.0f);
 	m_polle->setVisible(lastCrystal > 0);
 
-	m_crystal = Sprite::create("GUI/crystall.png");
+	m_crystal = Sprite::create("Resources/GUI/crystall.png");
 	m_crystal->setPosition(175.0f, 61.0f);
 	m_crystal->setVisible(lastCrystal > 0);
 
-	m_pGameOver = LabelTTF::create("GAME OVER", "Comic Book.ttf", 64);
+	m_pGameOver = LabelTTF::create("GAME OVER", "Resources/fonts/Comic Book.ttf", 64);
 	m_pGameOver->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pGameOver->setVisible(false);
 
 	lastMuni = m_pPlayer->getNuts();
 	createMuniLabel();
 
-	Sprite* bg = Sprite::create("GUI/bg.png");
+	Sprite* bg = Sprite::create("Resources/GUI/bg.png");
 	bg->setPosition(
 		5 + bg->getContentSize().width * 0.5f,
 		5 + bg->getContentSize().height *0.5f);
@@ -362,8 +360,8 @@ void UI::createIngameUI()
 	//################################################
 
 	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
+		"Resources/pictures/generic/CloseNormal.png",
+		"Resources/pictures/generic/CloseSelected.png",
 		CC_CALLBACK_1(MainLayer::menuCloseCallback, pHelloWorld));
 	closeItem->setScale(2.0f);
 	closeItem->setPosition(
@@ -465,7 +463,7 @@ void UI::createMuniLabel()
 
 	std::string str = std::string("x");
 	str.append(std::to_string(lastMuni));
-	m_playerMuni = LabelTTF::create(str, "fonts/Comic Book.ttf", 25);
+	m_playerMuni = LabelTTF::create(str, "Resources/fonts/Comic Book.ttf", 25);
 	m_playerMuni->setColor(Color3B::BLACK);
 	m_playerMuni->setPosition(360.0f, 65.0f);
 	m_pIngame->addChild(m_playerMuni, 2);

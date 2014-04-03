@@ -74,8 +74,8 @@ bool Player::init()
 	cs_run = false;
 
 	m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("sawyer.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("sawyer.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/sawyer.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/sawyer.png");
 
 	////////////////////////
 	// Stehen - Animation // // 0
@@ -352,7 +352,7 @@ void Player::update(float dt)
 		if (m_counterToShoot == m_countToShoot)
 		{
 			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
-			sound->playEffect("sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
+			sound->playEffect("Resources/sounds/sawyer/Schuss.wav", false, 1.0f, 0.0f, 1.0f);
 			Bullet* nut = Bullet::createNut(this, dynamic_cast<MainLayer*>(getParent()), this->getPosition(), this->getSprite()->getScaleX(), 35.0f);
 			this->getParent()->addChild(nut->getSprite(), 1);
 			this->nuts.push_back(nut);
@@ -401,7 +401,7 @@ void Player::update(float dt)
 	{
 		//setGrounded(false);
 		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
-		sound->playEffect("sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
+		sound->playEffect("Resources/sounds/sawyer/Sprung.wav", false, 1.0f, 0.0f, 1.0f);
 		velocity.y = 500.0f;
 		//setPositionY(getPositionY() + 0.01);
 		//this->setGrounded(false);
@@ -442,7 +442,7 @@ void Player::update(float dt)
 	else if (m_pJump->wasPressed() && !(this->isGrounded()) && !m_doubleJump && m_jump)
 	{
 		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
-		sound->playEffect("sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
+		sound->playEffect("Resources/sounds/sawyer/Dsprung.wav", false, 1.0f, 0.0f, 1.0f);
 		velocity.y += 200.0f;
 		m_doubleJump = true;
 		m_readyToFly = false;
@@ -467,11 +467,11 @@ void Player::update(float dt)
 		if (!m_flySound)
 		{
 			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
-			sound->playEffect("sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
+			sound->playEffect("Resources/sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
 			if (!sound->isBackgroundMusicPlaying() && !m_flySound)
 			{
 				auto sound2 = CocosDenshion::SimpleAudioEngine::getInstance();
-				sound2->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+				sound2->playEffect("Resources/sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
 				m_flySound = true;
 			}
 		}
@@ -572,7 +572,7 @@ void Player::update(float dt)
 		auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 		if (!sound->isBackgroundMusicPlaying())
 		{
-			sound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+			sound->playEffect("Resources/sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
 		}
 		m_readyToFall = true;
 		this->getSprite()->stopAllActions();
@@ -586,7 +586,7 @@ void Player::update(float dt)
 		{
 			if (!flySound->isBackgroundMusicPlaying())
 			{
-				flySound->playEffect("sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
+				flySound->playEffect("Resources/sounds/sawyer/Fstart.wav", false, 1.0f, 0.0f, 1.0f);
 			}
 			this->getSprite()->stopAllActions();
 			m_pFallToFlyAction = Repeat::create(Animate::create(m_pFallToFlyFrames), 1);
@@ -610,7 +610,7 @@ void Player::update(float dt)
 			auto sound = CocosDenshion::SimpleAudioEngine::getInstance();
 			if (!sound->isBackgroundMusicPlaying() && !flySound->isBackgroundMusicPlaying())
 			{
-				flySound->playEffect("sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
+				flySound->playEffect("Resources/sounds/sawyer/Fliegen.wav", true, 1.0f, 0.0f, 1.0f);
 			}
 			this->getSprite()->stopAllActions();
 			m_pFlightAction = RepeatForever::create(Animate::create(m_pFlightFrames));

@@ -21,7 +21,7 @@ CollectibleCrystal* CollectibleCrystal::create(MainLayer* layer)
 
 void CollectibleCrystal::initCollectible()
 {
-	setTexture(Texture::create("crystal.png"));
+	setTexture(Texture::create("Resources/pictures/generic/crystal.png"));
 	setTag(TAG_CRYSTAL);
 }
 

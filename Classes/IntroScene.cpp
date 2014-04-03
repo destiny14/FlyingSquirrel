@@ -22,28 +22,28 @@ bool IntroScene::init()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	m_saeLogo = Sprite::create("sae_logo.png");
+	m_saeLogo = Sprite::create("Resources/pictures/generic/sae_logo.png");
 	m_saeLogo->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_saeLogo->setOpacity(0);
 	addChild(m_saeLogo);
 
-	m_pCocosLogo = Sprite::create("cocos.png");
+	m_pCocosLogo = Sprite::create("Resources/pictures/generic/cocos.png");
 	m_pCocosLogo->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pCocosLogo->setOpacity(0);
 	addChild(m_pCocosLogo);
 
-	m_pBlack = Sprite::create("black.png");
+	m_pBlack = Sprite::create("Resources/pictures/generic/black.png");
 	m_pBlack->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pBlack->setOpacity(0);
 	addChild(m_pBlack);
 
-	m_pIntro = Sprite::create("intro.png");
+	m_pIntro = Sprite::create("Resources/animations/intro.png");
 	m_pIntro->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pIntro->setScale(2);
 	addChild(m_pIntro);
 	m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("intro.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("intro.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/intro.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/intro.png");
 
 	m_pInput = new InputManager(this);
 	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_ESCAPE;

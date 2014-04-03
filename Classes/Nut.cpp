@@ -19,7 +19,7 @@ CollectibleNut* CollectibleNut::create(MainLayer* layer)
 
 void CollectibleNut::initCollectible()
 {
-	setTexture(Texture::create("nuss.png"));
+	setTexture(Texture::create("Resources/pictures/generic/nuss.png"));
 	setTag(TAG_NUT);
 }
 

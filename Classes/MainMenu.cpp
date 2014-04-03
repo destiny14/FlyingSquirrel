@@ -31,7 +31,7 @@ bool CMainMenu::init()
 	initInput();
 	ACTIVATEMAINMENUUI(this);
 
-	m_pBackgroundSprite = Sprite::create("baum.png");
+	m_pBackgroundSprite = Sprite::create("Resources/pictures/backgrounds/baum.png");
 	m_pBackgroundSprite->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	addChild(m_pBackgroundSprite);
 	this->scheduleUpdate();
@@ -70,7 +70,7 @@ void CMainMenu::startCallback(Object* sender)
 	DEACTIVATEUI;
 	Size visibleSize = EGLView::getInstance()->getVisibleSize();
 	visibleSize = Director::getInstance()->getVisibleSize();
-	auto label = LabelTTF::create("Lade...", "fonts/Comic Book.ttf", 48);
+	auto label = LabelTTF::create("Lade...", "Resources/fonts/Comic Book.ttf", 48);
 	label->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	this->addChild(label);
 	loadScene = true;

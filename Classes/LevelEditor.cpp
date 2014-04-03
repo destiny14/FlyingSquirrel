@@ -38,7 +38,6 @@ LevelEditor::~LevelEditor() {}
 
 bool LevelEditor::init(char* filename)
 {
-
 	if (!Layer::init())
 		return false;
 	m_snapToGrid = true;
@@ -51,11 +50,11 @@ bool LevelEditor::init(char* filename)
 	}
 	else
 	{
-		m_pLevel = Level::createNew("tmpname.xml");
+		m_pLevel = Level::createNew("maps/tmpname.xml");
 	}
 	mainL->retain();
 	m_pLevel->setMainLayer(mainL);
-	m_PlayerSpawner = Sprite::create("player_spawn.png");
+	m_PlayerSpawner = Sprite::create("Resources/pictures/generic/player_spawn.png");
 	m_PlayerSpawner->retain();
 	m_PlayerSpawner->setPosition(mainL->getPlayerSpawner()->getSpawnPosition());
 	m_PlayerSpawner->setZOrder(1000);

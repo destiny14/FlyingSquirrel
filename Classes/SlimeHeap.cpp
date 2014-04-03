@@ -28,7 +28,7 @@ SlimeHeap* SlimeHeap::create(PhysicsEngine* _pEn, MainLayer* layer)
 	SlimeHeap* slimeHeap = new SlimeHeap(_pEn);
 
 
-	Texture* tex = Texture::create("slimeHeap.png");
+	Texture* tex = Texture::create("Resources/animations/slimeHeap.png");
 	slimeHeap->m_layer = layer;
 
 	if (tex)
@@ -51,8 +51,8 @@ bool SlimeHeap::init()
 	//-----Animationen-----//
 
 	m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("slimeheap.plist");
-	m_pSpriteBatch = SpriteBatchNode::create("slimeheap.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/slimeheap.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/slimeheap.png");
 
 	//-----Walk-----//		//--Tag_0--//
 

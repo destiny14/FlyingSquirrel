@@ -24,11 +24,11 @@ bool CreditScene::init() {
 	
 	//Enemies
 	Vector<SpriteFrame*> frames;
-	auto mantis = Sprite::create("mantis.png");
+	auto mantis = Sprite::create("Resources/animations/mantis.png");
 
 	auto m_pSpriteFrame = SpriteFrameCache::getInstance();
-	m_pSpriteFrame->addSpriteFramesWithFile("mantis2.plist");
-	auto m_pSpriteBatch = SpriteBatchNode::create("mantis2.png");
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/mantis.plist");
+	auto m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/mantis.png");
 	
 	for (int i = 0; i < 35; i++)
 	{
@@ -49,28 +49,52 @@ bool CreditScene::init() {
 	m_pRunFrames->retain();
 	frames.clear();
 
+	auto hamster = Sprite::create("Resources/animations/hamster.png");
+
+	m_pSpriteFrame->addSpriteFramesWithFile("Resources/animations/hamster.plist");
+	m_pSpriteBatch = SpriteBatchNode::create("Resources/animations/hamster.png");
+
+	for (int i = 1; i <= 111; i++)
+	{
+		auto m_pSpriteString = String::createWithFormat("Essen (%i).png", i);
+		auto m_pFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(m_pSpriteString->getCString());
+		frames.pushBack(m_pFrame);
+	}
+
+	auto m_pRunFrames2 = Animation::createWithSpriteFrames(frames, 0.015f);
+	auto m_pRunAction2 = RepeatForever::create(Animate::create(m_pRunFrames2));
+	m_pRunAction2->setTag(1);
+	hamster->runAction(m_pRunAction2);
+
+	enemies->addChild(hamster);
+	hamster->setPosition(Point(50.0f, 75.0f));
+	hamster->setScale(0.33f);
+
+	m_pRunFrames2->retain();
+	frames.clear();
+
 	//Content
 	std::list<Node*> content = std::list<Node*>();
-
+	std::string font = "Resources/fonts/Comic Book.ttf";
 	//Create the content
-	content.push_front(LabelTTF::create("FlyingSquirrel", "fonts/Comic Book.ttf", 100.0f));
-	content.push_front(LabelTTF::create("", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Artists", "fonts/Comic Book.ttf", 75.0f));
-	content.push_front(LabelTTF::create("Marina Hahn", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Ingo Hoffmann", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(Sprite::create("credits1.png"));
-	content.push_front(Sprite::create("credits2.png"));
-	content.push_front(LabelTTF::create("Vladimir Obuchoff", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Ruth Erdeljan", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Reserved", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Reserved", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Coder", "fonts/Comic Book.ttf", 75.0f));
-	content.push_front(LabelTTF::create("Marco Stambor", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Sebastian Engfer", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Patrick Fahlbusch", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(LabelTTF::create("Kevin Schwarz", "fonts/Comic Book.ttf", 50.0f));
-	content.push_front(Sprite::create("sae_logo.png"));
+	content.push_front(LabelTTF::create("FlyingSquirrel", font, 100.0f));
+	content.push_front(LabelTTF::create("", font, 50.0f));
+	content.push_front(LabelTTF::create("Artists", font, 75.0f));
+	content.push_front(LabelTTF::create("Marina Hahn", font, 50.0f));
+	content.push_front(LabelTTF::create("Ingo Hoffmann", font, 50.0f));
+	content.push_front(Sprite::create("Resources/pictures/generic/credits1.png"));
+	content.push_front(Sprite::create("Resources/pictures/generic/credits2.png"));
+	content.push_front(LabelTTF::create("Vladimir Obuchoff", font, 50.0f));
+	content.push_front(LabelTTF::create("Ruth Erdeljan", font, 50.0f));
+	content.push_front(LabelTTF::create("Reserved", font, 50.0f));
+	content.push_front(LabelTTF::create("Reserved", font, 50.0f));
+	content.push_front(LabelTTF::create("", font, 50.0f));
+	content.push_front(LabelTTF::create("Coder", font, 75.0f));
+	content.push_front(LabelTTF::create("Marco Stambor", font, 50.0f));
+	content.push_front(LabelTTF::create("Sebastian Engfer", font, 50.0f));
+	content.push_front(LabelTTF::create("Patrick Fahlbusch", font, 50.0f));
+	content.push_front(LabelTTF::create("Kevin Schwarz", font, 50.0f));
+	content.push_front(Sprite::create("Resources/pictures/generic/sae_logo.png"));
 
 	//Add all Labels to the text node
 
