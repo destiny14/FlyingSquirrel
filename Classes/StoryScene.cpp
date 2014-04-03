@@ -178,7 +178,9 @@ void StoryScene::update(float dt)
 	m_pInput->update();
 	if (m_pSkip->isPressed())
 	{
-		Director::getInstance()->replaceScene(LevelTestScene::createScene());
+		//Director::getInstance()->replaceScene(LevelTestScene::createScene());
+		if(m_page < 15) m_page = 15;
+		m_timeElapsed = m_timeToElapse;
 	}
 	if (m_timeElapsed >= m_timeToElapse)
 	{

@@ -295,6 +295,7 @@ void UI::createMainMenuUI()
 void UI::createIngameUI()
 {
 	m_pIngame->removeAllChildren();
+	m_playerMuni = nullptr;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
