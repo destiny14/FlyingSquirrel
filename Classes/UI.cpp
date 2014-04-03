@@ -226,10 +226,12 @@ void UI::createMainMenuUI()
 	m_timeElapsed = 1;
 	m_timeElapsedAll = 0;
 	m_animations = 0;
-	m_timeToElapse = 1;
+	m_timeToElapse = 5;
+	m_mainMenuStartPos = visibleSize.width;
+	m_mainMenuEndPos = 0.0f;
 
 	m_pAnimation = Sprite::create();
-	m_pAnimation->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
+	m_pAnimation->setPosition(m_mainMenuStartPos, visibleSize.height * 0.5f);
 	m_pMenu->addChild(m_pAnimation);
 
 	m_pSpriteFrame2 = SpriteFrameCache::getInstance();
@@ -384,39 +386,56 @@ void UI::update(float dt)
 		m_timeElapsed += dt;
 		m_timeElapsedAll += dt;
 
-		if (m_animations == 2)
+		m_pAnimation->stopAllActions();
+		//m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
+		m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
+		m_pStartAction->setTag(0);
+		m_pAnimation->runAction(m_pStartAction);
+
+		float t = m_timeElapsed / m_timeToElapse;
+		m_pAnimation->setPositionX(m_mainMenuStartPos + (m_mainMenuEndPos - m_mainMenuStartPos) * t);
+
+		if (m_pAnimation->getPositionX() == m_mainMenuEndPos)
 		{
-			m_pAnimation->setPositionX(m_pAnimation->getPositionX() - 16.75f);
+			m_pAnimation->stopAllActions();
+			m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
+			m_pIdleAction->setTag(1);
+			m_pAnimation->runAction(m_pIdleAction);
 		}
 
-		if (m_timeElapsed >= m_timeToElapse)
-		{
-			m_timeElapsed = 0;
-			if (m_animations == 0)
-			{
-				m_timeElapsed = -2;
-				m_animations++;
-			}
-			else if (m_animations == 1)
-			{
-				m_timeElapsed = 0.2f;
-				m_pAnimation->stopAllActions();
-				m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
-				m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
-				m_pStartAction->setTag(0);
-				m_pAnimation->runAction(m_pStartAction);
-				m_animations++;
-			}
-			else if (m_animations == 2)
-			{
-				m_pAnimation->stopAllActions();
-				m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
-				m_pIdleAction->setTag(1);
-				m_pAnimation->runAction(m_pIdleAction);
-				m_animations++;
-			}
+		//if (m_animations == 2)
+		//{
+		//	m_pAnimation->setPositionX((m_pAnimation->getPositionX() - 13.0f) * dt);
+		//}
 
-		}
+		//if (m_timeElapsed >= m_timeToElapse)
+		//{
+		//	m_timeElapsed = 0;
+		//	if (m_animations == 0)
+		//	{
+		//		//m_timeElapsed = -2;
+		//		m_animations++;
+		//	}
+		//	else if (m_animations == 1)
+		//	{
+		//		//m_timeElapsed = 0.2f;
+		//		m_pAnimation->stopAllActions();
+		//		m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
+		//		m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
+		//		m_pStartAction->setTag(0);
+		//		m_pAnimation->runAction(m_pStartAction);
+		//		m_animations++;
+		//	}
+		//	else if (m_animations == 2)
+		//	{
+		//		m_pAnimation->stopAllActions();
+		//		m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
+		//		m_pIdleAction->setTag(1);
+		//		m_pAnimation->runAction(m_pIdleAction);
+		//		m_animations++;
+		//	}
+
+		//}
 	}
 
 	if (!active) return;

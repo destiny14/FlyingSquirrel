@@ -89,6 +89,8 @@ private:
 
 	bool m_mainMenuActive;
 
+	float m_mainMenuStartPos;
+	float m_mainMenuEndPos;
 	float m_timeElapsed;
 	float m_timeElapsedAll;
 	float m_timeToElapse;
