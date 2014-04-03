@@ -77,7 +77,7 @@ bool CreditScene::init() {
 	std::list<Node*> content = std::list<Node*>();
 	std::string font = "Resources/fonts/Comic Book.ttf";
 	//Create the content
-	content.push_front(LabelTTF::create("FlyingSquirrel", font, 100.0f));
+	content.push_front(LabelTTF::create("Flying Squirrel", font, 100.0f));
 	content.push_front(LabelTTF::create("", font, 50.0f));
 	content.push_front(LabelTTF::create("Artists", font, 75.0f));
 	content.push_front(LabelTTF::create("Marina Hahn", font, 50.0f));
@@ -145,4 +145,42 @@ void CreditScene::update(float _dt) {
 		
 	if (size <= 0)
 		Director::getInstance()->replaceScene(CMainMenu::createMainMenuScene());
+
+	static int e = 1;
+	static float prog = 0.0f;
+	static Color4F start = Color4F::BLACK;
+	static Color4F end1 = Color4F::RED;
+	static Color4F end2 = Color4F::ORANGE;
+	static Color4F end3 = Color4F::GREEN;
+	static Color4F end4 = Color4F::BLACK;
+	static Color4F end = end1;
+
+	prog += _dt * 0.5f;
+
+	if (prog > 1.0f)
+	{
+		prog = 0.0f;
+		start = end;
+		++e;
+		if (e == 5)
+			e = 1;
+		switch (e) {
+			case 1:
+				end = end1;
+				break;
+			case 2:
+				end = end2;
+				break;
+			case 3:
+				end = end3;
+				break;
+			case 4:
+				end = end4;
+				break;
+		}
+	}
+
+	Color4F color = Color4F((start.r + (end.r - start.r) * prog), (start.g + (end.g - start.g) * prog), (start.b + (end.b - start.b) * prog), 255.0f);
+
+	glClearColor(color.r, color.g, color.b, color.a);
 }

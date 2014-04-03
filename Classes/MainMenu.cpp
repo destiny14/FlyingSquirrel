@@ -6,6 +6,7 @@
 #include "UI.h"
 #include "LevelEditor.h"
 #include "StoryScene.h"
+#include "CreditScene.h"
 
 USING_NS_CC;
 
@@ -83,5 +84,6 @@ void CMainMenu::exitCallback(Object* sender)
 
 void CMainMenu::levelEditorCallback(Object* sender)
 {
-	Director::getInstance()->replaceScene(LevelEditor::createScene(g_pCommonMain->getEditFilename()));
+	//Director::getInstance()->replaceScene(LevelEditor::createScene(g_pCommonMain->getEditFilename()));
+	Director::getInstance()->replaceScene(CreditScene::createScene());
 }
