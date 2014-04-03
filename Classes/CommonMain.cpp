@@ -31,9 +31,9 @@ int CCommonMain::main(char** par, int parLength)
 			break;
 		case 'a':
 			//log("Created LogFile %s\n", "a");
+			g_pLogfile->createLogfile("log", E_ALL);
 		default:
 			//log("Created LogFile %s\n", "d/a");
-			g_pLogfile->createLogfile("log", E_ALL);
 			break;
 	}
 
