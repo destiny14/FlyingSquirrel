@@ -144,5 +144,7 @@ void CreditScene::update(float _dt) {
 	}
 		
 	if (size <= 0)
+	{
 		Director::getInstance()->replaceScene(CMainMenu::createMainMenuScene());
+	}
 }

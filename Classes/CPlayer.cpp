@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Collider.h"
 #include "CreditScene.h"
+#include "UI.h"
 
 Player* Player::create(PhysicsEngine* _pEn, char* filename, MainLayer* parent, InputManager* pManager)
 {
@@ -304,7 +305,9 @@ void Player::update(float dt)
 		if (m_counterDeath == 23)
 		{
 			m_isDead = true;
-			Director::getInstance()->replaceScene(CreditScene::createScene());
+			DEACTIVATEUI;
+			TransitionFade* fade = TransitionFade::create(1, CreditScene::createScene());
+			Director::getInstance()->replaceScene(fade);
 		}
 		m_counterDeath++;
 		return;
