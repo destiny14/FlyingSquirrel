@@ -19,6 +19,7 @@ private:
 
 	InputManager* input;
 	InputAction* speed;
+	InputAction* colorIt;
 	Node* contentNode;
 	Node* enemies;
 	float textSpeed;

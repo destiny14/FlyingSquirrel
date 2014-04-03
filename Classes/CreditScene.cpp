@@ -21,6 +21,8 @@ bool CreditScene::init() {
 	input = new InputManager(this);
 	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_SPACE;
 	speed = input->createKeyboardAction(&code, 1, "Speed");
+	code = EventKeyboard::KeyCode::KEY_0;
+	colorIt = input->createKeyboardAction(&code, 1, "ColorIt");
 	
 	//Enemies
 	Vector<SpriteFrame*> frames;
@@ -148,41 +150,33 @@ void CreditScene::update(float _dt) {
 	if (size <= 0)
 		Director::getInstance()->replaceScene(CMainMenu::createMainMenuScene());
 
-	static int e = 1;
-	static float prog = 0.0f;
-	static Color4F start = Color4F::BLACK;
-	static Color4F end1 = Color4F::RED;
-	static Color4F end2 = Color4F::ORANGE;
-	static Color4F end3 = Color4F::GREEN;
-	static Color4F end4 = Color4F::BLACK;
-	static Color4F end = end1;
-
-	prog += _dt * 0.5f;
-
-	if (prog > 1.0f)
+	if (colorIt->isPressed())
 	{
-		prog = 0.0f;
-		start = end;
-		++e;
-		if (e == 5)
-			e = 1;
-		switch (e) {
-			case 1:
-				end = end1;
-				break;
-			case 2:
-				end = end2;
-				break;
-			case 3:
-				end = end3;
-				break;
-			case 4:
-				end = end4;
-				break;
+		static int e = 1;
+		static float prog = 0.0f;
+		static int cLength = 4;
+		static Color4F colors[4] = { Color4F::BLACK, Color4F::ORANGE, Color4F::GREEN, Color4F::ORANGE };
+		static Color4F start = colors[0];
+		static Color4F end = colors[1];
+
+		prog += _dt * 0.5f;
+
+		if (prog > 1.0f)
+		{
+			prog = 0.0f;
+			start = end;
+			++e;
+			if (e == cLength)
+				e = 0;
+			end = colors[e];
 		}
+
+		Color4F color = Color4F((start.r + (end.r - start.r) * prog), (start.g + (end.g - start.g) * prog), (start.b + (end.b - start.b) * prog), 255.0f);
+
+		glClearColor(color.r, color.g, color.b, color.a);
 	}
-
-	Color4F color = Color4F((start.r + (end.r - start.r) * prog), (start.g + (end.g - start.g) * prog), (start.b + (end.b - start.b) * prog), 255.0f);
-
-	glClearColor(color.r, color.g, color.b, color.a);
+	if (colorIt->wasReleased())
+	{
+		glClearColor(0, 0, 0, 255);
+	}
 }
