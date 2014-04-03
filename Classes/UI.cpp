@@ -378,6 +378,7 @@ void UI::createIngameUI()
 
 void UI::update(float dt)
 {
+	if (dt >= 1.0f) dt = 1.0f;
 	if (m_mainMenuActive)
 	{
 		Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -409,6 +410,7 @@ void UI::update(float dt)
 			}
 			else if (m_animations == 2)
 			{
+				m_pAnimation->setPositionX(visibleSize.width * 0.5f);
 				m_pAnimation->stopAllActions();
 				m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
 				m_pIdleAction->setTag(1);
