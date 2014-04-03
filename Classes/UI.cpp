@@ -45,7 +45,7 @@ void UI::setUINode(Node* _pNode, int _menu)
 	m_pPlayer = nullptr;
 	active = false;
 	m_pUINode->removeFromParentAndCleanup(false);
-	
+
 	if (_pNode == nullptr) return;
 
 	m_pUINode->removeAllChildrenWithCleanup(false);
@@ -55,29 +55,29 @@ void UI::setUINode(Node* _pNode, int _menu)
 
 	switch (_menu)
 	{
-		case UI_MAINMENU:
-			createMainMenuUI();
-			m_mainMenuActive = true;
-			m_pUINode->addChild(m_pMenu);
-			break;
+	case UI_MAINMENU:
+		createMainMenuUI();
+		m_mainMenuActive = true;
+		m_pUINode->addChild(m_pMenu);
+		break;
 
-		case UI_INGAME:
-			createIngameUI();
-			m_pUINode->addChild(m_pIngame);
-			break;
+	case UI_INGAME:
+		createIngameUI();
+		m_pUINode->addChild(m_pIngame);
+		break;
 
-		case UI_LEVELEDITOR:
-			createLevelEditorUI();
-			m_pUINode->addChild(m_pLevelEditor);
-			break;
+	case UI_LEVELEDITOR:
+		createLevelEditorUI();
+		m_pUINode->addChild(m_pLevelEditor);
+		break;
 
-		case UI_FILECHOOSER:
-			createLevelEditorFilePopup();
-			m_pUINode->addChild(m_pLevelEditor);
+	case UI_FILECHOOSER:
+		createLevelEditorFilePopup();
+		m_pUINode->addChild(m_pLevelEditor);
 
-		case UI_NONE:
-		default:
-			break;
+	case UI_NONE:
+	default:
+		break;
 	}
 
 	_pNode->addChild(m_pUINode, 9999);
@@ -87,12 +87,12 @@ void UI::setUINode(Node* _pNode, int _menu)
 void UI::createLevelEditorFilePopup()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	
+
 	MenuItemFont* addTextureObject = MenuItemFont::create("choose file", CC_CALLBACK_0(UI::nullCallback, this));
 	addTextureObject->setFontNameObj("Segoe UI");
 	addTextureObject->setFontSizeObj(34);
 	addTextureObject->setPosition(visibleSize.width * 0.5f, visibleSize.height - 30);
-	
+
 	MenuItemFont* scrollUpObject = MenuItemFont::create("up", CC_CALLBACK_0(LevelEditor::moveFileSelectUpCallback, pLevelEditor));
 	scrollUpObject->setFontNameObj("Segoe UI");
 	scrollUpObject->setFontSizeObj(34);
@@ -120,7 +120,7 @@ void UI::createLevelEditorFilePopup()
 		lMenuItems.pushBack(menuItem);
 	}
 	auto menu = Menu::createWithArray(lMenuItems);
-	auto scrollMenu = Menu::create(scrollBackground, scrollDownObject, scrollUpObject,  NULL);
+	auto scrollMenu = Menu::create(scrollBackground, scrollDownObject, scrollUpObject, NULL);
 	scrollMenu->retain();
 	scrollMenu->setPosition(0, 0);
 	menu->retain();
@@ -141,7 +141,7 @@ void UI::createLevelEditorUI()
 	MenuItemImage* sidebarBackground = MenuItemImage::create("Resources/pictures/generic/ui_background.png", "ui_background.png", CC_CALLBACK_0(UI::nullCallback, this));
 	sidebarBackground->setPosition(100.0f, visibleSize.height * 0.5f);
 	sidebarBackground->setScale(200, visibleSize.height);
-	
+
 	MenuItemFont* addTextureObject = MenuItemFont::create("add texture", CC_CALLBACK_1(LevelEditor::addTextureObjectCallback, pLevelEditor));
 	addTextureObject->setFontNameObj("Arial");
 	addTextureObject->setFontSizeObj(30);
@@ -194,7 +194,7 @@ void UI::createLevelEditorUI()
 	mainMenuObject->setFontNameObj("Arial");
 	mainMenuObject->setFontSizeObj(30);
 	mainMenuObject->setPosition(70.0f, visibleSize.height - 440.0f);
-	
+
 	auto menu = Menu::create(addTextureObject, addGroundObject, addNutObject, addCrystalObject, addAirObject, changeLayerObject, toggleSelectionMode, saveLevelObject, toggleGrid, mainMenuObject, NULL);
 	auto menuBackground = Menu::create(sidebarBackground, NULL);
 	menuBackground->setPosition(0, 0);
@@ -210,7 +210,7 @@ void UI::createCommonUI()
 
 	char labelVerTxt[30];
 	sprintf(labelVerTxt, "%s%s", g_pCommonMain->getAppVersion(), g_pCommonMain->getAppDebug() ? " Dev_Version" : "");
-	
+
 	auto labelVer = LabelTTF::create(labelVerTxt, "Arial", 36);
 	labelVer->setPosition(Point(3.0f + labelVer->getContentSize().width * 0.5f,
 		visibleSize.height - labelVer->getContentSize().height * 0.5f));
@@ -226,12 +226,10 @@ void UI::createMainMenuUI()
 	m_timeElapsed = 1;
 	m_timeElapsedAll = 0;
 	m_animations = 0;
-	m_timeToElapse = 5;
-	m_mainMenuStartPos = visibleSize.width;
-	m_mainMenuEndPos = 0.0f;
+	m_timeToElapse = 1;
 
 	m_pAnimation = Sprite::create();
-	m_pAnimation->setPosition(m_mainMenuStartPos, visibleSize.height * 0.5f);
+	m_pAnimation->setPosition(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 	m_pMenu->addChild(m_pAnimation);
 
 	m_pSpriteFrame2 = SpriteFrameCache::getInstance();
@@ -282,7 +280,7 @@ void UI::createMainMenuUI()
 		visibleSize.height * 0.45f));
 	levelEditor->setOpacity(0);
 
-	auto closeItem = MenuItemFont::create("Spiel verlassen", CC_CALLBACK_1(CMainMenu::exitCallback , pMainMenu));
+	auto closeItem = MenuItemFont::create("Spiel verlassen", CC_CALLBACK_1(CMainMenu::exitCallback, pMainMenu));
 	closeItem->setScale(2.0f);
 	closeItem->setPosition(Point(
 		visibleSize.width * 0.5f,
@@ -309,14 +307,14 @@ void UI::createIngameUI()
 	for (int i = 0; i < 3; ++i)
 	{
 		std::string str = std::string("Resources/GUI/life");
-		str.append(std::to_string(i+1));
+		str.append(std::to_string(i + 1));
 		str.append(".png");
 
 		m_pPlayerLife[i] = Sprite::create(str);
 		m_pPlayerLife[i]->setPosition(
 			135.0f + m_pPlayerLife[i]->getContentSize().width * 0.5f,
 			95.0f + m_pPlayerLife[i]->getContentSize().height * 0.5f);
-		m_pPlayerLife[i]->setVisible((lastLife-1) == i);
+		m_pPlayerLife[i]->setVisible((lastLife - 1) == i);
 		m_pIngame->addChild(m_pPlayerLife[i], 2);
 	}
 
@@ -325,7 +323,7 @@ void UI::createIngameUI()
 	for (int i = 0; i < 4; ++i)
 	{
 		std::string str = std::string("Resources/GUI/");
-		str.append(std::to_string(i+1));
+		str.append(std::to_string(i + 1));
 		str.append(".png");
 
 		m_pCrystals[i] = Sprite::create(str);
@@ -386,56 +384,39 @@ void UI::update(float dt)
 		m_timeElapsed += dt;
 		m_timeElapsedAll += dt;
 
-		m_pAnimation->stopAllActions();
-		//m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
-		m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
-		m_pStartAction->setTag(0);
-		m_pAnimation->runAction(m_pStartAction);
-
-		float t = m_timeElapsed / m_timeToElapse;
-		m_pAnimation->setPositionX(m_mainMenuStartPos + (m_mainMenuEndPos - m_mainMenuStartPos) * t);
-
-		if (m_pAnimation->getPositionX() == m_mainMenuEndPos)
+		if (m_animations == 2)
 		{
-			m_pAnimation->stopAllActions();
-			m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
-			m_pIdleAction->setTag(1);
-			m_pAnimation->runAction(m_pIdleAction);
+			m_pAnimation->setPositionX(m_pAnimation->getPositionX() - 16.75f);
 		}
 
-		//if (m_animations == 2)
-		//{
-		//	m_pAnimation->setPositionX((m_pAnimation->getPositionX() - 13.0f) * dt);
-		//}
+		if (m_timeElapsed >= m_timeToElapse)
+		{
+			m_timeElapsed = 0;
+			if (m_animations == 0)
+			{
+				m_timeElapsed = -2;
+				m_animations++;
+			}
+			else if (m_animations == 1)
+			{
+				m_timeElapsed = 0.2f;
+				m_pAnimation->stopAllActions();
+				m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
+				m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
+				m_pStartAction->setTag(0);
+				m_pAnimation->runAction(m_pStartAction);
+				m_animations++;
+			}
+			else if (m_animations == 2)
+			{
+				m_pAnimation->stopAllActions();
+				m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
+				m_pIdleAction->setTag(1);
+				m_pAnimation->runAction(m_pIdleAction);
+				m_animations++;
+			}
 
-		//if (m_timeElapsed >= m_timeToElapse)
-		//{
-		//	m_timeElapsed = 0;
-		//	if (m_animations == 0)
-		//	{
-		//		//m_timeElapsed = -2;
-		//		m_animations++;
-		//	}
-		//	else if (m_animations == 1)
-		//	{
-		//		//m_timeElapsed = 0.2f;
-		//		m_pAnimation->stopAllActions();
-		//		m_pAnimation->setPosition(visibleSize.width, visibleSize.height * 0.5f);
-		//		m_pStartAction = Repeat::create(Animate::create(m_pStartFrames), 1);
-		//		m_pStartAction->setTag(0);
-		//		m_pAnimation->runAction(m_pStartAction);
-		//		m_animations++;
-		//	}
-		//	else if (m_animations == 2)
-		//	{
-		//		m_pAnimation->stopAllActions();
-		//		m_pIdleAction = RepeatForever::create(Animate::create(m_pIdleFrames));
-		//		m_pIdleAction->setTag(1);
-		//		m_pAnimation->runAction(m_pIdleAction);
-		//		m_animations++;
-		//	}
-
-		//}
+		}
 	}
 
 	if (!active) return;
@@ -457,7 +438,7 @@ void UI::update(float dt)
 		for (int i = 0; i < 4; ++i)
 			m_pCrystals[i]->setVisible((lastCrystal - 1) == i);
 	}
-	
+
 
 	if ((m_pPlayer != nullptr) && lastMuni != m_pPlayer->getNuts())
 	{
