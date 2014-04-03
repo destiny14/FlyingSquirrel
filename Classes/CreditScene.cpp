@@ -141,7 +141,7 @@ void CreditScene::update(float _dt) {
 	contentNode->setPositionY(contentNode->getPositionY() + move);
 	size -= move;
 
-	if (enemies != nullptr && size <= 1000.0f)
+	if (enemies != nullptr && size <= 1300.0f)
 	{
 		enemies->removeFromParentAndCleanup(true);
 		enemies = nullptr;
