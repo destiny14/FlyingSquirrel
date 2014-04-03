@@ -485,7 +485,7 @@ void Player::update(float dt)
 
 		m_isFlying = true;
 		velocity.x = 100.0f * this->getSprite()->getScaleX();
-		velocity.y = 75.0f;
+		//velocity.y = 0f;
 	}
 	////////////////////////////////
 	// Rückwärts Gehen - Bewegung //
@@ -619,8 +619,8 @@ void Player::update(float dt)
 		}
 
 		m_isFlying = true;
-		velocity.x = 200.0f * this->getSprite()->getScaleX();
-		velocity.y = -20.0f;
+		velocity.x = 500.0f * this->getSprite()->getScaleX();
+		velocity.y = -75.0f;
 	}
 
 	//velocity.x *= m_speed;

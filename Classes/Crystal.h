@@ -3,7 +3,7 @@
 
 #define TAG_CRYSTAL 75669873
 
-#include "../../Collectible.h"
+#include "Collectible.h"
 
 class CollectibleCrystal : public Collectible
 {
